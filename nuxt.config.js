@@ -12,11 +12,22 @@ export default {
     },
     meta: [
       { charset: 'utf-8' },
-      { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-      { hid: 'description', name: 'description', content: '' }
+      {
+        name: 'viewport',
+        content: 'width=device-width, initial-scale=1'
+      },
+      {
+        hid: 'description',
+        name: 'description',
+        content: ''
+      }
     ],
     link: [
-      { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
+      {
+        rel: 'icon',
+        type: 'image/x-icon',
+        href: '/favicon.ico'
+      }
     ]
   },
 
@@ -26,8 +37,7 @@ export default {
   ],
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
-  plugins: [
-  ],
+  plugins: [],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
   components: true,
@@ -47,34 +57,33 @@ export default {
     '@nuxtjs/auth-next',
     '@nuxtjs/dotenv'
   ],
-  
+
   publicRuntimeConfig: {
-    BASE_URL : 'http://localhost:3000'
+    BASE_URL: 'http://localhost:8000/api/',
+    axios: {
+      withCredentials: true,
+      baseURL: process.env.APP_URL
+    }
   },
 
   router: {
     middleware: ['auth']
   },
 
-  // Axios module configuration: https://go.nuxtjs.dev/config-axios
-  axios: {
-    credentials: true,
-    baseURL: 'http://localhost:8000',
-     common: {
-       Accept: 'application/json, text/plain, */*'
-     },
-  },
-
   auth: {
     strategies: {
-      'laravelSanctum': {
-        provider: 'laravel/sanctum',
+      laravelJWT: {
+        provider: 'laravel/jwt',
         url: 'http://localhost:8000',
-        endpoints: {
-          login: {
-            url: '/api/login'
-          }
+        // endpoints: {
+        token: {
+          property: 'access_token',
+          maxAge: 60 * 60
+        },
+        refreshToken: {
+          maxAge: 20160 * 60
         }
+        // }
       }
     }
   },
@@ -84,9 +93,9 @@ export default {
     /*
     * you can extend webpack config here
     */
-    extend(config, ctx) {
+    extend (config, ctx) {
       /* Run eslint on save */
-      if(ctx.isDev && ctx.isClient) {
+      if (ctx.isDev && ctx.isClient) {
         config.module.rules.push({
           enforce: 'pre',
           test: /\.(js|vue)%/,

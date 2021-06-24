@@ -48,7 +48,7 @@
                   </ul>
                   <div class="tab-content">
                     <div id="tabItem5" class="tab-pane " :class="{ active: activeTab === 1 }">
-                      <form action="#" class="form-validate" novalidate="novalidate" @submit.prevent="addCategory">
+                      <form action="#" class="form-validate" novalidate="novalidate" @submit.prevent="editCategory">
                         <div class="row g-gs">
                           <div class="col-md-6 border-right">
                             <div class="col-md-10">
@@ -57,7 +57,7 @@
                                 <div class="form-control-wrap">
                                   <input
                                     id="name"
-                                    v-model="name"
+                                    v-model="category.name"
                                     type="text"
                                     class="form-control"
                                     name="name"
@@ -73,7 +73,7 @@
                                 <div class="form-control-wrap">
                                   <textarea
                                     id="description"
-                                    v-model="description"
+                                    v-model="category.description"
                                     class="form-control form-control-sm"
                                     name="description"
                                     placeholder="Write your description"
@@ -90,7 +90,7 @@
                                 <div class="form-control-wrap">
                                   <input
                                     id="meta-title"
-                                    v-model="meta_title"
+                                    v-model="category.meta_title"
                                     type="text"
                                     class="form-control"
                                     name="meta_title"
@@ -106,7 +106,7 @@
                                 <div class="form-control-wrap">
                                   <textarea
                                     id="meta-description"
-                                    v-model="meta_description"
+                                    v-model="category.meta_description"
                                     class="form-control form-control-sm"
                                     name="meta_description"
                                     placeholder="Write your meta description"
@@ -118,7 +118,7 @@
                           </div>
                           <div class="col-md-12 text-right">
                             <div class="form-group">
-                              <button type="submit" class="btn btn-lg btn-primary">
+                              <button type="submit" class="btn btn-lg btn-primary" @submit.prevent="editCategory()">
                                 Save
                               </button>
                             </div>
@@ -152,15 +152,26 @@ export default {
       meta_description: ''
     }
   },
+  computed: {
+    category () {
+      return this.$store.state.edit_category
+    }
+  },
+  created () {
+    if (Object.keys(this.category).length === 0) {
+      this.$store.dispatch('fetchSpecificCategories', this.$route.params.categoryId)
+    }
+  },
   methods: {
-    addCategory () {
-      this.$axios.post('create-category', {
-        name: this.name,
-        description: this.description,
-        meta_title: this.meta_title,
-        meta_description: this.meta_description
+    editCategory () {
+      const self = this
+      this.$axios.post(`update-category/${this.category.id}`, {
+        name: this.category.name,
+        description: this.category.description,
+        meta_title: this.category.meta_title,
+        meta_description: this.category.meta_description
       }).then(function (response) {
-        console.log(response)
+        self.$router.push('/category')
       })
     }
   }

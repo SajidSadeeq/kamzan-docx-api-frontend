@@ -14,7 +14,9 @@
                 </div><!-- .nk-block-head-content -->
                 <div class="nk-block-head-content">
                   <div class="toggle-wrap nk-block-tools-toggle">
-                    <a href="#" class="btn btn-icon btn-trigger toggle-expand mr-n1" data-target="more-options"><em class="icon ni ni-more-v" /></a>
+                    <a href="#" class="btn btn-icon btn-trigger toggle-expand mr-n1" data-target="more-options"><em
+                      class="icon ni ni-more-v"
+                    /></a>
                     <div class="toggle-expand-content" data-content="more-options">
                       <ul class="nk-block-tools g-3">
                         <li>
@@ -27,7 +29,11 @@
                         </li>
                         <li>
                           <div class="drodown">
-                            <a href="#" class="dropdown-toggle dropdown-indicator btn btn-outline-light btn-white" data-toggle="dropdown">Status</a>
+                            <a
+                              href="#"
+                              class="dropdown-toggle dropdown-indicator btn btn-outline-light btn-white"
+                              data-toggle="dropdown"
+                            >Status</a>
                             <div class="dropdown-menu dropdown-menu-right">
                               <ul class="link-list-opt no-bdr">
                                 <li><a href="#"><span>Actived</span></a></li>
@@ -87,17 +93,17 @@
                     </tr>
                   </thead>
                   <tbody>
-                    <tr class="tb-tnx-item">
+                    <tr v-for="category in categories" :key="category.id" class="tb-tnx-item">
                       <td class="tb-tnx-id">
-                        <a href="#"><span>4947</span></a>
+                        <a href="#"><span>{{ category.id }}</span></a>
                       </td>
                       <td class="tb-tnx-info">
                         <div class="tb-tnx-desc">
-                          <span class="title">Enterprize Year Subscrition</span>
+                          <span class="title">{{ category.meta_title }}</span>
                         </div>
                         <div class="tb-tnx-date">
-                          <span class="date">10-05-2019</span>
-                          <span class="date">10-13-2019</span>
+                          <span class="date">{{ category.created_at }}</span>
+                          <span class="date">{{ category.updated_at }}</span>
                         </div>
                       </td>
                       <td class="tb-tnx-amount is-alt">
@@ -105,148 +111,16 @@
                           <span class="amount">$599.00</span>
                         </div>
                         <div class="tb-tnx-status">
-                          <span class="badge badge-dot badge-warning">Due</span>
+                          <span class="badge badge-dot badge-warning">{{ category.status }}</span>
                         </div>
                       </td>
                       <td class="tb-tnx-action">
                         <div class="dropdown">
-                          <a class="text-soft dropdown-toggle btn btn-icon btn-trigger" data-toggle="dropdown"><em class="icon ni ni-more-h" /></a>
-                          <div class="dropdown-menu dropdown-menu-right dropdown-menu-xs">
-                            <ul class="link-list-plain">
-                              <li><a href="#">View</a></li>
-                              <li><a href="#">Edit</a></li>
-                              <li><a href="#">Remove</a></li>
-                            </ul>
-                          </div>
-                        </div>
-                      </td>
-                    </tr>
-                    <tr class="tb-tnx-item">
-                      <td class="tb-tnx-id">
-                        <a href="#"><span>4904</span></a>
-                      </td>
-                      <td class="tb-tnx-info">
-                        <div class="tb-tnx-desc">
-                          <span class="title">Maintenance Year Subscription</span>
-                        </div>
-                        <div class="tb-tnx-date">
-                          <span class="date">06-19-2019</span>
-                          <span class="date">06-26-2019</span>
-                        </div>
-                      </td>
-                      <td class="tb-tnx-amount is-alt">
-                        <div class="tb-tnx-total">
-                          <span class="amount">$99.00</span>
-                        </div>
-                        <div class="tb-tnx-status">
-                          <span class="badge badge-dot badge-success">Paid</span>
-                        </div>
-                      </td>
-                      <td class="tb-tnx-action">
-                        <div class="dropdown">
-                          <a class="text-soft dropdown-toggle btn btn-icon btn-trigger" data-toggle="dropdown"><em class="icon ni ni-more-h" /></a>
-                          <div class="dropdown-menu dropdown-menu-right dropdown-menu-xs">
-                            <ul class="link-list-plain">
-                              <li><a href="#">View</a></li>
-                              <li><a href="#">Edit</a></li>
-                              <li><a href="#">Remove</a></li>
-                            </ul>
-                          </div>
-                        </div>
-                      </td>
-                    </tr>
-                    <tr class="tb-tnx-item">
-                      <td class="tb-tnx-id">
-                        <a href="#"><span>4829</span></a>
-                      </td>
-                      <td class="tb-tnx-info">
-                        <div class="tb-tnx-desc">
-                          <span class="title">Enterprize Year Subscrition</span>
-                        </div>
-                        <div class="tb-tnx-date">
-                          <span class="date">10-04-2018</span>
-                          <span class="date">10-12-2018</span>
-                        </div>
-                      </td>
-                      <td class="tb-tnx-amount is-alt">
-                        <div class="tb-tnx-total">
-                          <span class="amount">$599.00</span>
-                        </div>
-                        <div class="tb-tnx-status">
-                          <span class="badge badge-dot badge-success">Paid</span>
-                        </div>
-                      </td>
-                      <td class="tb-tnx-action">
-                        <div class="dropdown">
-                          <a class="text-soft dropdown-toggle btn btn-icon btn-trigger" data-toggle="dropdown"><em class="icon ni ni-more-h" /></a>
-                          <div class="dropdown-menu dropdown-menu-right dropdown-menu-xs">
-                            <ul class="link-list-plain">
-                              <li><a href="#">View</a></li>
-                              <li><a href="#">Edit</a></li>
-                              <li><a href="#">Remove</a></li>
-                            </ul>
-                          </div>
-                        </div>
-                      </td>
-                    </tr>
-                    <tr class="tb-tnx-item">
-                      <td class="tb-tnx-id">
-                        <a href="#"><span>4830</span></a>
-                      </td>
-                      <td class="tb-tnx-info">
-                        <div class="tb-tnx-desc">
-                          <span class="title">Enterprize Anniversary Subscription</span>
-                        </div>
-                        <div class="tb-tnx-date">
-                          <span class="date">12-04-2018</span>
-                          <span class="date">14-12-2018</span>
-                        </div>
-                      </td>
-                      <td class="tb-tnx-amount is-alt">
-                        <div class="tb-tnx-total">
-                          <span class="amount">$399.00</span>
-                        </div>
-                        <div class="tb-tnx-status">
-                          <span class="badge badge-dot badge-success">Paid</span>
-                        </div>
-                      </td>
-                      <td class="tb-tnx-action">
-                        <div class="dropdown">
-                          <a class="text-soft dropdown-toggle btn btn-icon btn-trigger" data-toggle="dropdown"><em class="icon ni ni-more-h" /></a>
-                          <div class="dropdown-menu dropdown-menu-right dropdown-menu-xs">
-                            <ul class="link-list-plain">
-                              <li><a href="#">View</a></li>
-                              <li><a href="#">Edit</a></li>
-                              <li><a href="#">Remove</a></li>
-                            </ul>
-                          </div>
-                        </div>
-                      </td>
-                    </tr>
-                    <tr class="tb-tnx-item">
-                      <td class="tb-tnx-id">
-                        <a href="#"><span>4840</span></a>
-                      </td>
-                      <td class="tb-tnx-info">
-                        <div class="tb-tnx-desc">
-                          <span class="title">Enterprize Coverage Subscription</span>
-                        </div>
-                        <div class="tb-tnx-date">
-                          <span class="date">12-08-2018</span>
-                          <span class="date">13-22-2018</span>
-                        </div>
-                      </td>
-                      <td class="tb-tnx-amount is-alt">
-                        <div class="tb-tnx-total">
-                          <span class="amount">$99.00</span>
-                        </div>
-                        <div class="tb-tnx-status">
-                          <span class="badge badge-dot badge-danger">Cancel</span>
-                        </div>
-                      </td>
-                      <td class="tb-tnx-action">
-                        <div class="dropdown">
-                          <a class="text-soft dropdown-toggle btn btn-icon btn-trigger" data-toggle="dropdown"><em class="icon ni ni-more-h" /></a>
+                          <button @click="editCategory(category)">
+                            <a class="text-soft dropdown-toggle btn btn-icon btn-trigger" data-toggle="dropdown"><em
+                              class="icon ni ni-more-h"
+                            /></a>
+                          </button>
                           <div class="dropdown-menu dropdown-menu-right dropdown-menu-xs">
                             <ul class="link-list-plain">
                               <li><a href="#">View</a></li>
@@ -270,13 +144,32 @@
 
 <script>
 import CallModal from '@/components/common/CallModal'
+
 export default {
   components: {
     CallModal
   },
   data () {
     return {
-      toggleModal: false
+      toggleModal: false,
+      categories: []
+    }
+  },
+  created () {
+    this.categories = this.fetchCategories()
+  },
+  methods: {
+    async fetchCategories () {
+      const self = this
+      await this.$axios.get('/all-category')
+        .then(function (response) {
+          self.categories = response.data.data.data
+          self.$store.commit('SET_CATEGORIES', self.categories)
+        })
+    },
+    async editCategory (category) {
+      await this.$store.commit('SET_EDIT_CATEGORY', category)
+      this.$router.push(`category/${category.id}/edit`)
     }
   }
 }
