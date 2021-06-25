@@ -162,7 +162,7 @@ export default {
   methods: {
     async fetchCategories () {
       const self = this
-      await this.$axios.get('/all-category')
+      await this.$axios.get('/all-categories')
         .then(function (response) {
           self.categories = response.data.data.data
           self.$store.commit('category/SET_CATEGORIES', self.categories)

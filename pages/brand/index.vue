@@ -107,14 +107,13 @@
                         <span>AB</span>
                       </div>
                       <div class="user-info">
-                        <span class="tb-lead">Abu Bin Ishtiyak <span class="dot dot-success d-md-none ml-1" /></span>
-                        <span>info@softnio.com</span>
+                        <span class="tb-lead"> {{ brand.title }} <span class="dot dot-success d-md-none ml-1" /></span>
                       </div>
                     </div>
                   </a>
                 </div>
                 <div class="nk-tb-col tb-col-mb">
-                  <span class="tb-amount">35,040.34 <span class="currency">USD</span></span>
+                  <span class="tb-amount">{{ brand.description }}</span>
                 </div>
                 <div class="nk-tb-col tb-col-md">
                   <span>+811 847-4958</span>
@@ -308,7 +307,7 @@ export default {
   methods: {
     async fetchBrands () {
       const self = this
-      await this.$axios.get('/all-brand')
+      await this.$axios.get('/all-brands')
         .then(function (response) {
           self.brands = response.data.data.data
           self.$store.commit('brand/SET_BRAND', self.categories)
