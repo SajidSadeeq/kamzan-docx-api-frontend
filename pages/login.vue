@@ -32,7 +32,7 @@
                     </h4>
                   </div>
                 </div>
-                <form action="http://localhost:8000/login" method="post" @submit.prevent="login">
+                <form action="#" method="post" @submit.prevent="login">
                   <div class="form-group">
                     <div class="form-label-group">
                       <label class="form-label" for="default-01">Email or Username</label>
