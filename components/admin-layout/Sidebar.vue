@@ -41,7 +41,7 @@
               </NuxtLink>
             </li><!-- .nk-menu-item -->
             <li class="nk-menu-item">
-              <NuxtLink to="/customers" class="nk-menu-link">
+              <NuxtLink to="/customer" class="nk-menu-link">
                 <span class="nk-menu-icon"><em class="icon ni ni-users" /></span>
                 <span class="nk-menu-text">Customers</span>
               </NuxtLink>

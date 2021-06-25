@@ -62,7 +62,10 @@ export default {
     BASE_URL: 'http://localhost:8000/api/',
     axios: {
       withCredentials: true,
-      baseURL: process.env.APP_URL
+      baseURL: process.env.APP_URL,
+      common: {
+        Accept: 'application/json'
+      },
     }
   },
 
