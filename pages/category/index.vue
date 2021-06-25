@@ -157,7 +157,7 @@ export default {
     }
   },
   created () {
-    this.categories = this.fetchCategories()
+    this.fetchCategories()
   },
   methods: {
     async fetchCategories () {
@@ -165,7 +165,7 @@ export default {
       await this.$axios.get('/all-category')
         .then(function (response) {
           self.categories = response.data.data.data
-          self.$store.commit('SET_CATEGORIES', self.categories)
+          self.$store.commit('category/SET_CATEGORIES', self.categories)
         })
     },
     async removeCategories (cat) {
@@ -180,7 +180,7 @@ export default {
         })
     },
     async editCategory (category) {
-      await this.$store.commit('SET_EDIT_CATEGORY', category)
+      await this.$store.commit('category/SET_EDIT_CATEGORY', category)
       this.$router.push(`category/${category.id}/edit`)
     }
   }

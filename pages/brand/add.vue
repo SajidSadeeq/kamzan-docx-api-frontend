@@ -22,7 +22,7 @@
                           <a href="#" class="btn btn-icon btn-primary d-md-none">
                             <em class="icon ni ni-plus" />
                           </a>
-                          <NuxtLink to="/category" class="btn btn-danger d-none d-md-inline-flex">
+                          <NuxtLink to="/brand" class="btn btn-danger d-none d-md-inline-flex">
                             <em class="icon ni ni-back-ios" /><span>Back</span>
                           </NuxtLink>
                         </li>
@@ -48,7 +48,7 @@
                   </ul>
                   <div class="tab-content">
                     <div id="tabItem5" class="tab-pane " :class="{ active: activeTab === 1 }">
-                      <form action="#" class="form-validate" novalidate="novalidate" @submit.prevent="editCategory">
+                      <form action="#" class="form-validate" novalidate="novalidate" @submit.prevent="addBrand">
                         <div class="row g-gs">
                           <div class="col-md-6 border-right">
                             <div class="col-md-10">
@@ -57,7 +57,7 @@
                                 <div class="form-control-wrap">
                                   <input
                                     id="name"
-                                    v-model="category.name"
+                                    v-model="title"
                                     type="text"
                                     class="form-control"
                                     name="name"
@@ -73,7 +73,7 @@
                                 <div class="form-control-wrap">
                                   <textarea
                                     id="description"
-                                    v-model="category.description"
+                                    v-model="description"
                                     class="form-control form-control-sm"
                                     name="description"
                                     placeholder="Write your description"
@@ -83,42 +83,9 @@
                               </div>
                             </div>
                           </div>
-                          <div class="col-md-6">
-                            <div class="col-md-10">
-                              <div class="form-group">
-                                <label class="form-label" for="meta-title">Meta Title</label>
-                                <div class="form-control-wrap">
-                                  <input
-                                    id="meta-title"
-                                    v-model="category.meta_title"
-                                    type="text"
-                                    class="form-control"
-                                    name="meta_title"
-                                    placeholder="Meta title"
-                                    required=""
-                                  >
-                                </div>
-                              </div>
-                            </div>
-                            <div class="col-md-10 mt-2">
-                              <div class="form-group">
-                                <label class="form-label" for="meta-description">Meta Description</label>
-                                <div class="form-control-wrap">
-                                  <textarea
-                                    id="meta-description"
-                                    v-model="category.meta_description"
-                                    class="form-control form-control-sm"
-                                    name="meta_description"
-                                    placeholder="Write your meta description"
-                                    required=""
-                                  />
-                                </div>
-                              </div>
-                            </div>
-                          </div>
                           <div class="col-md-12 text-right">
                             <div class="form-group">
-                              <button type="submit" class="btn btn-lg btn-primary" @submit.prevent="editCategory()">
+                              <button type="submit" class="btn btn-lg btn-primary">
                                 Save
                               </button>
                             </div>
@@ -146,32 +113,20 @@ export default {
     return {
       tabPath: this.$route.fullPath,
       activeTab: 1,
-      name: '',
+      title: '',
       description: '',
-      meta_title: '',
-      meta_description: ''
-    }
-  },
-  computed: {
-    category () {
-      return this.$store.state.category.edit_category
-    }
-  },
-  created () {
-    if (Object.keys(this.category).length === 0) {
-      this.$store.dispatch('category/fetchSpecificCategories', this.$route.params.categoryId)
+      status: 1
     }
   },
   methods: {
-    editCategory () {
+    addBrand () {
       const self = this
-      this.$axios.post(`update-category/${this.category.id}`, {
-        name: this.category.name,
-        description: this.category.description,
-        meta_title: this.category.meta_title,
-        meta_description: this.category.meta_description
+      this.$axios.post('create-brand', {
+        description: self.description,
+        title: self.title,
+        status: self.status
       }).then(function (response) {
-        self.$router.push('/category')
+        self.$router.push('/brand')
       })
     }
   }

@@ -53,7 +53,7 @@
               </NuxtLink>
             </li><!-- .nk-menu-item -->
             <li class="nk-menu-item">
-              <NuxtLink to="/brands" class="nk-menu-link">
+              <NuxtLink to="/brand" class="nk-menu-link">
                 <span class="nk-menu-icon"><em class="icon ni ni-building-fill" /></span>
                 <span class="nk-menu-text">Brands</span>
               </NuxtLink>
