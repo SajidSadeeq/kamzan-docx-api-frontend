@@ -121,6 +121,7 @@
                               class="icon ni ni-more-h"
                             /></a>
                           </button>
+                          <a href="" @click.prevent="removeCategories(category)">de</a>
                           <div class="dropdown-menu dropdown-menu-right dropdown-menu-xs">
                             <ul class="link-list-plain">
                               <li><a href="#">View</a></li>
@@ -165,6 +166,17 @@ export default {
         .then(function (response) {
           self.categories = response.data.data.data
           self.$store.commit('SET_CATEGORIES', self.categories)
+        })
+    },
+    async removeCategories (cat) {
+      const self = this
+      await this.$axios.delete(`/delete-category/${cat.id}`)
+        .then(function (response) {
+          self.fetchCategories()
+          // self.categories = response.data.data.data
+          // self.$store.commit('SET_CATEGORIES', self.categories)
+        }).catch(function (ex) {
+          self.fetchCategories()
         })
     },
     async editCategory (category) {

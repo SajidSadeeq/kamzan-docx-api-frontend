@@ -154,13 +154,14 @@ export default {
   },
   methods: {
     addCategory () {
+      const self = this
       this.$axios.post('create-category', {
         name: this.name,
         description: this.description,
         meta_title: this.meta_title,
         meta_description: this.meta_description
       }).then(function (response) {
-        console.log(response)
+        self.$router.push('/category')
       })
     }
   }
