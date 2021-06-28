@@ -1,5 +1,9 @@
 <template>
   <div class="nk-content ">
+    <div id="preview">
+      <img v-if="img_url" :src="img_url">
+    </div>
+    <input type="file" @change="onFileChange">
     <div class="container-fluid">
       <div class="nk-content-inner">
         <div class="nk-content-body">
@@ -8,7 +12,7 @@
               <div class="nk-block-between">
                 <div class="nk-block-head-content">
                   <h3 class="nk-block-title page-title">
-                    Categories
+                    Supplier
                   </h3>
                 </div><!-- .nk-block-head-content -->
                 <div class="nk-block-head-content">
@@ -22,7 +26,7 @@
                           <a href="#" class="btn btn-icon btn-primary d-md-none">
                             <em class="icon ni ni-plus" />
                           </a>
-                          <NuxtLink to="/customer" class="btn btn-danger d-none d-md-inline-flex">
+                          <NuxtLink to="/suppliers" class="btn btn-danger d-none d-md-inline-flex">
                             <em class="icon ni ni-back-ios" /><span>Back</span>
                           </NuxtLink>
                         </li>
@@ -48,7 +52,7 @@
                   </ul>
                   <div class="tab-content">
                     <div id="tabItem5" class="tab-pane " :class="{ active: activeTab === 1 }">
-                      <form action="#" class="form-validate" novalidate="novalidate" @submit.prevent="editCustomer">
+                      <form action="#" class="form-validate" novalidate="novalidate" @submit.prevent="addBrand">
                         <div class="row g-gs">
                           <div class="col-md-6 border-right">
                             <div class="col-md-10">
@@ -57,7 +61,7 @@
                                 <div class="form-control-wrap">
                                   <input
                                     id="customer_name"
-                                    v-model="customer.customer_name"
+                                    v-model="customer_name"
                                     type="text"
                                     class="form-control"
                                     name="name"
@@ -73,7 +77,7 @@
                                 <div class="form-control-wrap">
                                   <input
                                     id="street_1"
-                                    v-model="customer.street_1"
+                                    v-model="street_1"
                                     type="text"
                                     class="form-control"
                                     name="name"
@@ -89,7 +93,7 @@
                                 <div class="form-control-wrap">
                                   <input
                                     id="street_2"
-                                    v-model="customer.street_2"
+                                    v-model="street_2"
                                     type="text"
                                     class="form-control"
                                     name="name"
@@ -105,7 +109,7 @@
                                 <div class="form-control-wrap">
                                   <input
                                     id="city"
-                                    v-model="customer.city"
+                                    v-model="city"
                                     type="text"
                                     class="form-control"
                                     name="name"
@@ -121,7 +125,7 @@
                                 <div class="form-control-wrap">
                                   <input
                                     id="postcode"
-                                    v-model="customer.postcode"
+                                    v-model="postcode"
                                     type="text"
                                     class="form-control"
                                     name="name"
@@ -139,7 +143,7 @@
                                 <div class="form-control-wrap">
                                   <input
                                     id="telephone_number"
-                                    v-model="customer.telephone_number"
+                                    v-model="telephone_number"
                                     type="text"
                                     class="form-control"
                                     name="name"
@@ -155,7 +159,7 @@
                                 <div class="form-control-wrap">
                                   <input
                                     id="county"
-                                    v-model="customer.county"
+                                    v-model="county"
                                     type="text"
                                     class="form-control"
                                     name="name"
@@ -171,7 +175,7 @@
                                 <div class="form-control-wrap">
                                   <input
                                     id="main_contact "
-                                    v-model="customer.main_contact "
+                                    v-model="main_contact "
                                     type="text"
                                     class="form-control"
                                     name="name"
@@ -187,7 +191,7 @@
                                 <div class="form-control-wrap">
                                   <input
                                     id="customer_type"
-                                    v-model="customer.customer_type"
+                                    v-model="customer_type"
                                     type="text"
                                     class="form-control"
                                     name="name"
@@ -203,7 +207,7 @@
                                 <div class="form-control-wrap">
                                   <input
                                     id="archived"
-                                    v-model="customer.archived"
+                                    v-model="archived"
                                     type="text"
                                     class="form-control"
                                     name="name"
@@ -243,6 +247,7 @@ export default {
   data () {
     return {
       tabPath: this.$route.fullPath,
+      img_url: null,
       activeTab: 1,
       customer_name: '',
       street_1: '',
@@ -256,37 +261,44 @@ export default {
       archived: 1
     }
   },
-  computed: {
-    customer () {
-      return this.$store.state.customer.edit_customer
-    }
-  },
-  created () {
-    if (Object.keys(this.customer).length === 0) {
-      this.$store.dispatch('customer/fetchSpecificCategories', this.$route.params.customerId)
-    }
-  },
   methods: {
-    editCustomer () {
+    addBrand () {
+      debugger
       const self = this
-      this.$axios.post(`/customer/update/${this.customer.id}`, {
-        customer_name: this.customer.customer_name,
-        street_1: this.customer.street_1,
-        street_2: this.customer.street_2,
-        city: this.customer.city,
-        postcode: this.customer.postcode,
-        telephone_number: this.customer.telephone_number,
-        county: this.customer.county,
-        main_contact: this.customer.main_contact,
-        customer_type: this.customer.customer_type,
-        archived: 0
-      }).then(function (response) {
-        self.$router.push('/customer')
+      const formData = new FormData()
+      formData.append('customer_name', this.customer_name)
+      formData.append('street_1', this.street_1)
+      formData.append('street_2', this.street_2)
+      formData.append('city', this.city)
+      formData.append('postcode', this.postcode)
+      formData.append('telephone_number', this.telephone_number)
+      formData.append('county', this.county)
+      formData.append('main_contact', this.main_contact)
+      formData.append('customer_type', this.customer_type)
+      formData.append('archived', 0)
+      formData.append('image', this.img_url)
+      this.$axios.post('supplier/create', formData).then(function (response) {
+        self.$router.push('/suppliers')
       })
+    },
+    onFileChange (e) {
+      const file = e.target.files[0]
+      // this.img_url = URL.createObjectURL(file)
+      this.img_url = file
     }
   }
 }
 </script>
 
 <style scoped>
+#preview {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#preview img {
+  max-width: 100%;
+  max-height: 500px;
+}
 </style>

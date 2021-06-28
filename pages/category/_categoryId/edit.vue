@@ -165,7 +165,7 @@ export default {
   methods: {
     editCategory () {
       const self = this
-      this.$axios.post(`update-category/${this.category.id}`, {
+      this.$axios.post(`category/update/${this.category.id}`, {
         name: this.category.name,
         description: this.category.description,
         meta_title: this.category.meta_title,

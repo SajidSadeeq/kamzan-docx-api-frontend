@@ -121,7 +121,7 @@ export default {
   methods: {
     addBrand () {
       const self = this
-      this.$axios.post('create-brand', {
+      this.$axios.post('/brand/create', {
         description: self.description,
         title: self.title,
         status: self.status

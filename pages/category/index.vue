@@ -162,15 +162,15 @@ export default {
   methods: {
     async fetchCategories () {
       const self = this
-      await this.$axios.get('/all-categories')
+      await this.$axios.get('/category')
         .then(function (response) {
-          self.categories = response.data.data.data
+          self.categories = response.data.payload.data
           self.$store.commit('category/SET_CATEGORIES', self.categories)
         })
     },
     async removeCategories (cat) {
       const self = this
-      await this.$axios.delete(`/delete-category/${cat.id}`)
+      await this.$axios.delete(`/category/delete/${cat.id}`)
         .then(function (response) {
           self.fetchCategories()
           // self.categories = response.data.data.data

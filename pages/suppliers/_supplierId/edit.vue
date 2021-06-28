@@ -8,7 +8,7 @@
               <div class="nk-block-between">
                 <div class="nk-block-head-content">
                   <h3 class="nk-block-title page-title">
-                    Categories
+                    Supplier
                   </h3>
                 </div><!-- .nk-block-head-content -->
                 <div class="nk-block-head-content">
@@ -22,7 +22,7 @@
                           <a href="#" class="btn btn-icon btn-primary d-md-none">
                             <em class="icon ni ni-plus" />
                           </a>
-                          <NuxtLink to="/customer" class="btn btn-danger d-none d-md-inline-flex">
+                          <NuxtLink to="/suppliers" class="btn btn-danger d-none d-md-inline-flex">
                             <em class="icon ni ni-back-ios" /><span>Back</span>
                           </NuxtLink>
                         </li>
@@ -57,7 +57,7 @@
                                 <div class="form-control-wrap">
                                   <input
                                     id="customer_name"
-                                    v-model="customer.customer_name"
+                                    v-model="supplier.company_name"
                                     type="text"
                                     class="form-control"
                                     name="name"
@@ -73,7 +73,7 @@
                                 <div class="form-control-wrap">
                                   <input
                                     id="street_1"
-                                    v-model="customer.street_1"
+                                    v-model="supplier.street_1"
                                     type="text"
                                     class="form-control"
                                     name="name"
@@ -89,7 +89,7 @@
                                 <div class="form-control-wrap">
                                   <input
                                     id="street_2"
-                                    v-model="customer.street_2"
+                                    v-model="supplier.street_2"
                                     type="text"
                                     class="form-control"
                                     name="name"
@@ -105,7 +105,7 @@
                                 <div class="form-control-wrap">
                                   <input
                                     id="city"
-                                    v-model="customer.city"
+                                    v-model="supplier.city"
                                     type="text"
                                     class="form-control"
                                     name="name"
@@ -121,7 +121,7 @@
                                 <div class="form-control-wrap">
                                   <input
                                     id="postcode"
-                                    v-model="customer.postcode"
+                                    v-model="supplier.postcode"
                                     type="text"
                                     class="form-control"
                                     name="name"
@@ -139,7 +139,7 @@
                                 <div class="form-control-wrap">
                                   <input
                                     id="telephone_number"
-                                    v-model="customer.telephone_number"
+                                    v-model="supplier.telephone_number"
                                     type="text"
                                     class="form-control"
                                     name="name"
@@ -155,7 +155,7 @@
                                 <div class="form-control-wrap">
                                   <input
                                     id="county"
-                                    v-model="customer.county"
+                                    v-model="supplier.county"
                                     type="text"
                                     class="form-control"
                                     name="name"
@@ -171,7 +171,7 @@
                                 <div class="form-control-wrap">
                                   <input
                                     id="main_contact "
-                                    v-model="customer.main_contact "
+                                    v-model="supplier.main_contact "
                                     type="text"
                                     class="form-control"
                                     name="name"
@@ -187,7 +187,7 @@
                                 <div class="form-control-wrap">
                                   <input
                                     id="customer_type"
-                                    v-model="customer.customer_type"
+                                    v-model="supplier.customer_type"
                                     type="text"
                                     class="form-control"
                                     name="name"
@@ -203,7 +203,7 @@
                                 <div class="form-control-wrap">
                                   <input
                                     id="archived"
-                                    v-model="customer.archived"
+                                    v-model="supplier.archived"
                                     type="text"
                                     class="form-control"
                                     name="name"
@@ -244,7 +244,7 @@ export default {
     return {
       tabPath: this.$route.fullPath,
       activeTab: 1,
-      customer_name: '',
+      company_name: '',
       street_1: '',
       street_2: '',
       city: '',
@@ -257,31 +257,31 @@ export default {
     }
   },
   computed: {
-    customer () {
-      return this.$store.state.customer.edit_customer
+    supplier () {
+      return this.$store.state.supplier.edit_supplier
     }
   },
   created () {
-    if (Object.keys(this.customer).length === 0) {
-      this.$store.dispatch('customer/fetchSpecificCategories', this.$route.params.customerId)
+    if (Object.keys(this.supplier).length === 0) {
+      this.$store.dispatch('supplier/fetchSpecificCategories', this.$route.params.supplierId)
     }
   },
   methods: {
     editCustomer () {
       const self = this
-      this.$axios.post(`/customer/update/${this.customer.id}`, {
-        customer_name: this.customer.customer_name,
-        street_1: this.customer.street_1,
-        street_2: this.customer.street_2,
-        city: this.customer.city,
-        postcode: this.customer.postcode,
-        telephone_number: this.customer.telephone_number,
-        county: this.customer.county,
-        main_contact: this.customer.main_contact,
-        customer_type: this.customer.customer_type,
+      this.$axios.post(`/supplier/update/${this.supplier.id}`, {
+        company_name: this.supplier.company_name,
+        street_1: this.supplier.street_1,
+        street_2: this.supplier.street_2,
+        city: this.supplier.city,
+        postcode: this.supplier.postcode,
+        telephone_number: this.supplier.telephone_number,
+        county: this.supplier.county,
+        main_contact: this.supplier.main_contact,
+        customer_type: this.supplier.customer_type,
         archived: 0
       }).then(function (response) {
-        self.$router.push('/customer')
+        self.$router.push('/suppliers')
       })
     }
   }

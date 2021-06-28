@@ -9,9 +9,9 @@ const mutations = {
 }
 const actions = {
   async fetchSpecificCategories ({ commit }, payload) {
-    await this.$axios.get(`/fetch-brand/${payload}`)
+    await this.$axios.get(`/brand/view/${payload}`)
       .then(function (response) {
-        commit('SET_EDIT_BRAND', response.data.data)
+        commit('SET_EDIT_BRAND', response.data.payload)
       })
   }
 }

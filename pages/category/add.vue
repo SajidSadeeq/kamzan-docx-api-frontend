@@ -155,7 +155,7 @@ export default {
   methods: {
     addCategory () {
       const self = this
-      this.$axios.post('create-category', {
+      this.$axios.post('category/create', {
         name: this.name,
         description: this.description,
         meta_title: this.meta_title,
