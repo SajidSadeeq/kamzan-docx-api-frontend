@@ -48,7 +48,7 @@
                   </ul>
                   <div class="tab-content">
                     <div id="tabItem5" class="tab-pane " :class="{ active: activeTab === 1 }">
-                      <form action="#" class="form-validate" novalidate="novalidate" @submit.prevent="addBrand">
+                      <form action="#" class="form-validate" novalidate="novalidate" @submit.prevent="editCustomer">
                         <div class="row g-gs">
                           <div class="col-md-6 border-right">
                             <div class="col-md-10">
@@ -57,7 +57,7 @@
                                 <div class="form-control-wrap">
                                   <input
                                     id="customer_name"
-                                    v-model="customer_name"
+                                    v-model="customer.customer_name"
                                     type="text"
                                     class="form-control"
                                     name="name"
@@ -73,7 +73,7 @@
                                 <div class="form-control-wrap">
                                   <input
                                     id="street_1"
-                                    v-model="street_1"
+                                    v-model="customer.street_1"
                                     type="text"
                                     class="form-control"
                                     name="name"
@@ -89,7 +89,7 @@
                                 <div class="form-control-wrap">
                                   <input
                                     id="street_2"
-                                    v-model="street_2"
+                                    v-model="customer.street_2"
                                     type="text"
                                     class="form-control"
                                     name="name"
@@ -105,7 +105,7 @@
                                 <div class="form-control-wrap">
                                   <input
                                     id="city"
-                                    v-model="city"
+                                    v-model="customer.city"
                                     type="text"
                                     class="form-control"
                                     name="name"
@@ -121,7 +121,7 @@
                                 <div class="form-control-wrap">
                                   <input
                                     id="postcode"
-                                    v-model="postcode"
+                                    v-model="customer.postcode"
                                     type="text"
                                     class="form-control"
                                     name="name"
@@ -139,7 +139,7 @@
                                 <div class="form-control-wrap">
                                   <input
                                     id="telephone_number"
-                                    v-model="telephone_number"
+                                    v-model="customer.telephone_number"
                                     type="text"
                                     class="form-control"
                                     name="name"
@@ -155,7 +155,7 @@
                                 <div class="form-control-wrap">
                                   <input
                                     id="county"
-                                    v-model="county"
+                                    v-model="customer.county"
                                     type="text"
                                     class="form-control"
                                     name="name"
@@ -171,7 +171,7 @@
                                 <div class="form-control-wrap">
                                   <input
                                     id="main_contact "
-                                    v-model="main_contact "
+                                    v-model="customer.main_contact "
                                     type="text"
                                     class="form-control"
                                     name="name"
@@ -187,7 +187,7 @@
                                 <div class="form-control-wrap">
                                   <input
                                     id="customer_type"
-                                    v-model="customer_type"
+                                    v-model="customer.customer_type"
                                     type="text"
                                     class="form-control"
                                     name="name"
@@ -203,7 +203,7 @@
                                 <div class="form-control-wrap">
                                   <input
                                     id="archived"
-                                    v-model="archived"
+                                    v-model="customer.archived"
                                     type="text"
                                     class="form-control"
                                     name="name"
@@ -256,19 +256,29 @@ export default {
       archived: 1
     }
   },
+  computed: {
+    customer () {
+      return this.$store.state.customer.edit_customer
+    }
+  },
+  created () {
+    if (Object.keys(this.customer).length === 0) {
+      this.$store.dispatch('customer/fetchSpecificCategories', this.$route.params.customerId)
+    }
+  },
   methods: {
-    addBrand () {
+    editCustomer () {
       const self = this
-      this.$axios.post('create-customer', {
-        customer_name: self.customer_name,
-        street_1: self.street_1,
-        street_2: self.street_2,
-        city: self.city,
-        postcode: self.postcode,
-        telephone_number: self.telephone_number,
-        county: self.county,
-        main_contact: self.main_contact,
-        customer_type: self.customer_type,
+      this.$axios.post(`update-customer/${this.customer.id}`, {
+        customer_name: this.customer.customer_name,
+        street_1: this.customer.street_1,
+        street_2: this.customer.street_2,
+        city: this.customer.city,
+        postcode: this.customer.postcode,
+        telephone_number: this.customer.telephone_number,
+        county: this.customer.county,
+        main_contact: this.customer.main_contact,
+        customer_type: this.customer.customer_type,
         archived: 0
       }).then(function (response) {
         self.$router.push('/customer')

@@ -156,10 +156,10 @@ export default {
     },
     async fetchCategories () {
       const self = this
-      await this.$axios.get('/all-category')
+      await this.$axios.get('/all-categories')
         .then(function (response) {
           self.categories = response.data.data.data
-          self.$store.commit('SET_CATEGORIES', self.categories)
+          self.$store.commit('category/SET_CATEGORIES', self.categories)
         })
     },
     async removeCategory (categoryId) {
@@ -174,7 +174,7 @@ export default {
         })
     },
     async editCategory (category) {
-      await this.$store.commit('SET_EDIT_CATEGORY', category)
+      await this.$store.commit('category/SET_EDIT_CATEGORY', category)
       this.$router.push(`category/${category.id}/edit`)
     }
   }

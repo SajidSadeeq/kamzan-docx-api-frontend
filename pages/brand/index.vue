@@ -7,7 +7,7 @@
             <div class="nk-block-between">
               <div class="nk-block-head-content">
                 <h3 class="nk-block-title page-title">
-                  Customers
+                  Brands
                 </h3>
               </div><!-- .nk-block-head-content -->
               <div class="nk-block-head-content">
@@ -37,7 +37,7 @@
                       </li>
                       <li class="nk-block-tools-opt">
                         <a href="#" class="btn btn-icon btn-primary d-md-none"><em class="icon ni ni-plus" /></a>
-                        <NuxtLink to="/customer/add" class="btn btn-primary d-none d-md-inline-flex">
+                        <NuxtLink to="/brand/add" class="btn btn-primary d-none d-md-inline-flex">
                           <em class="icon ni ni-plus" /><span>Add</span>
                         </NuxtLink>
                       </li>
@@ -57,13 +57,13 @@
                   </div>
                 </div>
                 <div class="nk-tb-col">
-                  <span class="sub-text">Customer Name</span>
+                  <span class="sub-text">User</span>
                 </div>
                 <div class="nk-tb-col tb-col-mb">
-                  <span class="sub-text">Street 1</span>
+                  <span class="sub-text">Ordered</span>
                 </div>
                 <div class="nk-tb-col tb-col-md">
-                  <span class="sub-text">Street 2</span>
+                  <span class="sub-text">Phone</span>
                 </div>
                 <div class="nk-tb-col tb-col-lg">
                   <span class="sub-text">Country</span>
@@ -93,7 +93,7 @@
                 </div>
               </div><!-- .nk-tb-item -->
 
-              <div v-for="customer in customers" :key="customer.id" class="nk-tb-item">
+              <div v-for="brand in brands" :key="brand.id" class="nk-tb-item">
                 <div class="nk-tb-col nk-tb-col-check">
                   <div class="custom-control custom-control-sm custom-checkbox notext">
                     <input id="uid1" type="checkbox" class="custom-control-input">
@@ -107,22 +107,22 @@
                         <span>AB</span>
                       </div>
                       <div class="user-info">
-                        <span class="tb-lead"> test <span class="dot dot-success d-md-none ml-1" /></span>
+                        <span class="tb-lead"> {{ brand.title }} <span class="dot dot-success d-md-none ml-1" /></span>
                       </div>
                     </div>
                   </a>
                 </div>
                 <div class="nk-tb-col tb-col-mb">
-                  <span class="tb-amount">{{ customer.customer_name }}</span>
+                  <span class="tb-amount">{{ brand.description }}</span>
                 </div>
                 <div class="nk-tb-col tb-col-md">
-                  <span>{{ customer.street_1 }}</span>
+                  <span>+811 847-4958</span>
                 </div>
                 <div class="nk-tb-col tb-col-lg">
-                  <span>{{ customer.street_1 }}</span>
+                  <span>United State</span>
                 </div>
                 <div class="nk-tb-col tb-col-lg">
-                  <span>{{ customer.street_2 }}</span>
+                  <span>10 Feb 2020</span>
                 </div>
                 <div class="nk-tb-col tb-col-md">
                   <span class="tb-status text-success">Active</span>
@@ -153,7 +153,7 @@
                         <em class="icon ni ni-user-cross-fill" />
                       </a>
                     </li>
-                    <li @click="editCustomer(customer)">
+                    <li @click="editBrand(brand)">
                       <div class="drodown">
                         <a href="#" class="dropdown-toggle btn btn-icon btn-trigger" data-toggle="dropdown"><em class="icon ni ni-more-h" /></a>
                         <div class="dropdown-menu dropdown-menu-right">
@@ -168,7 +168,7 @@
                         </div>
                       </div>
                     </li>
-                    <a href="" @click.prevent="removeCustomer(customer)">de</a>
+                    <a href="" @click.prevent="removeBrand(brand)">de</a>
                   </ul>
                 </div>
               </div><!-- .nk-tb-item -->
@@ -298,33 +298,33 @@ export default {
   data () {
     return {
       toggleModal: false,
-      customers: []
+      brands: []
     }
   },
   created () {
-    this.fetchCustomers()
+    this.fetchBrands()
   },
   methods: {
-    async fetchCustomers () {
+    async fetchBrands () {
       const self = this
-      await this.$axios.get('/all-customers')
+      await this.$axios.get('/all-brands')
         .then(function (response) {
-          self.customers = response.data.data.data
-          self.$store.commit('customer/SET_CUSTOMER', self.categories)
+          self.brands = response.data.data.data
+          self.$store.commit('brand/SET_BRAND', self.categories)
         })
     },
-    async removeCustomer (customer) {
+    async removeBrand (brand) {
       const self = this
-      await this.$axios.delete(`/delete-customer/${customer.id}`)
+      await this.$axios.delete(`/delete-brand/${brand.id}`)
         .then(function (response) {
-          self.fetchCustomers()
+          self.fetchBrands()
         }).catch(function (ex) {
-          self.fetchCustomers()
+          self.fetchBrands()
         })
     },
-    async editCustomer (customer) {
-      await this.$store.commit('customer/SET_EDIT_CUSTOMER', customer)
-      this.$router.push(`customer/${customer.id}/edit`)
+    async editBrand (brand) {
+      await this.$store.commit('category/SET_EDIT_CATEGORY', brand)
+      this.$router.push(`brand/${brand.id}/edit`)
     }
   }
 }
