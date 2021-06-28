@@ -14,9 +14,9 @@
                 </div><!-- .nk-block-head-content -->
                 <div class="nk-block-head-content">
                   <div class="toggle-wrap nk-block-tools-toggle">
-                    <a href="#" class="btn btn-icon btn-trigger toggle-expand mr-n1" data-target="more-options"><em
-                      class="icon ni ni-more-v"
-                    /></a>
+                    <a href="#" class="btn btn-icon btn-trigger toggle-expand mr-n1" data-target="more-options">
+                      <em class="icon ni ni-more-v" />
+                    </a>
                     <div class="toggle-expand-content" data-content="more-options">
                       <ul class="nk-block-tools g-3">
                         <li>
@@ -73,60 +73,50 @@
                       </th>
                       <th class="tb-tnx-info">
                         <span class="tb-tnx-desc d-none d-sm-inline-block">
-                          <span>Bill For</span>
+                          <span>Parent Category</span>
                         </span>
-                        <span class="tb-tnx-date d-md-inline-block d-none">
-                          <span class="d-md-none">Date</span>
-                          <span class="d-none d-md-block">
-                            <span>Issue Date</span>
-                            <span>Due Date</span>
-                          </span>
+                      </th>
+                      <th class="tb-tnx-info">
+                        <span class="tb-tnx-desc d-none d-sm-inline-block">
+                          <span>Category Name</span>
                         </span>
                       </th>
                       <th class="tb-tnx-amount is-alt">
-                        <span class="tb-tnx-total">Total</span>
                         <span class="tb-tnx-status d-none d-md-inline-block">Status</span>
                       </th>
                       <th class="tb-tnx-action">
-                        <span>&nbsp;</span>
+                        <span>Actions</span>
                       </th>
                     </tr>
                   </thead>
                   <tbody>
-                    <tr v-for="category in categories" :key="category.id" class="tb-tnx-item">
+                    <tr v-for="(category, index) in categories" :key="category.id" class="tb-tnx-item">
                       <td class="tb-tnx-id">
                         <a href="#"><span>{{ category.id }}</span></a>
                       </td>
                       <td class="tb-tnx-info">
                         <div class="tb-tnx-desc">
-                          <span class="title">{{ category.meta_title }}</span>
-                        </div>
-                        <div class="tb-tnx-date">
-                          <span class="date">{{ category.created_at }}</span>
-                          <span class="date">{{ category.updated_at }}</span>
+                          <span class="title">{{ NULL }}</span>
                         </div>
                       </td>
-                      <td class="tb-tnx-amount is-alt">
-                        <div class="tb-tnx-total">
-                          <span class="amount">$599.00</span>
-                        </div>
-                        <div class="tb-tnx-status">
-                          <span class="badge badge-dot badge-warning">{{ category.status }}</span>
+                      <td class="tb-tnx-info">
+                        <div class="tb-tnx-desc">
+                          <span class="title">{{ category.name }}</span>
                         </div>
                       </td>
-                      <td class="tb-tnx-action">
-                        <div class="dropdown">
-                          <button @click="editCategory(category)">
-                            <a class="text-soft dropdown-toggle btn btn-icon btn-trigger" data-toggle="dropdown"><em
-                              class="icon ni ni-more-h"
-                            /></a>
-                          </button>
-                          <a href="" @click.prevent="removeCategories(category)">de</a>
-                          <div class="dropdown-menu dropdown-menu-right dropdown-menu-xs">
+                      <td class="tb-tnx-info">
+                        <div class="tb-tnx-desc">
+                          <span class="title">{{ (category.status)?'Active':'Inactive' }}</span>
+                        </div>
+                      </td>
+                      <td class="tb-tnx-action" /><td class="tb-tnx-action">
+                        <div class="dropdown" :class="{'show': index === activeIndex }">
+                          <a class="text-soft dropdown-toggle btn btn-icon btn-trigger" data-toggle="dropdown" aria-expanded="true" @click="activeIndex = activeIndex === index ? null : index"><em class="icon ni ni-more-h" /></a>
+                          <div class="dropdown-menu dropdown-menu-right dropdown-menu-xs" :class="{'show': index === activeIndex }" x-placement="top-end" style="position: absolute; transform: translate3d(-100px, -94px, 0px); top: 0px; left: 0px; will-change: transform;">
                             <ul class="link-list-plain">
                               <li><a href="#">View</a></li>
-                              <li><a href="#">Edit</a></li>
-                              <li><a href="#">Remove</a></li>
+                              <li><a href="#" @click.prevent="editCategory(category)">Edit</a></li>
+                              <li><a href="#" @click.prevent="removeCategory(category.id)">Remove</a></li>
                             </ul>
                           </div>
                         </div>
@@ -152,14 +142,18 @@ export default {
   },
   data () {
     return {
-      toggleModal: false,
-      categories: []
+      toggleHeader: false,
+      categories: [],
+      activeIndex: null
     }
   },
   created () {
     this.fetchCategories()
   },
   methods: {
+    toggleActive (index) {
+      this.activeIndex = index
+    },
     async fetchCategories () {
       const self = this
       await this.$axios.get('/category')
@@ -168,7 +162,7 @@ export default {
           self.$store.commit('category/SET_CATEGORIES', self.categories)
         })
     },
-    async removeCategories (cat) {
+    async removeCategory (cat) {
       const self = this
       await this.$axios.delete(`/category/delete/${cat.id}`)
         .then(function (response) {
