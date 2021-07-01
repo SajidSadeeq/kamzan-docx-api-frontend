@@ -106,13 +106,26 @@
                       </td>
                       <td class="tb-tnx-info">
                         <div class="tb-tnx-desc">
-                          <span class="title">{{ (category.status)?'Active':'Inactive' }}</span>
+                          <span class="title">{{ (category.status) ? 'Active' : 'Inactive' }}</span>
                         </div>
                       </td>
-                      <td class="tb-tnx-action" /><td class="tb-tnx-action">
+                      <td class="tb-tnx-action" />
+                      <td class="tb-tnx-action">
                         <div class="dropdown" :class="{'show': index === activeIndex }">
-                          <a class="text-soft dropdown-toggle btn btn-icon btn-trigger" data-toggle="dropdown" aria-expanded="true" @click="activeIndex = activeIndex === index ? null : index"><em class="icon ni ni-more-h" /></a>
-                          <div class="dropdown-menu dropdown-menu-right dropdown-menu-xs" :class="{'show': index === activeIndex }" x-placement="top-end" style="position: absolute; transform: translate3d(-100px, -94px, 0px); top: 0px; left: 0px; will-change: transform;">
+                          <a
+                            class="text-soft dropdown-toggle btn btn-icon btn-trigger"
+                            data-toggle="dropdown"
+                            aria-expanded="true"
+                            @click="activeIndex = activeIndex === index ? null : index"
+                          ><em
+                            class="icon ni ni-more-h"
+                          /></a>
+                          <div
+                            class="dropdown-menu dropdown-menu-right dropdown-menu-xs"
+                            :class="{'show': index === activeIndex }"
+                            x-placement="top-end"
+                            style="position: absolute; transform: translate3d(-100px, -94px, 0px); top: 0px; left: 0px; will-change: transform;"
+                          >
                             <ul class="link-list-plain">
                               <li><a href="#">View</a></li>
                               <li><a href="#" @click.prevent="editCategory(category)">Edit</a></li>
@@ -142,15 +155,29 @@ export default {
   },
   data () {
     return {
+      toggleModal: false,
       toggleHeader: false,
       categories: [],
-      activeIndex: null
+      activeIndex: null,
+      loading: true
     }
+  },
+  mounted () {
+    this.$nextTick(() => {
+      this.$nuxt.$loading.start()
+      // setTimeout(() => this.$nuxt.$loading.finish(), 1000)
+    })
   },
   created () {
     this.fetchCategories()
   },
   methods: {
+    start () {
+      this.loading = true
+    },
+    finish () {
+      this.loading = false
+    },
     toggleActive (index) {
       this.activeIndex = index
     },
@@ -160,6 +187,9 @@ export default {
         .then(function (response) {
           self.categories = response.data.payload.data
           self.$store.commit('category/SET_CATEGORIES', self.categories)
+          self.$nuxt.$loading.finish()
+          // this.$toast.show('hello toaster !!!')
+          // self.loading = false
         })
     },
     async removeCategory (cat) {
@@ -182,4 +212,16 @@ export default {
 </script>
 
 <style scoped>
+.loading-page {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(255, 255, 255, 0.8);
+  text-align: center;
+  padding-top: 200px;
+  font-size: 30px;
+  font-family: sans-serif;
+}
 </style>

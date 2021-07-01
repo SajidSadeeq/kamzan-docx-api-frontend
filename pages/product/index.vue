@@ -7,12 +7,14 @@
             <div class="nk-block-between">
               <div class="nk-block-head-content">
                 <h3 class="nk-block-title page-title">
-                  Brands
+                  Products
                 </h3>
               </div><!-- .nk-block-head-content -->
               <div class="nk-block-head-content">
                 <div class="toggle-wrap nk-block-tools-toggle">
-                  <a href="#" class="btn btn-icon btn-trigger toggle-expand mr-n1" data-target="more-options"><em class="icon ni ni-more-v" /></a>
+                  <a href="#" class="btn btn-icon btn-trigger toggle-expand mr-n1" data-target="more-options"><em
+                    class="icon ni ni-more-v"
+                  /></a>
                   <div class="toggle-expand-content" data-content="more-options">
                     <ul class="nk-block-tools g-3">
                       <li>
@@ -25,7 +27,11 @@
                       </li>
                       <li>
                         <div class="drodown">
-                          <a href="#" class="dropdown-toggle dropdown-indicator btn btn-outline-light btn-white" data-toggle="dropdown">Status</a>
+                          <a
+                            href="#"
+                            class="dropdown-toggle dropdown-indicator btn btn-outline-light btn-white"
+                            data-toggle="dropdown"
+                          >Status</a>
                           <div class="dropdown-menu dropdown-menu-right">
                             <ul class="link-list-opt no-bdr">
                               <li><a href="#"><span>Actived</span></a></li>
@@ -37,7 +43,7 @@
                       </li>
                       <li class="nk-block-tools-opt">
                         <a href="#" class="btn btn-icon btn-primary d-md-none"><em class="icon ni ni-plus" /></a>
-                        <NuxtLink to="/brand/add" class="btn btn-primary d-none d-md-inline-flex">
+                        <NuxtLink to="/product/add" class="btn btn-primary d-none d-md-inline-flex">
                           <em class="icon ni ni-plus" /><span>Add</span>
                         </NuxtLink>
                       </li>
@@ -78,7 +84,9 @@
                   <ul class="nk-tb-actions gx-1 my-n1">
                     <li>
                       <div class="drodown">
-                        <a href="#" class="dropdown-toggle btn btn-icon btn-trigger mr-n1" data-toggle="dropdown"><em class="icon ni ni-more-h" /></a>
+                        <a href="#" class="dropdown-toggle btn btn-icon btn-trigger mr-n1" data-toggle="dropdown"><em
+                          class="icon ni ni-more-h"
+                        /></a>
                         <div class="dropdown-menu dropdown-menu-right">
                           <ul class="link-list-opt no-bdr">
                             <li><a href="#"><em class="icon ni ni-mail" /><span>Send Email to All</span></a></li>
@@ -93,7 +101,7 @@
                 </div>
               </div><!-- .nk-tb-item -->
 
-              <div v-for="brand in brands" :key="brand.id" class="nk-tb-item">
+              <div v-for="product in products" :key="product.id" class="nk-tb-item">
                 <div class="nk-tb-col nk-tb-col-check">
                   <div class="custom-control custom-control-sm custom-checkbox notext">
                     <input id="uid1" type="checkbox" class="custom-control-input">
@@ -107,13 +115,13 @@
                         <span>AB</span>
                       </div>
                       <div class="user-info">
-                        <span class="tb-lead"> {{ brand.title }} <span class="dot dot-success d-md-none ml-1" /></span>
+                        <span class="tb-lead"> {{ product.title }} <span class="dot dot-success d-md-none ml-1" /></span>
                       </div>
                     </div>
                   </a>
                 </div>
                 <div class="nk-tb-col tb-col-mb">
-                  <span class="tb-amount">{{ brand.description }}</span>
+                  <span class="tb-amount">{{ product.description }}</span>
                 </div>
                 <div class="nk-tb-col tb-col-md">
                   <span>+811 847-4958</span>
@@ -153,12 +161,16 @@
                         <em class="icon ni ni-user-cross-fill" />
                       </a>
                     </li>
-                    <li @click="editBrand(brand)">
+                    <li @click="editProduct(product)">
                       <div class="dropdown">
-                        <a href="#" class="dropdown-toggle btn btn-icon btn-trigger" data-toggle="dropdown"><em class="icon ni ni-more-h" /></a>
+                        <a href="#" class="dropdown-toggle btn btn-icon btn-trigger" data-toggle="dropdown"><em
+                          class="icon ni ni-more-h"
+                        /></a>
                         <div class="dropdown-menu dropdown-menu-right">
                           <ul class="link-list-opt no-bdr">
-                            <li><a href="html/ecommerce/customer-details.html"><em class="icon ni ni-eye" /><span>View Details</span></a></li>
+                            <li>
+                              <a href="html/ecommerce/customer-details.html"><em class="icon ni ni-eye" /><span>View Details</span></a>
+                            </li>
                             <li><a href="#"><em class="icon ni ni-repeat" /><span>Orders</span></a></li>
                             <li><a href="#"><em class="icon ni ni-activity-round" /><span>Activities</span></a></li>
                             <li class="divider" />
@@ -168,7 +180,7 @@
                         </div>
                       </div>
                     </li>
-                    <a href="" @click.prevent="removeBrand(brand)">de</a>
+                    <a href="" @click.prevent="removeProduct(product)">de</a>
                   </ul>
                 </div>
               </div><!-- .nk-tb-item -->
@@ -270,7 +282,12 @@
                           <option value="page-20">
                             20
                           </option>
-                        </select><span class="select2 select2-container select2-container--default" dir="ltr" data-select2-id="2" style="width: 41px;"><span class="selection"><span
+                        </select><span
+                          class="select2 select2-container select2-container--default"
+                          dir="ltr"
+                          data-select2-id="2"
+                          style="width: 41px;"
+                        ><span class="selection"><span
                           class="select2-selection select2-selection--single"
                           role="combobox"
                           aria-haspopup="true"
@@ -278,7 +295,21 @@
                           tabindex="0"
                           aria-disabled="false"
                           aria-labelledby="select2-xiaa-container"
-                        ><span id="select2-xiaa-container" class="select2-selection__rendered" role="textbox" aria-readonly="true" title="1">1</span><span class="select2-selection__arrow" role="presentation"><b role="presentation" /></span></span></span><span class="dropdown-wrapper" aria-hidden="true" /></span>
+                        ><span
+                          id="select2-xiaa-container"
+                          class="select2-selection__rendered"
+                          role="textbox"
+                          aria-readonly="true"
+                          title="1"
+                        >1</span><span
+                          class="select2-selection__arrow"
+                          role="presentation"
+                        ><b
+                          role="presentation"
+                        /></span></span></span><span
+                          class="dropdown-wrapper"
+                          aria-hidden="true"
+                        /></span>
                       </div>
                       <div>OF 102</div>
                     </div>
@@ -290,46 +321,74 @@
         </div>
       </div>
     </div>
+    <div class="pages float-right">
+      <vue-pagination
+        :current="currentPage"
+        :total="total"
+        @page-change="pageChangeHandler"
+      />
+    </div>
   </div>
 </template>
 
 <script>
+import 'vue-sliding-pagination/dist/style/vue-sliding-pagination.css'
+
 export default {
   data () {
     return {
       toggleModal: false,
-      brands: []
+      currentPage: 1,
+      limit: 1,
+      list_view: false,
+      count: 0,
+      total: 0,
+      products: []
     }
   },
   created () {
-    this.fetchBrands()
+    this.fetchProducts()
   },
   methods: {
-    async fetchBrands () {
+    async pageChangeHandler (page) {
+      this.currentPage = page
+      // const offset = ((this.currentPage - 1) * this.limit)
+      await this.$store.dispatch('product/fetchProducts', {
+        page: this.currentPage
+        // limit: this.limit,
+        // offset
+      })
+      this.scrollToTop()
+    },
+    scrollToTop () {
+      const element = document.querySelector('html')
+      element.scroll({
+        top: 90,
+        behavior: 'smooth'
+      })
+    },
+    async fetchProducts () {
       const self = this
-      await this.$axios.get('/brand')
+      await this.$axios.get('/product')
         .then(function (response) {
-          self.brands = response.data.payload.data
-          self.$store.commit('brand/SET_BRAND', self.categories)
+          self.products = response.data.payload.data
+          self.total = response.data.payload.total
+          self.$store.commit('product/SET_PRODUCTS', self.products)
         })
     },
-    async removeBrand (brand) {
+    async removeProduct (product) {
       const self = this
-      await this.$axios.delete(`/brand/delete/${brand.id}`)
+      await this.$axios.delete(`/product/delete/${product.id}`)
         .then(function (response) {
-          self.fetchBrands()
+          self.fetchProducts()
         }).catch(function (ex) {
-          self.fetchBrands()
+          self.fetchProducts()
         })
     },
-    async editBrand (brand) {
-      await this.$store.commit('brand/SET_EDIT_CATEGORY', brand)
-      this.$router.push(`brand/${brand.id}/edit`)
+    async editProduct (product) {
+      await this.$store.commit('product/SET_EDIT_PRODUCT', product)
+      this.$router.push(`product/${product.id}/edit`)
     }
   }
 }
 </script>
-
-<style>
-
-</style>
