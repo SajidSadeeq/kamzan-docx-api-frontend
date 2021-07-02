@@ -112,6 +112,54 @@
         </div>
       </div>
     </div>
+
+    <div>
+      <label class="typo__label" for="ajax">Async multiselect</label>
+      <multiselect
+        id="ajax"
+        v-model="selectedCountries"
+        label="company_name"
+        track-by="id"
+        placeholder="Type to search"
+        open-direction="bottom"
+        :options="countries"
+        :multiple="true"
+        :searchable="true"
+        :loading="isLoading"
+        :internal-search="false"
+        :clear-on-select="false"
+        :close-on-select="false"
+        :options-limit="300"
+        :limit="3"
+        :limit-text="limitText"
+        :max-height="600"
+        :show-no-results="false"
+        :hide-selected="true"
+        @search-change="asyncFind"
+      >
+        <template slot="tag" slot-scope="{ option, remove }">
+          <span class="custom__tag"><span>{{
+            option.company_name
+          }}</span><span class="custom__remove" @click="remove(option)">❌</span></span>
+        </template>
+        <template slot="clear" slot-scope="props">
+          <div
+            v-if="selectedCountries.length"
+            class="multiselect__clear"
+            @mousedown.prevent.stop="clearAll(props.search)"
+          />
+        </template>
+        <span slot="noResult">Oops! No elements found. Consider changing the search query.</span>
+      </multiselect>
+      <pre class="language-json"><code>{{ selectedCountries }}</code></pre>
+    </div>
+
+    <treeselect v-model="value" :multiple="true" :options="options" :normalizer="normalizer">
+      <div slot="value-label" slot-scope="{ node }">
+        {{ node.raw.title }}
+      </div>
+    </treeselect>
+
     <vue-upload-multiple-image
       :data-images="product.images"
       @upload-success="uploadImageSuccess"
@@ -122,9 +170,15 @@
 </template>
 
 <script>
+// import the component
+import Treeselect from '@riophae/vue-treeselect'
+// import the styles
+import '@riophae/vue-treeselect/dist/vue-treeselect.css'
 import 'vue-tel-input/dist/vue-tel-input.css'
 
 export default {
+  // eslint-disable-next-line vue/no-unused-components
+  components: { Treeselect },
   data () {
     return {
       tabPath: this.$route.fullPath,
@@ -136,7 +190,21 @@ export default {
       errors: [''],
       images: [],
       new_images: [],
-      delete_images: []
+      delete_images: [],
+      selectedCountries: [],
+      countries: [],
+      isLoading: false,
+      // define the default value
+      value: null,
+      // define options
+      options: [],
+      normalizer (node) {
+        return {
+          id: node.id,
+          label: node.title,
+          children: node.children
+        }
+      }
     }
   },
   computed: {
@@ -145,11 +213,29 @@ export default {
     }
   },
   created () {
+    this.fetchTree()
     if (Object.keys(this.product).length === 0) {
       this.$store.dispatch('product/fetchSpecificProduct', this.$route.params.productId)
     }
   },
   methods: {
+    limitText (count) {
+      return `and ${count} other countries`
+    },
+    asyncFind (keyword) {
+      const self = this
+      this.isLoading = true
+      this.$axios.get(`/supplier/search/${keyword}`).then(function (response) {
+        self.countries = response.data.payload
+        self.isLoading = false
+      }).catch(function () {
+        // this.countries = []
+        // this.isLoading = false
+      })
+    },
+    clearAll () {
+      this.selectedCountries = []
+    },
     editBrand () {
       const self = this
       this.$axios.post(`/product/update/${this.product.id}`, {
@@ -159,6 +245,15 @@ export default {
         image: this.new_images,
         delete_images: this.delete_images
       }).then(function (response) {
+        // self.$router.push('/product')
+      }).catch(function (error) {
+        self.errors = error.response.data.data
+      })
+    },
+    fetchTree () {
+      const self = this
+      this.$axios.get('/category/tree').then(function (response) {
+        self.options = response.data.payload
         // self.$router.push('/product')
       }).catch(function (error) {
         self.errors = error.response.data.data

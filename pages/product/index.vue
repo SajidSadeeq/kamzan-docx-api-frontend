@@ -355,9 +355,8 @@ export default {
       // const offset = ((this.currentPage - 1) * this.limit)
       await this.$store.dispatch('product/fetchProducts', {
         page: this.currentPage
-        // limit: this.limit,
-        // offset
       })
+      this.products = this.$store.state.product.products
       this.scrollToTop()
     },
     scrollToTop () {

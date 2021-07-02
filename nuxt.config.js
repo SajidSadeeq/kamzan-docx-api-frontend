@@ -59,7 +59,8 @@ export default {
     '@nuxtjs/auth-next',
     '@nuxtjs/dotenv',
     '@nuxtjs/toast',
-    'nuxt-validate'
+    'nuxt-validate',
+    'nuxt-vue-multiselect'
   ],
   nuxtValidate: {
     lang: 'es',

@@ -17,7 +17,7 @@ const actions = {
   async fetchProducts ({ commit }, payload) {
     await this.$axios.get(`/product?page=${payload.page}`)
       .then(function (response) {
-        commit('product/SET_PRODUCTS', response.data.payload.data)
+        commit('product/SET_PRODUCTS', response.data.payload.data, { root: true })
       })
   }
 }
