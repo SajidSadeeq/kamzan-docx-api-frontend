@@ -307,15 +307,15 @@ export default {
   methods: {
     async fetchCustomers () {
       const self = this
-      await this.$axios.get('/all-customers')
+      await this.$axios.get('customer')
         .then(function (response) {
-          self.customers = response.data.data.data
+          self.customers = response.data.payload.data
           self.$store.commit('customer/SET_CUSTOMER', self.categories)
         })
     },
     async removeCustomer (customer) {
       const self = this
-      await this.$axios.delete(`/delete-customer/${customer.id}`)
+      await this.$axios.delete(`/customer/delete/${customer.id}`)
         .then(function (response) {
           self.fetchCustomers()
         }).catch(function (ex) {

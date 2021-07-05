@@ -22,7 +22,7 @@
                           <a href="#" class="btn btn-icon btn-primary d-md-none">
                             <em class="icon ni ni-plus" />
                           </a>
-                          <NuxtLink to="/category" class="btn btn-danger d-none d-md-inline-flex">
+                          <NuxtLink to="/product" class="btn btn-danger d-none d-md-inline-flex">
                             <em class="icon ni ni-back-ios" /><span>Back</span>
                           </NuxtLink>
                         </li>
@@ -48,7 +48,7 @@
                   </ul>
                   <div class="tab-content">
                     <div id="tabItem5" class="tab-pane " :class="{ active: activeTab === 1 }">
-                      <form action="#" class="form-validate" novalidate="novalidate" @submit.prevent="addCategory">
+                      <form action="#" class="form-validate" @submit.prevent="editBrand">
                         <div class="row g-gs">
                           <div class="col-md-6 border-right">
                             <div class="col-md-10">
@@ -57,13 +57,13 @@
                                 <div class="form-control-wrap">
                                   <input
                                     id="name"
-                                    v-model="name"
+                                    v-model="product.name"
                                     type="text"
                                     class="form-control"
                                     name="name"
                                     placeholder="Name"
-                                    required=""
                                   >
+                                  {{ errors.name ? errors.name[0] : '' }}
                                 </div>
                               </div>
                             </div>
@@ -73,45 +73,20 @@
                                 <div class="form-control-wrap">
                                   <textarea
                                     id="description"
-                                    v-model="description"
+                                    v-model="product.description"
                                     class="form-control form-control-sm"
                                     name="description"
                                     placeholder="Write your description"
-                                    required=""
+                                    required
                                   />
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                          <div class="col-md-6">
-                            <div class="col-md-10">
-                              <div class="form-group">
-                                <label class="form-label" for="meta-title">Meta Title</label>
-                                <div class="form-control-wrap">
-                                  <input
-                                    id="meta-title"
-                                    v-model="meta_title"
-                                    type="text"
-                                    class="form-control"
-                                    name="meta_title"
-                                    placeholder="Meta title"
-                                    required=""
-                                  >
-                                </div>
-                              </div>
-                            </div>
-                            <div class="col-md-10 mt-2">
-                              <div class="form-group">
-                                <label class="form-label" for="meta-description">Meta Description</label>
-                                <div class="form-control-wrap">
-                                  <textarea
-                                    id="meta-description"
-                                    v-model="meta_description"
-                                    class="form-control form-control-sm"
-                                    name="meta_description"
-                                    placeholder="Write your meta description"
-                                    required=""
-                                  />
+                                  <client-only>
+                                    <vue-tel-input
+                                      v-model="phone"
+                                      :valid-characters-only="true"
+                                      @validate="phoneValidate"
+                                    />
+                                    {{ phone }}
+                                  </client-only>
                                 </div>
                               </div>
                             </div>
@@ -137,32 +112,168 @@
         </div>
       </div>
     </div>
+
+    <div>
+      <label class="typo__label" for="ajax">Async multiselect</label>
+      <multiselect
+        id="ajax"
+        v-model="selectedCountries"
+        label="company_name"
+        track-by="id"
+        placeholder="Type to search"
+        open-direction="bottom"
+        :options="countries"
+        :multiple="true"
+        :searchable="true"
+        :loading="isLoading"
+        :internal-search="false"
+        :clear-on-select="false"
+        :close-on-select="false"
+        :options-limit="300"
+        :limit="3"
+        :limit-text="limitText"
+        :max-height="600"
+        :show-no-results="false"
+        :hide-selected="true"
+        @search-change="asyncFind"
+      >
+        <template slot="tag" slot-scope="{ option, remove }">
+          <span class="custom__tag"><span>{{
+            option.company_name
+          }}</span><span class="custom__remove" @click="remove(option)">❌</span></span>
+        </template>
+        <template slot="clear" slot-scope="props">
+          <div
+            v-if="selectedCountries.length"
+            class="multiselect__clear"
+            @mousedown.prevent.stop="clearAll(props.search)"
+          />
+        </template>
+        <span slot="noResult">Oops! No elements found. Consider changing the search query.</span>
+      </multiselect>
+      <pre class="language-json"><code>{{ selectedCountries }}</code></pre>
+    </div>
+
+    <treeselect v-model="value" :multiple="true" :options="options" :normalizer="normalizer">
+      <div slot="value-label" slot-scope="{ node }">
+        {{ node.raw.title }}
+      </div>
+    </treeselect>
+
+    <vue-upload-multiple-image
+      :data-images="product.images"
+      @upload-success="uploadImageSuccess"
+      @before-remove="beforeRemove"
+      @edit-image="editImage"
+    />
   </div>
 </template>
 
 <script>
+// import the component
+import Treeselect from '@riophae/vue-treeselect'
+// import the styles
+import '@riophae/vue-treeselect/dist/vue-treeselect.css'
+import 'vue-tel-input/dist/vue-tel-input.css'
+
 export default {
+  // eslint-disable-next-line vue/no-unused-components
+  components: { Treeselect },
   data () {
     return {
       tabPath: this.$route.fullPath,
       activeTab: 1,
       name: '',
       description: '',
-      meta_title: '',
-      meta_description: ''
+      status: 1,
+      phone: '',
+      errors: [''],
+      images: [],
+      new_images: [],
+      delete_images: [],
+      selectedCountries: [],
+      countries: [],
+      isLoading: false,
+      // define the default value
+      value: null,
+      // define options
+      options: [],
+      normalizer (node) {
+        return {
+          id: node.id,
+          label: node.title,
+          children: node.children
+        }
+      }
+    }
+  },
+  computed: {
+    product () {
+      return this.$store.state.product.edit_product
+    }
+  },
+  created () {
+    this.fetchTree()
+    if (Object.keys(this.product).length === 0) {
+      this.$store.dispatch('product/fetchSpecificProduct', this.$route.params.productId)
     }
   },
   methods: {
-    addCategory () {
+    limitText (count) {
+      return `and ${count} other countries`
+    },
+    asyncFind (keyword) {
       const self = this
-      this.$axios.post('category/create', {
-        name: this.name,
-        description: this.description,
-        meta_title: this.meta_title,
-        meta_description: this.meta_description
-      }).then(function (response) {
-        self.$router.push('/category')
+      this.isLoading = true
+      this.$axios.get(`/supplier/search/${keyword}`).then(function (response) {
+        self.countries = response.data.payload
+        self.isLoading = false
+      }).catch(function () {
+        // this.countries = []
+        // this.isLoading = false
       })
+    },
+    clearAll () {
+      this.selectedCountries = []
+    },
+    editBrand () {
+      const self = this
+      this.$axios.post(`/product/update/${this.product.id}`, {
+        name: this.product.name,
+        description: this.product.description,
+        status: this.product.status,
+        image: this.new_images,
+        delete_images: this.delete_images
+      }).then(function (response) {
+        // self.$router.push('/product')
+      }).catch(function (error) {
+        self.errors = error.response.data.data
+      })
+    },
+    fetchTree () {
+      const self = this
+      this.$axios.get('/category/tree').then(function (response) {
+        self.options = response.data.payload
+        // self.$router.push('/product')
+      }).catch(function (error) {
+        self.errors = error.response.data.data
+      })
+    },
+    beforeRemove (index, done, fileList) {
+      this.delete_images.push(fileList[index].id)
+      done()
+      this.new_images = [...fileList]
+    },
+    uploadImageSuccess (formData, index, fileList) {
+      this.new_images = [...fileList]
+    },
+    editImage (formData, index, fileList) {
+      this.delete_images.push(fileList[index].id)
+      this.new_images = [...fileList]
+    },
+    phoneValidate (ev) {
+      return true
+      // console.log(ev)
     }
   }
 }

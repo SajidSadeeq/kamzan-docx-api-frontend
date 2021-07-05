@@ -259,7 +259,7 @@ export default {
   methods: {
     addBrand () {
       const self = this
-      this.$axios.post('create-customer', {
+      this.$axios.post('/customer/create', {
         customer_name: self.customer_name,
         street_1: self.street_1,
         street_2: self.street_2,

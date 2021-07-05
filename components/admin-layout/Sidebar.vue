@@ -47,7 +47,7 @@
               </NuxtLink>
             </li><!-- .nk-menu-item -->
             <li class="nk-menu-item">
-              <NuxtLink to="/products" class="nk-menu-link">
+              <NuxtLink to="/product" class="nk-menu-link">
                 <span class="nk-menu-icon"><em class="icon ni ni-bag" /></span>
                 <span class="nk-menu-text">Products</span>
               </NuxtLink>
@@ -62,6 +62,12 @@
               <NuxtLink to="/pallets" class="nk-menu-link">
                 <span class="nk-menu-icon"><em class="icon ni ni-bag" /></span>
                 <span class="nk-menu-text">Pallets</span>
+              </NuxtLink>
+            </li>
+            <li class="nk-menu-item">
+              <NuxtLink to="/suppliers" class="nk-menu-link">
+                <span class="nk-menu-icon"><em class="icon ni ni-sign-sgd" /></span>
+                <span class="nk-menu-text">Suppliers</span>
               </NuxtLink>
             </li><!-- .nk-menu-item -->
             <li class="nk-menu-item">

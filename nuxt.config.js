@@ -37,7 +37,9 @@ export default {
   ],
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
-  plugins: [],
+  plugins: [
+    '~/plugins/custom-components.client'
+  ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
   components: true,
@@ -55,9 +57,32 @@ export default {
     // https://go.nuxtjs.dev/axios
     '@nuxtjs/axios',
     '@nuxtjs/auth-next',
-    '@nuxtjs/dotenv'
+    '@nuxtjs/dotenv',
+    '@nuxtjs/toast',
+    'nuxt-validate',
+    'nuxt-vue-multiselect'
   ],
-
+  nuxtValidate: {
+    lang: 'es',
+    nuxti18n: {
+      locale: {
+        'zh-CN': 'zh_CN'
+      }
+    }
+  },
+  toast: {
+    position: 'bottom-right',
+    register: [ // Register custom toasts
+      {
+        name: 'my-error',
+        message: 'Oops...Something went wrong',
+        options: {
+          type: 'error'
+        }
+      }
+    ]
+  },
+  loading: '~/components/common/ScreenLoader.vue',
   publicRuntimeConfig: {
     BASE_URL: 'http://localhost:8000/api/',
     axios: {
@@ -65,7 +90,7 @@ export default {
       baseURL: process.env.APP_URL,
       common: {
         Accept: 'application/json'
-      },
+      }
     }
   },
 

@@ -131,7 +131,7 @@ export default {
   methods: {
     editBrand () {
       const self = this
-      this.$axios.post(`update-brand/${this.brand.id}`, {
+      this.$axios.post(`/brand/update/${this.brand.id}`, {
         title: this.brand.title,
         description: this.brand.description,
         status: this.brand.status
