@@ -1,6 +1,5 @@
 <template>
   <div class="nk-content ">
-    <CallModal :show="toggleModal" />
     <div class="container-fluid">
       <div class="nk-content-inner">
         <div class="nk-content-body">
@@ -42,11 +41,6 @@
                               </ul>
                             </div>
                           </div>
-                        </li>
-                        <li>
-                          <button @click="toggleModal = true">
-                            Click
-                          </button>
                         </li>
                         <li class="nk-block-tools-opt">
                           <a href="#" class="btn btn-icon btn-primary d-md-none">
@@ -134,11 +128,9 @@
 </template>
 
 <script>
-import CallModal from '@/components/common/CallModal'
 
 export default {
   components: {
-    CallModal
   },
   data () {
     return {
