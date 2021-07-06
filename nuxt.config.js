@@ -19,20 +19,61 @@ export default {
             { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
         ]
     },
+    <<
+    <<
+    <<
+    < HEAD
 
     // Global CSS: https://go.nuxtjs.dev/config-css
     css: [
         '@/assets/admin/css/dashlite'
     ],
+    ===
+    ===
+    =
+    meta: [
+        { charset: 'utf-8' },
+        {
+            name: 'viewport',
+            content: 'width=device-width, initial-scale=1'
+        },
+        {
+            hid: 'description',
+            name: 'description',
+            content: ''
+        }
+    ],
+    link: [{
+        rel: 'icon',
+        type: 'image/x-icon',
+        href: '/favicon.ico'
+    }]
+}, >>>
+>>>
+>
+1706 db95129c70912c45298e418baaa251165ccc
 
-    // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
-    plugins: [],
+// Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
+plugins: [],
 
+    <<
+    <<
+    <<
+    < HEAD
     // Auto import components: https://go.nuxtjs.dev/config-components
-    components: true,
+components: true, ===
+    ===
+    =
+    // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
+    plugins: [
+        '~/plugins/custom-components.client'
+    ], >>>
+    >>>
+    >
+    1706 db95129c70912c45298e418baaa251165ccc
 
-    // Modules for dev and build (recommended): https://go.nuxtjs.dev/config-modules
-    buildModules: [
+// Modules for dev and build (recommended): https://go.nuxtjs.dev/config-modules
+buildModules: [
         // https://go.nuxtjs.dev/eslint
         ['@nuxtjs/eslint-module', {
             fix: true
@@ -47,33 +88,66 @@ export default {
         '@nuxtjs/dotenv'
     ],
 
+    // Modules: https://go.nuxtjs.dev/config-modules
+    modules: [
+        // https://go.nuxtjs.dev/axios
+        '@nuxtjs/axios',
+        '@nuxtjs/auth-next',
+        '@nuxtjs/dotenv',
+        '@nuxtjs/toast',
+        'nuxt-validate',
+        'nuxt-vue-multiselect'
+    ],
+    nuxtValidate: {
+        lang: 'es',
+        nuxti18n: {
+            locale: {
+                'zh-CN': 'zh_CN'
+            }
+        }
+    },
+    toast: {
+        position: 'bottom-right',
+        register: [ // Register custom toasts
+            {
+                name: 'my-error',
+                message: 'Oops...Something went wrong',
+                options: {
+                    type: 'error'
+                }
+            }
+        ]
+    },
+    loading: '~/components/common/ScreenLoader.vue',
     publicRuntimeConfig: {
-        BASE_URL: 'http://localhost:3000'
+        BASE_URL: 'http://localhost:8000/api/',
+        axios: {
+            withCredentials: true,
+            baseURL: process.env.APP_URL,
+            common: {
+                Accept: 'application/json'
+            }
+        }
     },
 
     router: {
         middleware: ['auth']
     },
 
-    // Axios module configuration: https://go.nuxtjs.dev/config-axios
-    axios: {
-        credentials: true,
-        baseURL: 'http://localhost:8000',
-        common: {
-            Accept: 'application/json, text/plain, */*'
-        },
-    },
-
     auth: {
         strategies: {
-            'laravelSanctum': {
-                provider: 'laravel/sanctum',
+            laravelJWT: {
+                provider: 'laravel/jwt',
                 url: 'http://localhost:8000',
-                endpoints: {
-                    login: {
-                        url: '/api/login'
-                    }
+                // endpoints: {
+                token: {
+                    property: 'access_token',
+                    maxAge: 60 * 60
+                },
+                refreshToken: {
+                    maxAge: 20160 * 60
                 }
+                // }
             }
         }
     },
@@ -98,5 +172,3 @@ export default {
             }
         }
     }
-
-}

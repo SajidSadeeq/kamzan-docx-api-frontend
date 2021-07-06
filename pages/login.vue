@@ -9,8 +9,18 @@
           <div class="nk-block nk-block-middle nk-auth-body  wide-xs">
             <div class="brand-logo pb-4 text-center">
               <a href="html/index.html" class="logo-link">
-                <img class="logo-light logo-img logo-img-lg" src="http://localhost:8000/assets/images/logo.png" srcset="http://localhost:8000/assets/images/logo2x.png 2x" alt="logo">
-                <img class="logo-dark logo-img logo-img-lg" src="http://localhost:8000/assets/images/logo-dark.png" srcset="http://localhost:8000/assets/images/logo-dark2x.png 2x" alt="logo-dark">
+                <img
+                  class="logo-light logo-img logo-img-lg"
+                  src="http://localhost:8000/assets/images/logo.png"
+                  srcset="http://localhost:8000/assets/images/logo2x.png 2x"
+                  alt="logo"
+                >
+                <img
+                  class="logo-dark logo-img logo-img-lg"
+                  src="http://localhost:8000/assets/images/logo-dark.png"
+                  srcset="http://localhost:8000/assets/images/logo-dark2x.png 2x"
+                  alt="logo-dark"
+                >
               </a>
             </div>
             <div class="card login_register_border">
@@ -22,12 +32,18 @@
                     </h4>
                   </div>
                 </div>
-                <form action="http://localhost:8000/login" method="post" @submit.prevent="login">
+                <form action="#" method="post" @submit.prevent="login">
                   <div class="form-group">
                     <div class="form-label-group">
                       <label class="form-label" for="default-01">Email or Username</label>
                     </div>
-                    <input id="default-01" v-model="email" type="text" name="email" class="form-control form-control-lg">
+                    <input
+                      id="default-01"
+                      v-model="email"
+                      type="text"
+                      name="email"
+                      class="form-control form-control-lg"
+                    >
                   </div>
                   <div class="form-group">
                     <div class="form-label-group">
@@ -39,7 +55,13 @@
                         <em class="passcode-icon icon-show icon ni ni-eye" />
                         <em class="passcode-icon icon-hide icon ni ni-eye-off" />
                       </a>
-                      <input id="password" v-model="password" type="password" name="password" class="form-control form-control-lg ">
+                      <input
+                        id="password"
+                        v-model="password"
+                        type="password"
+                        name="password"
+                        class="form-control form-control-lg "
+                      >
                     </div>
                   </div>
                   <div class="form-group">
@@ -101,11 +123,10 @@ export default {
   },
   methods: {
     async login () {
-      await this.$auth.loginWith('laravelSanctum', {
+      await this.$auth.loginWith('laravelJWT', {
         data: {
           email: this.email,
-          password: this.password,
-          device_name: 'web'
+          password: this.password
         }
       }).catch(error => error)
       this.$router.push('/')
