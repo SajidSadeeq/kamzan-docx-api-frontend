@@ -63,7 +63,6 @@
                                     name="name"
                                     placeholder="Name"
                                   >
-                                  {{ errors.name ? errors.name[0] : '' }}
                                 </div>
                               </div>
                             </div>
@@ -187,7 +186,7 @@ export default {
       description: '',
       status: 1,
       phone: '',
-      errors: [''],
+      errors: [],
       images: [],
       new_images: [],
       delete_images: [],

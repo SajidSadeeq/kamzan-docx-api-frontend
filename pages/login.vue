@@ -51,14 +51,14 @@
                       <a class="link link-primary link-sm" href="html/pages/auths/auth-reset-v2.html">Forgot Code?</a>
                     </div>
                     <div class="form-control-wrap">
-                      <a href="#" class="form-icon form-icon-right passcode-switch" data-target="password">
+                      <a href="javascript:;" class="form-icon form-icon-right passcode-switch" data-target="password" @click="switchVisibility">
                         <em class="passcode-icon icon-show icon ni ni-eye" />
                         <em class="passcode-icon icon-hide icon ni ni-eye-off" />
                       </a>
                       <input
                         id="password"
                         v-model="password"
-                        type="password"
+                        :type="passwordType"
                         name="password"
                         class="form-control form-control-lg "
                       >
@@ -118,10 +118,14 @@ export default {
   data () {
     return {
       email: '',
-      password: ''
+      password: '',
+      passwordType: 'password'
     }
   },
   methods: {
+    switchVisibility () {
+      this.passwordType = this.passwordType === 'password' ? 'text' : 'password'
+    },
     async login () {
       await this.$auth.loginWith('laravelJWT', {
         data: {

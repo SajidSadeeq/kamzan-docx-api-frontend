@@ -90,7 +90,7 @@
                       </td>
                       <td class="tb-tnx-info">
                         <div class="tb-tnx-desc">
-                          <span class="title">{{ NULL }}</span>
+                          <span class="title">{{ category.parent_id }}</span>
                         </div>
                       </td>
                       <td class="tb-tnx-info">

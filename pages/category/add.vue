@@ -64,6 +64,7 @@
                                     placeholder="Name"
                                     required=""
                                   >
+                                  <span v-if="containsKey(errors, 'name')">{{ errors.name[0] }}</span>
                                 </div>
                               </div>
                             </div>
@@ -149,19 +150,40 @@ export default {
       name: '',
       description: '',
       meta_title: '',
-      meta_description: ''
+      meta_description: '',
+      errors: [],
+      categories: []
     }
   },
+  mounted () {
+    this.fetchCategories()
+  },
   methods: {
-    addCategory () {
+    containsKey (obj, key) {
+      return Object.keys(obj).includes(key)
+    },
+    async fetchCategories () {
       const self = this
+      await this.$axios.get('/category')
+        .then(function (response) {
+          self.categories = response.data.payload.data
+          self.$store.commit('category/SET_CATEGORIES', self.categories)
+          self.$nuxt.$loading.finish()
+          // this.$toast.show('hello toaster !!!')
+          // self.loading = false
+        })
+    },
+    addCategory () {
+      const _self = this
       this.$axios.post('category/create', {
         name: this.name,
         description: this.description,
         meta_title: this.meta_title,
         meta_description: this.meta_description
       }).then(function (response) {
-        self.$router.push('/category')
+        _self.$router.push('/category')
+      }).catch(function (error) {
+        _self.errors = error.response.data.data
       })
     }
   }
