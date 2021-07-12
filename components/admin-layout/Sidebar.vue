@@ -76,6 +76,12 @@
                 <span class="nk-menu-text">Orders</span>
               </NuxtLink>
             </li><!-- .nk-menu-item -->
+            <li class="nk-menu-item">
+              <NuxtLink to="/aisle" class="nk-menu-link">
+                <span class="nk-menu-icon"><em class="icon ni ni-sign-sgd" /></span>
+                <span class="nk-menu-text">Aisle</span>
+              </NuxtLink>
+            </li>
           </ul><!-- .nk-menu -->
         </div><!-- .nk-sidebar-menu -->
       </div><!-- .nk-sidebar-content -->

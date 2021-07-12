@@ -8,7 +8,7 @@
               <div class="nk-block-between">
                 <div class="nk-block-head-content">
                   <h3 class="nk-block-title page-title">
-                    Pallets
+                    Aisle
                   </h3>
                 </div><!-- .nk-block-head-content -->
                 <div class="nk-block-head-content">
@@ -46,7 +46,7 @@
                           <a href="#" class="btn btn-icon btn-primary d-md-none">
                             <em class="icon ni ni-plus" />
                           </a>
-                          <NuxtLink to="/pallets/add" class="btn btn-primary d-none d-md-inline-flex">
+                          <NuxtLink to="/aisle/add" class="btn btn-primary d-none d-md-inline-flex">
                             <em class="icon ni ni-plus" /><span>Add</span>
                           </NuxtLink>
                         </li>
@@ -67,12 +67,7 @@
                       </th>
                       <th class="tb-tnx-info">
                         <span class="tb-tnx-desc d-none d-sm-inline-block">
-                          <span>Pallets Name</span>
-                        </span>
-                      </th>
-                      <th class="tb-tnx-info">
-                        <span class="tb-tnx-desc d-none d-sm-inline-block">
-                          <span>Status</span>
+                          <span>Aisle Name</span>
                         </span>
                       </th>
 
@@ -82,18 +77,13 @@
                     </tr>
                   </thead>
                   <tbody>
-                    <tr v-for="(pallet, index) in pallets" :key="pallet.id" class="tb-tnx-item">
+                    <tr v-for="(aisle, index) in aisles" :key="aisle.id" class="tb-tnx-item">
                       <td class="tb-tnx-id">
-                        <a href="#"><span>{{ pallet.id }}</span></a>
+                        <a href="#"><span>{{ aisle.id }}</span></a>
                       </td>
                       <td class="tb-tnx-info">
                         <div class="tb-tnx-desc">
-                          <span class="title">{{ pallet.uniq_no }}</span>
-                        </div>
-                      </td>
-                      <td class="tb-tnx-info">
-                        <div class="tb-tnx-desc">
-                          <span class="title">{{ pallet.status==1?'Filled':'Empty' }}</span>
+                          <span class="title">{{ aisle.name }}</span>
                         </div>
                       </td>
 
@@ -115,8 +105,8 @@
                             style="position: absolute; transform: translate3d(-100px, -94px, 0px); top: 0px; left: 0px; will-change: transform;"
                           >
                             <ul class="link-list-plain">
-                              <li><a href="#" @click.prevent="editPallet(pallet)">Edit</a></li>
-                              <li><a href="#" @click.prevent="removePallet(pallet)">Remove</a></li>
+                              <li><a href="#" @click.prevent="editAisle(aisle)">Edit</a></li>
+                              <li><a href="#" @click.prevent="removeAisle(aisle)">Remove</a></li>
                             <!--                              <li><a href="#" @click.prevent="removeAisle(aisle.id)">Remove</a></li>-->
                             </ul>
                           </div>
@@ -140,12 +130,18 @@ export default {
     return {
       toggleModal: false,
       activeIndex: null,
-
-      pallets: []
+      loading: true,
+      aisles: []
     }
   },
   created () {
-    this.fetchPallets()
+    this.fetchAisles()
+  },
+  mounted () {
+    this.$nextTick(() => {
+      this.$nuxt.$loading.start()
+      // setTimeout(() => this.$nuxt.$loading.finish(), 1000)
+    })
   },
   methods: {
     start () {
@@ -154,16 +150,12 @@ export default {
     finish () {
       this.loading = false
     },
-    async fetchPallets () {
+    async fetchAisles () {
       const self = this
-      await this.$axios.get('pallet')
+      await this.$axios.get('aisle')
         .then(function (response) {
-          console.log('before')
-          console.log(response)
-          console.log('after')
-          self.pallets = response.data.payload
-          console.log(self.pallets)
-          // self.$store.commit('aisle/SET_AISLE', self.aisles)
+          self.aisles = response.data.payload
+          self.$store.commit('aisle/SET_AISLE', self.aisles)
           self.$nuxt.$loading.finish()
         })
     },
@@ -176,26 +168,26 @@ export default {
     //       self.fetchBrands()
     //     })
     // },
-    async removePallet (pallet) {
+    async removeAisle (aisle) {
       const self = this
-      await this.$axios.delete(`/pallet/${pallet.id}`)
+      await this.$axios.delete(`/aisle/${aisle.id}`)
         .then(function (response) {
-          self.fetchPallets()
+          self.fetchAisles()
           // self.categories = response.data.data.data
           // self.$store.commit('SET_CATEGORIES', self.categories)
         }).catch(function (ex) {
-          self.fetchPallet()
+          self.fetchAisles()
         })
     },
-    async editPallet (pallet) {
-      await this.$store.commit('pallet/SET_EDIT_PALLET', pallet)
-      this.$router.push(`pallet/${pallet.id}/edit`)
+    async editAisle (aisle) {
+      await this.$store.commit('aisle/SET_EDIT_AISLE', aisle)
+      this.$router.push(`aisle/${aisle.id}/edit`)
     }
 
   }
 }
 </script>
 
-<style scoped>
+<style>
 
 </style>
