@@ -52,12 +52,12 @@
                 <span class="nk-menu-text">Products</span>
               </NuxtLink>
             </li><!-- .nk-menu-item -->
-            <li class="nk-menu-item">
-              <NuxtLink to="/brand" class="nk-menu-link">
-                <span class="nk-menu-icon"><em class="icon ni ni-building-fill" /></span>
-                <span class="nk-menu-text">Brands</span>
-              </NuxtLink>
-            </li><!-- .nk-menu-item -->
+            <!--            <li class="nk-menu-item">-->
+            <!--              <NuxtLink to="/brand" class="nk-menu-link">-->
+            <!--                <span class="nk-menu-icon"><em class="icon ni ni-building-fill" /></span>-->
+            <!--                <span class="nk-menu-text">Brands</span>-->
+            <!--              </NuxtLink>-->
+            <!--            </li>&lt;!&ndash; .nk-menu-item &ndash;&gt;-->
             <li class="nk-menu-item">
               <NuxtLink to="/pallets" class="nk-menu-link">
                 <span class="nk-menu-icon"><em class="icon ni ni-bag" /></span>
@@ -70,12 +70,24 @@
                 <span class="nk-menu-text">Suppliers</span>
               </NuxtLink>
             </li><!-- .nk-menu-item -->
+            <!--            <li class="nk-menu-item">-->
+            <!--              <NuxtLink to="/orders" class="nk-menu-link">-->
+            <!--                <span class="nk-menu-icon"><em class="icon ni ni-sign-sgd" /></span>-->
+            <!--                <span class="nk-menu-text">Orders</span>-->
+            <!--              </NuxtLink>-->
+            <!--            </li>&lt;!&ndash; .nk-menu-item &ndash;&gt;-->
             <li class="nk-menu-item">
-              <NuxtLink to="/orders" class="nk-menu-link">
+              <NuxtLink to="/rack" class="nk-menu-link">
                 <span class="nk-menu-icon"><em class="icon ni ni-sign-sgd" /></span>
-                <span class="nk-menu-text">Orders</span>
+                <span class="nk-menu-text">Racks</span>
               </NuxtLink>
-            </li><!-- .nk-menu-item -->
+            </li>
+            <li class="nk-menu-item">
+              <NuxtLink to="/aisle" class="nk-menu-link">
+                <span class="nk-menu-icon"><em class="icon ni ni-sign-sgd" /></span>
+                <span class="nk-menu-text">Aisle</span>
+              </NuxtLink>
+            </li>
           </ul><!-- .nk-menu -->
         </div><!-- .nk-sidebar-menu -->
       </div><!-- .nk-sidebar-content -->

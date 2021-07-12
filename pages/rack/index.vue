@@ -8,7 +8,7 @@
               <div class="nk-block-between">
                 <div class="nk-block-head-content">
                   <h3 class="nk-block-title page-title">
-                    Pallets
+                    Rack
                   </h3>
                 </div><!-- .nk-block-head-content -->
                 <div class="nk-block-head-content">
@@ -46,7 +46,7 @@
                           <a href="#" class="btn btn-icon btn-primary d-md-none">
                             <em class="icon ni ni-plus" />
                           </a>
-                          <NuxtLink to="/pallets/add" class="btn btn-primary d-none d-md-inline-flex">
+                          <NuxtLink to="/rack/add" class="btn btn-primary d-none d-md-inline-flex">
                             <em class="icon ni ni-plus" /><span>Add</span>
                           </NuxtLink>
                         </li>
@@ -67,17 +67,12 @@
                       </th>
                       <th class="tb-tnx-info">
                         <span class="tb-tnx-desc d-none d-sm-inline-block">
-                          <span>Pallets Name</span>
+                          <span>Unique Name</span>
                         </span>
                       </th>
                       <th class="tb-tnx-info">
                         <span class="tb-tnx-desc d-none d-sm-inline-block">
-                          <span>Unique ID</span>
-                        </span>
-                      </th>
-                      <th class="tb-tnx-info">
-                        <span class="tb-tnx-desc d-none d-sm-inline-block">
-                          <span>Status</span>
+                          <span>Side</span>
                         </span>
                       </th>
 
@@ -87,26 +82,22 @@
                     </tr>
                   </thead>
                   <tbody>
-                    <tr v-for="(pallet, index) in pallets" :key="pallet.id" class="tb-tnx-item">
+                    <tr v-for="(rack, index) in racks" :key="rack.id" class="tb-tnx-item">
                       <td class="tb-tnx-id">
-                        <a href="#"><span>{{ pallet.id }}</span></a>
+                        <a href="#"><span>{{ rack.id }}</span></a>
                       </td>
                       <td class="tb-tnx-info">
                         <div class="tb-tnx-desc">
-                          <span class="title">{{ pallet.name }}</span>
+                          <span class="title">{{ rack.unique_id }}</span>
                         </div>
                       </td>
                       <td class="tb-tnx-info">
                         <div class="tb-tnx-desc">
-                          <span class="title">{{ pallet.uniq_no }}</span>
-                        </div>
-                      </td>
-                      <td class="tb-tnx-info">
-                        <div class="tb-tnx-desc">
-                          <span class="title">{{ pallet.status==1?'Filled':'Empty' }}</span>
+                          <span class="title">{{ rack.side=='1'?'Right':'Left' }}</span>
                         </div>
                       </td>
 
+                      <td class="tb-tnx-action" />
                       <td class="tb-tnx-action">
                         <div class="dropdown" :class="{'show': index === activeIndex }">
                           <a
@@ -124,8 +115,8 @@
                             style="position: absolute; transform: translate3d(-100px, -94px, 0px); top: 0px; left: 0px; will-change: transform;"
                           >
                             <ul class="link-list-plain">
-                              <li><a href="#" @click.prevent="editPallet(pallet)">Edit</a></li>
-                              <li><a href="#" @click.prevent="removePallet(pallet)">Remove</a></li>
+                              <li><a href="#" @click.prevent="editAisle(rack)">Edit</a></li>
+                              <li><a href="#" @click.prevent="removeAisle(rack)">Remove</a></li>
                             <!--                              <li><a href="#" @click.prevent="removeAisle(aisle.id)">Remove</a></li>-->
                             </ul>
                           </div>
@@ -149,11 +140,13 @@ export default {
     return {
       toggleModal: false,
       activeIndex: null,
-      pallets: []
+      loading: true,
+      aisles: [],
+      racks: []
     }
   },
   created () {
-    this.fetchPallets()
+    this.fetchRacks()
   },
   mounted () {
     this.$nextTick(() => {
@@ -168,40 +161,44 @@ export default {
     finish () {
       this.loading = false
     },
-    async fetchPallets () {
+    async fetchRacks () {
       const self = this
-      await this.$axios.get('pallet')
+      await this.$axios.get('rack')
         .then(function (response) {
-          if (response.data.status !== false) {
-            self.pallets = response.data.payload
-            console.log(response.data)
-            self.$store.commit('pallet/SET_PALLET', self.pallets)
-          }
-          self.$nuxt.$loading.finish()
-        }).catch(function () {
+          self.racks = response.data.payload
+          self.$store.commit('rack/SET_RACK', self.racks)
           self.$nuxt.$loading.finish()
         })
     },
-    async removePallet (pallet) {
+    // async removeBrand (brand) {
+    //   const self = this
+    //   await this.$axios.delete(`/brand/delete/${brand.id}`)
+    //     .then(function (response) {
+    //       self.fetchBrands()
+    //     }).catch(function (ex) {
+    //       self.fetchBrands()
+    //     })
+    // },
+    async removeAisle (rack) {
       const self = this
-      await this.$axios.delete(`/pallet/${pallet.id}`)
+      await this.$axios.delete(`/rack/${rack.id}`)
         .then(function (response) {
-          self.fetchPallets()
+          self.fetchAisles()
           // self.categories = response.data.data.data
-          self.$store.commit('aisle/SET_PALLET', self.aisles)
+          self.$store.commit('SET_RACK', self.rack)
         }).catch(function (ex) {
-          self.fetchPallets()
+          self.fetchRacks()
         })
     },
-    async editPallet (pallet) {
-      await this.$store.commit('pallet/SET_EDIT_PALLET', pallet)
-      this.$router.push(`pallets/${pallet.id}/edit`)
+    async editAisle (rack) {
+      await this.$store.commit('rack/SET_EDIT_RACK', rack)
+      this.$router.push(`rack/${rack.id}/edit`)
     }
 
   }
 }
 </script>
 
-<style scoped>
+<style>
 
 </style>
