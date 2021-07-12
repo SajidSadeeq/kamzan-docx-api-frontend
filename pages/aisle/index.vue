@@ -157,6 +157,8 @@ export default {
           self.aisles = response.data.payload
           self.$store.commit('aisle/SET_AISLE', self.aisles)
           self.$nuxt.$loading.finish()
+        }).catch(function (ex) {
+          self.$nuxt.$loading.finish()
         })
     },
     // async removeBrand (brand) {

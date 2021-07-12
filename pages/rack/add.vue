@@ -8,7 +8,7 @@
               <div class="nk-block-between">
                 <div class="nk-block-head-content">
                   <h3 class="nk-block-title page-title">
-                    Pallet
+                    Rack
                   </h3>
                 </div><!-- .nk-block-head-content -->
                 <div class="nk-block-head-content">
@@ -22,7 +22,7 @@
                           <a href="#" class="btn btn-icon btn-primary d-md-none">
                             <em class="icon ni ni-plus" />
                           </a>
-                          <NuxtLink to="/pallets" class="btn btn-danger d-none d-md-inline-flex">
+                          <NuxtLink to="/aisle" class="btn btn-danger d-none d-md-inline-flex">
                             <em class="icon ni ni-back-ios" /><span>Back</span>
                           </NuxtLink>
                         </li>
@@ -48,29 +48,30 @@
                   </ul>
                   <div class="tab-content">
                     <div id="tabItem5" class="tab-pane " :class="{ active: activeTab === 1 }">
-                      <form action="#" class="form-validate" novalidate="novalidate" @submit.prevent="addPallet">
+                      <form action="#" class="form-validate" novalidate="novalidate" @submit.prevent="addRack">
                         <div class="row g-gs">
                           <div class="col-md-6 border-right">
                             <div class="col-md-10">
                               <div class="form-group">
-                                <label class="form-label" for="name">Palet Name</label>
+                                <label class="form-label" for="name">Aisle</label>
                                 <div class="form-control-wrap">
-                                  <input
-                                    id="name"
-                                    v-model="name"
-                                    type="text"
-                                    class="form-control"
-                                    name="name"
-                                    placeholder="Name"
-                                    required=""
-                                  >
+                                  <v-select v-model="aisle" :options="aisles" label="name" placeholder="Aisle" name="aisle_id" />
                                 </div>
+                                <span v-if="containsKey(errors, 'error')">{{ errors.error[0] }}</span>
                               </div>
+                            </div>
+                            <br>
+                            <div class="col-md-10">
+                              <div class="form-group">
+                                <label class="form-label" for="name">Side</label>
+                                <v-select v-model="side" :options=" [{name: 'Right', value: 1},{name: 'Left', value: 2}]" label="name" placeholder="Side" name="side" />
+                              </div>
+                              <!--                              <span v-if="containsKey(errors, 'error')">{{ errors.error }}</span>-->
                             </div>
                           </div>
                           <div class="col-md-12 text-right">
                             <div class="form-group">
-                              <button type="submit" class="btn btn-lg btn-primary" @submit.prevent="addAisle">
+                              <button type="submit" class="btn btn-lg btn-primary" @submit.prevent="addRack">
                                 Save
                               </button>
                             </div>
@@ -97,62 +98,43 @@ import Vue from 'vue'
 import vSelect from 'vue-select'
 import 'vue-select/dist/vue-select.css'
 Vue.component('VSelect', vSelect)
+
 export default {
   data () {
     return {
       tabPath: this.$route.fullPath,
       activeTab: 1,
       name: '',
-      customers: [],
-      racks: [],
-      goods: []
-
+      aisles: [],
+      aisle: '',
+      side: '',
+      errors: []
     }
   },
   created () {
-    // this.fetchCustomers()
-    // this.fetchRacks()
-    // this.fetchGoods()
+    this.fetchAisles()
   },
   methods: {
-    // async fetchCustomers () {
-    //   const self = this
-    //   await this.$axios.get('customer')
-    //     .then(function (response) {
-    //       self.customers = response.data.payload.data
-    //       console.log(self.response.data.payload.data)
-    //       // self.$store.commit('pallet/SET_PALLET', self.pallets)
-    //       self.$nuxt.$loading.finish()
-    //     })
-    // },
-    // async fetchRacks () {
-    //   const self = this
-    //   await this.$axios.get('rack')
-    //     .then(function (response) {
-    //       self.racks = response.data.payload
-    //       console.log(self.rack)
-    //       // self.$store.commit('pallet/SET_PALLET', self.pallets)
-    //       self.$nuxt.$loading.finish()
-    //     })
-    // },
-    // async fetchGoods () {
-    //   const self = this
-    //   await this.$axios.get('pallet-good')
-    //     .then(function (response) {
-    //       self.goods = response.data.payload
-    //       console.log(self.goods)
-    //       // self.$store.commit('pallet/SET_PALLET', self.pallets)
-    //       self.$nuxt.$loading.finish()
-    //     })
-    // },
-    addPallet () {
+    containsKey (obj, key) {
+      return Object.keys(obj).includes(key)
+    },
+    async fetchAisles () {
       const self = this
-      this.$axios.post('pallet', {
-        name: this.name
+      await this.$axios.get('aisle')
+        .then(function (response) {
+          self.aisles = response.data.payload
+          self.$nuxt.$loading.finish()
+        })
+    },
+    addRack () {
+      const self = this
+      this.$axios.post('rack', {
+        aisle_id: this.aisle.id,
+        side: this.side.value
       }).then(function (response) {
-        self.$router.push('/pallets')
+        self.$router.push('/rack')
       }).catch(function (error) {
-        self.errors = error.response.data.data
+        self.errors = error.response.data.payload
       })
     }
 

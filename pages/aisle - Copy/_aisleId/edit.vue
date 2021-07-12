@@ -9,7 +9,7 @@
                 <div class="nk-block-between">
                   <div class="nk-block-head-content">
                     <h3 class="nk-block-title page-title">
-                      Pallets
+                      Categories
                     </h3>
                   </div><!-- .nk-block-head-content -->
                   <div class="nk-block-head-content">
@@ -23,7 +23,7 @@
                             <a href="#" class="btn btn-icon btn-primary d-md-none">
                               <em class="icon ni ni-plus" />
                             </a>
-                            <NuxtLink to="/pallets" class="btn btn-danger d-none d-md-inline-flex">
+                            <NuxtLink to="/product" class="btn btn-danger d-none d-md-inline-flex">
                               <em class="icon ni ni-back-ios" /><span>Back</span>
                             </NuxtLink>
                           </li>
@@ -49,16 +49,16 @@
                     </ul>
                     <div class="tab-content">
                       <div id="tabItem5" class="tab-pane " :class="{ active: activeTab === 1 }">
-                        <form action="#" class="form-validate" novalidate="novalidate" @submit.prevent="editPallet">
+                        <form action="#" class="form-validate" novalidate="novalidate" @submit.prevent="editAisle">
                           <div class="row g-gs">
                             <div class="col-md-6 border-right">
                               <div class="col-md-10">
                                 <div class="form-group">
-                                  <label class="form-label" for="name">Pallets Name</label>
+                                  <label class="form-label" for="name">Aisle Name</label>
                                   <div class="form-control-wrap">
                                     <input
                                       id="name"
-                                      v-model="pallet.name"
+                                      v-model="aisle.name"
                                       type="text"
                                       class="form-control"
                                       name="name"
@@ -71,7 +71,7 @@
                             </div>
                             <div class="col-md-12 text-right">
                               <div class="form-group">
-                                <button type="submit" class="btn btn-lg btn-primary" @submit.prevent="editPallet">
+                                <button type="submit" class="btn btn-lg btn-primary" @submit.prevent="editAisle">
                                   Save
                                 </button>
                               </div>
@@ -105,22 +105,22 @@ export default {
     }
   },
   computed: {
-    pallet () {
-      return this.$store.state.aisle.edit_pallet
+    aisle () {
+      return this.$store.state.aisle.edit_aisle
     }
   },
   created () {
-    if (Object.keys(this.pallet).length === 0) {
-      this.$store.dispatch('aisle/fetchSpecificPallet', this.$route.params.palletId)
+    if (Object.keys(this.aisle).length === 0) {
+      this.$store.dispatch('aisle/fetchSpecificAisle', this.$route.params.aisleId)
     }
   },
   methods: {
-    editPallet () {
+    editAisle () {
       const self = this
-      this.$axios.put(`pallet/${this.pallet.id}`, {
+      this.$axios.put(`aisle/${this.aisle.id}`, {
         name: this.aisle.name
       }).then(function (response) {
-        self.$router.push('/pallet')
+        self.$router.push('/aisle')
       })
     }
 

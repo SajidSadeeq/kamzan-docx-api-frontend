@@ -8,7 +8,7 @@
               <div class="nk-block-between">
                 <div class="nk-block-head-content">
                   <h3 class="nk-block-title page-title">
-                    Pallet
+                    Aisle
                   </h3>
                 </div><!-- .nk-block-head-content -->
                 <div class="nk-block-head-content">
@@ -22,7 +22,7 @@
                           <a href="#" class="btn btn-icon btn-primary d-md-none">
                             <em class="icon ni ni-plus" />
                           </a>
-                          <NuxtLink to="/pallets" class="btn btn-danger d-none d-md-inline-flex">
+                          <NuxtLink to="/aisle" class="btn btn-danger d-none d-md-inline-flex">
                             <em class="icon ni ni-back-ios" /><span>Back</span>
                           </NuxtLink>
                         </li>
@@ -48,12 +48,12 @@
                   </ul>
                   <div class="tab-content">
                     <div id="tabItem5" class="tab-pane " :class="{ active: activeTab === 1 }">
-                      <form action="#" class="form-validate" novalidate="novalidate" @submit.prevent="addPallet">
+                      <form action="#" class="form-validate" novalidate="novalidate" @submit.prevent="addAisle">
                         <div class="row g-gs">
                           <div class="col-md-6 border-right">
                             <div class="col-md-10">
                               <div class="form-group">
-                                <label class="form-label" for="name">Palet Name</label>
+                                <label class="form-label" for="name">Aisle Name</label>
                                 <div class="form-control-wrap">
                                   <input
                                     id="name"
@@ -93,64 +93,22 @@
 </template>
 
 <script>
-import Vue from 'vue'
-import vSelect from 'vue-select'
-import 'vue-select/dist/vue-select.css'
-Vue.component('VSelect', vSelect)
+
 export default {
   data () {
     return {
       tabPath: this.$route.fullPath,
       activeTab: 1,
-      name: '',
-      customers: [],
-      racks: [],
-      goods: []
-
+      name: ''
     }
   },
-  created () {
-    // this.fetchCustomers()
-    // this.fetchRacks()
-    // this.fetchGoods()
-  },
   methods: {
-    // async fetchCustomers () {
-    //   const self = this
-    //   await this.$axios.get('customer')
-    //     .then(function (response) {
-    //       self.customers = response.data.payload.data
-    //       console.log(self.response.data.payload.data)
-    //       // self.$store.commit('pallet/SET_PALLET', self.pallets)
-    //       self.$nuxt.$loading.finish()
-    //     })
-    // },
-    // async fetchRacks () {
-    //   const self = this
-    //   await this.$axios.get('rack')
-    //     .then(function (response) {
-    //       self.racks = response.data.payload
-    //       console.log(self.rack)
-    //       // self.$store.commit('pallet/SET_PALLET', self.pallets)
-    //       self.$nuxt.$loading.finish()
-    //     })
-    // },
-    // async fetchGoods () {
-    //   const self = this
-    //   await this.$axios.get('pallet-good')
-    //     .then(function (response) {
-    //       self.goods = response.data.payload
-    //       console.log(self.goods)
-    //       // self.$store.commit('pallet/SET_PALLET', self.pallets)
-    //       self.$nuxt.$loading.finish()
-    //     })
-    // },
-    addPallet () {
+    addAisle () {
       const self = this
-      this.$axios.post('pallet', {
+      this.$axios.post('aisle', {
         name: this.name
       }).then(function (response) {
-        self.$router.push('/pallets')
+        self.$router.push('/aisle')
       }).catch(function (error) {
         self.errors = error.response.data.data
       })
