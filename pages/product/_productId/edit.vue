@@ -200,7 +200,7 @@ export default {
       normalizer (node) {
         return {
           id: node.id,
-          label: node.title,
+          label: node.name,
           children: node.children
         }
       }
