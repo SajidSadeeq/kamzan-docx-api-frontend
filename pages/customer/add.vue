@@ -8,7 +8,7 @@
               <div class="nk-block-between">
                 <div class="nk-block-head-content">
                   <h3 class="nk-block-title page-title">
-                    Add Category
+                    Add Customer
                   </h3>
                 </div><!-- .nk-block-head-content -->
                 <div class="nk-block-head-content">
@@ -253,8 +253,7 @@ export default {
       county: '',
       main_contact: '',
       customer_type: '',
-      archived: 1,
-      errors: []
+      archived: 1
     }
   },
   methods: {

@@ -57,6 +57,7 @@
                                 <div class="form-control-wrap">
                                   <v-select v-model="aisle" :options="aisles" label="name" placeholder="Select Aisle" name="aisle_id" />
                                 </div>
+                                <span v-if="containsKey(errors, 'aisle_id')" class="text-danger">{{ errors.aisle_id[0] }}</span>
                               </div>
                             </div>
                             <br>
@@ -71,10 +72,9 @@
                                   name="side"
                                   required
                                 />
+                                <span v-if="containsKey(errors, 'side')" class="text-danger">{{ errors.side[0] }}</span>
                               </div>
                             </div>
-                            <br>
-                            <span v-if="errors" class="text-danger ml-3"> {{ errors[0] }}</span>
                           </div>
                           <div class="col-md-12 text-right">
                             <div class="form-group">
@@ -146,11 +146,9 @@ export default {
       }).then(function (response) {
         if (response.data.status !== false) {
           self.$router.push('/rack')
-        } else {
-          self.errors = response.data.payload.error
         }
       }).catch(function (error) {
-        self.errors = error.response.data.payload
+        self.errors = error.response.data.data
       })
     }
 

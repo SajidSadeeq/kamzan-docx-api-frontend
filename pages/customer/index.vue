@@ -326,12 +326,12 @@ export default {
       this.activeIndex = index
     },
     async fetchCustomers () {
-      const self = this
+      const _this = this
       await this.$axios.get('customer')
         .then(function (response) {
-          self.customers = response.data.payload.data
-          self.$store.commit('customer/SET_CUSTOMER', self.categories)
-          self.$nuxt.$loading.finish()
+          _this.customers = response.data.payload.data
+          _this.$store.commit('customer/SET_CUSTOMER', _this.categories)
+          _this.$nuxt.$loading.finish()
         })
     },
     async removeCustomer (customer) {

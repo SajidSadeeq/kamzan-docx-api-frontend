@@ -51,7 +51,13 @@
                 <span class="nk-menu-icon"><em class="icon ni ni-bag" /></span>
                 <span class="nk-menu-text">Products</span>
               </NuxtLink>
-            </li>
+            </li><!-- .nk-menu-item -->
+            <!--            <li class="nk-menu-item">-->
+            <!--              <NuxtLink to="/brand" class="nk-menu-link">-->
+            <!--                <span class="nk-menu-icon"><em class="icon ni ni-building-fill" /></span>-->
+            <!--                <span class="nk-menu-text">Brands</span>-->
+            <!--              </NuxtLink>-->
+            <!--            </li>&lt;!&ndash; .nk-menu-item &ndash;&gt;-->
             <li class="nk-menu-item">
               <NuxtLink to="/pallets" class="nk-menu-link">
                 <span class="nk-menu-icon"><em class="icon ni ni-bag" /></span>
@@ -63,12 +69,29 @@
                 <span class="nk-menu-icon"><em class="icon ni ni-sign-sgd" /></span>
                 <span class="nk-menu-text">Suppliers</span>
               </NuxtLink>
-            </li>
-
+            </li><!-- .nk-menu-item -->
+            <!--            <li class="nk-menu-item">-->
+            <!--              <NuxtLink to="/orders" class="nk-menu-link">-->
+            <!--                <span class="nk-menu-icon"><em class="icon ni ni-sign-sgd" /></span>-->
+            <!--                <span class="nk-menu-text">Orders</span>-->
+            <!--              </NuxtLink>-->
+            <!--            </li>&lt;!&ndash; .nk-menu-item &ndash;&gt;-->
             <li class="nk-menu-item">
               <NuxtLink to="/rack" class="nk-menu-link">
                 <span class="nk-menu-icon"><em class="icon ni ni-bag" /></span>
                 <span class="nk-menu-text">Racks</span>
+              </NuxtLink>
+            </li>
+            <li class="nk-menu-item">
+              <NuxtLink to="/aisle" class="nk-menu-link">
+                <span class="nk-menu-icon"><em class="icon ni ni-bag" /></span>
+                <span class="nk-menu-text">Aisles</span>
+              </NuxtLink>
+            </li>
+            <li class="nk-menu-item">
+              <NuxtLink to="/goods" class="nk-menu-link">
+                <span class="nk-menu-icon"><em class="icon ni ni-bag" /></span>
+                <span class="nk-menu-text">Goods</span>
               </NuxtLink>
             </li>
             <li class="nk-menu-item">
@@ -109,12 +132,5 @@ a.nuxt-link-active {
 a.nuxt-link-exact-active {
   color: #9769ff;
   background: #ebeef2;
-}
-.nk-sidebar-content{
-      max-height: 100%;
-    overflow-y: auto;
-    overflow-x: hidden;
-    scroll-behavior: smooth;
-    z-index: 1;
 }
 </style>
