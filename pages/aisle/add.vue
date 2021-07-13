@@ -65,6 +65,7 @@
                                     required=""
                                   >
                                 </div>
+                                <span v-if="errors" class="text-danger">{{ errors[0] }}</span>
                               </div>
                             </div>
                           </div>
@@ -99,18 +100,26 @@ export default {
     return {
       tabPath: this.$route.fullPath,
       activeTab: 1,
-      name: ''
+      name: '',
+      errors: []
     }
   },
   methods: {
+    containsKey (obj, key) {
+      return Object.keys(obj).includes(key)
+    },
     addAisle () {
       const self = this
       this.$axios.post('aisle', {
         name: this.name
       }).then(function (response) {
-        self.$router.push('/aisle')
+        if (response.data.status !== false) {
+          self.$router.push('/aisle')
+        } else {
+          self.errors = response.data.payload.error
+        }
       }).catch(function (error) {
-        self.errors = error.response.data.data
+        self.errors = error.response.payload.error
       })
     }
 

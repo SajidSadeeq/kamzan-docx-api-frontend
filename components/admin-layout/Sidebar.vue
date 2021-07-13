@@ -78,14 +78,20 @@
             <!--            </li>&lt;!&ndash; .nk-menu-item &ndash;&gt;-->
             <li class="nk-menu-item">
               <NuxtLink to="/rack" class="nk-menu-link">
-                <span class="nk-menu-icon"><em class="icon ni ni-sign-sgd" /></span>
+                <span class="nk-menu-icon"><em class="icon ni ni-bag" /></span>
                 <span class="nk-menu-text">Racks</span>
               </NuxtLink>
             </li>
             <li class="nk-menu-item">
               <NuxtLink to="/aisle" class="nk-menu-link">
-                <span class="nk-menu-icon"><em class="icon ni ni-sign-sgd" /></span>
+                <span class="nk-menu-icon"><em class="icon ni ni-bag" /></span>
                 <span class="nk-menu-text">Aisle</span>
+              </NuxtLink>
+            </li>
+            <li class="nk-menu-item">
+              <NuxtLink to="/goods" class="nk-menu-link">
+                <span class="nk-menu-icon"><em class="icon ni ni-bag" /></span>
+                <span class="nk-menu-text">Good</span>
               </NuxtLink>
             </li>
           </ul><!-- .nk-menu -->

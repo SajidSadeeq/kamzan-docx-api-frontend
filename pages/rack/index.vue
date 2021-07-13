@@ -75,6 +75,11 @@
                           <span>Side</span>
                         </span>
                       </th>
+                      <th class="tb-tnx-info">
+                        <span class="tb-tnx-desc d-none d-sm-inline-block">
+                          <span>Status</span>
+                        </span>
+                      </th>
 
                       <th class="tb-tnx-action">
                         <span>Actions</span>
@@ -84,7 +89,7 @@
                   <tbody>
                     <tr v-for="(rack, index) in racks" :key="rack.id" class="tb-tnx-item">
                       <td class="tb-tnx-id">
-                        <a href="#"><span>{{ rack.id }}</span></a>
+                        <a href="#"><span>{{ index+1 }}</span></a>
                       </td>
                       <td class="tb-tnx-info">
                         <div class="tb-tnx-desc">
@@ -96,8 +101,12 @@
                           <span class="title">{{ rack.side=='1'?'Right':'Left' }}</span>
                         </div>
                       </td>
+                      <td class="tb-tnx-info">
+                        <div class="tb-tnx-desc">
+                          <span class="title">{{ rack.status=='1'?'Empty':'Filled' }}</span>
+                        </div>
+                      </td>
 
-                      <td class="tb-tnx-action" />
                       <td class="tb-tnx-action">
                         <div class="dropdown" :class="{'show': index === activeIndex }">
                           <a
@@ -165,32 +174,28 @@ export default {
       const self = this
       await this.$axios.get('rack')
         .then(function (response) {
-          self.racks = response.data.payload
-          self.$store.commit('rack/SET_RACK', self.racks)
+          if (response.data.status !== false) {
+            self.racks = response.data.payload
+            self.$store.commit('rack/SET_RACK', self.racks)
+          }
+          self.$nuxt.$loading.finish()
+        }).catch(function (ex) {
           self.$nuxt.$loading.finish()
         })
     },
-    // async removeBrand (brand) {
-    //   const self = this
-    //   await this.$axios.delete(`/brand/delete/${brand.id}`)
-    //     .then(function (response) {
-    //       self.fetchBrands()
-    //     }).catch(function (ex) {
-    //       self.fetchBrands()
-    //     })
-    // },
+
     async removeAisle (rack) {
       const self = this
       await this.$axios.delete(`/rack/${rack.id}`)
         .then(function (response) {
+          self.racks = []
           self.fetchAisles()
-          // self.categories = response.data.data.data
           self.$store.commit('SET_RACK', self.rack)
         }).catch(function (ex) {
           self.fetchRacks()
         })
     },
-    async editAisle (rack) {
+    async editRack (rack) {
       await this.$store.commit('rack/SET_EDIT_RACK', rack)
       this.$router.push(`rack/${rack.id}/edit`)
     }

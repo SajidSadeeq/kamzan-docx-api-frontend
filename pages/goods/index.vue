@@ -8,7 +8,7 @@
               <div class="nk-block-between">
                 <div class="nk-block-head-content">
                   <h3 class="nk-block-title page-title">
-                    Pallets
+                    Goods
                   </h3>
                 </div><!-- .nk-block-head-content -->
                 <div class="nk-block-head-content">
@@ -46,7 +46,7 @@
                           <a href="#" class="btn btn-icon btn-primary d-md-none">
                             <em class="icon ni ni-plus" />
                           </a>
-                          <NuxtLink to="/pallets/add" class="btn btn-primary d-none d-md-inline-flex">
+                          <NuxtLink to="/goods/add" class="btn btn-primary d-none d-md-inline-flex">
                             <em class="icon ni ni-plus" /><span>Add</span>
                           </NuxtLink>
                         </li>
@@ -67,17 +67,12 @@
                       </th>
                       <th class="tb-tnx-info">
                         <span class="tb-tnx-desc d-none d-sm-inline-block">
-                          <span>Pallets Name</span>
+                          <span>Name</span>
                         </span>
                       </th>
                       <th class="tb-tnx-info">
                         <span class="tb-tnx-desc d-none d-sm-inline-block">
                           <span>Unique ID</span>
-                        </span>
-                      </th>
-                      <th class="tb-tnx-info">
-                        <span class="tb-tnx-desc d-none d-sm-inline-block">
-                          <span>Status</span>
                         </span>
                       </th>
 
@@ -87,23 +82,18 @@
                     </tr>
                   </thead>
                   <tbody>
-                    <tr v-for="(pallet, index) in pallets" :key="pallet.id" class="tb-tnx-item">
+                    <tr v-for="(good, index) in goods" :key="good.id" class="tb-tnx-item">
                       <td class="tb-tnx-id">
-                        <a href="#"><span>{{ pallet.id }}</span></a>
+                        <a href="#"><span>{{ good.id }}</span></a>
                       </td>
                       <td class="tb-tnx-info">
                         <div class="tb-tnx-desc">
-                          <span class="title">{{ pallet.name }}</span>
+                          <span class="title">{{ good.name }}</span>
                         </div>
                       </td>
                       <td class="tb-tnx-info">
                         <div class="tb-tnx-desc">
-                          <span class="title">{{ pallet.uniq_no }}</span>
-                        </div>
-                      </td>
-                      <td class="tb-tnx-info">
-                        <div class="tb-tnx-desc">
-                          <span class="title">{{ pallet.status==1?'Filled':'Empty' }}</span>
+                          <span class="title">{{ good.unique_id }}</span>
                         </div>
                       </td>
 
@@ -124,8 +114,8 @@
                             style="position: absolute; transform: translate3d(-100px, -94px, 0px); top: 0px; left: 0px; will-change: transform;"
                           >
                             <ul class="link-list-plain">
-                              <li><a href="#" @click.prevent="editPallet(pallet)">Edit</a></li>
-                              <li><a href="#" @click.prevent="removePallet(pallet)">Remove</a></li>
+                              <li><a href="#" @click.prevent="editGood(good)">Edit</a></li>
+                              <li><a href="#" @click.prevent="removeGood(good)">Remove</a></li>
                             <!--                              <li><a href="#" @click.prevent="removeAisle(aisle.id)">Remove</a></li>-->
                             </ul>
                           </div>
@@ -149,11 +139,12 @@ export default {
     return {
       toggleModal: false,
       activeIndex: null,
-      pallets: []
+      loading: true,
+      goods: []
     }
   },
   created () {
-    this.fetchPallets()
+    this.fetchGoods()
   },
   mounted () {
     this.$nextTick(() => {
@@ -168,41 +159,39 @@ export default {
     finish () {
       this.loading = false
     },
-    async fetchPallets () {
+    async fetchGoods () {
       const self = this
-      await this.$axios.get('pallet')
+      await this.$axios.get('good')
         .then(function (response) {
-          if (response.data.status !== false) {
-            self.pallets = response.data.payload
-            console.log(response.data)
-            self.$store.commit('pallet/SET_PALLET', self.pallets)
-          }
+          self.goods = response.data.payload
+          self.$store.commit('good/SET_GOOD', self.goods)
           self.$nuxt.$loading.finish()
-        }).catch(function () {
-          self.$nuxt.$loading.finish()
-        })
-    },
-    async removePallet (pallet) {
-      const self = this
-      await this.$axios.delete(`/pallet/${pallet.id}`)
-        .then(function (response) {
-          self.pallets = []
-          self.fetchPallets()
-          // self.categories = response.data.data.data
-          self.$store.commit('pallet/SET_PALLET', self.pallets)
         }).catch(function (ex) {
-          self.fetchPallets()
+          self.$nuxt.$loading.finish()
         })
     },
-    async editPallet (pallet) {
-      await this.$store.commit('pallet/SET_EDIT_PALLET', pallet)
-      this.$router.push(`pallets/${pallet.id}/edit`)
+
+    async removeGood (good) {
+      const self = this
+      await this.$axios.delete(`/good/${good.id}`)
+        .then(function (response) {
+          self.goods = []
+          self.fetchGoods()
+          // self.categories = response.data.data.data
+          // self.$store.commit('SET_CATEGORIES', self.categories)
+        }).catch(function (ex) {
+          self.fetchGoods()
+        })
+    },
+    async editGood (good) {
+      await this.$store.commit('good/SET_EDIT_GOOD', good)
+      this.$router.push(`goods/${good.id}/edit`)
     }
 
   }
 }
 </script>
 
-<style scoped>
+<style>
 
 </style>

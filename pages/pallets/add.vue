@@ -53,7 +53,7 @@
                           <div class="col-md-6 border-right">
                             <div class="col-md-10">
                               <div class="form-group">
-                                <label class="form-label" for="name">Palet Name</label>
+                                <label class="form-label" for="name">Pallet Name</label>
                                 <div class="form-control-wrap">
                                   <input
                                     id="name"
@@ -65,12 +65,13 @@
                                     required=""
                                   >
                                 </div>
+                                <span v-if="errors" class="text-danger">{{ errors[0] }}</span>
                               </div>
                             </div>
                           </div>
                           <div class="col-md-12 text-right">
                             <div class="form-group">
-                              <button type="submit" class="btn btn-lg btn-primary" @submit.prevent="addAisle">
+                              <button type="submit" class="btn btn-lg btn-primary" @submit.prevent="addPallet">
                                 Save
                               </button>
                             </div>
@@ -103,9 +104,7 @@ export default {
       tabPath: this.$route.fullPath,
       activeTab: 1,
       name: '',
-      customers: [],
-      racks: [],
-      goods: []
+      errors: []
 
     }
   },
@@ -150,9 +149,13 @@ export default {
       this.$axios.post('pallet', {
         name: this.name
       }).then(function (response) {
-        self.$router.push('/pallets')
+        if (response.data.status !== false) {
+          self.$router.push('/pallets')
+        } else {
+          self.errors = response.data.payload.error
+        }
       }).catch(function (error) {
-        self.errors = error.response.data.data
+        self.errors = error.data.payload.error
       })
     }
 

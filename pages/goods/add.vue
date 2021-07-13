@@ -8,7 +8,7 @@
               <div class="nk-block-between">
                 <div class="nk-block-head-content">
                   <h3 class="nk-block-title page-title">
-                    Aisle
+                    Goods
                   </h3>
                 </div><!-- .nk-block-head-content -->
                 <div class="nk-block-head-content">
@@ -22,7 +22,7 @@
                           <a href="#" class="btn btn-icon btn-primary d-md-none">
                             <em class="icon ni ni-plus" />
                           </a>
-                          <NuxtLink to="/aisle" class="btn btn-danger d-none d-md-inline-flex">
+                          <NuxtLink to="/goods" class="btn btn-danger d-none d-md-inline-flex">
                             <em class="icon ni ni-back-ios" /><span>Back</span>
                           </NuxtLink>
                         </li>
@@ -48,16 +48,16 @@
                   </ul>
                   <div class="tab-content">
                     <div id="tabItem5" class="tab-pane " :class="{ active: activeTab === 1 }">
-                      <form action="#" class="form-validate" novalidate="novalidate" @submit.prevent="editAisle">
+                      <form action="#" class="form-validate" novalidate="novalidate" @submit.prevent="addGood">
                         <div class="row g-gs">
                           <div class="col-md-6 border-right">
                             <div class="col-md-10">
                               <div class="form-group">
-                                <label class="form-label" for="name">Aisle Name</label>
+                                <label class="form-label" for="name">Name</label>
                                 <div class="form-control-wrap">
                                   <input
                                     id="name"
-                                    v-model="aisle.name"
+                                    v-model="name"
                                     type="text"
                                     class="form-control"
                                     name="name"
@@ -71,7 +71,7 @@
                           </div>
                           <div class="col-md-12 text-right">
                             <div class="form-group">
-                              <button type="submit" class="btn btn-lg btn-primary" @submit.prevent="editAisle">
+                              <button type="submit" class="btn btn-lg btn-primary" @submit.prevent="addGood">
                                 Save
                               </button>
                             </div>
@@ -104,32 +104,24 @@ export default {
       errors: []
     }
   },
-  computed: {
-    aisle () {
-      return this.$store.state.aisle.edit_aisle
-    }
-  },
-  created () {
-    if (Object.keys(this.aisle).length === 0) {
-      this.$store.dispatch('aisle/fetchSpecificAisle', this.$route.params.aisleId)
-    }
-  },
   methods: {
-    editAisle () {
+    addGood () {
       const self = this
-      this.$axios.put(`aisle/${this.aisle.id}`, {
-        name: this.aisle.name
+      this.$axios.post('good', {
+        name: this.name
       }).then(function (response) {
         if (response.data.status !== false) {
-          self.$router.push('/aisle')
+          self.$router.push('/goods')
         } else {
           self.errors = response.data.payload.error
         }
-      }).catch(function (exp) {
-        self.errors = exp.data.payload.error
+      }).catch(function (error) {
+        self.errors = error.response.data.data
       })
     }
 
   }
 }
 </script>
+<style scoped>
+</style>
