@@ -133,7 +133,6 @@ export default {
     }
   },
   created () {
-    console.log(this.side)
     if (Object.keys(this.rack).length === 0) {
       this.$store.dispatch('rack/fetchSpecificRack', this.$route.params.rackId)
     }
