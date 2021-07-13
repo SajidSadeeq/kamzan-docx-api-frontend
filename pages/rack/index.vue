@@ -124,8 +124,8 @@
                             style="position: absolute; transform: translate3d(-100px, -94px, 0px); top: 0px; left: 0px; will-change: transform;"
                           >
                             <ul class="link-list-plain">
-                              <li><a href="#" @click.prevent="editAisle(rack)">Edit</a></li>
-                              <li><a href="#" @click.prevent="removeAisle(rack)">Remove</a></li>
+                              <li><a href="#" @click.prevent="editRack(rack)">Edit</a></li>
+                              <li><a href="#" @click.prevent="removeRack(rack)">Remove</a></li>
                             <!--                              <li><a href="#" @click.prevent="removeAisle(aisle.id)">Remove</a></li>-->
                             </ul>
                           </div>
@@ -184,7 +184,7 @@ export default {
         })
     },
 
-    async removeAisle (rack) {
+    async removeRack (rack) {
       const self = this
       await this.$axios.delete(`/rack/${rack.id}`)
         .then(function (response) {
