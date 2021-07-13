@@ -8,7 +8,7 @@
               <div class="nk-block-between">
                 <div class="nk-block-head-content">
                   <h3 class="nk-block-title page-title">
-                    Aisle
+                    Add Aisle
                   </h3>
                 </div><!-- .nk-block-head-content -->
                 <div class="nk-block-head-content">

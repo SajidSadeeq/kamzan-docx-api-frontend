@@ -101,7 +101,7 @@
                 </div>
               </div><!-- .nk-tb-item -->
 
-              <div v-for="product in products" :key="product.id" class="nk-tb-item">
+              <div v-for="(product, index) in products" :key="product.id" class="nk-tb-item">
                 <div class="nk-tb-col nk-tb-col-check">
                   <div class="custom-control custom-control-sm custom-checkbox notext">
                     <input id="uid1" type="checkbox" class="custom-control-input">
@@ -161,26 +161,42 @@
                         <em class="icon ni ni-user-cross-fill" />
                       </a>
                     </li>
-                    <li @click="editProduct(product)">
-                      <div class="dropdown">
-                        <a href="#" class="dropdown-toggle btn btn-icon btn-trigger" data-toggle="dropdown"><em
-                          class="icon ni ni-more-h"
-                        /></a>
-                        <div class="dropdown-menu dropdown-menu-right">
+                    <li>
+                      <div class="dropdown" :class="{'show': index === activeIndex }">
+                        <a
+                          href="#"
+                          class="dropdown-toggle btn btn-icon btn-trigger"
+                          data-toggle="dropdown"
+                          aria-expanded="true"
+                          @click="activeIndex = activeIndex === index ? null : index"
+                        >
+                          <em class="icon ni ni-more-h" />
+                        </a>
+                        <div
+                          class="dropdown-menu dropdown-menu-right"
+                          :class="{'show': index === activeIndex }"
+                          x-placement="top-end"
+                          style="position: absolute; transform: translate3d(-100px, -94px, 0px); top: 0px; left: 0px; will-change: transform;"
+                        >
                           <ul class="link-list-opt no-bdr">
                             <li>
-                              <a href="html/ecommerce/customer-details.html"><em class="icon ni ni-eye" /><span>View Details</span></a>
+                              <a href="javascript:;"><em class="icon ni ni-eye" />
+                                <span>View Details</span></a>
                             </li>
-                            <li><a href="#"><em class="icon ni ni-repeat" /><span>Orders</span></a></li>
-                            <li><a href="#"><em class="icon ni ni-activity-round" /><span>Activities</span></a></li>
-                            <li class="divider" />
-                            <li><a href="#"><em class="icon ni ni-shield-star" /><span>Reset Pass</span></a></li>
-                            <li><a href="#"><em class="icon ni ni-na" /><span>Suspend</span></a></li>
+                            <li>
+                              <a href="#" @click.prevent="editProduct(product)">
+                                <em class="icon ni ni-repeat" /><span>Edit</span>
+                              </a>
+                            </li>
+                            <li>
+                              <a href="#" @click.prevent="removeProduct(product.id)">
+                                <em class="icon ni ni-activity-round" /><span>Remove</span>
+                              </a>
+                            </li>
                           </ul>
                         </div>
                       </div>
                     </li>
-                    <a href="" @click.prevent="removeProduct(product)">de</a>
                   </ul>
                 </div>
               </div><!-- .nk-tb-item -->
@@ -343,7 +359,9 @@ export default {
       list_view: false,
       count: 0,
       total: 0,
-      products: []
+      products: [],
+      activeIndex: null,
+      loading: true
     }
   },
   created () {
@@ -375,9 +393,9 @@ export default {
           self.$store.commit('product/SET_PRODUCTS', self.products)
         })
     },
-    async removeProduct (product) {
+    async removeProduct (productId) {
       const self = this
-      await this.$axios.delete(`/product/delete/${product.id}`)
+      await this.$axios.delete(`/product/delete/${productId}`)
         .then(function (response) {
           self.fetchProducts()
         }).catch(function (ex) {
@@ -386,7 +404,7 @@ export default {
     },
     async editProduct (product) {
       await this.$store.commit('product/SET_EDIT_PRODUCT', product)
-      this.$router.push(`product/${product.id}/edit`)
+      this.$router.push(`product/${product}/edit`)
     }
   }
 }

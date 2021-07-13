@@ -111,9 +111,9 @@
                             data-toggle="dropdown"
                             aria-expanded="true"
                             @click="activeIndex = activeIndex === index ? null : index"
-                          ><em
-                            class="icon ni ni-more-h"
-                          /></a>
+                          >
+                            <em class="icon ni ni-more-h" />
+                          </a>
                           <div
                             class="dropdown-menu dropdown-menu-right dropdown-menu-xs"
                             :class="{'show': index === activeIndex }"
