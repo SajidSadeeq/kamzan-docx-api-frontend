@@ -87,7 +87,6 @@
                         </div>
                       </td>
 
-                      <td class="tb-tnx-action" />
                       <td class="tb-tnx-action">
                         <div class="dropdown" :class="{'show': index === activeIndex }">
                           <a
@@ -154,8 +153,10 @@ export default {
       const self = this
       await this.$axios.get('aisle')
         .then(function (response) {
-          self.aisles = response.data.payload
-          self.$store.commit('aisle/SET_AISLE', self.aisles)
+          if (response.data.status !== false) {
+            self.aisles = response.data.payload
+            self.$store.commit('aisle/SET_AISLE', self.aisles)
+          }
           self.$nuxt.$loading.finish()
         }).catch(function (ex) {
           self.$nuxt.$loading.finish()
@@ -174,6 +175,7 @@ export default {
       const self = this
       await this.$axios.delete(`/aisle/${aisle.id}`)
         .then(function (response) {
+          self.aisles = []
           self.fetchAisles()
           // self.categories = response.data.data.data
           // self.$store.commit('SET_CATEGORIES', self.categories)

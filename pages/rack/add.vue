@@ -64,9 +64,16 @@
                             <div class="col-md-10">
                               <div class="form-group">
                                 <label class="form-label" for="name">Side</label>
-                                <v-select v-model="side" :options=" [{name: 'Right', value: 1},{name: 'Left', value: 2}]" label="name" placeholder="Side" name="side" />
+                                <v-select
+                                  v-model="side"
+                                  :options=" [{name: 'Right', value: 1},{name: 'Left', value: 2}]"
+                                  label="name"
+                                  placeholder="Side"
+                                  name="side"
+                                  required
+                                />
                               </div>
-                              <!--                              <span v-if="containsKey(errors, 'error')">{{ errors.error }}</span>-->
+                              <span v-if="errors">{{ errors.error }}</span>
                             </div>
                           </div>
                           <div class="col-md-12 text-right">
@@ -122,11 +129,17 @@ export default {
       const self = this
       await this.$axios.get('aisle')
         .then(function (response) {
-          self.aisles = response.data.payload
+          if (response.data.status !== false) {
+            self.aisles = response.data.payload
+          }
+
           self.$nuxt.$loading.finish()
         })
     },
     addRack () {
+      if (this.aisle_id === '') {
+        return
+      }
       const self = this
       this.$axios.post('rack', {
         aisle_id: this.aisle.id,
