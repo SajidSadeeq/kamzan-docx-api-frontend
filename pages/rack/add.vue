@@ -22,7 +22,7 @@
                           <a href="#" class="btn btn-icon btn-primary d-md-none">
                             <em class="icon ni ni-plus" />
                           </a>
-                          <NuxtLink to="/aisle" class="btn btn-danger d-none d-md-inline-flex">
+                          <NuxtLink to="/rack" class="btn btn-danger d-none d-md-inline-flex">
                             <em class="icon ni ni-back-ios" /><span>Back</span>
                           </NuxtLink>
                         </li>
@@ -55,9 +55,8 @@
                               <div class="form-group">
                                 <label class="form-label" for="name">Aisle</label>
                                 <div class="form-control-wrap">
-                                  <v-select v-model="aisle" :options="aisles" label="name" placeholder="Aisle" name="aisle_id" />
+                                  <v-select v-model="aisle" :options="aisles" label="name" placeholder="Select Aisle" name="aisle_id" />
                                 </div>
-                                <span v-if="containsKey(errors, 'error')">{{ errors.error[0] }}</span>
                               </div>
                             </div>
                             <br>
@@ -68,13 +67,14 @@
                                   v-model="side"
                                   :options=" [{name: 'Right', value: 1},{name: 'Left', value: 2}]"
                                   label="name"
-                                  placeholder="Side"
+                                  placeholder="Select Side"
                                   name="side"
                                   required
                                 />
                               </div>
-                              <span v-if="errors">{{ errors.error }}</span>
                             </div>
+                            <br>
+                            <span v-if="errors" class="text-danger ml-3"> {{ errors[0] }}</span>
                           </div>
                           <div class="col-md-12 text-right">
                             <div class="form-group">
@@ -131,21 +131,24 @@ export default {
         .then(function (response) {
           if (response.data.status !== false) {
             self.aisles = response.data.payload
+          } else {
+            // self.errors = response.data.payload.error
           }
 
           self.$nuxt.$loading.finish()
         })
     },
     addRack () {
-      if (this.aisle_id === '') {
-        return
-      }
       const self = this
       this.$axios.post('rack', {
         aisle_id: this.aisle.id,
         side: this.side.value
       }).then(function (response) {
-        self.$router.push('/rack')
+        if (response.data.status !== false) {
+          self.$router.push('/rack')
+        } else {
+          self.errors = response.data.payload.error
+        }
       }).catch(function (error) {
         self.errors = error.response.data.payload
       })
