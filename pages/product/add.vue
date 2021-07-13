@@ -54,6 +54,22 @@
                             <div class="col-md-6 border-right">
                               <div class="col-md-10">
                                 <div class="form-group">
+                                  <label class="form-label" for="parent_id">Select Parent</label>
+                                  <div class="form-control-wrap">
+                                    <input
+                                      id="parent_id"
+                                      v-model="parent_id"
+                                      type="text"
+                                      class="form-control"
+                                      name="parent_id"
+                                      placeholder="parent_id"
+                                      required=""
+                                    >
+                                  </div>
+                                </div>
+                              </div>
+                              <div class="col-md-10">
+                                <div class="form-group">
                                   <label class="form-label" for="name">Category Name</label>
                                   <div class="form-control-wrap">
                                     <input
@@ -124,6 +140,7 @@ export default {
       activeTab: 1,
       name: '',
       description: '',
+
       images: []
     }
   },

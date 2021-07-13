@@ -8,7 +8,7 @@
               <div class="nk-block-between">
                 <div class="nk-block-head-content">
                   <h3 class="nk-block-title page-title">
-                    Categories
+                    Edit Category
                   </h3>
                 </div><!-- .nk-block-head-content -->
                 <div class="nk-block-head-content">
@@ -51,6 +51,14 @@
                       <form action="#" class="form-validate" novalidate="novalidate" @submit.prevent="editCategory">
                         <div class="row g-gs">
                           <div class="col-md-6 border-right">
+                            <div class="col-md-10">
+                              <div class="form-group">
+                                <label class="form-label" for="parent_id">Select Parent</label>
+                                <div class="form-control-wrap">
+                                  <treeselect v-model="parent_id" :options="categories" :normalizer="normalizer" @change="changeParent" />
+                                </div>
+                              </div>
+                            </div>
                             <div class="col-md-10">
                               <div class="form-group">
                                 <label class="form-label" for="name">Category Name</label>
@@ -119,7 +127,7 @@
                           <div class="col-md-12 text-right">
                             <div class="form-group">
                               <button type="submit" class="btn btn-lg btn-primary" @submit.prevent="editCategory()">
-                                Save
+                                Update
                               </button>
                             </div>
                           </div>
@@ -141,7 +149,12 @@
 </template>
 
 <script>
+import Treeselect from '@riophae/vue-treeselect'
+// import the styles
+import '@riophae/vue-treeselect/dist/vue-treeselect.css'
+
 export default {
+  components: { Treeselect },
   data () {
     return {
       tabPath: this.$route.fullPath,
@@ -149,7 +162,17 @@ export default {
       name: '',
       description: '',
       meta_title: '',
-      meta_description: ''
+      meta_description: '',
+      errors: [],
+      categories: [],
+      parent_id: null,
+      normalizer (node) {
+        return {
+          id: node.id,
+          label: node.name,
+          children: node.children
+        }
+      }
     }
   },
   computed: {
@@ -157,21 +180,54 @@ export default {
       return this.$store.state.category.edit_category
     }
   },
+  mounted () {
+    this.fetchCategories()
+  },
+
   created () {
+    this.fetchTree()
+
     if (Object.keys(this.category).length === 0) {
       this.$store.dispatch('category/fetchSpecificCategories', this.$route.params.categoryId)
     }
   },
+  updated () {
+    this.parent_id = this.category.parent_id
+  },
   methods: {
+    async fetchCategories () {
+      const self = this
+      await this.$axios.get('/category')
+        .then(function (response) {
+          self.categories = response.data.payload.data
+          self.$store.commit('category/SET_CATEGORIES', self.categories)
+          self.$nuxt.$loading.finish()
+          // this.$toast.show('hello toaster !!!')
+          // self.loading = false
+        })
+    },
+    changeParent () {
+      alert()
+    },
     editCategory () {
       const self = this
       this.$axios.post(`category/update/${this.category.id}`, {
+        parent_id: this.parent_id,
         name: this.category.name,
         description: this.category.description,
         meta_title: this.category.meta_title,
         meta_description: this.category.meta_description
       }).then(function (response) {
         self.$router.push('/category')
+      })
+    },
+    fetchTree () {
+      const _self = this
+      this.$axios.get('/category/tree').then(function (response) {
+        _self.categories = response.data.payload
+        // self.$router.push('/product')
+      }).catch(function (error) {
+        _self.errors = error.response.data.data
       })
     }
   }

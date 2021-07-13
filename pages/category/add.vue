@@ -8,7 +8,7 @@
               <div class="nk-block-between">
                 <div class="nk-block-head-content">
                   <h3 class="nk-block-title page-title">
-                    Categories
+                    Add Category
                   </h3>
                 </div><!-- .nk-block-head-content -->
                 <div class="nk-block-head-content">
@@ -51,6 +51,14 @@
                       <form action="#" class="form-validate" novalidate="novalidate" @submit.prevent="addCategory">
                         <div class="row g-gs">
                           <div class="col-md-6 border-right">
+                            <div class="col-md-10">
+                              <div class="form-group">
+                                <label class="form-label" for="parent_id">Select Parent</label>
+                                <div class="form-control-wrap">
+                                  <treeselect v-model="parent_id" :options="categories" :normalizer="normalizer" />
+                                </div>
+                              </div>
+                            </div>
                             <div class="col-md-10">
                               <div class="form-group">
                                 <label class="form-label" for="name">Category Name</label>
@@ -142,21 +150,37 @@
 </template>
 
 <script>
+import Treeselect from '@riophae/vue-treeselect'
+// import the styles
+import '@riophae/vue-treeselect/dist/vue-treeselect.css'
+
 export default {
+  components: { Treeselect },
   data () {
     return {
       tabPath: this.$route.fullPath,
       activeTab: 1,
+      parent_id: null,
       name: '',
       description: '',
       meta_title: '',
       meta_description: '',
       errors: [],
-      categories: []
+      categories: [],
+      normalizer (node) {
+        return {
+          id: node.id,
+          label: node.name,
+          children: node.children
+        }
+      }
     }
   },
   mounted () {
     this.fetchCategories()
+  },
+  created () {
+    this.fetchTree()
   },
   methods: {
     containsKey (obj, key) {
@@ -173,9 +197,19 @@ export default {
           // self.loading = false
         })
     },
+    fetchTree () {
+      const _self = this
+      this.$axios.get('/category/tree').then(function (response) {
+        _self.categories = response.data.payload
+        // self.$router.push('/product')
+      }).catch(function (error) {
+        _self.errors = error.response.data.data
+      })
+    },
     addCategory () {
       const _self = this
       this.$axios.post('category/create', {
+        parent_id: this.parent_id,
         name: this.name,
         description: this.description,
         meta_title: this.meta_title,

@@ -8,7 +8,7 @@
               <div class="nk-block-between">
                 <div class="nk-block-head-content">
                   <h3 class="nk-block-title page-title">
-                    Categories
+                    Add Category
                   </h3>
                 </div><!-- .nk-block-head-content -->
                 <div class="nk-block-head-content">
@@ -48,7 +48,7 @@
                   </ul>
                   <div class="tab-content">
                     <div id="tabItem5" class="tab-pane " :class="{ active: activeTab === 1 }">
-                      <form action="#" class="form-validate" novalidate="novalidate" @submit.prevent="addBrand">
+                      <form action="#" class="form-validate" novalidate="novalidate" @submit.prevent="addCustomer">
                         <div class="row g-gs">
                           <div class="col-md-6 border-right">
                             <div class="col-md-10">
@@ -174,7 +174,7 @@
                                     v-model="main_contact "
                                     type="text"
                                     class="form-control"
-                                    name="name"
+                                    name="number"
                                     placeholder="Main Contact"
                                     required=""
                                   >
@@ -188,7 +188,7 @@
                                   <input
                                     id="customer_type"
                                     v-model="customer_type"
-                                    type="text"
+                                    type="number"
                                     class="form-control"
                                     name="name"
                                     placeholder="Customer Type"
@@ -253,11 +253,12 @@ export default {
       county: '',
       main_contact: '',
       customer_type: '',
-      archived: 1
+      archived: 1,
+      errors: []
     }
   },
   methods: {
-    addBrand () {
+    addCustomer () {
       const self = this
       this.$axios.post('/customer/create', {
         customer_name: self.customer_name,

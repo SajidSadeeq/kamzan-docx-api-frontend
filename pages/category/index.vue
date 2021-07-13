@@ -186,7 +186,7 @@ export default {
     },
     async removeCategory (cat) {
       const self = this
-      await this.$axios.delete(`/category/delete/${cat.id}`)
+      await this.$axios.delete(`/category/delete/${cat}`)
         .then(function (response) {
           self.fetchCategories()
           // self.categories = response.data.data.data

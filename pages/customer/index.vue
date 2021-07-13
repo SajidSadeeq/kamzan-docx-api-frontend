@@ -93,7 +93,7 @@
                 </div>
               </div><!-- .nk-tb-item -->
 
-              <div v-for="customer in customers" :key="customer.id" class="nk-tb-item">
+              <div v-for="(customer, index) in customers" :key="customer.id" class="nk-tb-item">
                 <div class="nk-tb-col nk-tb-col-check">
                   <div class="custom-control custom-control-sm custom-checkbox notext">
                     <input id="uid1" type="checkbox" class="custom-control-input">
@@ -107,19 +107,19 @@
                         <span>AB</span>
                       </div>
                       <div class="user-info">
-                        <span class="tb-lead"> test <span class="dot dot-success d-md-none ml-1" /></span>
+                        <span class="tb-lead"> {{ customer.customer_name }} <span class="dot dot-success d-md-none ml-1" /></span>
                       </div>
                     </div>
                   </a>
                 </div>
                 <div class="nk-tb-col tb-col-mb">
-                  <span class="tb-amount">{{ customer.customer_name }}</span>
+                  <span class="tb-amount">{{ customer.street_1 }}</span>
                 </div>
                 <div class="nk-tb-col tb-col-md">
-                  <span>{{ customer.street_1 }}</span>
+                  <span>{{ customer.street_2 }}</span>
                 </div>
                 <div class="nk-tb-col tb-col-lg">
-                  <span>{{ customer.street_1 }}</span>
+                  <span>{{ customer.county }}</span>
                 </div>
                 <div class="nk-tb-col tb-col-lg">
                   <span>{{ customer.street_2 }}</span>
@@ -153,22 +153,24 @@
                         <em class="icon ni ni-user-cross-fill" />
                       </a>
                     </li>
-                    <li @click="editCustomer(customer)">
-                      <div class="drodown">
-                        <a href="#" class="dropdown-toggle btn btn-icon btn-trigger" data-toggle="dropdown"><em class="icon ni ni-more-h" /></a>
-                        <div class="dropdown-menu dropdown-menu-right">
+                    <li>
+                      <div class="drodown" :class="{'show': index === activeIndex }">
+                        <a href="#" class="dropdown-toggle btn btn-icon btn-trigger" data-toggle="dropdown" @click="activeIndex = activeIndex === index ? null : index">
+                          <em class="icon ni ni-more-h" />
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-right" :class="{'show': index === activeIndex }">
                           <ul class="link-list-opt no-bdr">
                             <li><a href="html/ecommerce/customer-details.html"><em class="icon ni ni-eye" /><span>View Details</span></a></li>
-                            <li><a href="#"><em class="icon ni ni-repeat" /><span>Orders</span></a></li>
-                            <li><a href="#"><em class="icon ni ni-activity-round" /><span>Activities</span></a></li>
+                            <li><a href="javascript:;" @click="editCustomer(customer)"><em class="icon ni ni-edit" /><span>Edit Details</span></a></li>
+                            <li><a href="javascript:;" @click="removeCustomer(customer)"><em class="icon ni ni-trash" /><span>Delete</span></a></li>
+                            <!-- <li><a href="#"><em class="icon ni ni-repeat" /><span>Orders</span></a></li>
                             <li class="divider" />
                             <li><a href="#"><em class="icon ni ni-shield-star" /><span>Reset Pass</span></a></li>
-                            <li><a href="#"><em class="icon ni ni-na" /><span>Suspend</span></a></li>
+                            <li><a href="#"><em class="icon ni ni-na" /><span>Suspend</span></a></li> -->
                           </ul>
                         </div>
                       </div>
                     </li>
-                    <a href="" @click.prevent="removeCustomer(customer)">de</a>
                   </ul>
                 </div>
               </div><!-- .nk-tb-item -->
@@ -298,19 +300,38 @@ export default {
   data () {
     return {
       toggleModal: false,
-      customers: []
+      customers: [],
+      toggleHeader: false,
+      activeIndex: null,
+      loading: true
     }
+  },
+  mounted () {
+    this.$nextTick(() => {
+      this.$nuxt.$loading.start()
+      // setTimeout(() => this.$nuxt.$loading.finish(), 1000)
+    })
   },
   created () {
     this.fetchCustomers()
   },
   methods: {
+    start () {
+      this.loading = true
+    },
+    finish () {
+      this.loading = false
+    },
+    toggleActive (index) {
+      this.activeIndex = index
+    },
     async fetchCustomers () {
       const self = this
       await this.$axios.get('customer')
         .then(function (response) {
           self.customers = response.data.payload.data
           self.$store.commit('customer/SET_CUSTOMER', self.categories)
+          self.$nuxt.$loading.finish()
         })
     },
     async removeCustomer (customer) {
