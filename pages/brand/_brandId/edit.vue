@@ -8,7 +8,7 @@
               <div class="nk-block-between">
                 <div class="nk-block-head-content">
                   <h3 class="nk-block-title page-title">
-                    Categories
+                    Edit Brand
                   </h3>
                 </div><!-- .nk-block-head-content -->
                 <div class="nk-block-head-content">
@@ -53,7 +53,7 @@
                           <div class="col-md-6 border-right">
                             <div class="col-md-10">
                               <div class="form-group">
-                                <label class="form-label" for="name">Category Name</label>
+                                <label class="form-label" for="name">Brand Name</label>
                                 <div class="form-control-wrap">
                                   <input
                                     id="name"
@@ -82,12 +82,32 @@
                                 </div>
                               </div>
                             </div>
-                          </div>
-                          <div class="col-md-12 text-right">
-                            <div class="form-group">
-                              <button type="submit" class="btn btn-lg btn-primary">
-                                Save
-                              </button>
+                            <div class="col-md-10 mt-2">
+                              <div class="form-group">
+                                <label class="form-label" for="description">Description</label>
+                                <div class="form-control-wrap">
+                                  <select
+                                    id="description"
+                                    v-model="brand.status"
+                                    class="form-control"
+                                    name="status"
+                                  >
+                                    <option value="0">
+                                      Inactive
+                                    </option>
+                                    <option value="1">
+                                      Active
+                                    </option>
+                                  </select>
+                                </div>
+                              </div>
+                            </div>
+                            <div class="col-md-12 text-right mt-2">
+                              <div class="form-group">
+                                <button type="submit" class="btn btn-lg btn-primary">
+                                  Save
+                                </button>
+                              </div>
                             </div>
                           </div>
                         </div>
@@ -115,7 +135,7 @@ export default {
       activeTab: 1,
       title: '',
       description: '',
-      status: 1
+      status: 0
     }
   },
   computed: {

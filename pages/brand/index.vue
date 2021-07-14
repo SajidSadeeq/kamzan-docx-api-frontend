@@ -57,19 +57,7 @@
                   </div>
                 </div>
                 <div class="nk-tb-col">
-                  <span class="sub-text">User</span>
-                </div>
-                <div class="nk-tb-col tb-col-mb">
-                  <span class="sub-text">Ordered</span>
-                </div>
-                <div class="nk-tb-col tb-col-md">
-                  <span class="sub-text">Phone</span>
-                </div>
-                <div class="nk-tb-col tb-col-lg">
-                  <span class="sub-text">Country</span>
-                </div>
-                <div class="nk-tb-col tb-col-lg">
-                  <span class="sub-text">Last Order</span>
+                  <span class="sub-text">Title</span>
                 </div>
                 <div class="nk-tb-col tb-col-md">
                   <span class="sub-text">Status</span>
@@ -93,7 +81,7 @@
                 </div>
               </div><!-- .nk-tb-item -->
 
-              <div v-for="brand in brands" :key="brand.id" class="nk-tb-item">
+              <div v-for="(brand, index) in brands" :key="brand.id" class="nk-tb-item">
                 <div class="nk-tb-col nk-tb-col-check">
                   <div class="custom-control custom-control-sm custom-checkbox notext">
                     <input id="uid1" type="checkbox" class="custom-control-input">
@@ -112,20 +100,8 @@
                     </div>
                   </a>
                 </div>
-                <div class="nk-tb-col tb-col-mb">
-                  <span class="tb-amount">{{ brand.description }}</span>
-                </div>
                 <div class="nk-tb-col tb-col-md">
-                  <span>+811 847-4958</span>
-                </div>
-                <div class="nk-tb-col tb-col-lg">
-                  <span>United State</span>
-                </div>
-                <div class="nk-tb-col tb-col-lg">
-                  <span>10 Feb 2020</span>
-                </div>
-                <div class="nk-tb-col tb-col-md">
-                  <span class="tb-status text-success">Active</span>
+                  <span class="tb-status" :class="[ brand.status ? 'text-success':'text-danger' ]">{{ (brand.status == true) ? 'Active':'Inactive' }}</span>
                 </div>
                 <div class="nk-tb-col nk-tb-col-tools">
                   <ul class="nk-tb-actions gx-1">
@@ -153,22 +129,30 @@
                         <em class="icon ni ni-user-cross-fill" />
                       </a>
                     </li>
-                    <li @click="editBrand(brand)">
-                      <div class="dropdown">
-                        <a href="#" class="dropdown-toggle btn btn-icon btn-trigger" data-toggle="dropdown"><em class="icon ni ni-more-h" /></a>
-                        <div class="dropdown-menu dropdown-menu-right">
-                          <ul class="link-list-opt no-bdr">
-                            <li><a href="html/ecommerce/customer-details.html"><em class="icon ni ni-eye" /><span>View Details</span></a></li>
-                            <li><a href="#"><em class="icon ni ni-repeat" /><span>Orders</span></a></li>
-                            <li><a href="#"><em class="icon ni ni-activity-round" /><span>Activities</span></a></li>
-                            <li class="divider" />
-                            <li><a href="#"><em class="icon ni ni-shield-star" /><span>Reset Pass</span></a></li>
-                            <li><a href="#"><em class="icon ni ni-na" /><span>Suspend</span></a></li>
+                    <li>
+                      <div class="dropdown" :class="{'show': index === activeIndex }">
+                        <a
+                          class="text-soft dropdown-toggle btn btn-icon btn-trigger"
+                          data-toggle="dropdown"
+                          aria-expanded="true"
+                          @click="activeIndex = activeIndex === index ? null : index"
+                        >
+                          <em class="icon ni ni-more-h" />
+                        </a>
+                        <div
+                          class="dropdown-menu dropdown-menu-right dropdown-menu-xs"
+                          :class="{'show': index === activeIndex }"
+                          x-placement="top-end"
+                          style="position: absolute; transform: translate3d(-100px, -94px, 0px); top: 0px; left: 0px; will-change: transform;"
+                        >
+                          <ul class="link-list-plain">
+                            <li><a href="#">View</a></li>
+                            <li><a href="#" @click.prevent="editBrand(brand)">Edit</a></li>
+                            <li><a href="#" @click.prevent="removeBrand(brand.id)">Remove</a></li>
                           </ul>
                         </div>
                       </div>
                     </li>
-                    <a href="" @click.prevent="removeBrand(brand)">de</a>
                   </ul>
                 </div>
               </div><!-- .nk-tb-item -->
@@ -298,25 +282,42 @@ export default {
   data () {
     return {
       toggleModal: false,
-      brands: []
+      brands: [],
+      activeIndex: null,
+      loading: true
     }
+  },
+  mounted () {
+    this.$nextTick(() => {
+      this.$nuxt.$loading.start()
+      // setTimeout(() => this.$nuxt.$loading.finish(), 1000)
+    })
   },
   created () {
     this.fetchBrands()
   },
   methods: {
+    start () {
+      this.loading = true
+    },
+    finish () {
+      this.loading = false
+    },
     async fetchBrands () {
       const self = this
       await this.$axios.get('/brand')
         .then(function (response) {
           self.brands = response.data.payload.data
           self.$store.commit('brand/SET_BRAND', self.categories)
+          self.$nuxt.$loading.finish()
         })
     },
     async removeBrand (brand) {
       const self = this
-      await this.$axios.delete(`/brand/delete/${brand.id}`)
+      self.$nuxt.$loading.start()
+      await this.$axios.delete(`/brand/delete/${brand}`)
         .then(function (response) {
+          self.$nuxt.$loading.finish()
           self.fetchBrands()
         }).catch(function (ex) {
           self.fetchBrands()

@@ -8,7 +8,7 @@
               <div class="nk-block-between">
                 <div class="nk-block-head-content">
                   <h3 class="nk-block-title page-title">
-                    Rack
+                    Edit Rack
                   </h3>
                 </div><!-- .nk-block-head-content -->
                 <div class="nk-block-head-content">

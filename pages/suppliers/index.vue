@@ -93,7 +93,7 @@
                 </div>
               </div><!-- .nk-tb-item -->
 
-              <div v-for="supplier in suppliers" :key="supplier.id" class="nk-tb-item">
+              <div v-for="(supplier, index) in suppliers" :key="supplier.id" class="nk-tb-item">
                 <div class="nk-tb-col nk-tb-col-check">
                   <div class="custom-control custom-control-sm custom-checkbox notext">
                     <input id="uid1" type="checkbox" class="custom-control-input">
@@ -153,22 +153,24 @@
                         <em class="icon ni ni-user-cross-fill" />
                       </a>
                     </li>
-                    <li @click="editCustomer(supplier)">
-                      <div class="drodown">
-                        <a href="#" class="dropdown-toggle btn btn-icon btn-trigger" data-toggle="dropdown"><em class="icon ni ni-more-h" /></a>
-                        <div class="dropdown-menu dropdown-menu-right">
+                    <li>
+                      <div class="drodown" :class="{'show': index === activeIndex }">
+                        <a href="javascript:;" class="dropdown-toggle btn btn-icon btn-trigger" data-toggle="dropdown" @click="activeIndex = activeIndex === index ? null : index">
+                          <em class="icon ni ni-more-h" />
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-right" :class="{'show': index === activeIndex }">
                           <ul class="link-list-opt no-bdr">
-                            <li><a href="html/ecommerce/customer-details.html"><em class="icon ni ni-eye" /><span>View Details</span></a></li>
-                            <li><a href="#"><em class="icon ni ni-repeat" /><span>Orders</span></a></li>
-                            <li><a href="#"><em class="icon ni ni-activity-round" /><span>Activities</span></a></li>
+                            <li><a href="javascript:;"><em class="icon ni ni-eye" /><span>View Details</span></a></li>
+                            <li><a href="javascript:;" @click="editSupplier(supplier)"><em class="icon ni ni-edit" /><span>Edit Details</span></a></li>
+                            <li><a href="javascript:;" @click="removeSupplier(supplier)"><em class="icon ni ni-trash" /><span>Delete</span></a></li>
+                            <!-- <li><a href="#"><em class="icon ni ni-repeat" /><span>Orders</span></a></li>
                             <li class="divider" />
                             <li><a href="#"><em class="icon ni ni-shield-star" /><span>Reset Pass</span></a></li>
-                            <li><a href="#"><em class="icon ni ni-na" /><span>Suspend</span></a></li>
+                            <li><a href="#"><em class="icon ni ni-na" /><span>Suspend</span></a></li> -->
                           </ul>
                         </div>
                       </div>
                     </li>
-                    <a href="" @click.prevent="removeCustomer(supplier)">de</a>
                   </ul>
                 </div>
               </div><!-- .nk-tb-item -->
@@ -298,31 +300,48 @@ export default {
   data () {
     return {
       toggleModal: false,
-      suppliers: []
+      suppliers: [],
+      activeIndex: null,
+      loading: true
     }
+  },
+  mounted () {
+    this.$nextTick(() => {
+      this.$nuxt.$loading.start()
+      // setTimeout(() => this.$nuxt.$loading.finish(), 1000)
+    })
   },
   created () {
     this.fetchCustomers()
   },
   methods: {
+    start () {
+      this.loading = true
+    },
+    finish () {
+      this.loading = false
+    },
     async fetchCustomers () {
       const self = this
       await this.$axios.get('/supplier')
         .then(function (response) {
           self.suppliers = response.data.payload.data
           self.$store.commit('supplier/SET_SUPPLIER', self.categories)
+          self.$nuxt.$loading.finish()
         })
     },
-    async removeCustomer (supplier) {
+    async removeSupplier (supplier) {
       const self = this
+      self.$nuxt.$loading.start()
       await this.$axios.delete(`/supplier/delete/${supplier.id}`)
         .then(function (response) {
           self.fetchCustomers()
+          self.$nuxt.$loading.finish()
         }).catch(function (ex) {
           self.fetchCustomers()
         })
     },
-    async editCustomer (supplier) {
+    async editSupplier (supplier) {
       await this.$store.commit('supplier/SET_EDIT_SUPPLIER', supplier)
       this.$router.push(`suppliers/${supplier.id}/edit`)
     }

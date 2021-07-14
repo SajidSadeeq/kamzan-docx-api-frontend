@@ -8,7 +8,7 @@
               <div class="nk-block-between">
                 <div class="nk-block-head-content">
                   <h3 class="nk-block-title page-title">
-                    Categories
+                    Add Brand
                   </h3>
                 </div><!-- .nk-block-head-content -->
                 <div class="nk-block-head-content">
@@ -53,7 +53,7 @@
                           <div class="col-md-6 border-right">
                             <div class="col-md-10">
                               <div class="form-group">
-                                <label class="form-label" for="name">Category Name</label>
+                                <label class="form-label" for="name">Brand Name</label>
                                 <div class="form-control-wrap">
                                   <input
                                     id="name"
@@ -114,8 +114,7 @@ export default {
       tabPath: this.$route.fullPath,
       activeTab: 1,
       title: '',
-      description: '',
-      status: 1
+      description: ''
     }
   },
   methods: {

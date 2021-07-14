@@ -8,7 +8,7 @@
               <div class="nk-block-between">
                 <div class="nk-block-head-content">
                   <h3 class="nk-block-title page-title">
-                    Add Category
+                    Add product
                   </h3>
                 </div><!-- .nk-block-head-content -->
                 <div class="nk-block-head-content">
@@ -73,9 +73,9 @@
                                 </div>
                               </div>
                             </div>
-                            <div class="col-md-10">
+                            <div class="col-md-10 mt-2">
                               <div class="form-group">
-                                <label class="form-label" for="name">Category Name</label>
+                                <label class="form-label" for="name">Product Name</label>
                                 <div class="form-control-wrap">
                                   <input
                                     id="name"

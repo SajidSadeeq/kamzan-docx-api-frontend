@@ -59,6 +59,12 @@
               </NuxtLink>
             </li>
             <li class="nk-menu-item">
+              <NuxtLink to="/brand" class="nk-menu-link">
+                <span class="nk-menu-icon"><em class="icon ni ni-sign-sgd" /></span>
+                <span class="nk-menu-text">Brands</span>
+              </NuxtLink>
+            </li>
+            <li class="nk-menu-item">
               <NuxtLink to="/suppliers" class="nk-menu-link">
                 <span class="nk-menu-icon"><em class="icon ni ni-sign-sgd" /></span>
                 <span class="nk-menu-text">Suppliers</span>
