@@ -50,6 +50,14 @@
                             <em class="icon ni ni-plus" /><span>Add</span>
                           </NuxtLink>
                         </li>
+                        <li class="nk-block-tools-opt">
+                          <a href="#" class="btn btn-icon btn-primary d-md-none">
+                            <em class="icon ni ni-plus" />
+                          </a>
+                          <NuxtLink to="/pallets/add-goods" class="btn btn-primary d-none d-md-inline-flex">
+                            <em class="icon ni ni-plus" /><span>Add Pallet Goods</span>
+                          </NuxtLink>
+                        </li>
                       </ul>
                     </div>
                   </div>

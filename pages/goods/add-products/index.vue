@@ -173,12 +173,10 @@ export default {
             console.log(response)
             if (response.data.status !== false) {
               response.data.payload.pallet_goods.forEach((data) => {
-                if (data.goods !== null) {
-                  self.palletGoods.push(data.goods)
-                }
+                self.palletGoods.push(data.goods)
               })
             } else {
-            // self.errors = response.data.payload.error
+              // self.errors = response.data.payload.error
             }
 
             self.$nuxt.$loading.finish()
