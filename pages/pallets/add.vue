@@ -51,6 +51,19 @@
                       <form action="#" class="form-validate" novalidate="novalidate" @submit.prevent="addPallet">
                         <div class="row g-gs">
                           <div class="col-md-6 border-right">
+                            <div class="col-md-10 mt-2">
+                              <div class="form-group">
+                                <label class="form-label" for="name">Racks</label>
+                                <v-select
+                                  :options="racks"
+                                  label="unique_id"
+                                  placeholder="Select Side"
+                                  name="rack_id"
+                                  @input="rack_id=$event.id"
+                                />
+                                <span v-if="containsKey(errors, 'good_id')" class="text-danger">{{ errors.good_id[0] }}</span>
+                              </div>
+                            </div>
                             <div class="col-md-10">
                               <div class="form-group">
                                 <label class="form-label" for="name">Pallet Name</label>
@@ -104,16 +117,21 @@ export default {
       tabPath: this.$route.fullPath,
       activeTab: 1,
       name: '',
-      errors: []
+      errors: [],
+      racks: [],
+      rack_id: ''
 
     }
   },
   created () {
     // this.fetchCustomers()
-    // this.fetchRacks()
+    this.fetchRacks()
     // this.fetchGoods()
   },
   methods: {
+    containsKey (obj, key) {
+      return Object.keys(obj).includes(key)
+    },
     // async fetchCustomers () {
     //   const self = this
     //   await this.$axios.get('customer')
@@ -124,16 +142,18 @@ export default {
     //       self.$nuxt.$loading.finish()
     //     })
     // },
-    // async fetchRacks () {
-    //   const self = this
-    //   await this.$axios.get('rack')
-    //     .then(function (response) {
-    //       self.racks = response.data.payload
-    //       console.log(self.rack)
-    //       // self.$store.commit('pallet/SET_PALLET', self.pallets)
-    //       self.$nuxt.$loading.finish()
-    //     })
-    // },
+    async fetchRacks () {
+      const self = this
+      await this.$axios.get('rack')
+        .then(function (response) {
+          if (response.data.payload.error === undefined) {
+            console.log(response)
+            self.racks = response.data.payload
+          }
+          // self.$store.commit('pallet/SET_PALLET', self.pallets)
+          self.$nuxt.$loading.finish()
+        })
+    },
     // async fetchGoods () {
     //   const self = this
     //   await this.$axios.get('pallet-good')
@@ -147,7 +167,8 @@ export default {
     addPallet () {
       const self = this
       this.$axios.post('pallet', {
-        name: this.name
+        name: self.name,
+        rack_id: self.rack_id
       }).then(function (response) {
         if (response.data.status !== false) {
           self.$router.push('/pallets')

@@ -67,6 +67,21 @@
                                 </div>
                               </div>
                             </div>
+                            <div class="col-md-10">
+                              <div class="form-group">
+                                <label class="form-label" for="name">Products</label>
+                                <v-select
+                                  :options="products"
+                                  label="name"
+                                  placeholder="Select Product"
+                                  name="products[]"
+                                  multiple
+                                  :value="goodProducts"
+                                  @input="addProducts($event)"
+                                />
+                                <span v-if="containsKey(errors, 'good_id')" class="text-danger">{{ errors.good_id[0] }}</span>
+                              </div>
+                            </div>
                           </div>
                           <div class="col-md-12 text-right">
                             <div class="form-group">
@@ -93,13 +108,18 @@
 </template>
 
 <script>
-
+import Vue from 'vue'
+import vSelect from 'vue-select'
+import 'vue-select/dist/vue-select.css'
+Vue.component('VSelect', vSelect)
 export default {
   data () {
     return {
       tabPath: this.$route.fullPath,
       activeTab: 1,
-      name: ''
+      name: '',
+      goodProducts: [],
+      products: []
     }
   },
   computed: {
@@ -111,12 +131,66 @@ export default {
     if (Object.keys(this.good).length === 0) {
       this.$store.dispatch('good/fetchSpecificGood', this.$route.params.goodId)
     }
+    this.fetchProducts()
+    this.fetchGoodProducts()
   },
   methods: {
+    containsKey (obj, key) {
+      return Object.keys(obj).includes(key)
+    },
+    async fetchProducts () {
+      const self = this
+      await this.$axios.get('product')
+        .then(function (response) {
+          if (response.data.status !== false) {
+            self.products = response.data.payload.data
+          } else {
+            // self.errors = response.data.payload.error
+          }
+          self.$nuxt.$loading.finish()
+        })
+    },
+    async fetchGoodProducts () {
+      const self = this
+      await this.$axios.get(`good/good-products/${self.$route.params.goodId}`)
+        .then(function (response) {
+          if (response.data.payload.good_products !== []) {
+            response.data.payload.good_products.forEach((data) => {
+              if (data.products !== null) {
+                self.goodProducts.push(data.products)
+              }
+            })
+          } else {
+            // self.errors = response.data.payload.error
+          }
+          self.$nuxt.$loading.finish()
+        })
+    },
+    async addProducts  (event) {
+      const self = this
+      const length = self.goodProducts.length < event.length ? event.length : 'error'
+      if (length !== 'error') {
+        await this.$axios.get(`good/check-product-availability/${event[length - 1].id}/${self.good.id}`)
+          .then(function (response) {
+            if (response.data.payload.error === undefined) {
+              self.$toast.error('This Good is already asigned to other pallet')
+              setTimeout(function () {
+                self.$toast.clear()
+              }, 3000)
+            } else {
+              self.goodProducts = event
+            }
+            self.$nuxt.$loading.finish()
+          })
+      } else {
+        self.goodProducts = event
+      }
+    },
     editGood () {
       const self = this
       this.$axios.put(`good/${this.good.id}`, {
-        name: this.good.name
+        name: this.good.name,
+        products: self.goodProducts
       }).then(function (response) {
         self.$router.push('/goods')
       })

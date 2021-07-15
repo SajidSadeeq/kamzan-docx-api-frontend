@@ -68,7 +68,37 @@
                                 <span v-if="errors" class="text-danger">{{ errors[0] }}</span>
                               </div>
                             </div>
+                            <div class="col-md-10">
+                              <div class="form-group">
+                                <label class="form-label" for="name">Products</label>
+                                <v-select
+                                  :options="products"
+                                  label="name"
+                                  placeholder="Select Product"
+                                  name="products[]"
+                                  multiple
+                                  :value="selectedProducts"
+                                  @input="addProducts($event)"
+                                />
+                                <span v-if="containsKey(errors, 'good_id')" class="text-danger">{{ errors.good_id[0] }}</span>
+                              </div>
+                            </div>
                           </div>
+                          <!--                          <div class="col-md-6">-->
+                          <!--                            <div class="col-md-10">-->
+                          <!--                              <div class="form-group">-->
+                          <!--                                <label class="form-label" for="meta-title">Products</label>-->
+                          <!--                                <div class="form-control-wrap">-->
+                          <!--                                  <ul>-->
+                          <!--                                    <li v-for="(product) in selectedProducts" :key="product.id">-->
+                          <!--                                      <em class="icon ni ni-check" style="color:green" />-->
+                          <!--                                      {{ product.name }}-->
+                          <!--                                    </li>-->
+                          <!--                                  </ul>-->
+                          <!--                                </div>-->
+                          <!--                              </div>-->
+                          <!--                            </div>-->
+                          <!--                          </div>-->
                           <div class="col-md-12 text-right">
                             <div class="form-group">
                               <button type="submit" class="btn btn-lg btn-primary" @submit.prevent="addGood">
@@ -94,21 +124,67 @@
 </template>
 
 <script>
-
+import Vue from 'vue'
+import vSelect from 'vue-select'
+import 'vue-select/dist/vue-select.css'
+Vue.component('VSelect', vSelect)
 export default {
   data () {
     return {
       tabPath: this.$route.fullPath,
       activeTab: 1,
       name: '',
-      errors: []
+      errors: [],
+      products: [],
+      selectedProducts: []
     }
   },
+  created () {
+    this.fetchProducts()
+  },
   methods: {
+
+    containsKey (obj, key) {
+      return Object.keys(obj).includes(key)
+    },
+    async fetchProducts () {
+      const self = this
+      await this.$axios.get('product')
+        .then(function (response) {
+          if (response.data.status !== false) {
+            self.products = response.data.payload.data ?? []
+          } else {
+            // self.errors = response.data.payload.error
+          }
+
+          self.$nuxt.$loading.finish()
+        })
+    },
+    async addProducts (event) {
+      const self = this
+      const length = self.selectedProducts.length < event.length ? event.length : 'error'
+      if (length !== 'error') {
+        await this.$axios.get(`good/check-product-availability/${event[length - 1].id}`)
+          .then(function (response) {
+            if (response.data.payload.error === undefined) {
+              self.$toast.error('This Product is already asigned to other Good')
+              setTimeout(function () {
+                self.$toast.clear()
+              }, 3000)
+            } else {
+              self.selectedProducts = event
+            }
+            self.$nuxt.$loading.finish()
+          })
+      } else {
+        self.selectedProducts = event
+      }
+    },
     addGood () {
       const self = this
       this.$axios.post('good', {
-        name: this.name
+        products: self.selectedProducts,
+        name: self.name
       }).then(function (response) {
         if (response.data.status !== false) {
           self.$router.push('/goods')
