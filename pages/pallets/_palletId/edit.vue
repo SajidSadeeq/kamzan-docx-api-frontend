@@ -40,7 +40,7 @@
                     <li class="nav-item" @click="activeTab = 1">
                       <a class="nav-link" :class="{ active: activeTab === 1 }" data-toggle="tab" href="#basic"><em
                         class="icon ni ni-setting"
-                      /><span>Baisc Info{{ palletGoods }}</span></a>
+                      /><span>Baisc Info</span></a>
                     </li>
                     <!-- <li class="nav-item" @click="activeTab = 2">
                         <a class="nav-link" :class="{ active: activeTab === 2 }" data-toggle="tab" href="#meta"><em class="icon ni ni-link" /><span>Meta</span></a>
@@ -85,29 +85,26 @@
                             </div>
                           </div>
                         </div>
+                        <div class="col-md-12 text-right">
+                          <div class="form-group">
+                            <button type="submit" class="btn btn-lg btn-primary" @submit.prevent="editPallet">
+                              Save
+                            </button>
+                          </div>
+                        </div>
                       </form>
                     </div>
-                    <div class="col-md-12 text-right">
-                      <div class="form-group">
-                        <button type="submit" class="btn btn-lg btn-primary" @submit.prevent="editPallet">
-                          Save
-                        </button>
-                      </div>
-                    </div>
-                    </form>
                   </div>
-                  </form>
-                </div>
                 <!-- <div id="tabItem6" class="tab-pane" :class="{ active: activeTab === 2 }">
                         <p>Culpa dolor voluptate do laboris laboris irure reprehenderit id incididunt duis pariatur mollit aute magna pariatur consectetur. Eu veniam duis non ut dolor deserunt commodo et minim in quis laboris ipsum velit id veniam. Quis ut consectetur adipisicing officia excepteur non sit. Ut et elit aliquip labore Lorem enim eu. Ullamco mollit occaecat dolore ipsum id officia mollit qui esse anim eiusmod do sint minim consectetur qui.</p>
                       </div> -->
+                </div>
               </div>
-            </div>
-          </div><!-- .card-preview -->
-        </div>
-      </div><!-- .components-preview -->
+            </div><!-- .card-preview -->
+          </div>
+        </div><!-- .components-preview -->
+      </div>
     </div>
-  </div>
   </div>
   </div>
 </template>
@@ -159,7 +156,7 @@ export default {
     },
     async fetchPalletGoods () {
       const self = this
-      await this.$axios.get(`pallet/pallet-goods/${this.pallet.id}`)
+      await this.$axios.get(`pallet/pallet-goods/${self.$route.params.palletId}`)
         .then(function (response) {
           if (response.data.status !== false) {
             response.data.payload.pallet_goods.forEach((data) => {
@@ -176,7 +173,8 @@ export default {
     editPallet () {
       const self = this
       this.$axios.put(`pallet/${this.pallet.id}`, {
-        name: this.pallet.name
+        name: self.pallet.name,
+        palletGoods: self.palletGoods
       }).then(function (response) {
         if (response.data.status !== false) {
           self.$router.push('/pallets')
