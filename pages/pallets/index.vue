@@ -75,7 +75,7 @@
                       </th>
                       <th class="tb-tnx-info">
                         <span class="tb-tnx-desc d-none d-sm-inline-block">
-                          <span>Pallets Name</span>
+                          <span>Pallet ID</span>
                         </span>
                       </th>
                       <th class="tb-tnx-info">

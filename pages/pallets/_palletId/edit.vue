@@ -53,7 +53,7 @@
                           <div class="col-md-6 border-right">
                             <div class="col-md-10">
                               <div class="form-group">
-                                <label class="form-label" for="name">Pallets Name</label>
+                                <label class="form-label" for="name">Pallets ID </label>
                                 <div class="form-control-wrap">
                                   <input
                                     id="name"
@@ -61,13 +61,28 @@
                                     type="text"
                                     class="form-control"
                                     name="name"
-                                    placeholder="Name"
+                                    placeholder="Pallet ID"
                                     required=""
                                   >
                                 </div>
                                 <span v-if="errors" class="text-danger">{{ errors[0] }}</span>
                               </div>
                             </div>
+                            <div class="col-md-10 mt-2">
+                              <div class="form-group">
+                                <label class="form-label" for="name">Racks</label>
+                                <v-select
+                                  :options="racks"
+                                  label="unique_id"
+                                  placeholder="Select Side"
+                                  name="rack_id"
+                                  :value="selectedRack"
+                                  @input="selectedRack=$event !== undefined?$event:''"
+                                />
+                                <span v-if="containsKey(errors, 'good_id')" class="text-danger">{{ errors.good_id[0] }}</span>
+                              </div>
+                            </div>
+
                             <div class="col-md-10 mt-2">
                               <div class="form-group">
                                 <label class="form-label" for="name">Goods</label>
@@ -122,6 +137,9 @@ export default {
       name: '',
       errors: [],
       goods: [],
+      racks: [],
+      rack_id: '',
+      selectedRack: [],
       selectedGoods: [],
       palletGoods: []
     }
@@ -135,12 +153,28 @@ export default {
     if (Object.keys(this.pallet).length === 0) {
       this.$store.dispatch('pallet/fetchSpecificPallet', this.$route.params.palletId)
     }
+    this.fetchRacks()
     this.fetchGoods()
     this.fetchPalletGoods()
   },
   methods: {
     containsKey (obj, key) {
       return Object.keys(obj).includes(key)
+    },
+    async fetchRacks () {
+      const self = this
+      await this.$axios.get('racks/available-racks')
+        .then(function (response) {
+          if (response.data.payload.error === undefined) {
+            self.racks = response.data.payload
+            self.selectedRack = self.racks.find(elem => elem.id === self.pallet.rack_id)
+            console.log(self.pallet.rack_id)
+            console.log(self.racks)
+            console.log(self.selectedRack)
+          }
+          // self.$store.commit('pallet/SET_PALLET', self.pallets)
+          self.$nuxt.$loading.finish()
+        })
     },
     async fetchGoods () {
       const self = this
@@ -174,7 +208,8 @@ export default {
       const self = this
       this.$axios.put(`pallet/${this.pallet.id}`, {
         name: self.pallet.name,
-        palletGoods: self.palletGoods
+        palletGoods: self.palletGoods,
+        rack_id: self.selectedRack ? self.selectedRack.id : ''
       }).then(function (response) {
         if (response.data.status !== false) {
           self.$router.push('/pallets')

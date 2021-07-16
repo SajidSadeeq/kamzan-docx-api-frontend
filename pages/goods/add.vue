@@ -175,6 +175,8 @@ export default {
               self.selectedProducts = event
             }
             self.$nuxt.$loading.finish()
+          }).catch(function () {
+            self.selectedProducts = []
           })
       } else {
         self.selectedProducts = event

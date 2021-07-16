@@ -51,6 +51,23 @@
                       <form action="#" class="form-validate" novalidate="novalidate" @submit.prevent="addPallet">
                         <div class="row g-gs">
                           <div class="col-md-6 border-right">
+                            <div class="col-md-10">
+                              <div class="form-group">
+                                <label class="form-label" for="name">Pallet ID</label>
+                                <div class="form-control-wrap">
+                                  <input
+                                    id="name"
+                                    v-model="name"
+                                    type="text"
+                                    class="form-control"
+                                    name="name"
+                                    placeholder="Pallet ID"
+                                    required=""
+                                  >
+                                </div>
+                                <span v-if="errors" class="text-danger">{{ errors[0] }}</span>
+                              </div>
+                            </div>
                             <div class="col-md-10 mt-2">
                               <div class="form-group">
                                 <label class="form-label" for="name">Racks</label>
@@ -62,23 +79,6 @@
                                   @input="rack_id=$event.id"
                                 />
                                 <span v-if="containsKey(errors, 'good_id')" class="text-danger">{{ errors.good_id[0] }}</span>
-                              </div>
-                            </div>
-                            <div class="col-md-10">
-                              <div class="form-group">
-                                <label class="form-label" for="name">Pallet Name</label>
-                                <div class="form-control-wrap">
-                                  <input
-                                    id="name"
-                                    v-model="name"
-                                    type="text"
-                                    class="form-control"
-                                    name="name"
-                                    placeholder="Name"
-                                    required=""
-                                  >
-                                </div>
-                                <span v-if="errors" class="text-danger">{{ errors[0] }}</span>
                               </div>
                             </div>
                           </div>
@@ -144,7 +144,7 @@ export default {
     // },
     async fetchRacks () {
       const self = this
-      await this.$axios.get('rack')
+      await this.$axios.get('racks/available-racks')
         .then(function (response) {
           if (response.data.payload.error === undefined) {
             console.log(response)
