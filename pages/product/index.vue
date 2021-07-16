@@ -63,19 +63,25 @@
                   </div>
                 </div>
                 <div class="nk-tb-col">
-                  <span class="sub-text">User</span>
+                  <span class="sub-text">Image</span>
                 </div>
                 <div class="nk-tb-col tb-col-mb">
-                  <span class="sub-text">Ordered</span>
+                  <span class="sub-text">Title</span>
                 </div>
                 <div class="nk-tb-col tb-col-md">
-                  <span class="sub-text">Phone</span>
+                  <span class="sub-text">Sku</span>
                 </div>
                 <div class="nk-tb-col tb-col-lg">
-                  <span class="sub-text">Country</span>
+                  <span class="sub-text">Price</span>
                 </div>
                 <div class="nk-tb-col tb-col-lg">
-                  <span class="sub-text">Last Order</span>
+                  <span class="sub-text">Size</span>
+                </div>
+                <div class="nk-tb-col tb-col-lg">
+                  <span class="sub-text">Weight</span>
+                </div>
+                <div class="nk-tb-col tb-col-lg">
+                  <span class="sub-text">Color</span>
                 </div>
                 <div class="nk-tb-col tb-col-md">
                   <span class="sub-text">Status</span>
@@ -115,25 +121,32 @@
                         <span>AB</span>
                       </div>
                       <div class="user-info">
-                        <span class="tb-lead"> {{ product.title }} <span class="dot dot-success d-md-none ml-1" /></span>
+                        <!-- <span class="tb-lead"> {{ product.name }} <span class="dot dot-success d-md-none ml-1" /></span> -->
                       </div>
                     </div>
                   </a>
                 </div>
                 <div class="nk-tb-col tb-col-mb">
-                  <span class="tb-amount">{{ product.description }}</span>
+                  <span class="tb-amount">{{ product.name }}</span>
                 </div>
                 <div class="nk-tb-col tb-col-md">
-                  <span>+811 847-4958</span>
+                  <span>{{ product.sku }}</span>
                 </div>
                 <div class="nk-tb-col tb-col-lg">
-                  <span>United State</span>
+                  <span>{{ product.price }}  </span>
                 </div>
                 <div class="nk-tb-col tb-col-lg">
-                  <span>10 Feb 2020</span>
+                  <span>{{ product.size }}</span>
+                </div>
+                <div class="nk-tb-col tb-col-lg">
+                  <span>{{ product.weight }}</span>
+                </div>
+                <div class="nk-tb-col tb-col-lg">
+                  <span>{{ product.color }}</span>
                 </div>
                 <div class="nk-tb-col tb-col-md">
                   <span class="tb-status text-success">Active</span>
+                  <span class="tb-status" :class="[ product.status ? 'text-success':'text-danger' ]">{{ (product.status == true) ? 'Active':'Inactive' }}</span>
                 </div>
                 <div class="nk-tb-col nk-tb-col-tools">
                   <ul class="nk-tb-actions gx-1">
@@ -404,7 +417,7 @@ export default {
     },
     async editProduct (product) {
       await this.$store.commit('product/SET_EDIT_PRODUCT', product)
-      this.$router.push(`product/${product}/edit`)
+      this.$router.push(`product/${product.id}/edit`)
     }
   }
 }

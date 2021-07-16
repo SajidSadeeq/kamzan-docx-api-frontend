@@ -124,7 +124,7 @@ export default {
                   maxAge: 60 * 60
               },
               refreshToken: {
-                  maxAge: 20160 * 60
+                  maxAge: 60 * 600
               }
               // }
           }

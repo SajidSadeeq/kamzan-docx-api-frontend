@@ -53,6 +53,12 @@
               </NuxtLink>
             </li>
             <li class="nk-menu-item">
+              <NuxtLink to="/pallets-in-out" class="nk-menu-link">
+                <span class="nk-menu-icon"><em class="icon ni ni-bag" /></span>
+                <span class="nk-menu-text">Pallets In Out</span>
+              </NuxtLink>
+            </li>
+            <li class="nk-menu-item">
               <NuxtLink to="/pallets" class="nk-menu-link">
                 <span class="nk-menu-icon"><em class="icon ni ni-bag" /></span>
                 <span class="nk-menu-text">Pallets</span>

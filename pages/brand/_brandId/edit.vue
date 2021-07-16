@@ -84,10 +84,10 @@
                             </div>
                             <div class="col-md-10 mt-2">
                               <div class="form-group">
-                                <label class="form-label" for="description">Description</label>
+                                <label class="form-label" for="status">Status</label>
                                 <div class="form-control-wrap">
                                   <select
-                                    id="description"
+                                    id="status"
                                     v-model="brand.status"
                                     class="form-control"
                                     name="status"

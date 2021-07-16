@@ -137,15 +137,16 @@
                               <div class="form-group">
                                 <label class="form-label">Telephone Number</label>
                                 <div class="form-control-wrap">
-                                  <input
-                                    id="telephone_number"
-                                    v-model="customer.telephone_number"
-                                    type="text"
-                                    class="form-control"
-                                    name="name"
-                                    placeholder="Telephone Number"
-                                    required=""
-                                  >
+                                  <client-only>
+                                    <client-only>
+                                      <vue-tel-input
+                                        v-model="customer.telephone_number"
+                                        :valid-characters-only="true"
+                                        :preferred-countries="['GB']"
+                                        :auto-default-country="false"
+                                      />
+                                    </client-only>
+                                  </client-only>
                                 </div>
                               </div>
                             </div>
@@ -239,6 +240,8 @@
 </template>
 
 <script>
+import '@riophae/vue-treeselect/dist/vue-treeselect.css'
+import 'vue-tel-input/dist/vue-tel-input.css'
 export default {
   data () {
     return {

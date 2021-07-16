@@ -19,8 +19,8 @@
                     <div class="toggle-expand-content" data-content="more-options">
                       <ul class="nk-block-tools g-3">
                         <li class="nk-block-tools-opt">
-                          <a href="#" class="btn btn-icon btn-primary d-md-none">
-                            <em class="icon ni ni-plus" />
+                          <a href="javascript:;" class="btn btn-primary d-none d-md-inline-flex mr-2" @click="addProduct">
+                            <em class="icon ni ni-file" /><span>Save</span>
                           </a>
                           <NuxtLink to="/product" class="btn btn-danger d-none d-md-inline-flex">
                             <em class="icon ni ni-back-ios" /><span>Back</span>
@@ -43,7 +43,7 @@
                       /><span>Baisc Info</span></a>
                     </li>
                     <li class="nav-item" @click="activeTab = 2">
-                      <a class="nav-link" :class="{ active: activeTab === 2 }" data-toggle="tab" href="#category"><em class="icon ni ni-setting" /><span>Category</span></a>
+                      <a class="nav-link" :class="{ active: activeTab === 2 }" data-toggle="tab" href="#details"><em class="icon ni ni-setting" /><span>Details</span></a>
                     </li>
                     <li class="nav-item" @click="activeTab = 3">
                       <a class="nav-link" :class="{ active: activeTab === 3 }" data-toggle="tab" href="#images"><em class="icon ni ni-setting" /><span>Images</span></a>
@@ -59,23 +59,41 @@
                           <div class="col-md-6 border-right">
                             <div class="col-md-10">
                               <div class="form-group">
-                                <label class="form-label" for="parent_id">Name</label>
+                                <label class="form-label" for="category_id">Select Category</label>
                                 <div class="form-control-wrap">
                                   <input
-                                    id="parent_id"
-                                    v-model="parent_id"
-                                    type="text"
+                                    id="category_id"
+                                    v-model="category_id"
+                                    type="number"
                                     class="form-control"
-                                    name="parent_id"
-                                    placeholder="parent_id"
+                                    name="category_id"
+                                    placeholder="Select Category"
                                     required=""
                                   >
+                                  <span v-if="containsKey(errors, 'category_id')" class="text-danger">{{ errors.category_id[0] }}</span>
                                 </div>
                               </div>
                             </div>
                             <div class="col-md-10 mt-2">
                               <div class="form-group">
-                                <label class="form-label" for="name">Product Name</label>
+                                <label class="form-label" for="supplier_id">Select Supplier</label>
+                                <div class="form-control-wrap">
+                                  <input
+                                    id="supplier_id"
+                                    v-model="supplier_id"
+                                    type="number"
+                                    class="form-control"
+                                    name="supplier_id"
+                                    placeholder="Select Supplier"
+                                    required=""
+                                  >
+                                  <span v-if="containsKey(errors, 'supplier_id')" class="text-danger">{{ errors.supplier_id[0] }}</span>
+                                </div>
+                              </div>
+                            </div>
+                            <div class="col-md-10 mt-2">
+                              <div class="form-group">
+                                <label class="form-label" for="name">Name</label>
                                 <div class="form-control-wrap">
                                   <input
                                     id="name"
@@ -83,24 +101,115 @@
                                     type="text"
                                     class="form-control"
                                     name="name"
-                                    placeholder="Name"
+                                    placeholder="Product Name"
                                     required=""
                                   >
+                                  <span v-if="containsKey(errors, 'name')" class="text-danger">{{ errors.name[0] }}</span>
                                 </div>
                               </div>
                             </div>
                             <div class="col-md-10 mt-2">
                               <div class="form-group">
-                                <label class="form-label" for="description">Description</label>
+                                <label class="form-label" for="sku">Sku</label>
                                 <div class="form-control-wrap">
-                                  <textarea
-                                    id="description"
-                                    v-model="description"
-                                    class="form-control form-control-sm"
-                                    name="description"
-                                    placeholder="Write your description"
+                                  <input
+                                    id="sku"
+                                    v-model="sku"
+                                    type="text"
+                                    class="form-control"
+                                    name="sku"
+                                    placeholder="Sku"
                                     required=""
-                                  />
+                                  >
+                                  <span v-if="containsKey(errors, 'sku')" class="text-danger">{{ errors.sku[0] }}</span>
+                                </div>
+                              </div>
+                            </div>
+                            <div class="col-md-10 mt-2">
+                              <div class="form-group">
+                                <label class="form-label" for="qty">Qty</label>
+                                <div class="form-control-wrap">
+                                  <input
+                                    id="qty"
+                                    v-model="qty"
+                                    type="number"
+                                    class="form-control"
+                                    name="qty"
+                                    placeholder="Qty"
+                                    required=""
+                                  >
+                                  <span v-if="containsKey(errors, 'qty')" class="text-danger">{{ errors.qty[0] }}</span>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="col-md-6 border-right">
+                            <div class="col-md-10">
+                              <div class="form-group">
+                                <label class="form-label" for="price">Price</label>
+                                <div class="form-control-wrap">
+                                  <input
+                                    id="price"
+                                    v-model="price"
+                                    type="number"
+                                    class="form-control"
+                                    name="price"
+                                    placeholder="Price"
+                                    required=""
+                                  >
+                                  <span v-if="containsKey(errors, 'price')" class="text-danger">{{ errors.price[0] }}</span>
+                                </div>
+                              </div>
+                            </div>
+                            <div class="col-md-10 mt-2">
+                              <div class="form-group">
+                                <label class="form-label" for="size">size</label>
+                                <div class="form-control-wrap">
+                                  <input
+                                    id="size"
+                                    v-model="size"
+                                    type="number"
+                                    class="form-control"
+                                    name="size"
+                                    placeholder="Size"
+                                    required=""
+                                  >
+                                  <span v-if="containsKey(errors, 'size')" class="text-danger">{{ errors.size[0] }}</span>
+                                </div>
+                              </div>
+                            </div>
+
+                            <div class="col-md-10 mt-2">
+                              <div class="form-group">
+                                <label class="form-label" for="weight">Weight</label>
+                                <div class="form-control-wrap">
+                                  <input
+                                    id="weight"
+                                    v-model="weight"
+                                    type="number"
+                                    class="form-control"
+                                    name="weight"
+                                    placeholder="Weight"
+                                    required=""
+                                  >
+                                  <span v-if="containsKey(errors, 'weight')" class="text-danger">{{ errors.weight[0] }}</span>
+                                </div>
+                              </div>
+                            </div>
+                            <div class="col-md-10 mt-2">
+                              <div class="form-group">
+                                <label class="form-label" for="color">Color</label>
+                                <div class="form-control-wrap">
+                                  <input
+                                    id="color"
+                                    v-model="color"
+                                    type="text"
+                                    class="form-control"
+                                    name="color"
+                                    placeholder="color"
+                                    required=""
+                                  >
+                                  <span v-if="containsKey(errors, 'color')" class="text-danger">{{ errors.color[0] }}</span>
                                 </div>
                               </div>
                             </div>
@@ -109,41 +218,9 @@
                       </form>
                     </div>
 
-                    <div id="category" class="tab-pane" :class="{ active: activeTab === 2 }">
+                    <div id="details" class="tab-pane" :class="{ active: activeTab === 2 }">
                       <div class="row g-gs">
                         <div class="col-md-6 border-right">
-                          <div class="col-md-10">
-                            <div class="form-group">
-                              <label class="form-label" for="parent_id">Select Parent</label>
-                              <div class="form-control-wrap">
-                                <input
-                                  id="parent_id"
-                                  v-model="parent_id"
-                                  type="text"
-                                  class="form-control"
-                                  name="parent_id"
-                                  placeholder="parent_id"
-                                  required=""
-                                >
-                              </div>
-                            </div>
-                          </div>
-                          <div class="col-md-10">
-                            <div class="form-group">
-                              <label class="form-label" for="name">Category Name</label>
-                              <div class="form-control-wrap">
-                                <input
-                                  id="name"
-                                  v-model="name"
-                                  type="text"
-                                  class="form-control"
-                                  name="name"
-                                  placeholder="Name"
-                                  required=""
-                                >
-                              </div>
-                            </div>
-                          </div>
                           <div class="col-md-10 mt-2">
                             <div class="form-group">
                               <label class="form-label" for="description">Description</label>
@@ -156,6 +233,25 @@
                                   placeholder="Write your description"
                                   required=""
                                 />
+                                <span v-if="containsKey(errors, 'description')" class="text-danger">{{ errors.description[0] }}</span>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-md-6 border-right">
+                          <div class="col-md-10 mt-2">
+                            <div class="form-group">
+                              <label class="form-label" for="note">Note</label>
+                              <div class="form-control-wrap">
+                                <textarea
+                                  id="note"
+                                  v-model="note"
+                                  class="form-control form-control-sm"
+                                  name="note"
+                                  placeholder="Product note"
+                                  required=""
+                                />
+                                <span v-if="containsKey(errors, 'note')" class="text-danger">{{ errors.note[0] }}</span>
                               </div>
                             </div>
                           </div>
@@ -192,21 +288,44 @@ export default {
     return {
       tabPath: this.$route.fullPath,
       activeTab: 1,
+      category_id: '',
+      supplier_id: '',
       name: '',
+      sku: '',
+      qty: '',
+      price: '',
+      size: '',
+      weight: '',
+      color: '',
       description: '',
-
-      images: []
+      note: '',
+      images: [],
+      errors: []
     }
   },
   methods: {
+    containsKey (obj, key) {
+      return Object.keys(obj).includes(key)
+    },
     addProduct () {
       const self = this
       this.$axios.post('product/create', {
+        category_id: this.category_id,
+        supplier_id: this.supplier_id,
         name: this.name,
+        sku: this.sku,
+        qty: this.qty,
+        price: this.price,
+        size: this.size,
+        weight: this.weight,
+        color: this.color,
         description: this.description,
-        image: this.images
+        note: this.note,
+        images: this.images
       }).then(function (response) {
         self.$router.push('/product')
+      }).catch(function (error) {
+        self.errors = error.response.data.data
       })
     },
     beforeRemove (index, done, fileList) {

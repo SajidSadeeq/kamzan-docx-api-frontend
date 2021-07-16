@@ -8,7 +8,7 @@
               <div class="nk-block-between">
                 <div class="nk-block-head-content">
                   <h3 class="nk-block-title page-title">
-                    Edit Product
+                    Edit product
                   </h3>
                 </div><!-- .nk-block-head-content -->
                 <div class="nk-block-head-content">
@@ -19,8 +19,8 @@
                     <div class="toggle-expand-content" data-content="more-options">
                       <ul class="nk-block-tools g-3">
                         <li class="nk-block-tools-opt">
-                          <a href="#" class="btn btn-icon btn-primary d-md-none">
-                            <em class="icon ni ni-plus" />
+                          <a href="javascript:;" class="btn btn-primary d-none d-md-inline-flex mr-2" @click="updateProduct">
+                            <em class="icon ni ni-file" /><span>Update</span>
                           </a>
                           <NuxtLink to="/product" class="btn btn-danger d-none d-md-inline-flex">
                             <em class="icon ni ni-back-ios" /><span>Back</span>
@@ -42,18 +42,58 @@
                         class="icon ni ni-setting"
                       /><span>Baisc Info</span></a>
                     </li>
-                    <!-- <li class="nav-item" @click="activeTab = 2">
-                      <a class="nav-link" :class="{ active: activeTab === 2 }" data-toggle="tab" href="#meta"><em class="icon ni ni-link" /><span>Meta</span></a>
+                    <li class="nav-item" @click="activeTab = 2">
+                      <a class="nav-link" :class="{ active: activeTab === 2 }" data-toggle="tab" href="#details"><em class="icon ni ni-setting" /><span>Details</span></a>
+                    </li>
+                    <li class="nav-item" @click="activeTab = 3">
+                      <a class="nav-link" :class="{ active: activeTab === 3 }" data-toggle="tab" href="#images"><em class="icon ni ni-setting" /><span>Images</span></a>
+                    </li>
+                    <!-- <li class="nav-item" @click="activeTab = 4">
+                      <a class="nav-link" :class="{ active: activeTab === 4 }" data-toggle="tab" href="#meta"><em class="icon ni ni-link" /><span>Meta</span></a>
                     </li> -->
                   </ul>
                   <div class="tab-content">
-                    <div id="tabItem5" class="tab-pane " :class="{ active: activeTab === 1 }">
-                      <form action="#" class="form-validate" @submit.prevent="editBrand">
+                    <div id="basic" class="tab-pane " :class="{ active: activeTab === 1 }">
+                      <form action="#" class="form-validate" novalidate="novalidate" @submit.prevent="addProduct">
                         <div class="row g-gs">
                           <div class="col-md-6 border-right">
                             <div class="col-md-10">
                               <div class="form-group">
-                                <label class="form-label" for="name">Category Name</label>
+                                <label class="form-label" for="category_id">Select Category</label>
+                                <div class="form-control-wrap">
+                                  <input
+                                    id="category_id"
+                                    v-model="product.category_id"
+                                    type="number"
+                                    class="form-control"
+                                    name="category_id"
+                                    placeholder="Select Category"
+                                    required=""
+                                  >
+                                  <span v-if="containsKey(errors, 'category_id')" class="text-danger">{{ errors.category_id[0] }}</span>
+                                </div>
+                              </div>
+                            </div>
+                            <div class="col-md-10 mt-2">
+                              <div class="form-group">
+                                <label class="form-label" for="supplier_id">Select Supplier</label>
+                                <div class="form-control-wrap">
+                                  <input
+                                    id="supplier_id"
+                                    v-model="product.supplier_id"
+                                    type="number"
+                                    class="form-control"
+                                    name="supplier_id"
+                                    placeholder="Select Supplier"
+                                    required=""
+                                  >
+                                  <span v-if="containsKey(errors, 'supplier_id')" class="text-danger">{{ errors.supplier_id[0] }}</span>
+                                </div>
+                              </div>
+                            </div>
+                            <div class="col-md-10 mt-2">
+                              <div class="form-group">
+                                <label class="form-label" for="name">Name</label>
                                 <div class="form-control-wrap">
                                   <input
                                     id="name"
@@ -61,46 +101,196 @@
                                     type="text"
                                     class="form-control"
                                     name="name"
-                                    placeholder="Name"
+                                    placeholder="Product Name"
+                                    required=""
                                   >
+                                  <span v-if="containsKey(errors, 'name')" class="text-danger">{{ errors.name[0] }}</span>
                                 </div>
                               </div>
                             </div>
                             <div class="col-md-10 mt-2">
                               <div class="form-group">
-                                <label class="form-label" for="description">Description</label>
+                                <label class="form-label" for="sku">Sku</label>
                                 <div class="form-control-wrap">
-                                  <textarea
-                                    id="description"
-                                    v-model="product.description"
-                                    class="form-control form-control-sm"
-                                    name="description"
-                                    placeholder="Write your description"
-                                    required
-                                  />
-                                  <client-only>
-                                    <vue-tel-input
-                                      v-model="phone"
-                                      :valid-characters-only="true"
-                                      @validate="phoneValidate"
-                                    />
-                                    {{ phone }}
-                                  </client-only>
+                                  <input
+                                    id="sku"
+                                    v-model="product.sku"
+                                    type="text"
+                                    class="form-control"
+                                    name="sku"
+                                    placeholder="Sku"
+                                    required=""
+                                  >
+                                  <span v-if="containsKey(errors, 'sku')" class="text-danger">{{ errors.sku[0] }}</span>
+                                </div>
+                              </div>
+                            </div>
+                            <div class="col-md-10 mt-2">
+                              <div class="form-group">
+                                <label class="form-label" for="qty">Qty</label>
+                                <div class="form-control-wrap">
+                                  <input
+                                    id="qty"
+                                    v-model="product.qty"
+                                    type="number"
+                                    class="form-control"
+                                    name="qty"
+                                    placeholder="Qty"
+                                    required=""
+                                  >
+                                  <span v-if="containsKey(errors, 'qty')" class="text-danger">{{ errors.qty[0] }}</span>
                                 </div>
                               </div>
                             </div>
                           </div>
-                          <div class="col-md-12 text-right">
-                            <div class="form-group">
-                              <button type="submit" class="btn btn-lg btn-primary">
-                                Save
-                              </button>
+                          <div class="col-md-6 border-right">
+                            <div class="col-md-10">
+                              <div class="form-group">
+                                <label class="form-label" for="price">Price</label>
+                                <div class="form-control-wrap">
+                                  <input
+                                    id="price"
+                                    v-model="product.price"
+                                    type="number"
+                                    class="form-control"
+                                    name="price"
+                                    placeholder="Price"
+                                    required=""
+                                  >
+                                  <span v-if="containsKey(errors, 'price')" class="text-danger">{{ errors.price[0] }}</span>
+                                </div>
+                              </div>
+                            </div>
+                            <div class="col-md-10 mt-2">
+                              <div class="form-group">
+                                <label class="form-label" for="size">size</label>
+                                <div class="form-control-wrap">
+                                  <input
+                                    id="size"
+                                    v-model="product.size"
+                                    type="number"
+                                    class="form-control"
+                                    name="size"
+                                    placeholder="Size"
+                                    required=""
+                                  >
+                                  <span v-if="containsKey(errors, 'size')" class="text-danger">{{ errors.size[0] }}</span>
+                                </div>
+                              </div>
+                            </div>
+
+                            <div class="col-md-10 mt-2">
+                              <div class="form-group">
+                                <label class="form-label" for="weight">Weight</label>
+                                <div class="form-control-wrap">
+                                  <input
+                                    id="weight"
+                                    v-model="product.weight"
+                                    type="number"
+                                    class="form-control"
+                                    name="weight"
+                                    placeholder="Weight"
+                                    required=""
+                                  >
+                                  <span v-if="containsKey(errors, 'weight')" class="text-danger">{{ errors.weight[0] }}</span>
+                                </div>
+                              </div>
+                            </div>
+                            <div class="col-md-10 mt-2">
+                              <div class="form-group">
+                                <label class="form-label" for="color">Color</label>
+                                <div class="form-control-wrap">
+                                  <input
+                                    id="color"
+                                    v-model="product.color"
+                                    type="text"
+                                    class="form-control"
+                                    name="color"
+                                    placeholder="color"
+                                    required=""
+                                  >
+                                  <span v-if="containsKey(errors, 'color')" class="text-danger">{{ errors.color[0] }}</span>
+                                </div>
+                              </div>
+                            </div>
+                            <div class="col-md-10 mt-2">
+                              <div class="form-group">
+                                <label class="form-label" for="color">Status</label>
+                                <div class="form-control-wrap">
+                                  <div class="form-control-wrap">
+                                    <select
+                                      id="status"
+                                      v-model="product.status"
+                                      class="form-control"
+                                      name="status"
+                                    >
+                                      <option value="0">
+                                        Inactive
+                                      </option>
+                                      <option value="1">
+                                        Active
+                                      </option>
+                                    </select>
+                                  </div>
+                                  <span v-if="containsKey(errors, 'status')" class="text-danger">{{ errors.status[0] }}</span>
+                                </div>
+                              </div>
                             </div>
                           </div>
                         </div>
                       </form>
                     </div>
-                    <!-- <div id="tabItem6" class="tab-pane" :class="{ active: activeTab === 2 }">
+
+                    <div id="details" class="tab-pane" :class="{ active: activeTab === 2 }">
+                      <div class="row g-gs">
+                        <div class="col-md-6 border-right">
+                          <div class="col-md-10 mt-2">
+                            <div class="form-group">
+                              <label class="form-label" for="description">Description</label>
+                              <div class="form-control-wrap">
+                                <textarea
+                                  id="description"
+                                  v-model="product.description"
+                                  class="form-control form-control-sm"
+                                  name="description"
+                                  placeholder="Write your description"
+                                  required=""
+                                />
+                                <span v-if="containsKey(errors, 'description')" class="text-danger">{{ errors.description[0] }}</span>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-md-6 border-right">
+                          <div class="col-md-10 mt-2">
+                            <div class="form-group">
+                              <label class="form-label" for="note">Note</label>
+                              <div class="form-control-wrap">
+                                <textarea
+                                  id="note"
+                                  v-model="product.note"
+                                  class="form-control form-control-sm"
+                                  name="note"
+                                  placeholder="Product note"
+                                  required=""
+                                />
+                                <span v-if="containsKey(errors, 'note')" class="text-danger">{{ errors.note[0] }}</span>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div id="images" class="tab-pane" :class="{ active: activeTab === 3 }">
+                      <vue-upload-multiple-image
+                        :data-images="images"
+                        @upload-success="uploadImageSuccess"
+                        @before-remove="beforeRemove"
+                        @edit-image="editImage"
+                      />
+                    </div>
+                    <!-- <div id="meta" class="tab-pane" :class="{ active: activeTab === 4 }">
                       <p>Culpa dolor voluptate do laboris laboris irure reprehenderit id incididunt duis pariatur mollit aute magna pariatur consectetur. Eu veniam duis non ut dolor deserunt commodo et minim in quis laboris ipsum velit id veniam. Quis ut consectetur adipisicing officia excepteur non sit. Ut et elit aliquip labore Lorem enim eu. Ullamco mollit occaecat dolore ipsum id officia mollit qui esse anim eiusmod do sint minim consectetur qui.</p>
                     </div> -->
                   </div>
@@ -111,8 +301,7 @@
         </div>
       </div>
     </div>
-
-    <div>
+    <!-- <div>
       <label class="typo__label" for="ajax">Async multiselect</label>
       <multiselect
         id="ajax"
@@ -151,9 +340,9 @@
         <span slot="noResult">Oops! No elements found. Consider changing the search query.</span>
       </multiselect>
       <pre class="language-json"><code>{{ selectedCountries }}</code></pre>
-    </div>
+    </div> -->
 
-    <treeselect v-model="value" :multiple="true" :options="options" :normalizer="normalizer">
+    <!-- <treeselect v-model="value" :multiple="true" :options="options" :normalizer="normalizer">
       <div slot="value-label" slot-scope="{ node }">
         {{ node.raw.title }}
       </div>
@@ -164,28 +353,36 @@
       @upload-success="uploadImageSuccess"
       @before-remove="beforeRemove"
       @edit-image="editImage"
-    />
+    /> -->
   </div>
 </template>
 
 <script>
 // import the component
-import Treeselect from '@riophae/vue-treeselect'
+// import Treeselect from '@riophae/vue-treeselect'
 // import the styles
-import '@riophae/vue-treeselect/dist/vue-treeselect.css'
-import 'vue-tel-input/dist/vue-tel-input.css'
+// import '@riophae/vue-treeselect/dist/vue-treeselect.css'
+// import 'vue-tel-input/dist/vue-tel-input.css'
 
 export default {
   // eslint-disable-next-line vue/no-unused-components
-  components: { Treeselect },
+  // components: { Treeselect },
   data () {
     return {
       tabPath: this.$route.fullPath,
       activeTab: 1,
+      category_id: '',
+      supplier_id: '',
       name: '',
+      sku: '',
+      qty: '',
+      price: '',
+      size: '',
+      weight: '',
+      color: '',
       description: '',
+      note: '',
       status: 1,
-      phone: '',
       errors: [],
       images: [],
       new_images: [],
@@ -218,6 +415,9 @@ export default {
     }
   },
   methods: {
+    containsKey (obj, key) {
+      return Object.keys(obj).includes(key)
+    },
     limitText (count) {
       return `and ${count} other countries`
     },
@@ -235,11 +435,20 @@ export default {
     clearAll () {
       this.selectedCountries = []
     },
-    editBrand () {
+    updateProduct () {
       const self = this
       this.$axios.post(`/product/update/${this.product.id}`, {
+        category_id: this.product.category_id,
+        supplier_id: this.product.supplier_id,
         name: this.product.name,
+        sku: this.product.sku,
+        qty: this.product.qty,
+        price: this.product.price,
+        size: this.product.size,
+        weight: this.product.weight,
+        color: this.product.color,
         description: this.product.description,
+        note: this.product.note,
         status: this.product.status,
         image: this.new_images,
         delete_images: this.delete_images

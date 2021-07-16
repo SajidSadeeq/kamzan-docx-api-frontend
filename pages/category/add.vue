@@ -72,7 +72,7 @@
                                     placeholder="Name"
                                     required=""
                                   >
-                                  <span v-if="containsKey(errors, 'name')">{{ errors.name[0] }}</span>
+                                  <span v-if="containsKey(errors, 'name')" class="text-danger">{{ errors.name[0] }}</span>
                                 </div>
                               </div>
                             </div>
