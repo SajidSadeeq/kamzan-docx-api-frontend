@@ -65,6 +65,7 @@
                                     required=""
                                   >
                                 </div>
+                                <span v-if="containsKey(errors, 'name')" class="text-danger">{{ errors.name[0] }}</span>
                               </div>
                             </div>
                             <div class="col-md-10">
@@ -119,7 +120,8 @@ export default {
       activeTab: 1,
       name: '',
       goodProducts: [],
-      products: []
+      products: [],
+      errors: []
     }
   },
   computed: {
@@ -193,6 +195,8 @@ export default {
         products: self.goodProducts
       }).then(function (response) {
         self.$router.push('/goods')
+      }).catch(function (error) {
+        self.errors = error.response.data.data
       })
     }
 

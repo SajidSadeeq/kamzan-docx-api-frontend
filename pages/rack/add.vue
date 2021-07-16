@@ -53,6 +53,23 @@
                           <div class="col-md-6 border-right">
                             <div class="col-md-10">
                               <div class="form-group">
+                                <label class="form-label" for="name">Rack ID</label>
+                                <div class="form-control-wrap">
+                                  <input
+                                    id="name"
+                                    v-model="name"
+                                    type="text"
+                                    class="form-control"
+                                    name="name"
+                                    placeholder="Rack ID"
+                                    required=""
+                                  >
+                                </div>
+                                <span v-if="containsKey(errors, 'name')" class="text-danger">{{ errors.name[0] }}</span>
+                              </div>
+                            </div>
+                            <div class="col-md-10 mt-2">
+                              <div class="form-group">
                                 <label class="form-label" for="name">Aisle</label>
                                 <div class="form-control-wrap">
                                   <v-select v-model="aisle" :options="aisles" label="name" placeholder="Select Aisle" name="aisle_id" />
@@ -141,6 +158,7 @@ export default {
     addRack () {
       const self = this
       this.$axios.post('rack', {
+        name: self.name,
         aisle_id: this.aisle.id,
         side: this.side.value
       }).then(function (response) {

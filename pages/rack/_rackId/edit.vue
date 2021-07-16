@@ -53,6 +53,23 @@
                           <div class="col-md-6 border-right">
                             <div class="col-md-10">
                               <div class="form-group">
+                                <label class="form-label" for="name">Rack ID</label>
+                                <div class="form-control-wrap">
+                                  <input
+                                    id="name"
+                                    v-model="rack.name"
+                                    type="text"
+                                    class="form-control"
+                                    name="name"
+                                    placeholder="Rack ID"
+                                    required=""
+                                  >
+                                </div>
+                                <span v-if="containsKey(errors, 'name')" class="text-danger">{{ errors.name[0] }}</span>
+                              </div>
+                            </div>
+                            <div class="col-md-10 mt-2">
+                              <div class="form-group">
                                 <label class="form-label" for="name">Aisle</label>
                                 <div class="form-control-wrap">
                                   <v-select
@@ -63,7 +80,7 @@
                                     :value="aisle"
                                     @input="aisle=$event?$event:{}"
                                   />
-                                  <!--                                  <span v-if="containsKey(errors, 'name')">{{ errors.name[0] }}</span>-->
+                                  <span v-if="containsKey(errors, 'aisle_id')" class="text-danger">{{ errors.aisle_id[0] }}</span>
                                 </div>
                               </div>
                             </div>
@@ -81,9 +98,7 @@
                                 />
                               </div>
                             </div>
-                            <div v-if="errors" class="text-danger ml-2 mt-3">
-                              {{ errors[0] }}
-                            </div>
+                            <span v-if="containsKey(errors, 'side')" class="text-danger">{{ errors.side[0] }}</span>
                           </div>
                           <div class="col-md-12 text-right">
                             <div class="form-group">
@@ -139,6 +154,9 @@ export default {
     this.fetchAisles()
   },
   methods: {
+    containsKey (obj, key) {
+      return Object.keys(obj).includes(key)
+    },
     async fetchAisles () {
       const self = this
       await this.$axios.get('aisle')
@@ -152,14 +170,15 @@ export default {
     editRack () {
       const self = this
       this.$axios.put(`rack/${this.rack.id}`, {
-        aisle_id: this.aisle.id,
-        side: this.side.value
+        name: self.rack.name,
+        aisle_id: self.aisle.id,
+        side: self.side.value
       }).then(function (response) {
         if (response.data.status !== false) {
           self.$router.push('/rack')
-        } else {
-          self.errors = response.data.payload.error
         }
+      }).catch(function (error) {
+        self.errors = error.response.data.data
       })
     }
 

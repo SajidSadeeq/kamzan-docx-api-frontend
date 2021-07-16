@@ -73,10 +73,10 @@
                                 <label class="form-label" for="name">Racks</label>
                                 <v-select
                                   :options="racks"
-                                  label="unique_id"
+                                  label="name"
                                   placeholder="Select Side"
                                   name="rack_id"
-                                  @input="rack_id=$event.id"
+                                  @input="rack_id=$event !==[]?$event.id:''"
                                 />
                                 <span v-if="containsKey(errors, 'good_id')" class="text-danger">{{ errors.good_id[0] }}</span>
                               </div>

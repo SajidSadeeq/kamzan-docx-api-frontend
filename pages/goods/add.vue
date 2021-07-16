@@ -65,7 +65,7 @@
                                     required=""
                                   >
                                 </div>
-                                <span v-if="errors" class="text-danger">{{ errors[0] }}</span>
+                                <span v-if="containsKey(errors, 'name')" class="text-danger">{{ errors.name[0] }}</span>
                               </div>
                             </div>
                             <div class="col-md-10">
@@ -185,7 +185,7 @@ export default {
     addGood () {
       const self = this
       this.$axios.post('good', {
-        products: self.selectedProducts,
+        products: this.selectedProducts,
         name: self.name
       }).then(function (response) {
         if (response.data.status !== false) {

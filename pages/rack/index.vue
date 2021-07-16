@@ -67,7 +67,7 @@
                       </th>
                       <th class="tb-tnx-info">
                         <span class="tb-tnx-desc d-none d-sm-inline-block">
-                          <span>Unique Name</span>
+                          <span>Rack  ID</span>
                         </span>
                       </th>
                       <th class="tb-tnx-info">
@@ -93,7 +93,7 @@
                       </td>
                       <td class="tb-tnx-info">
                         <div class="tb-tnx-desc">
-                          <span class="title">{{ rack.unique_id }}</span>
+                          <span class="title">{{ rack.name }}</span>
                         </div>
                       </td>
                       <td class="tb-tnx-info">
@@ -103,7 +103,7 @@
                       </td>
                       <td class="tb-tnx-info">
                         <div class="tb-tnx-desc">
-                          <span class="title">{{ rack.status=='1'?'Empty':'Filled' }}</span>
+                          <span class="title">{{ rack.status=='2'?'Empty':'Filled' }}</span>
                         </div>
                       </td>
 
@@ -164,6 +164,9 @@ export default {
     })
   },
   methods: {
+    containsKey (obj, key) {
+      return Object.keys(obj).includes(key)
+    },
     start () {
       this.loading = true
     },

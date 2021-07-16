@@ -53,7 +53,7 @@
                           <div class="col-md-6 border-right">
                             <div class="col-md-10">
                               <div class="form-group">
-                                <label class="form-label" for="name">Aisle Name</label>
+                                <label class="form-label" for="name">Aisle ID</label>
                                 <div class="form-control-wrap">
                                   <input
                                     id="name"
@@ -61,7 +61,7 @@
                                     type="text"
                                     class="form-control"
                                     name="name"
-                                    placeholder="Name"
+                                    placeholder="Aisle ID"
                                     required=""
                                   >
                                 </div>

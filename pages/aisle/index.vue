@@ -67,7 +67,7 @@
                       </th>
                       <th class="tb-tnx-info">
                         <span class="tb-tnx-desc d-none d-sm-inline-block">
-                          <span>Aisle Name</span>
+                          <span>Aisle ID</span>
                         </span>
                       </th>
 

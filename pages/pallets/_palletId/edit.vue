@@ -73,7 +73,7 @@
                                 <label class="form-label" for="name">Racks</label>
                                 <v-select
                                   :options="racks"
-                                  label="unique_id"
+                                  label="name"
                                   placeholder="Select Side"
                                   name="rack_id"
                                   :value="selectedRack"

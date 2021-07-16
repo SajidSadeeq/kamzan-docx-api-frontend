@@ -78,11 +78,11 @@
                           <span>Pallet ID</span>
                         </span>
                       </th>
-                      <th class="tb-tnx-info">
-                        <span class="tb-tnx-desc d-none d-sm-inline-block">
-                          <span>Unique ID</span>
-                        </span>
-                      </th>
+                      <!--                      <th class="tb-tnx-info">-->
+                      <!--                        <span class="tb-tnx-desc d-none d-sm-inline-block">-->
+                      <!--                          <span>Unique ID</span>-->
+                      <!--                        </span>-->
+                      <!--                      </th>-->
                       <th class="tb-tnx-info">
                         <span class="tb-tnx-desc d-none d-sm-inline-block">
                           <span>Status</span>
@@ -104,11 +104,11 @@
                           <span class="title">{{ pallet.name }}</span>
                         </div>
                       </td>
-                      <td class="tb-tnx-info">
-                        <div class="tb-tnx-desc">
-                          <span class="title">{{ pallet.uniq_no }}</span>
-                        </div>
-                      </td>
+                      <!--                      <td class="tb-tnx-info">-->
+                      <!--                        <div class="tb-tnx-desc">-->
+                      <!--                          <span class="title">{{ pallet.uniq_no }}</span>-->
+                      <!--                        </div>-->
+                      <!--                      </td>-->
                       <td class="tb-tnx-info">
                         <div class="tb-tnx-desc">
                           <span class="title">{{ pallet.status==1?'Filled':'Empty' }}</span>
