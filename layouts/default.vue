@@ -29,6 +29,7 @@
 import Sidebar from '~/components/admin-layout/Sidebar.vue'
 import Header from '~/components/admin-layout/Header.vue'
 import Footer from '~/components/admin-layout/Footer.vue'
+
 export default {
   components: {
     Sidebar,

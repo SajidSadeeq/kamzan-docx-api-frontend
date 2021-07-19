@@ -121,7 +121,6 @@
       </div>
     </div>
   </div>
-  </div>
 </template>
 
 <script>
@@ -168,9 +167,9 @@ export default {
           if (response.data.payload.error === undefined) {
             self.racks = response.data.payload
             self.selectedRack = self.racks.find(elem => elem.id === self.pallet.rack_id)
-            console.log(self.pallet.rack_id)
-            console.log(self.racks)
-            console.log(self.selectedRack)
+            // console.log(self.pallet.rack_id)
+            // console.log(self.racks)
+            // console.log(self.selectedRack)
           }
           // self.$store.commit('pallet/SET_PALLET', self.pallets)
           self.$nuxt.$loading.finish()

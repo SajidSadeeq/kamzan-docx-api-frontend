@@ -147,7 +147,7 @@ export default {
       await this.$axios.get('racks/available-racks')
         .then(function (response) {
           if (response.data.payload.error === undefined) {
-            console.log(response)
+            // console.log(response)
             self.racks = response.data.payload
           }
           // self.$store.commit('pallet/SET_PALLET', self.pallets)

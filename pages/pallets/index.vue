@@ -182,7 +182,7 @@ export default {
         .then(function (response) {
           if (response.data.status !== false) {
             self.pallets = response.data.payload
-            console.log(response.data)
+            // console.log(response.data)
             self.$store.commit('pallet/SET_PALLET', self.pallets)
           }
           self.$nuxt.$loading.finish()

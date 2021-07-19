@@ -99,7 +99,7 @@ export default {
   },
   loading: '~/components/common/ScreenLoader.vue',
   publicRuntimeConfig: {
-      BASE_URL: 'http://localhost:8000/api/',
+      BASE_URL: process.env.APP_URL,
       axios: {
           withCredentials: true,
           baseURL: process.env.APP_URL,
@@ -117,7 +117,7 @@ export default {
       strategies: {
           laravelJWT: {
               provider: 'laravel/jwt',
-              url: 'http://localhost:8000',
+              url: process.env.BASE_URL,
               // endpoints: {
               token: {
                   property: 'access_token',

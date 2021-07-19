@@ -56,8 +56,11 @@
                     <label class="custom-control-label" for="uid" />
                   </div>
                 </div>
+                <div class="nk-tb-col">
+                  <span class="sub-text">Customer</span>
+                </div>
                 <div class="nk-tb-col pl-5">
-                  <span class="sub-text">Pallet Id</span>
+                  <span class="sub-text">Pallet</span>
                 </div>
                 <div class="nk-tb-col tb-col-mb">
                   <span class="sub-text">In By</span>
@@ -89,36 +92,30 @@
                 </div>
               </div><!-- .nk-tb-item -->
 
-              <div v-for="(customer, index) in customers" :key="customer.id" class="nk-tb-item">
+              <div v-for="(pallet, index) in pallets" :key="pallet.id" class="nk-tb-item">
                 <div class="nk-tb-col nk-tb-col-check">
                   <div class="custom-control custom-control-sm custom-checkbox notext">
                     <input id="uid1" type="checkbox" class="custom-control-input">
                     <label class="custom-control-label" for="uid1" />
                   </div>
                 </div>
-                <div class="nk-tb-col">
-                  <a href="html/ecommerce/customer-details.html">
-                    <div class="user-card">
-                      <div class="user-avatar bg-primary">
-                        <span>AB</span>
-                      </div>
-                      <div class="user-info">
-                        <span class="tb-lead"> {{ customer.customer_name }} <span class="dot dot-success d-md-none ml-1" /></span>
-                      </div>
-                    </div>
-                  </a>
-                </div>
                 <div class="nk-tb-col tb-col-mb">
-                  <span class="tb-amount">{{ customer.street_1 }}</span>
+                  <span class="tb-amount">{{ pallet.customer_id }}</span>
                 </div>
                 <div class="nk-tb-col tb-col-md">
-                  <span>{{ customer.street_2 }}</span>
+                  <span>{{ pallet.pallet_id }}</span>
                 </div>
                 <div class="nk-tb-col tb-col-lg">
-                  <span>{{ customer.county }}</span>
+                  <span>{{ pallet.in_by }}</span>
                 </div>
                 <div class="nk-tb-col tb-col-lg">
-                  <span>{{ customer.street_2 }}</span>
+                  <span>{{ pallet.in_date }}</span>
+                </div>
+                <div class="nk-tb-col tb-col-lg">
+                  <span>{{ pallet.out_by }}</span>
+                </div>
+                <div class="nk-tb-col tb-col-lg">
+                  <span>{{ pallet.out_date }}</span>
                 </div>
                 <div class="nk-tb-col nk-tb-col-tools">
                   <ul class="nk-tb-actions gx-1">
@@ -154,8 +151,8 @@
                         <div class="dropdown-menu dropdown-menu-right" :class="{'show': index === activeIndex }">
                           <ul class="link-list-opt no-bdr">
                             <li><a href="html/ecommerce/customer-details.html"><em class="icon ni ni-eye" /><span>View Details</span></a></li>
-                            <li><a href="javascript:;" @click="editCustomer(customer)"><em class="icon ni ni-edit" /><span>Edit Details</span></a></li>
-                            <li><a href="javascript:;" @click="removeCustomer(customer)"><em class="icon ni ni-trash" /><span>Delete</span></a></li>
+                            <li><a href="javascript:;" @click="editPallet(pallet)"><em class="icon ni ni-edit" /><span>Edit Details</span></a></li>
+                            <li><a href="javascript:;" @click="removePallet(pallet)"><em class="icon ni ni-trash" /><span>Delete</span></a></li>
                           </ul>
                         </div>
                       </div>
@@ -176,7 +173,7 @@ export default {
   data () {
     return {
       toggleModal: false,
-      customers: [],
+      pallets: [],
       toggleHeader: false,
       activeIndex: null,
       loading: true
@@ -185,11 +182,10 @@ export default {
   mounted () {
     this.$nextTick(() => {
       this.$nuxt.$loading.start()
-      // setTimeout(() => this.$nuxt.$loading.finish(), 1000)
     })
   },
   created () {
-    this.fetchCustomers()
+    this.fetchPallets()
   },
   methods: {
     start () {
@@ -201,27 +197,27 @@ export default {
     toggleActive (index) {
       this.activeIndex = index
     },
-    async fetchCustomers () {
+    async fetchPallets () {
       const _this = this
-      await this.$axios.get('customer')
+      await this.$axios.get('pallets-in-out')
         .then(function (response) {
-          _this.customers = response.data.payload.data
-          _this.$store.commit('customer/SET_CUSTOMER', _this.categories)
+          _this.pallets = response.data.payload
+          _this.$store.commit('palletinout/SET_PALLETS', _this.pallets)
           _this.$nuxt.$loading.finish()
         })
     },
-    async removeCustomer (customer) {
-      const self = this
-      await this.$axios.delete(`/customer/delete/${customer.id}`)
-        .then(function (response) {
-          self.fetchCustomers()
-        }).catch(function (ex) {
-          self.fetchCustomers()
-        })
-    },
-    async editCustomer (customer) {
-      await this.$store.commit('customer/SET_EDIT_CUSTOMER', customer)
-      this.$router.push(`customer/${customer.id}/edit`)
+    // async removePallet (customer) {
+    //   const self = this
+    //   await this.$axios.delete(`/pallets-in-out/delete/${customer.id}`)
+    //     .then(function (response) {
+    //       self.fetchCustomers()
+    //     }).catch(function (ex) {
+    //       self.fetchCustomers()
+    //     })
+    // },
+    async editPallet (pallet) {
+      await this.$store.commit('pallets-in-out/SET_EDIT_PALLET', pallet)
+      this.$router.push(`pallets-in-out/${pallet.id}/edit`)
     }
   }
 }

@@ -69,6 +69,22 @@
                             </div>
                             <div class="col-md-10 mt-2">
                               <div class="form-group">
+                                <label class="form-label">Email</label>
+                                <div class="form-control-wrap">
+                                  <input
+                                    id="email"
+                                    v-model="email"
+                                    type="email"
+                                    class="form-control"
+                                    name="email"
+                                    placeholder="Customer email"
+                                    required=""
+                                  >
+                                </div>
+                              </div>
+                            </div>
+                            <div class="col-md-10 mt-2">
+                              <div class="form-group">
                                 <label class="form-label">Street 1</label>
                                 <div class="form-control-wrap">
                                   <input
@@ -152,6 +168,7 @@
                                       :valid-characters-only="true"
                                       :preferred-countries="['GB']"
                                       :auto-default-country="false"
+                                      :mode="auto"
                                     />
                                   </client-only>
                                 </div>
@@ -249,12 +266,14 @@
 <script>
 import '@riophae/vue-treeselect/dist/vue-treeselect.css'
 import 'vue-tel-input/dist/vue-tel-input.css'
+
 export default {
   data () {
     return {
       tabPath: this.$route.fullPath,
       activeTab: 1,
       customer_name: '',
+      email: '',
       street_1: '',
       street_2: '',
       city: '',
@@ -271,6 +290,7 @@ export default {
       const self = this
       this.$axios.post('/customer/create', {
         customer_name: self.customer_name,
+        email: self.email,
         street_1: self.street_1,
         street_2: self.street_2,
         city: self.city,

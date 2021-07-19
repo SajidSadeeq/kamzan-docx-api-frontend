@@ -19,10 +19,10 @@
                     <div class="toggle-expand-content" data-content="more-options">
                       <ul class="nk-block-tools g-3">
                         <li class="nk-block-tools-opt">
-                          <a href="#" class="btn btn-icon btn-primary d-md-none">
-                            <em class="icon ni ni-plus" />
+                          <a href="javascript:;" class="btn btn-primary d-none d-md-inline-flex mr-2" @click="addPalletOrder()">
+                            <em class="icon ni ni-plus" /> <span>Save</span>
                           </a>
-                          <NuxtLink to="/rack" class="btn btn-danger d-none d-md-inline-flex">
+                          <NuxtLink to="/pallets-in-out" class="btn btn-danger d-none d-md-inline-flex">
                             <em class="icon ni ni-back-ios" /><span>Back</span>
                           </NuxtLink>
                         </li>
@@ -55,48 +55,47 @@
                               <div class="form-group">
                                 <label class="form-label" for="customer_id">Select Customer</label>
                                 <vue-search
+                                  :img-photo="'path-img'"
                                   :source-field="'name'"
                                   :search-by-field="true"
                                   :show-new-botton="false"
                                   :enable-class-base="true"
                                   :api-source="apiSearchCustomerUrl"
                                   @newitem="newitem()"
-                                  @itemselected="itemselected($event)"
+                                  @itemselected="customerselected($event)"
                                 />
                                 <span v-if="containsKey(errors, 'customer_id')" class="text-danger">{{ errors.customer_id[0] }}</span>
                               </div>
                             </div>
-
-                            <div class="col-md-10">
+                            <div class="col-md-10 mt-2">
                               <div class="form-group">
-                                <label class="form-label" for="name">Select </label>
-                                <div class="form-control-wrap">
-                                  <v-select v-model="aisle" :options="aisles" label="name" placeholder="Select Aisle" name="aisle_id" />
-                                </div>
-                                <span v-if="containsKey(errors, 'aisle_id')" class="text-danger">{{ errors.aisle_id[0] }}</span>
-                              </div>
-                            </div>
-
-                            <div class="col-md-10">
-                              <div class="form-group">
-                                <label class="form-label" for="name">Side</label>
-                                <v-select
-                                  v-model="side"
-                                  :options=" [{name: 'Right', value: 1},{name: 'Left', value: 2}]"
-                                  label="name"
-                                  placeholder="Select Side"
-                                  name="side"
-                                  required
+                                <label class="form-label" for="pallet_id">Select Pallet</label>
+                                <vue-search
+                                  :source-field="'name'"
+                                  :search-by-field="true"
+                                  :show-new-botton="false"
+                                  :api-source="apiSearchPalletsUrl"
+                                  @newitem="newitem()"
+                                  @itemselected="palletselected($event)"
                                 />
-                                <span v-if="containsKey(errors, 'side')" class="text-danger">{{ errors.side[0] }}</span>
+                                <span v-if="containsKey(errors, 'pallet_id')" class="text-danger">{{ errors.pallet_id[0] }}</span>
                               </div>
                             </div>
-                          </div>
-                          <div class="col-md-12 text-right">
-                            <div class="form-group">
-                              <button type="submit" class="btn btn-lg btn-primary" @submit.prevent="addRack">
-                                Save
-                              </button>
+                            <div class="col-md-10 mt-2">
+                              <div class="form-group">
+                                <label class="form-label" for="in_date">Pallet In Date</label>
+                                <div class="form-control-wrap">
+                                  <input
+                                    id="in_date"
+                                    v-model="in_date"
+                                    type="date"
+                                    class="form-control"
+                                    name="in_date"
+                                    required=""
+                                  >
+                                  <span v-if="containsKey(errors, 'in_date')" class="text-danger">{{ errors.in_date[0] }}</span>
+                                </div>
+                              </div>
                             </div>
                           </div>
                         </div>
@@ -132,12 +131,12 @@ export default {
     return {
       tabPath: this.$route.fullPath,
       activeTab: 1,
-      name: '',
-      aisles: [],
-      aisle: '',
-      side: '',
+      customer_id: '',
+      pallet_id: '',
+      in_date: '',
       errors: [],
-      apiSearchCustomerUrl: 'http://localhost:8000/api/pallets-in-out/search-customers'
+      apiSearchCustomerUrl: process.env.APP_URL + 'common/search-customers',
+      apiSearchPalletsUrl: process.env.APP_URL + 'common/search-pallets'
     }
   },
   created () {
@@ -160,14 +159,21 @@ export default {
         //   self.$nuxt.$loading.finish()
         })
     },
-    addRack () {
+    customerselected (customer) {
+      this.customer_id = customer.id
+    },
+    palletselected (pallet) {
+      this.pallet_id = pallet.id
+    },
+    addPalletOrder () {
       const self = this
-      this.$axios.post('rack', {
-        aisle_id: this.aisle.id,
-        side: this.side.value
+      this.$axios.post('pallets-in-out/create', {
+        customer_id: this.customer_id,
+        pallet_id: this.pallet_id,
+        in_date: this.in_date
       }).then(function (response) {
         if (response.data.status !== false) {
-          self.$router.push('/rack')
+          self.$router.push('/pallets-in-out')
         }
       }).catch(function (error) {
         self.errors = error.response.data.data

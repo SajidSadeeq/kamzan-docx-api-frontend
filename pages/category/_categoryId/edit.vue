@@ -55,7 +55,7 @@
                               <div class="form-group">
                                 <label class="form-label" for="parent_id">Select Parent</label>
                                 <div class="form-control-wrap">
-                                  <treeselect v-model="parent_id" :options="categories" :normalizer="normalizer" @change="changeParent" />
+                                  <treeselect v-model="category.parent_id" :options="categories" :normalizer="normalizer" @change="changeParent" />
                                 </div>
                               </div>
                             </div>

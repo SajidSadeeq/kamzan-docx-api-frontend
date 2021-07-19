@@ -60,6 +60,9 @@
                   <span class="sub-text">Customer Name</span>
                 </div>
                 <div class="nk-tb-col tb-col-mb">
+                  <span class="sub-text">Email</span>
+                </div>
+                <div class="nk-tb-col tb-col-mb">
                   <span class="sub-text">Street 1</span>
                 </div>
                 <div class="nk-tb-col tb-col-md">
@@ -111,6 +114,9 @@
                       </div>
                     </div>
                   </a>
+                </div>
+                <div class="nk-tb-col tb-col-mb">
+                  <span class="tb-amount">{{ customer.email }}</span>
                 </div>
                 <div class="nk-tb-col tb-col-mb">
                   <span class="tb-amount">{{ customer.street_1 }}</span>

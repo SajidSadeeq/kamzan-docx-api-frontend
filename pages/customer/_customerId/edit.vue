@@ -67,6 +67,22 @@
                                 </div>
                               </div>
                             </div>
+                            <div class="col-md-10">
+                              <div class="form-group">
+                                <label class="form-label">Email</label>
+                                <div class="form-control-wrap">
+                                  <input
+                                    id="email"
+                                    v-model="customer.email"
+                                    type="text"
+                                    class="form-control"
+                                    name="email"
+                                    placeholder="Customer email"
+                                    required=""
+                                  >
+                                </div>
+                              </div>
+                            </div>
                             <div class="col-md-10 mt-2">
                               <div class="form-group">
                                 <label class="form-label">Street 1</label>
@@ -248,6 +264,7 @@ export default {
       tabPath: this.$route.fullPath,
       activeTab: 1,
       customer_name: '',
+      email: '',
       street_1: '',
       street_2: '',
       city: '',
@@ -274,6 +291,7 @@ export default {
       const self = this
       this.$axios.post(`/customer/update/${this.customer.id}`, {
         customer_name: this.customer.customer_name,
+        email: this.customer.email,
         street_1: this.customer.street_1,
         street_2: this.customer.street_2,
         city: this.customer.city,
