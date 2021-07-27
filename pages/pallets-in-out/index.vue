@@ -16,11 +16,14 @@
                   <div class="toggle-expand-content" data-content="more-options">
                     <ul class="nk-block-tools g-3">
                       <li>
-                        <div class="form-control-wrap">
-                          <div class="form-icon form-icon-right">
-                            <em class="icon ni ni-search" />
+                        <div class="form-group">
+                          <label class="form-label">Datepicker Range</label>    <div class="form-control-wrap">
+                            <div class="input-daterange date-picker-range input-group">
+                              <input type="text" class="form-control">            <div class="input-group-addon">
+                                TO
+                              </div>            <input type="text" class="form-control">
+                            </div>
                           </div>
-                          <input id="default-04" type="text" class="form-control" placeholder="Search by name">
                         </div>
                       </li>
                       <li>

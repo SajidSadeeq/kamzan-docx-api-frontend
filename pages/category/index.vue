@@ -132,6 +132,17 @@
                   </tbody>
                 </table>
               </div><!-- .card -->
+              <div class="card">
+                <div class="card-inner">
+                  <div class="pages float-right">
+                    <vue-pagination
+                      :current="currentPage"
+                      :total="Math.ceil(total / 10)"
+                      @page-change="pageChangeHandler"
+                    />
+                  </div>
+                </div>
+              </div>
             </div><!-- nk-block -->
           </div><!-- .components-preview -->
         </div>
@@ -148,9 +159,15 @@ export default {
     return {
       toggleModal: false,
       toggleHeader: false,
-      categories: [],
       activeIndex: null,
-      loading: true
+      loading: true,
+      total: 0,
+      currentPage: 1
+    }
+  },
+  computed: {
+    categories () {
+      return this.$store.state.category.categories
     }
   },
   mounted () {
@@ -172,12 +189,27 @@ export default {
     toggleActive (index) {
       this.activeIndex = index
     },
+    scrollToTop () {
+      const element = document.querySelector('html')
+      element.scroll({
+        top: 90,
+        behavior: 'smooth'
+      })
+    },
+    async pageChangeHandler (page) {
+      this.currentPage = page
+      // const offset = ((this.currentPage - 1) * this.limit)
+      await this.$store.dispatch('category/fetchCategories', {
+        page: this.currentPage
+      })
+      this.scrollToTop()
+    },
     async fetchCategories () {
       const self = this
       await this.$axios.get('/category')
         .then(function (response) {
-          self.categories = response.data.payload.data
-          self.$store.commit('category/SET_CATEGORIES', self.categories)
+          self.total = response.data.payload.total
+          self.$store.commit('category/SET_CATEGORIES', response.data.payload.data)
           self.$nuxt.$loading.finish()
           // this.$toast.show('hello toaster !!!')
           // self.loading = false

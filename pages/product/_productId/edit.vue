@@ -409,7 +409,7 @@ export default {
     }
   },
   created () {
-    this.fetchTree()
+    // this.fetchTree()
     if (Object.keys(this.product).length === 0) {
       this.$store.dispatch('product/fetchSpecificProduct', this.$route.params.productId)
     }

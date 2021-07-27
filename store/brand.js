@@ -13,6 +13,12 @@ const actions = {
       .then(function (response) {
         commit('SET_EDIT_BRAND', response.data.payload)
       })
+  },
+  async fetchBrands ({ commit }, payload) {
+    await this.$axios.get(`/aisle?page=${payload.page}`)
+      .then(function (response) {
+        commit('brand/SET_BRAND', response.data.payload.data, { root: true })
+      })
   }
 }
 

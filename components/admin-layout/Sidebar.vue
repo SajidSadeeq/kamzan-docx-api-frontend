@@ -34,66 +34,86 @@
                 Modules
               </h6>
             </li><!-- .nk-menu-heading -->
-            <li class="nk-menu-item">
+            <li class="nk-menu-item" @click="activeSubMenue('')">
               <NuxtLink to="/category" class="nk-menu-link">
                 <span class="nk-menu-icon"><em class="icon ni ni-menu-squared" /></span>
                 <span class="nk-menu-text">Category</span>
               </NuxtLink>
             </li><!-- .nk-menu-item -->
-            <li class="nk-menu-item">
+            <li class="nk-menu-item" @click="activeSubMenue('')">
               <NuxtLink to="/customer" class="nk-menu-link">
                 <span class="nk-menu-icon"><em class="icon ni ni-users" /></span>
                 <span class="nk-menu-text">Customers</span>
               </NuxtLink>
             </li><!-- .nk-menu-item -->
-            <li class="nk-menu-item">
+            <li class="nk-menu-item" @click="activeSubMenue('')">
               <NuxtLink to="/product" class="nk-menu-link">
                 <span class="nk-menu-icon"><em class="icon ni ni-bag" /></span>
                 <span class="nk-menu-text">Products</span>
               </NuxtLink>
             </li>
-            <li class="nk-menu-item">
+            <li class="nk-menu-item" @click="activeSubMenue('')">
               <NuxtLink to="/pallets-in-out" class="nk-menu-link">
                 <span class="nk-menu-icon"><em class="icon ni ni-bag" /></span>
                 <span class="nk-menu-text">Pallets In Out</span>
               </NuxtLink>
             </li>
-            <li class="nk-menu-item">
+            <li class="nk-menu-item" @click="activeSubMenue('')">
               <NuxtLink to="/pallets" class="nk-menu-link">
                 <span class="nk-menu-icon"><em class="icon ni ni-bag" /></span>
                 <span class="nk-menu-text">Pallets</span>
               </NuxtLink>
             </li>
-            <li class="nk-menu-item">
+            <li class="nk-menu-item" @click="activeSubMenue('')">
               <NuxtLink to="/brand" class="nk-menu-link">
                 <span class="nk-menu-icon"><em class="icon ni ni-sign-sgd" /></span>
                 <span class="nk-menu-text">Brands</span>
               </NuxtLink>
             </li>
-            <li class="nk-menu-item">
+            <li class="nk-menu-item" @click="activeSubMenue('')">
               <NuxtLink to="/suppliers" class="nk-menu-link">
                 <span class="nk-menu-icon"><em class="icon ni ni-sign-sgd" /></span>
                 <span class="nk-menu-text">Suppliers</span>
               </NuxtLink>
             </li>
 
-            <li class="nk-menu-item">
+            <li class="nk-menu-item" @click="activeSubMenue('')">
               <NuxtLink to="/rack" class="nk-menu-link">
                 <span class="nk-menu-icon"><em class="icon ni ni-bag" /></span>
                 <span class="nk-menu-text">Racks</span>
               </NuxtLink>
             </li>
-            <li class="nk-menu-item">
+            <li class="nk-menu-item" @click="activeSubMenue('')">
               <NuxtLink to="/aisle" class="nk-menu-link">
                 <span class="nk-menu-icon"><em class="icon ni ni-bag" /></span>
                 <span class="nk-menu-text">Aisles</span>
               </NuxtLink>
             </li>
-            <li class="nk-menu-item">
+            <li class="nk-menu-item" @click="activeSubMenue('')">
               <NuxtLink to="/goods" class="nk-menu-link">
                 <span class="nk-menu-icon"><em class="icon ni ni-bag" /></span>
                 <span class="nk-menu-text">Goods</span>
               </NuxtLink>
+            </li>
+            <li class="nk-menu-item has-sub" :class="(link == '/reports' || link == '/reports') ? 'active':''" @click="activeSubMenue('/reports')">
+              <NuxtLink to="#" class="nk-menu-link nk-menu-toggle" data-original-title="" title="">
+                <span class="nk-menu-icon"><em class="icon ni ni-bag" /></span>
+                <span class="nk-menu-text">Reports</span>
+              </NuxtLink>
+              <ul class="nk-menu-sub" style="(link == '/reports/goods-in' || link == '/reports/goods-out') ? 'display: block;':'display: none;'">
+                <li class="nk-menu-item">
+                  <NuxtLink to="/reports/goods-in" class="nk-menu-link">
+                    <span class="nk-menu-icon"><em class="icon ni ni-bag" /></span>
+                    <span class="nk-menu-text">Goods In</span>
+                  </NuxtLink>
+                </li>
+                <li class="nk-menu-item">
+                  <NuxtLink to="/reports/goods-out" class="nk-menu-link">
+                    <span class="nk-menu-icon"><em class="icon ni ni-bag" /></span>
+                    <span class="nk-menu-text">Goods Out</span>
+                  </NuxtLink>
+                </li>
+              </ul><!-- .nk-menu-sub -->
             </li>
           </ul><!-- .nk-menu -->
         </div><!-- .nk-sidebar-menu -->
@@ -107,7 +127,13 @@
 export default {
   data () {
     return {
-      toggleSideBar: false
+      toggleSideBar: false,
+      link: this.$router.currentRoute.path
+    }
+  },
+  methods: {
+    activeSubMenue (currentLink) {
+      this.link = currentLink
     }
   }
 }
