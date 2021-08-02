@@ -13,6 +13,18 @@ const actions = {
       .then(function (response) {
         commit('SET_EDIT_SUPPLIER', response.data.payload)
       })
+  },
+  async fetchSuppliers ({ commit }, payload) {
+    await this.$axios.get('/supplier', {
+      params: {
+        page: payload.page,
+        limit: payload.limit
+      }
+    }
+    )
+      .then(function (response) {
+        commit('SET_SUPPLIER', response.data.payload.data)
+      })
   }
 }
 

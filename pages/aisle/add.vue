@@ -65,7 +65,7 @@
                                     required=""
                                   >
                                 </div>
-                                <span v-if="errors" class="text-danger">{{ errors[0] }}</span>
+                                <span v-if="containsKey(from_errors, 'name')" class="error">{{ from_errors.name[0] }}</span>
                               </div>
                             </div>
                           </div>
@@ -101,7 +101,7 @@ export default {
       tabPath: this.$route.fullPath,
       activeTab: 1,
       name: '',
-      errors: []
+      from_errors: []
     }
   },
   methods: {
@@ -113,13 +113,9 @@ export default {
       this.$axios.post('aisle', {
         name: this.name
       }).then(function (response) {
-        if (response.data.status !== false) {
-          self.$router.push('/aisle')
-        } else {
-          self.errors = response.data.payload.error
-        }
+        self.$router.push('/aisle')
       }).catch(function (error) {
-        self.errors = error.response.payload.error
+        self.from_errors = error.response.data.data
       })
     }
 

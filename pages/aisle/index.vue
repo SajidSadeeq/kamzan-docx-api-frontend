@@ -115,6 +115,17 @@
                   </tbody>
                 </table>
               </div><!-- .card -->
+              <div class="card">
+                <div class="card-inner">
+                  <div class="pages float-right">
+                    <vue-pagination
+                      :current="currentPage"
+                      :total="Math.ceil(total / perPage)"
+                      @page-change="pageChangeHandler"
+                    />
+                  </div>
+                </div>
+              </div>
             </div><!-- nk-block -->
           </div><!-- .components-preview -->
         </div>
@@ -130,7 +141,15 @@ export default {
       toggleModal: false,
       activeIndex: null,
       loading: true,
-      aisles: []
+      // aisles: [],
+      total: 0,
+      perPage: 10,
+      currentPage: 1
+    }
+  },
+  computed: {
+    aisles () {
+      return this.$store.state.aisle.aisles
     }
   },
   created () {
@@ -149,13 +168,35 @@ export default {
     finish () {
       this.loading = false
     },
+    scrollToTop () {
+      const element = document.querySelector('html')
+      element.scroll({
+        top: 90,
+        behavior: 'smooth'
+      })
+    },
+    async pageChangeHandler (page) {
+      this.start()
+      this.currentPage = page
+      // const offset = ((this.currentPage - 1) * this.limit)
+      await this.$store.dispatch('aisle/fetchAisles', {
+        page: this.currentPage,
+        limit: this.perPage
+      })
+      this.finish()
+      this.scrollToTop()
+    },
     async fetchAisles () {
       const self = this
-      await this.$axios.get('aisle')
+      await this.$axios.get('aisle', {
+        params: {
+          limit: self.perPage
+        }
+      })
         .then(function (response) {
           if (response.data.status !== false) {
-            self.aisles = response.data.payload
-            self.$store.commit('aisle/SET_AISLE', self.aisles)
+            self.total = response.data.payload.total
+            self.$store.commit('aisle/SET_AISLE', response.data.payload.data)
           }
           self.$nuxt.$loading.finish()
         }).catch(function (ex) {

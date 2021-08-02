@@ -13,6 +13,17 @@ const actions = {
       .then(function (response) {
         commit('SET_EDIT_GOOD', response.data.payload)
       })
+  },
+  async fetchGoods ({ commit }, payload) {
+    await this.$axios.get('/good', {
+      params: {
+        page: payload.page,
+        limit: payload.limit
+      }
+    })
+      .then(function (response) {
+        commit('SET_GOOD', response.data.payload.data)
+      })
   }
 }
 

@@ -170,7 +170,6 @@ export default {
       if (this.pallet_id) {
         await this.$axios.get(`pallet/pallet-goods/${this.pallet_id}`)
           .then(function (response) {
-            console.log(response)
             if (response.data.status !== false) {
               response.data.payload.pallet_goods.forEach((data) => {
                 if (data.goods !== null) {
@@ -190,7 +189,7 @@ export default {
       await this.$axios.get('pallet')
         .then(function (response) {
           if (response.data.status !== false) {
-            self.pallets = response.data.payload
+            self.pallets = response.data.payload.data
           } else {
             // self.errors = response.data.payload.error
           }
@@ -203,7 +202,7 @@ export default {
       await this.$axios.get('good')
         .then(function (response) {
           if (response.data.status !== false) {
-            self.goods = response.data.payload
+            self.goods = response.data.payload.data
           } else {
             // self.errors = response.data.payload.error
           }

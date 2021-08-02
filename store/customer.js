@@ -13,6 +13,12 @@ const actions = {
       .then(function (response) {
         commit('SET_EDIT_CUSTOMER', response.data.payload)
       })
+  },
+  async fetchCustomers ({ commit }, payload) {
+    await this.$axios.get(`/customer?page=${payload.page}`)
+      .then(function (response) {
+        commit('customer/SET_CUSTOMER', response.data.payload.data, { root: true })
+      })
   }
 }
 

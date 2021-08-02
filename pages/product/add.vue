@@ -61,7 +61,7 @@
                               <div class="form-group">
                                 <label class="form-label" for="category_id">Select Category</label>
                                 <div class="form-control-wrap">
-                                  <input
+                                  <!-- <input
                                     id="category_id"
                                     v-model="category_id"
                                     type="number"
@@ -69,8 +69,9 @@
                                     name="category_id"
                                     placeholder="Select Category"
                                     required=""
-                                  >
-                                  <span v-if="containsKey(errors, 'category_id')" class="text-danger">{{ errors.category_id[0] }}</span>
+                                  > -->
+                                  <treeselect v-model="category_id" :options="categories" :normalizer="normalizer" />
+                                  <span v-if="containsKey(from_errors, 'category_id')" class="text-danger">{{ from_errors.category_id[0] }}</span>
                                 </div>
                               </div>
                             </div>
@@ -87,7 +88,7 @@
                                     placeholder="Select Supplier"
                                     required=""
                                   >
-                                  <span v-if="containsKey(errors, 'supplier_id')" class="text-danger">{{ errors.supplier_id[0] }}</span>
+                                  <span v-if="containsKey(from_errors, 'supplier_id')" class="text-danger">{{ from_errors.supplier_id[0] }}</span>
                                 </div>
                               </div>
                             </div>
@@ -104,7 +105,7 @@
                                     placeholder="Product Name"
                                     required=""
                                   >
-                                  <span v-if="containsKey(errors, 'name')" class="text-danger">{{ errors.name[0] }}</span>
+                                  <span v-if="containsKey(from_errors, 'name')" class="text-danger">{{ from_errors.name[0] }}</span>
                                 </div>
                               </div>
                             </div>
@@ -121,7 +122,7 @@
                                     placeholder="Sku"
                                     required=""
                                   >
-                                  <span v-if="containsKey(errors, 'sku')" class="text-danger">{{ errors.sku[0] }}</span>
+                                  <span v-if="containsKey(from_errors, 'sku')" class="text-danger">{{ from_errors.sku[0] }}</span>
                                 </div>
                               </div>
                             </div>
@@ -138,7 +139,7 @@
                                     placeholder="Qty"
                                     required=""
                                   >
-                                  <span v-if="containsKey(errors, 'qty')" class="text-danger">{{ errors.qty[0] }}</span>
+                                  <span v-if="containsKey(from_errors, 'qty')" class="text-danger">{{ from_errors.qty[0] }}</span>
                                 </div>
                               </div>
                             </div>
@@ -157,7 +158,7 @@
                                     placeholder="Price"
                                     required=""
                                   >
-                                  <span v-if="containsKey(errors, 'price')" class="text-danger">{{ errors.price[0] }}</span>
+                                  <span v-if="containsKey(from_errors, 'price')" class="text-danger">{{ from_errors.price[0] }}</span>
                                 </div>
                               </div>
                             </div>
@@ -174,7 +175,7 @@
                                     placeholder="Size"
                                     required=""
                                   >
-                                  <span v-if="containsKey(errors, 'size')" class="text-danger">{{ errors.size[0] }}</span>
+                                  <span v-if="containsKey(from_errors, 'size')" class="text-danger">{{ from_errors.size[0] }}</span>
                                 </div>
                               </div>
                             </div>
@@ -192,7 +193,7 @@
                                     placeholder="Weight"
                                     required=""
                                   >
-                                  <span v-if="containsKey(errors, 'weight')" class="text-danger">{{ errors.weight[0] }}</span>
+                                  <span v-if="containsKey(from_errors, 'weight')" class="text-danger">{{ from_errors.weight[0] }}</span>
                                 </div>
                               </div>
                             </div>
@@ -209,7 +210,7 @@
                                     placeholder="color"
                                     required=""
                                   >
-                                  <span v-if="containsKey(errors, 'color')" class="text-danger">{{ errors.color[0] }}</span>
+                                  <span v-if="containsKey(from_errors, 'color')" class="text-danger">{{ from_errors.color[0] }}</span>
                                 </div>
                               </div>
                             </div>
@@ -233,7 +234,7 @@
                                   placeholder="Write your description"
                                   required=""
                                 />
-                                <span v-if="containsKey(errors, 'description')" class="text-danger">{{ errors.description[0] }}</span>
+                                <span v-if="containsKey(from_errors, 'description')" class="text-danger">{{ from_errors.description[0] }}</span>
                               </div>
                             </div>
                           </div>
@@ -251,7 +252,7 @@
                                   placeholder="Product note"
                                   required=""
                                 />
-                                <span v-if="containsKey(errors, 'note')" class="text-danger">{{ errors.note[0] }}</span>
+                                <span v-if="containsKey(from_errors, 'note')" class="text-danger">{{ from_errors.note[0] }}</span>
                               </div>
                             </div>
                           </div>
@@ -282,13 +283,16 @@
 </template>
 
 <script>
-
+import Treeselect from '@riophae/vue-treeselect'
+// import the styles
+import '@riophae/vue-treeselect/dist/vue-treeselect.css'
 export default {
+  components: { Treeselect },
   data () {
     return {
       tabPath: this.$route.fullPath,
       activeTab: 1,
-      category_id: '',
+      category_id: null,
       supplier_id: '',
       name: '',
       sku: '',
@@ -300,12 +304,32 @@ export default {
       description: '',
       note: '',
       images: [],
-      errors: []
+      from_errors: [],
+      categories: [],
+      normalizer (node) {
+        return {
+          id: node.id,
+          label: node.name,
+          children: node.children
+        }
+      }
     }
+  },
+  created () {
+    this.fetchTree()
   },
   methods: {
     containsKey (obj, key) {
       return Object.keys(obj).includes(key)
+    },
+    fetchTree () {
+      const _self = this
+      this.$axios.get('/category/tree').then(function (response) {
+        _self.categories = response.data.payload
+        // self.$router.push('/product')
+      }).catch(function (error) {
+        _self.from_errors = error.response.data.data
+      })
     },
     addProduct () {
       const self = this
@@ -325,7 +349,7 @@ export default {
       }).then(function (response) {
         self.$router.push('/product')
       }).catch(function (error) {
-        self.errors = error.response.data.data
+        self.from_errors = error.response.data.data
       })
     },
     beforeRemove (index, done, fileList) {

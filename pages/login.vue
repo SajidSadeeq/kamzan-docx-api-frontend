@@ -7,30 +7,24 @@
         <!-- content @s  -->
         <div class="nk-content ">
           <div class="nk-block nk-block-middle nk-auth-body  wide-xs">
-            <div class="brand-logo pb-4 text-center">
-              <a href="html/index.html" class="logo-link">
-                <img
-                  class="logo-light logo-img logo-img-lg"
-                  src="http://localhost:8000/assets/images/logo.png"
-                  srcset="http://localhost:8000/assets/images/logo2x.png 2x"
-                  alt="logo"
-                >
-                <img
-                  class="logo-dark logo-img logo-img-lg"
-                  src="http://localhost:8000/assets/images/logo-dark.png"
-                  srcset="http://localhost:8000/assets/images/logo-dark2x.png 2x"
-                  alt="logo-dark"
-                >
-              </a>
-            </div>
             <div class="card login_register_border">
               <div class="card-inner card-inner-lg">
                 <div class="nk-block-head">
-                  <div class="nk-block-head-content">
+                  <div class="brand-logo pb-4 text-center">
+                    <a href="javascript:;" class="logo-link">
+                      <img
+                        class="logo-dark"
+                        src="@/assets/admin/images/login-logo.png"
+                        srcset="@/assets/admin/images/login-logo.png"
+                        alt="logo-dark"
+                      >
+                    </a>
+                  </div>
+                  <!-- <div class="nk-block-head-content">
                     <h4 class="nk-block-title text-center">
                       Sign-In
                     </h4>
-                  </div>
+                  </div> -->
                 </div>
                 <form action="#" method="post" @submit.prevent="login">
                   <div class="form-group">

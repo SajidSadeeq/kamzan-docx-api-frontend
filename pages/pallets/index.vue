@@ -143,6 +143,17 @@
                   </tbody>
                 </table>
               </div><!-- .card -->
+              <div class="card">
+                <div class="card-inner">
+                  <div class="pages float-right">
+                    <vue-pagination
+                      :current="currentPage"
+                      :total="Math.ceil(total / perPage)"
+                      @page-change="pageChangeHandler"
+                    />
+                  </div>
+                </div>
+              </div>
             </div><!-- nk-block -->
           </div><!-- .components-preview -->
         </div>
@@ -157,7 +168,15 @@ export default {
     return {
       toggleModal: false,
       activeIndex: null,
-      pallets: []
+      // pallets: [],
+      total: 0,
+      perPage: 10,
+      currentPage: 1
+    }
+  },
+  computed: {
+    pallets () {
+      return this.$store.state.pallet.pallets
     }
   },
   created () {
@@ -166,7 +185,6 @@ export default {
   mounted () {
     this.$nextTick(() => {
       this.$nuxt.$loading.start()
-      // setTimeout(() => this.$nuxt.$loading.finish(), 1000)
     })
   },
   methods: {
@@ -176,14 +194,36 @@ export default {
     finish () {
       this.loading = false
     },
+    scrollToTop () {
+      const element = document.querySelector('html')
+      element.scroll({
+        top: 90,
+        behavior: 'smooth'
+      })
+    },
+    async pageChangeHandler (page) {
+      this.start()
+      this.currentPage = page
+      // const offset = ((this.currentPage - 1) * this.limit)
+      await this.$store.dispatch('pallet/fetchPallets', {
+        page: this.currentPage,
+        limit: this.perPage
+      })
+      this.finish()
+      this.scrollToTop()
+    },
     async fetchPallets () {
       const self = this
-      await this.$axios.get('pallet')
+      await this.$axios.get('pallet', {
+        params: {
+          limit: self.perPage
+        }
+      })
         .then(function (response) {
           if (response.data.status !== false) {
-            self.pallets = response.data.payload
+            self.total = response.data.payload.total
             // console.log(response.data)
-            self.$store.commit('pallet/SET_PALLET', self.pallets)
+            self.$store.commit('pallet/SET_PALLET', response.data.payload.data)
           }
           self.$nuxt.$loading.finish()
         }).catch(function () {

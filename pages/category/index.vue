@@ -129,10 +129,15 @@
                         </div>
                       </td>
                     </tr>
+                    <tr v-if="categories.length < 1">
+                      <div class="col-md-12 text-center">
+                        {{ 'Data Not Found' }}
+                      </div>
+                    </tr>
                   </tbody>
                 </table>
               </div><!-- .card -->
-              <div class="card">
+              <div v-if="total > 0" class="card">
                 <div class="card-inner">
                   <div class="pages float-right">
                     <vue-pagination

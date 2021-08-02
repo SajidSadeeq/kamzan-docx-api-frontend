@@ -64,6 +64,7 @@
                                     placeholder="Customer Name"
                                     required=""
                                   >
+                                  <span v-if="containsKey(from_errors, 'customer_name')" class="invalid">{{ from_errors.customer_name[0] }}</span>
                                 </div>
                               </div>
                             </div>
@@ -80,6 +81,7 @@
                                     placeholder="Customer email"
                                     required=""
                                   >
+                                  <span v-if="containsKey(from_errors, 'email')" class="invalid">{{ from_errors.email[0] }}</span>
                                 </div>
                               </div>
                             </div>
@@ -96,6 +98,7 @@
                                     placeholder="Street 1"
                                     required=""
                                   >
+                                  <span v-if="containsKey(from_errors, 'street_1')" class="invalid">{{ from_errors.street_1[0] }}</span>
                                 </div>
                               </div>
                             </div>
@@ -128,6 +131,7 @@
                                     placeholder="City"
                                     required=""
                                   >
+                                  <span v-if="containsKey(from_errors, 'city')" class="invalid">{{ from_errors.city[0] }}</span>
                                 </div>
                               </div>
                             </div>
@@ -144,6 +148,7 @@
                                     placeholder="Postcode"
                                     required=""
                                   >
+                                  <span v-if="containsKey(from_errors, 'postcode')" class="invalid">{{ from_errors.postcode[0] }}</span>
                                 </div>
                               </div>
                             </div>
@@ -154,15 +159,14 @@
                                 <label class="form-label">Telephone Number</label>
                                 <div class="form-control-wrap">
                                   <client-only>
-                                    <client-only>
-                                      <vue-tel-input
-                                        v-model="customer.telephone_number"
-                                        :valid-characters-only="true"
-                                        :preferred-countries="['GB']"
-                                        :auto-default-country="false"
-                                      />
-                                    </client-only>
+                                    <vue-tel-input
+                                      v-model="customer.telephone_number"
+                                      :valid-characters-only="true"
+                                      :preferred-countries="['GB']"
+                                      :auto-default-country="false"
+                                    />
                                   </client-only>
+                                  <span v-if="containsKey(from_errors, 'telephone_number')" class="error">{{ from_errors.telephone_number[0] }}</span>
                                 </div>
                               </div>
                             </div>
@@ -179,17 +183,18 @@
                                     placeholder="County"
                                     required=""
                                   >
+                                  <span v-if="containsKey(from_errors, 'county')" class="invalid">{{ from_errors.county[0] }}</span>
                                 </div>
                               </div>
                             </div>
-                            <div class="col-md-10">
+                            <!-- <div class="col-md-10">
                               <div class="form-group">
                                 <label class="form-label">Main Contact </label>
                                 <div class="form-control-wrap">
                                   <input
                                     id="main_contact "
                                     v-model="customer.main_contact "
-                                    type="text"
+                                    type="number"
                                     class="form-control"
                                     name="name"
                                     placeholder="Main Contact"
@@ -205,7 +210,7 @@
                                   <input
                                     id="customer_type"
                                     v-model="customer.customer_type"
-                                    type="text"
+                                    type="number"
                                     class="form-control"
                                     name="name"
                                     placeholder="Customer Type"
@@ -213,8 +218,8 @@
                                   >
                                 </div>
                               </div>
-                            </div>
-                            <div class="col-md-10 mt-2">
+                            </div> -->
+                            <!-- <div class="col-md-10 mt-2">
                               <div class="form-group">
                                 <label class="form-label">Archived</label>
                                 <div class="form-control-wrap">
@@ -229,12 +234,12 @@
                                   >
                                 </div>
                               </div>
-                            </div>
+                            </div> -->
                           </div>
                           <div class="col-md-12 text-right">
                             <div class="form-group">
                               <button type="submit" class="btn btn-lg btn-primary">
-                                Save
+                                Update
                               </button>
                             </div>
                           </div>
@@ -273,7 +278,8 @@ export default {
       county: '',
       main_contact: '',
       customer_type: '',
-      archived: 1
+      // archived: 1
+      from_errors: []
     }
   },
   computed: {
@@ -287,9 +293,13 @@ export default {
     }
   },
   methods: {
+    containsKey (obj, key) {
+      return Object.keys(obj).includes(key)
+    },
     editCustomer () {
       const self = this
-      this.$axios.post(`/customer/update/${this.customer.id}`, {
+      this.$axios.put(`/customer/update/${this.customer.id}`, {
+        id: this.customer.id,
         customer_name: this.customer.customer_name,
         email: this.customer.email,
         street_1: this.customer.street_1,
@@ -299,10 +309,12 @@ export default {
         telephone_number: this.customer.telephone_number,
         county: this.customer.county,
         main_contact: this.customer.main_contact,
-        customer_type: this.customer.customer_type,
-        archived: 0
+        customer_type: this.customer.customer_type
+        // archived: 0
       }).then(function (response) {
         self.$router.push('/customer')
+      }).catch(function (error) {
+        self.from_errors = error.response.data.data
       })
     }
   }

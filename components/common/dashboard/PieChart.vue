@@ -1,10 +1,10 @@
 <template>
   <div>
     <div class="mt-4">
+      <div class="text-center">
+        <h6>{{ (new Date()).toLocaleString('default', { month: 'long' }) }} - 2021</h6>
+      </div>
       <apexchart type="donut" height="250" :options="chartOptions" :series="series" />
-    </div>
-    <div class="text-center mt-5">
-      Month July
     </div>
   </div>
 </template>
@@ -13,6 +13,7 @@
 export default {
   data () {
     return {
+      month: new Date('m'),
       series: [44, 55],
       chartOptions: {
         labels: ['Out Pallets', 'In Pallets'],

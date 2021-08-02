@@ -15,9 +15,14 @@ const actions = {
       })
   },
   async fetchAisles ({ commit }, payload) {
-    await this.$axios.get(`/aisle?page=${payload.page}`)
+    await this.$axios.get('/aisle', {
+      parasm: {
+        page: payload.page,
+        limit: payload.limit
+      }
+    })
       .then(function (response) {
-        commit('aisle/SET_AISLE', response.data.payload.data, { root: true })
+        commit('SET_AISLE', response.data.payload.data)
       })
   }
 }

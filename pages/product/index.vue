@@ -233,8 +233,6 @@
 </template>
 
 <script>
-import 'vue-sliding-pagination/dist/style/vue-sliding-pagination.css'
-
 export default {
   data () {
     return {

@@ -4,9 +4,10 @@
     <div class="nk-sidebar-element nk-sidebar-head">
       <div class="nk-sidebar-brand">
         <a href="html/index.html" class="logo-link nk-sidebar-logo">
-          <img class="logo-light logo-img" src="@/assets/admin/images/logo.png" srcset="@/assets/admin/images/logo2x.png 2x" alt="logo">
-          <img class="logo-dark logo-img" src="@/assets/admin/images/logo-dark.png" srcset="@/assets/admin/images/logo-dark2x.png 2x" alt="logo-dark">
-          <img class="logo-small logo-img logo-img-small" src="@/assets/admin/images/logo-small.png" srcset="@/assets/admin/images/logo-small2x.png 2x" alt="logo-small">
+          <!-- <img class="logo-light logo-img" src="@/assets/admin/images/logo-old.png" srcset="@/assets/admin/images/logo2x-old.png 2x" alt="logo"> -->
+          <img class="logo-dark logo-img" src="@/assets/admin/images/logo2x.png" srcset="@/assets/admin/images/logo2x.png 2x" alt="logo-dark">
+          <!-- <img class="logo-dark logo-img" src="@/assets/admin/images/logo-dark.png" srcset="@/assets/admin/images/logo-dark2x.png 2x" alt="logo-dark"> -->
+          <img class="logo-small logo-img logo-img-small" src="@/assets/admin/images/favicon.png" srcset="@/assets/admin/images/favicon.png 2x" alt="logo-small">
         </a>
       </div>
       <div class="nk-menu-trigger mr-n2" @click="toggleSideBar = !toggleSideBar">
@@ -95,7 +96,7 @@
                 <span class="nk-menu-text">Goods</span>
               </NuxtLink>
             </li>
-            <li class="nk-menu-item has-sub" :class="(link == '/reports' || link == '/reports') ? 'active':''" @click="activeSubMenue('/reports')">
+            <!-- <li class="nk-menu-item has-sub" :class="(link == '/reports' || link == '/reports') ? 'active':''" @click="activeSubMenue('/reports')">
               <NuxtLink to="#" class="nk-menu-link nk-menu-toggle" data-original-title="" title="">
                 <span class="nk-menu-icon"><em class="icon ni ni-bag" /></span>
                 <span class="nk-menu-text">Reports</span>
@@ -113,8 +114,8 @@
                     <span class="nk-menu-text">Goods Out</span>
                   </NuxtLink>
                 </li>
-              </ul><!-- .nk-menu-sub -->
-            </li>
+              </ul> /* .nk-menu-sub */
+            </li> -->
           </ul><!-- .nk-menu -->
         </div><!-- .nk-sidebar-menu -->
       </div><!-- .nk-sidebar-content -->

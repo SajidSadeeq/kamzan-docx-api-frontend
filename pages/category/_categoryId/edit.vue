@@ -72,6 +72,7 @@
                                     placeholder="Name"
                                     required=""
                                   >
+                                  <span v-if="containsKey(from_errors, 'name')" class="invalid">{{ from_errors.name[0] }}</span>
                                 </div>
                               </div>
                             </div>
@@ -163,7 +164,7 @@ export default {
       description: '',
       meta_title: '',
       meta_description: '',
-      errors: [],
+      from_errors: [],
       categories: [],
       parent_id: null,
       normalizer (node) {
@@ -195,6 +196,9 @@ export default {
     this.parent_id = this.category.parent_id
   },
   methods: {
+    containsKey (obj, key) {
+      return Object.keys(obj).includes(key)
+    },
     async fetchCategories () {
       const self = this
       await this.$axios.get('/category')
@@ -219,6 +223,8 @@ export default {
         meta_description: this.category.meta_description
       }).then(function (response) {
         self.$router.push('/category')
+      }).catch(function (error) {
+        self.from_errors = error.response.data.data
       })
     },
     fetchTree () {
@@ -227,7 +233,7 @@ export default {
         _self.categories = response.data.payload
         // self.$router.push('/product')
       }).catch(function (error) {
-        _self.errors = error.response.data.data
+        _self.from_errors = error.response.data.data
       })
     }
   }

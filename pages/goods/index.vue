@@ -125,6 +125,17 @@
                   </tbody>
                 </table>
               </div><!-- .card -->
+              <div class="card">
+                <div class="card-inner">
+                  <div class="pages float-right">
+                    <vue-pagination
+                      :current="currentPage"
+                      :total="Math.ceil(total / perPage)"
+                      @page-change="pageChangeHandler"
+                    />
+                  </div>
+                </div>
+              </div>
             </div><!-- nk-block -->
           </div><!-- .components-preview -->
         </div>
@@ -140,7 +151,15 @@ export default {
       toggleModal: false,
       activeIndex: null,
       loading: true,
-      goods: []
+      // goods: [],
+      total: 0,
+      perPage: 10,
+      currentPage: 1
+    }
+  },
+  computed: {
+    goods () {
+      return this.$store.state.good.goods
     }
   },
   created () {
@@ -159,12 +178,33 @@ export default {
     finish () {
       this.loading = false
     },
+    scrollToTop () {
+      const element = document.querySelector('html')
+      element.scroll({
+        top: 90,
+        behavior: 'smooth'
+      })
+    },
+    async pageChangeHandler (page) {
+      this.start()
+      this.currentPage = page
+      await this.$store.dispatch('good/fetchGoods', {
+        page: this.currentPage,
+        limit: this.perPage
+      })
+      this.finish()
+      this.scrollToTop()
+    },
     async fetchGoods () {
       const self = this
-      await this.$axios.get('good')
+      await this.$axios.get('good', {
+        params: {
+          limit: self.perPage
+        }
+      })
         .then(function (response) {
-          self.goods = response.data.payload
-          self.$store.commit('good/SET_GOOD', self.goods)
+          self.total = response.data.payload.total
+          self.$store.commit('good/SET_GOOD', response.data.payload.data)
           self.$nuxt.$loading.finish()
         }).catch(function (ex) {
           self.$nuxt.$loading.finish()

@@ -135,6 +135,17 @@
                   </tbody>
                 </table>
               </div><!-- .card -->
+              <div class="card">
+                <div class="card-inner">
+                  <div class="pages float-right">
+                    <vue-pagination
+                      :current="currentPage"
+                      :total="Math.ceil(total / perPage)"
+                      @page-change="pageChangeHandler"
+                    />
+                  </div>
+                </div>
+              </div>
             </div><!-- nk-block -->
           </div><!-- .components-preview -->
         </div>
@@ -150,8 +161,16 @@ export default {
       toggleModal: false,
       activeIndex: null,
       loading: true,
-      aisles: [],
-      racks: []
+      // aisles: [],
+      // racks: [],
+      total: 0,
+      perPage: 10,
+      currentPage: 1
+    }
+  },
+  computed: {
+    racks () {
+      return this.$store.state.rack.racks
     }
   },
   created () {
@@ -173,13 +192,35 @@ export default {
     finish () {
       this.loading = false
     },
+    scrollToTop () {
+      const element = document.querySelector('html')
+      element.scroll({
+        top: 90,
+        behavior: 'smooth'
+      })
+    },
+    async pageChangeHandler (page) {
+      this.start()
+      this.currentPage = page
+      // const offset = ((this.currentPage - 1) * this.limit)
+      await this.$store.dispatch('rack/fetchRacks', {
+        page: this.currentPage,
+        limit: this.perPage
+      })
+      this.finish()
+      this.scrollToTop()
+    },
     async fetchRacks () {
       const self = this
-      await this.$axios.get('rack')
+      await this.$axios.get('rack', {
+        params: {
+          limit: self.perPage
+        }
+      })
         .then(function (response) {
           if (response.data.status !== false) {
-            self.racks = response.data.payload
-            self.$store.commit('rack/SET_RACK', self.racks)
+            self.total = response.data.payload.total
+            self.$store.commit('rack/SET_RACK', response.data.payload.data)
           }
           self.$nuxt.$loading.finish()
         }).catch(function (ex) {
@@ -192,7 +233,7 @@ export default {
       await this.$axios.delete(`/rack/${rack.id}`)
         .then(function (response) {
           self.racks = []
-          self.fetchAisles()
+          self.fetchRacks()
           self.$store.commit('SET_RACK', self.rack)
         }).catch(function (ex) {
           self.fetchRacks()

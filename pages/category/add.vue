@@ -72,7 +72,7 @@
                                     placeholder="Name"
                                     required=""
                                   >
-                                  <span v-if="containsKey(errors, 'name')" class="text-danger">{{ errors.name[0] }}</span>
+                                  <span v-if="containsKey(from_errors, 'name')" class="invalid">{{ from_errors.name[0] }}</span>
                                 </div>
                               </div>
                             </div>
@@ -165,7 +165,7 @@ export default {
       description: '',
       meta_title: '',
       meta_description: '',
-      errors: [],
+      from_errors: [],
       categories: [],
       normalizer (node) {
         return {
@@ -203,7 +203,7 @@ export default {
         _self.categories = response.data.payload
         // self.$router.push('/product')
       }).catch(function (error) {
-        _self.errors = error.response.data.data
+        _self.from_errors = error.response.data.data
       })
     },
     addCategory () {
@@ -217,7 +217,7 @@ export default {
       }).then(function (response) {
         _self.$router.push('/category')
       }).catch(function (error) {
-        _self.errors = error.response.data.data
+        _self.from_errors = error.response.data.data
       })
     }
   }

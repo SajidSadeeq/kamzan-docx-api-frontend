@@ -65,7 +65,7 @@
                                     required=""
                                   >
                                 </div>
-                                <span v-if="containsKey(errors, 'name')" class="text-danger">{{ errors.name[0] }}</span>
+                                <span v-if="containsKey(from_errors, 'name')" class="text-danger">{{ from_errors.name[0] }}</span>
                               </div>
                             </div>
                             <div class="col-md-10 mt-2">
@@ -74,7 +74,7 @@
                                 <div class="form-control-wrap">
                                   <v-select v-model="aisle" :options="aisles" label="name" placeholder="Select Aisle" name="aisle_id" />
                                 </div>
-                                <span v-if="containsKey(errors, 'aisle_id')" class="text-danger">{{ errors.aisle_id[0] }}</span>
+                                <span v-if="containsKey(from_errors, 'aisle_id')" class="text-danger">{{ from_errors.aisle_id[0] }}</span>
                               </div>
                             </div>
                             <br>
@@ -89,7 +89,7 @@
                                   name="side"
                                   required
                                 />
-                                <span v-if="containsKey(errors, 'side')" class="text-danger">{{ errors.side[0] }}</span>
+                                <span v-if="containsKey(from_errors, 'side')" class="text-danger">{{ from_errors.side[0] }}</span>
                               </div>
                             </div>
                           </div>
@@ -132,7 +132,7 @@ export default {
       aisles: [],
       aisle: '',
       side: '',
-      errors: []
+      from_errors: []
     }
   },
   created () {
@@ -144,12 +144,12 @@ export default {
     },
     async fetchAisles () {
       const self = this
-      await this.$axios.get('aisle')
+      await this.$axios.get('aisle/list')
         .then(function (response) {
           if (response.data.status !== false) {
             self.aisles = response.data.payload
           } else {
-            // self.errors = response.data.payload.error
+            // self.from_errors = response.data.payload.error
           }
 
           self.$nuxt.$loading.finish()
@@ -166,7 +166,7 @@ export default {
           self.$router.push('/rack')
         }
       }).catch(function (error) {
-        self.errors = error.response.data.data
+        self.from_errors = error.response.data.data
       })
     }
 

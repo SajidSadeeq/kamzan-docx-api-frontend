@@ -19,8 +19,8 @@
                     <div class="toggle-expand-content" data-content="more-options">
                       <ul class="nk-block-tools g-3">
                         <li class="nk-block-tools-opt">
-                          <a href="#" class="btn btn-icon btn-primary d-md-none">
-                            <em class="icon ni ni-plus" />
+                          <a href="javascript:;" class="btn btn-primary d-none d-md-inline-flex mr-2" @click="addProductArray">
+                            <em class="icon ni ni-plus" /> Add Product
                           </a>
                           <NuxtLink to="/goods" class="btn btn-danger d-none d-md-inline-flex">
                             <em class="icon ni ni-back-ios" /><span>Back</span>
@@ -50,7 +50,7 @@
                     <div id="tabItem5" class="tab-pane " :class="{ active: activeTab === 1 }">
                       <form action="#" class="form-validate" novalidate="novalidate" @submit.prevent="addGood">
                         <div class="row g-gs">
-                          <div class="col-md-6 border-right">
+                          <div class="col-md-4 border-right">
                             <div class="col-md-10">
                               <div class="form-group">
                                 <label class="form-label" for="name">Name</label>
@@ -65,10 +65,10 @@
                                     required=""
                                   >
                                 </div>
-                                <span v-if="containsKey(errors, 'name')" class="text-danger">{{ errors.name[0] }}</span>
+                                <span v-if="containsKey(from_errors, 'name')" class="text-danger">{{ from_errors.name[0] }}</span>
                               </div>
                             </div>
-                            <div class="col-md-10">
+                            <!-- <div class="col-md-10">
                               <div class="form-group">
                                 <label class="form-label" for="name">Products</label>
                                 <v-select
@@ -80,25 +80,67 @@
                                   :value="selectedProducts"
                                   @input="addProducts($event)"
                                 />
-                                <span v-if="containsKey(errors, 'good_id')" class="text-danger">{{ errors.good_id[0] }}</span>
+                                <span v-if="containsKey(from_errors, 'good_id')" class="text-danger">{{ from_errors.good_id[0] }}</span>
+                              </div>
+                            </div> -->
+                          </div>
+                          <div class="col-md-8">
+                            <div class="col-md-12">
+                              <div class="form-group">
+                                <div class="form-control-wrap">
+                                  <ul>
+                                    <li v-for="(product, index) in selectedProducts" :key="product.id">
+                                      <!-- <li> -->
+                                      <div class="row gy-4">
+                                        <div class="col-sm-6">
+                                          <div class="form-group">
+                                            <label class="form-label" for="default-01">Search Product</label>
+                                            <div class="form-control-wrap">
+                                              <!-- <input id="default-01" type="number" class="form-control" placeholder="1"> -->
+                                              <vue-search
+                                                :img-photo="'path-img'"
+                                                :source-field="'name'"
+                                                :search-by-field="true"
+                                                :show-new-botton="false"
+                                                :enable-class-base="true"
+                                                :api-source="apiSearchProductsUrl"
+                                                @newitem="newitem()"
+                                                @itemselected="productselected($event, index)"
+                                              />
+                                            </div>
+                                          </div>
+                                        </div>
+                                        <div class="col-sm-2">
+                                          <div class="form-group">
+                                            <label class="form-label" for="number">Quantity</label>
+                                            <div class="form-control-wrap">
+                                              <input id="number" v-model="product.qty" type="number" class="form-control" placeholder="1">
+                                            </div>
+                                          </div>
+                                        </div>
+                                        <div class="col-sm-2">
+                                          <div class="form-group">
+                                            <label class="form-label" for="vol">Volumn</label>
+                                            <div class="form-control-wrap">
+                                              <input id="vol" v-model="product.vol" type="number" class="form-control" placeholder="1">
+                                            </div>
+                                          </div>
+                                        </div>
+                                        <div class="col-sm-2">
+                                          <div class="form-group">
+                                            <label class="form-label" for="weight">weight(kg)</label>
+                                            <div class="form-control-wrap">
+                                              <input id="weight" v-model="product.weight" type="number" class="form-control" placeholder="1">
+                                            </div>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </li>
+                                  </ul>
+                                </div>
                               </div>
                             </div>
                           </div>
-                          <!--                          <div class="col-md-6">-->
-                          <!--                            <div class="col-md-10">-->
-                          <!--                              <div class="form-group">-->
-                          <!--                                <label class="form-label" for="meta-title">Products</label>-->
-                          <!--                                <div class="form-control-wrap">-->
-                          <!--                                  <ul>-->
-                          <!--                                    <li v-for="(product) in selectedProducts" :key="product.id">-->
-                          <!--                                      <em class="icon ni ni-check" style="color:green" />-->
-                          <!--                                      {{ product.name }}-->
-                          <!--                                    </li>-->
-                          <!--                                  </ul>-->
-                          <!--                                </div>-->
-                          <!--                              </div>-->
-                          <!--                            </div>-->
-                          <!--                          </div>-->
                           <div class="col-md-12 text-right">
                             <div class="form-group">
                               <button type="submit" class="btn btn-lg btn-primary" @submit.prevent="addGood">
@@ -127,16 +169,30 @@
 import Vue from 'vue'
 import vSelect from 'vue-select'
 import 'vue-select/dist/vue-select.css'
+import 'vue-input-search/dist/vue-search.css'
+import VueSearch from 'vue-input-search/dist/vue-search.common'
 Vue.component('VSelect', vSelect)
 export default {
+  components: {
+    'vue-search': VueSearch
+  },
   data () {
     return {
       tabPath: this.$route.fullPath,
       activeTab: 1,
       name: '',
-      errors: [],
+      from_errors: [],
       products: [],
-      selectedProducts: []
+      selectedProducts: [
+        {
+          id: '',
+          name: '',
+          qty: '',
+          vol: '',
+          weight: ''
+        }
+      ],
+      apiSearchProductsUrl: process.env.APP_URL + 'common/search-products'
     }
   },
   created () {
@@ -154,7 +210,7 @@ export default {
           if (response.data.status !== false) {
             self.products = response.data.payload.data ?? []
           } else {
-            // self.errors = response.data.payload.error
+            // self.from_errors = response.data.payload.error
           }
 
           self.$nuxt.$loading.finish()
@@ -185,17 +241,30 @@ export default {
     addGood () {
       const self = this
       this.$axios.post('good', {
-        products: this.selectedProducts,
+        products: self.selectedProducts,
         name: self.name
       }).then(function (response) {
         if (response.data.status !== false) {
           self.$router.push('/goods')
         } else {
-          self.errors = response.data.payload.error
+          self.from_errors = response.data.payload.error
         }
       }).catch(function (error) {
-        self.errors = error.response.data.data
+        self.from_errors = error.response.data.data
       })
+    },
+    addProductArray () {
+      this.selectedProducts.push({
+        name: '',
+        qty: '',
+        vol: '',
+        weight: ''
+      })
+    },
+    productselected (event, index) {
+      const self = this
+      self.selectedProducts[index].id = event.id
+      self.selectedProducts[index].name = event.name
     }
 
   }

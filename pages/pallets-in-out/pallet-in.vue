@@ -103,7 +103,7 @@
                                 <div class="form-control-wrap">
                                   <input
                                     id="in_date"
-                                    v-model="pallet.in_date"
+                                    v-model="in_date"
                                     type="date"
                                     class="form-control"
                                     name="in_date"
@@ -153,22 +153,13 @@ export default {
       in_time: '',
       from_errors: [],
       apiSearchCustomerUrl: process.env.APP_URL + 'common/search-customers',
-      apiSearchPalletsUrl: process.env.APP_URL + 'common/search-pallets',
-      pallet: {},
-      loading: true
+      apiSearchPalletsUrl: process.env.APP_URL + 'common/search-pallets'
     }
   },
   created () {
     this.fetchAisles()
-    this.fetchPalletDetails()
   },
   methods: {
-    start () {
-      this.loading = true
-    },
-    finish () {
-      this.loading = false
-    },
     containsKey (obj, key) {
       return Object.keys(obj).includes(key)
     },
@@ -183,17 +174,6 @@ export default {
           }
 
         //   self.$nuxt.$loading.finish()
-        })
-    },
-    async fetchPalletDetails () {
-      const self = this
-      await this.$axios.get(`pallets-in-out/view/${self.$route.params.palletId}`)
-        .then(function (response) {
-          // self.pallet = response.data.payload
-          self.in_time = response.data.payload.in_time
-          self.customer_id = response.data.payload.customer_id
-          self.pallet_id = response.data.payload.pallet_id
-          // self.$nuxt.$loading.finish()
         })
     },
     customerselected (customer) {
