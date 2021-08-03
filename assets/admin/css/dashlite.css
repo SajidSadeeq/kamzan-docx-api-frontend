@@ -13179,7 +13179,7 @@ p > span > .icon.ni { vertical-align: middle; }
   .nk-download .thumb { position: absolute; margin-left: -4rem; }
   .nk-download .actions { margin: 0.75rem 0 0; padding-left: 4rem; } }
 
-.nk-add-product { top: 65px; background-color: #fff; width: 400px; height: calc(100vh - 65px); padding: 1.5rem; }
+.nk-add-product { top: 62px; background-color: #fff; width: 400px; height: calc(100vh - 65px); padding: 1.5rem; }
 
 .nk-add-product + .toggle-overlay { z-index: 700; }
 

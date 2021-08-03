@@ -19,8 +19,12 @@
                     <div class="toggle-expand-content" data-content="more-options">
                       <ul class="nk-block-tools g-3">
                         <li class="nk-block-tools-opt">
-                          <a href="#" class="btn btn-icon btn-primary d-md-none">
-                            <em class="icon ni ni-plus" />
+                          <a
+                            href="#"
+                            class="btn btn-primary mr-2"
+                            @click="toggleAddGood = !toggleAddGood"
+                          >
+                            <em class="icon ni ni-plus" /> Add New Good
                           </a>
                           <NuxtLink to="/pallets" class="btn btn-danger d-none d-md-inline-flex">
                             <em class="icon ni ni-back-ios" /><span>Back</span>
@@ -63,7 +67,7 @@
                                     @input="getPalletGood"
                                   />
                                 </div>
-                                <span v-if="containsKey(errors, 'pallet_id')" class="text-danger">{{ errors.pallet_id[0] }}</span>
+                                <span v-if="containsKey(form_errors, 'pallet_id')" class="text-danger">{{ form_errors.pallet_id[0] }}</span>
                               </div>
                             </div>
                             <br>
@@ -79,7 +83,7 @@
                                   :value="palletGoods"
                                   @input="addGoods($event)"
                                 />
-                                <span v-if="containsKey(errors, 'good_id')" class="text-danger">{{ errors.good_id[0] }}</span>
+                                <span v-if="containsKey(form_errors, 'good_id')" class="text-danger">{{ form_errors.good_id[0] }}</span>
                               </div>
                             </div>
                           </div>
@@ -100,6 +104,80 @@
                 </div>
               </div><!-- .card-preview -->
             </div>
+            <!-- <div
+              v-show="showPopup"
+              v-closable="{
+                exclude: ['button'],
+                handler: 'onClose'
+              }"
+              class="popup-box"
+            >
+              Test Popup Box
+            </div> -->
+            <div
+              class="nk-add-product toggle-slide toggle-slide-right toggle-screen-any"
+              :class="(toggleAddGood)?'content-active':''"
+              data-content="addProduct"
+              data-toggle-screen="any"
+              data-toggle-overlay="true"
+              data-toggle-body="true"
+              data-simplebar="init"
+            >
+              <div class="simplebar-wrapper" style="margin: -24px;">
+                <div class="simplebar-height-auto-observer-wrapper">
+                  <div class="simplebar-height-auto-observer" />
+                </div><div class="simplebar-mask">
+                  <div class="simplebar-offset" style="right: 0px; bottom: 0px;">
+                    <div class="simplebar-content-wrapper" style="height: 100%; overflow: hidden scroll;">
+                      <div class="simplebar-content" style="padding: 24px;">
+                        <div class="nk-block-head">
+                          <div class="nk-block-head-content">
+                            <h5 class="nk-block-title">
+                              Add Good
+                            </h5>
+                          </div>
+                        </div><!-- .nk-block-head -->
+                        <div class="nk-block">
+                          <div class="row g-3">
+                            <div class="col-12">
+                              <div class="form-group">
+                                <div class="form-group">
+                                  <label class="form-label" for="name">Good Id</label>
+                                  <div class="form-control-wrap">
+                                    <input
+                                      id="name"
+                                      v-model="good_name"
+                                      type="text"
+                                      class="form-control"
+                                      name="name"
+                                      placeholder="Name"
+                                      required=""
+                                    >
+                                  </div>
+                                  <span v-if="containsKey(form_errors, 'name')" class="invalid">{{ form_errors.name[0] }}</span>
+                                </div>
+                              </div>
+                            </div>
+                            <div class="col-12">
+                              <button class="btn btn-primary pull-right" @click="addGood">
+                                <em class="icon ni ni-plus" /><span>Add</span>
+                              </button>
+                              <button class="btn btn-danger pull-right" @click="closeToggleAddGood">
+                                <em class="icon ni ni-plus" /><span>Close</span>
+                              </button>
+                            </div>
+                          </div>
+                        </div><!-- .nk-block -->
+                      </div>
+                    </div>
+                  </div>
+                </div><div class="simplebar-placeholder" style="width: auto; height: 699px;" />
+              </div><div class="simplebar-track simplebar-horizontal" style="visibility: hidden;">
+                <div class="simplebar-scrollbar" style="width: 0px; display: none;" />
+              </div><div class="simplebar-track simplebar-vertical" style="visibility: visible;">
+                <div class="simplebar-scrollbar" style="height: 139px; transform: translate3d(0px, 0px, 0px); display: block;" />
+              </div>
+            </div>
           </div><!-- .components-preview -->
         </div>
       </div>
@@ -117,13 +195,15 @@ export default {
   data () {
     return {
       tabPath: this.$route.fullPath,
+      toggleAddGood: false,
       activeTab: 1,
+      good_name: '',
       pallets: [],
       goods: [],
       pallet_id: null,
       selectedGoods: [],
       palletGoods: [],
-      errors: []
+      form_errors: []
     }
   },
   created () {
@@ -177,7 +257,7 @@ export default {
                 }
               })
             } else {
-            // self.errors = response.data.payload.error
+            // self.form_errors = response.data.payload.error
             }
 
             self.$nuxt.$loading.finish()
@@ -191,7 +271,7 @@ export default {
           if (response.data.status !== false) {
             self.pallets = response.data.payload.data
           } else {
-            // self.errors = response.data.payload.error
+            // self.form_errors = response.data.payload.error
           }
 
           self.$nuxt.$loading.finish()
@@ -204,7 +284,7 @@ export default {
           if (response.data.status !== false) {
             self.goods = response.data.payload.data
           } else {
-            // self.errors = response.data.payload.error
+            // self.form_errors = response.data.payload.error
           }
 
           self.$nuxt.$loading.finish()
@@ -219,10 +299,26 @@ export default {
       ).then(function (response) {
         self.$router.push('/pallets')
       }).catch(function (error) {
-        self.errors = error.response.data.data
+        self.form_errors = error.response.data.data
       })
+    },
+    addGood () {
+      const self = this
+      this.$axios.post('good', {
+        name: self.good_name
+      }).then(function (response) {
+        self.$toast.success('Good is created successfully')
+        self.fetchGoods()
+        self.toggleAddGood = false
+        self.good_name = ''
+      }).catch(function (error) {
+        self.form_errors = error.response.data.data
+      })
+    },
+    closeToggleAddGood () {
+      const self = this
+      self.toggleAddGood = false
     }
-
   }
 }
 </script>

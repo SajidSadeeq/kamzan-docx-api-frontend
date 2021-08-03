@@ -48,7 +48,7 @@
             <span>In Time</span>
           </div>
           <div class="nk-tb-col">
-            <span class="d-none d-sm-inline">Out By</span>
+            <span class="d-none d-sm-inline">In By</span>
           </div>
           <div class="nk-tb-col tb-col-md">
             <span>Date Out</span>
@@ -78,7 +78,7 @@
             <span class="badge badge-dim badge-warning"><em class="icon ni ni-clock" /><span>{{ pallet.in_time }}</span></span>
           </div>
           <div class="nk-tb-col">
-            <span class="badge badge-success">{{ pallet.pallet_out_user.name }}</span>
+            <span class="badge badge-success">{{ (pallet.pallet_in_user)?pallet.pallet_in_user.name:'' }}</span>
           </div>
           <div v-if="pallet.customer !== null && pallet.pallet !== null" class="nk-tb-col tb-col-lg">
             <span class="badge badge-dim badge-success"><em class="icon ni ni-clock" /><span>{{ pallet.out_date }}</span></span>
@@ -87,7 +87,7 @@
             <span class="badge badge-dim badge-warning"><em class="icon ni ni-clock" /><span>{{ pallet.out_time }}</span></span>
           </div>
           <div class="nk-tb-col">
-            <span class="badge badge-success">{{ pallet.pallet_in_user.name }}</span>
+            <span class="badge badge-success">{{ (pallet.pallet_out_user)?pallet.pallet_out_user.name:'' }}</span>
           </div>
         </div>
       </div>

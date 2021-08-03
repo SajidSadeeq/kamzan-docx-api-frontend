@@ -48,6 +48,7 @@
                   </ul>
                   <div class="tab-content">
                     <div id="tabItem5" class="tab-pane " :class="{ active: activeTab === 1 }">
+                      <!-- {{ pallet }} -->
                       <form action="#" class="form-validate" novalidate="novalidate" @submit.prevent="addRack">
                         <div class="row g-gs">
                           <div class="col-md-6 border-right">
@@ -87,10 +88,11 @@
                                 <div class="form-control-wrap">
                                   <input
                                     id="in_time"
-                                    v-model="in_time"
+                                    v-model="pallet.in_time"
                                     type="time"
                                     class="form-control"
                                     name="in_time"
+
                                     required=""
                                   >
                                   <span v-if="containsKey(from_errors, 'in_time')" class="invalid">{{ from_errors.in_time[0] }}</span>
@@ -189,7 +191,7 @@ export default {
       const self = this
       await this.$axios.get(`pallets-in-out/view/${self.$route.params.palletId}`)
         .then(function (response) {
-          // self.pallet = response.data.payload
+          self.pallet = response.data.payload
           self.in_time = response.data.payload.in_time
           self.customer_id = response.data.payload.customer_id
           self.pallet_id = response.data.payload.pallet_id

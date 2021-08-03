@@ -85,59 +85,57 @@
                             </div> -->
                           </div>
                           <div class="col-md-8">
-                            <div class="col-md-12">
-                              <div class="form-group">
-                                <div class="form-control-wrap">
-                                  <ul>
-                                    <li v-for="(product, index) in selectedProducts" :key="product.id">
-                                      <!-- <li> -->
-                                      <div class="row gy-4">
-                                        <div class="col-sm-6">
-                                          <div class="form-group">
-                                            <label class="form-label" for="default-01">Search Product</label>
-                                            <div class="form-control-wrap">
-                                              <!-- <input id="default-01" type="number" class="form-control" placeholder="1"> -->
-                                              <vue-search
-                                                :img-photo="'path-img'"
-                                                :source-field="'name'"
-                                                :search-by-field="true"
-                                                :show-new-botton="false"
-                                                :enable-class-base="true"
-                                                :api-source="apiSearchProductsUrl"
-                                                @newitem="newitem()"
-                                                @itemselected="productselected($event, index)"
-                                              />
-                                            </div>
-                                          </div>
-                                        </div>
-                                        <div class="col-sm-2">
-                                          <div class="form-group">
-                                            <label class="form-label" for="number">Quantity</label>
-                                            <div class="form-control-wrap">
-                                              <input id="number" v-model="product.qty" type="number" class="form-control" placeholder="1">
-                                            </div>
-                                          </div>
-                                        </div>
-                                        <div class="col-sm-2">
-                                          <div class="form-group">
-                                            <label class="form-label" for="vol">Volumn</label>
-                                            <div class="form-control-wrap">
-                                              <input id="vol" v-model="product.vol" type="number" class="form-control" placeholder="1">
-                                            </div>
-                                          </div>
-                                        </div>
-                                        <div class="col-sm-2">
-                                          <div class="form-group">
-                                            <label class="form-label" for="weight">weight(kg)</label>
-                                            <div class="form-control-wrap">
-                                              <input id="weight" v-model="product.weight" type="number" class="form-control" placeholder="1">
-                                            </div>
+                            <div class="form-group">
+                              <div class="form-control-wrap">
+                                <ul>
+                                  <li v-for="(product, index) in selectedProducts" :key="product.id">
+                                    <!-- <li> -->
+                                    <div class="row gy-4">
+                                      <div class="col-sm-6">
+                                        <div class="form-group">
+                                          <label class="form-label" for="default-01">Search Product</label>
+                                          <div class="form-control-wrap">
+                                            <!-- <input id="default-01" type="number" class="form-control" placeholder="1"> -->
+                                            <vue-search
+                                              :img-photo="'path-img'"
+                                              :source-field="'name'"
+                                              :search-by-field="true"
+                                              :show-new-botton="false"
+                                              :enable-class-base="true"
+                                              :api-source="apiSearchProductsUrl"
+                                              @newitem="newitem()"
+                                              @itemselected="productselected($event, index)"
+                                            />
                                           </div>
                                         </div>
                                       </div>
-                                    </li>
-                                  </ul>
-                                </div>
+                                      <div class="col-sm-2">
+                                        <div class="form-group">
+                                          <label class="form-label" for="number">Quantity</label>
+                                          <div class="form-control-wrap">
+                                            <input id="number" v-model="product.qty" type="number" class="form-control" placeholder="1">
+                                          </div>
+                                        </div>
+                                      </div>
+                                      <div class="col-sm-2">
+                                        <div class="form-group">
+                                          <label class="form-label" for="vol">Volumn</label>
+                                          <div class="form-control-wrap">
+                                            <input id="vol" v-model="product.vol" type="number" class="form-control" placeholder="1">
+                                          </div>
+                                        </div>
+                                      </div>
+                                      <div class="col-sm-2">
+                                        <div class="form-group">
+                                          <label class="form-label" for="weight">weight(kg)</label>
+                                          <div class="form-control-wrap">
+                                            <input id="weight" v-model="product.weight" type="number" class="form-control" placeholder="1">
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </li>
+                                </ul>
                               </div>
                             </div>
                           </div>
