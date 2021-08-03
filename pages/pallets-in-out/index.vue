@@ -281,6 +281,10 @@ export default {
     async outPallet (pallet) {
       await this.$store.commit('pallets-in-out/SET_EDIT_PALLET', pallet)
       this.$router.push(`pallets-in-out/${pallet.id}/pallet-out`)
+    },
+    async movePallet (pallet) {
+      await this.$store.commit('pallets-in-out/SET_EDIT_PALLET', pallet)
+      this.$router.push(`pallets-in-out/${pallet.id}/move`)
     }
   }
 }

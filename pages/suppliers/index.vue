@@ -57,19 +57,22 @@
                   </div>
                 </div>
                 <div class="nk-tb-col">
-                  <span class="sub-text">Customer Name</span>
+                  <span class="sub-text">Customer</span>
                 </div>
                 <div class="nk-tb-col tb-col-mb">
-                  <span class="sub-text">Street 1</span>
+                  <span class="sub-text">Company</span>
                 </div>
                 <div class="nk-tb-col tb-col-md">
-                  <span class="sub-text">Street 2</span>
+                  <span class="sub-text">Contact Details</span>
+                </div>
+                <div class="nk-tb-col tb-col-lg">
+                  <span class="sub-text">Email</span>
+                </div>
+                <div class="nk-tb-col tb-col-lg">
+                  <span class="sub-text">City</span>
                 </div>
                 <div class="nk-tb-col tb-col-lg">
                   <span class="sub-text">Country</span>
-                </div>
-                <div class="nk-tb-col tb-col-lg">
-                  <span class="sub-text">Last Order</span>
                 </div>
                 <div class="nk-tb-col tb-col-md">
                   <span class="sub-text">Status</span>
@@ -101,11 +104,8 @@
                   </div>
                 </div>
                 <div class="nk-tb-col">
-                  <a href="html/ecommerce/customer-details.html">
+                  <a href="/suppliers">
                     <div class="user-card">
-                      <div class="user-avatar bg-primary">
-                        <span>AB</span>
-                      </div>
                       <div class="user-info">
                         <span class="tb-lead"> {{ supplier.company_name }} <span class="dot dot-success d-md-none ml-1" /></span>
                       </div>
@@ -175,7 +175,7 @@
                 </div>
               </div><!-- .nk-tb-item -->
             </div><!-- .nk-tb-list -->
-            <div class="card">
+            <div v-if="Math.ceil(total / perPage) > 1" class="card">
               <div class="card-inner">
                 <div class="pages float-right">
                   <vue-pagination

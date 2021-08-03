@@ -159,7 +159,7 @@ export default {
     },
     async fetchAisles () {
       const self = this
-      await this.$axios.get('aisle')
+      await this.$axios.get('aisle/list')
         .then(function (response) {
           self.aisles = response.data.payload
           self.aisle = self.aisles.find(elem => elem.id === self.rack.aisle_id)
