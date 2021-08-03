@@ -70,7 +70,7 @@
                                     placeholder="Select Category"
                                     required=""
                                   >
-                                  <span v-if="containsKey(errors, 'category_id')" class="text-danger">{{ errors.category_id[0] }}</span>
+                                  <span v-if="containsKey(form_errors, 'category_id')" class="text-danger">{{ form_errors.category_id[0] }}</span>
                                 </div>
                               </div>
                             </div>
@@ -87,7 +87,7 @@
                                     placeholder="Select Supplier"
                                     required=""
                                   >
-                                  <span v-if="containsKey(errors, 'supplier_id')" class="text-danger">{{ errors.supplier_id[0] }}</span>
+                                  <span v-if="containsKey(form_errors, 'supplier_id')" class="text-danger">{{ form_errors.supplier_id[0] }}</span>
                                 </div>
                               </div>
                             </div>
@@ -104,7 +104,7 @@
                                     placeholder="Product Name"
                                     required=""
                                   >
-                                  <span v-if="containsKey(errors, 'name')" class="text-danger">{{ errors.name[0] }}</span>
+                                  <span v-if="containsKey(form_errors, 'name')" class="text-danger">{{ form_errors.name[0] }}</span>
                                 </div>
                               </div>
                             </div>
@@ -121,7 +121,7 @@
                                     placeholder="Sku"
                                     required=""
                                   >
-                                  <span v-if="containsKey(errors, 'sku')" class="text-danger">{{ errors.sku[0] }}</span>
+                                  <span v-if="containsKey(form_errors, 'sku')" class="text-danger">{{ form_errors.sku[0] }}</span>
                                 </div>
                               </div>
                             </div>
@@ -138,7 +138,7 @@
                                     placeholder="Qty"
                                     required=""
                                   >
-                                  <span v-if="containsKey(errors, 'qty')" class="text-danger">{{ errors.qty[0] }}</span>
+                                  <span v-if="containsKey(form_errors, 'qty')" class="text-danger">{{ form_errors.qty[0] }}</span>
                                 </div>
                               </div>
                             </div>
@@ -157,7 +157,7 @@
                                     placeholder="Price"
                                     required=""
                                   >
-                                  <span v-if="containsKey(errors, 'price')" class="text-danger">{{ errors.price[0] }}</span>
+                                  <span v-if="containsKey(form_errors, 'price')" class="text-danger">{{ form_errors.price[0] }}</span>
                                 </div>
                               </div>
                             </div>
@@ -174,7 +174,7 @@
                                     placeholder="Size"
                                     required=""
                                   >
-                                  <span v-if="containsKey(errors, 'size')" class="text-danger">{{ errors.size[0] }}</span>
+                                  <span v-if="containsKey(form_errors, 'size')" class="text-danger">{{ form_errors.size[0] }}</span>
                                 </div>
                               </div>
                             </div>
@@ -192,7 +192,7 @@
                                     placeholder="Weight"
                                     required=""
                                   >
-                                  <span v-if="containsKey(errors, 'weight')" class="text-danger">{{ errors.weight[0] }}</span>
+                                  <span v-if="containsKey(form_errors, 'weight')" class="text-danger">{{ form_errors.weight[0] }}</span>
                                 </div>
                               </div>
                             </div>
@@ -209,7 +209,7 @@
                                     placeholder="color"
                                     required=""
                                   >
-                                  <span v-if="containsKey(errors, 'color')" class="text-danger">{{ errors.color[0] }}</span>
+                                  <span v-if="containsKey(form_errors, 'color')" class="text-danger">{{ form_errors.color[0] }}</span>
                                 </div>
                               </div>
                             </div>
@@ -232,7 +232,7 @@
                                       </option>
                                     </select>
                                   </div>
-                                  <span v-if="containsKey(errors, 'status')" class="text-danger">{{ errors.status[0] }}</span>
+                                  <span v-if="containsKey(form_errors, 'status')" class="text-danger">{{ form_errors.status[0] }}</span>
                                 </div>
                               </div>
                             </div>
@@ -256,7 +256,7 @@
                                   placeholder="Write your description"
                                   required=""
                                 />
-                                <span v-if="containsKey(errors, 'description')" class="text-danger">{{ errors.description[0] }}</span>
+                                <span v-if="containsKey(form_errors, 'description')" class="text-danger">{{ form_errors.description[0] }}</span>
                               </div>
                             </div>
                           </div>
@@ -274,7 +274,7 @@
                                   placeholder="Product note"
                                   required=""
                                 />
-                                <span v-if="containsKey(errors, 'note')" class="text-danger">{{ errors.note[0] }}</span>
+                                <span v-if="containsKey(form_errors, 'note')" class="text-danger">{{ form_errors.note[0] }}</span>
                               </div>
                             </div>
                           </div>
@@ -383,7 +383,7 @@ export default {
       description: '',
       note: '',
       status: 1,
-      errors: [],
+      form_errors: [],
       images: [],
       new_images: [],
       delete_images: [],
@@ -406,6 +406,13 @@ export default {
   computed: {
     product () {
       return this.$store.state.product.edit_product
+    }
+  },
+  watch: {
+    product (val) {
+      if (val.images != null) {
+        this.images = val.images
+      }
     }
   },
   created () {
@@ -455,7 +462,7 @@ export default {
       }).then(function (response) {
         // self.$router.push('/product')
       }).catch(function (error) {
-        self.errors = error.response.data.data
+        self.form_errors = error.response.data.data
       })
     },
     fetchTree () {
@@ -464,7 +471,7 @@ export default {
         self.options = response.data.payload
         // self.$router.push('/product')
       }).catch(function (error) {
-        self.errors = error.response.data.data
+        self.form_errors = error.response.data.data
       })
     },
     beforeRemove (index, done, fileList) {
