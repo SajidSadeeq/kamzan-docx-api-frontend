@@ -2,7 +2,9 @@
   <div>
     <div class="mt-4">
       <div class="text-center">
-        <h6>{{ (new Date()).toLocaleString('default', { month: 'long' }) }} - 2021</h6>
+        <h6 class="date">
+          {{ (new Date()).toLocaleString('default', { month: 'long' }) }} - 2021
+        </h6>
       </div>
       <apexchart type="donut" height="250" :options="chartOptions" :series="series" />
     </div>
@@ -17,6 +19,9 @@ export default {
       series: [44, 55],
       chartOptions: {
         labels: ['Out Pallets', 'In Pallets'],
+        title: {
+          text: ''
+        },
         chart: {
           type: 'donut'
         },
@@ -34,10 +39,18 @@ export default {
         }]
       }
     }
+  },
+  mounted () {
+    // const fragment = document.createDocumentFragment()
+    // fragment.appendChild(document.querySelector('.date'))
+    // document.querySelector('.apexcharts-inner').appendChild(fragment)
+
+    // const source = document.querySelector('.date')
+    // document.querySelector('.apexcharts-inner').appendChild(source)
   }
 }
 </script>
-
+<!-- apexcharts-inner apexcharts-graphical -->
 <style>
 
 </style>

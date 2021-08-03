@@ -59,7 +59,7 @@
                                 </div>
                               </div>
                             </div>
-                            <div class="col-md-10">
+                            <div class="col-md-10 mb-2">
                               <div class="form-group">
                                 <label class="form-label" for="name">Category Name</label>
                                 <div class="form-control-wrap">

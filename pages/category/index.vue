@@ -103,7 +103,6 @@
                           <span class="title">{{ (category.status) ? 'Active' : 'Inactive' }}</span>
                         </div>
                       </td>
-                      <td class="tb-tnx-action" />
                       <td class="tb-tnx-action">
                         <div class="dropdown" :class="{'show': index === activeIndex }">
                           <a
@@ -130,14 +129,16 @@
                       </td>
                     </tr>
                     <tr v-if="categories.length < 1">
-                      <div class="col-md-12 text-center">
-                        {{ 'Data Not Found' }}
-                      </div>
+                      <td colspan="5">
+                        <div class="col-md-12 text-center">
+                          {{ 'Data Not Found' }}
+                        </div>
+                      </td>
                     </tr>
                   </tbody>
                 </table>
               </div><!-- .card -->
-              <div v-if="total > 0" class="card">
+              <div v-if="total > 0" class="card pagewrap">
                 <div class="card-inner">
                   <div class="pages float-right">
                     <vue-pagination

@@ -50,7 +50,7 @@
                     <div id="tabItem5" class="tab-pane " :class="{ active: activeTab === 1 }">
                       <form action="#" class="form-validate" novalidate="novalidate" @submit.prevent="addAisle">
                         <div class="row g-gs">
-                          <div class="col-md-6 border-right">
+                          <div class="col-md-6">
                             <div class="col-md-10">
                               <div class="form-group">
                                 <label class="form-label" for="name">Aisle ID</label>

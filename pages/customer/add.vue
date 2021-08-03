@@ -102,9 +102,9 @@
                                 </div>
                               </div>
                             </div>
-                            <div class="col-md-10">
+                            <div class="col-md-10 mt-2">
                               <div class="form-group">
-                                <label class="form-label">street 2</label>
+                                <label class="form-label">Street 2</label>
                                 <div class="form-control-wrap">
                                   <input
                                     id="street_2"
