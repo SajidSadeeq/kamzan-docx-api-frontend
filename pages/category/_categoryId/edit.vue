@@ -58,7 +58,7 @@
                               </div>
                             </div>
                           </div>
-                          <div class="col-md-10">
+                          <div class="col-md-10 mt-2">
                             <div class="form-group">
                               <label class="form-label" for="name">Category Name</label>
                               <div class="form-control-wrap">
@@ -87,12 +87,30 @@
                                   placeholder="Write your description"
                                   required=""
                                 />
+                                <span v-if="containsKey(from_errors, 'description')" class="invalid">{{ from_errors.description[0] }}</span>
                               </div>
                             </div>
                           </div>
                         </div>
                         <div class="col-md-6">
                           <div class="col-md-10">
+                            {{ "dlska : "+status }}
+                            <div class="form-group">
+                              <label class="form-label">Status</label>
+                              <div class="form-control-wrap">
+                                <select v-model="category.status" name="status" class="form-control">
+                                  <option value="1">
+                                    Active
+                                  </option>
+                                  <option value="0">
+                                    Inactive
+                                  </option>
+                                </select>
+                                <span v-if="containsKey(from_errors, 'status')" class="invalid">{{ from_errors.status[0] }}</span>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="col-md-10 mt-2">
                             <div class="form-group">
                               <label class="form-label" for="meta-title">Meta Title</label>
                               <div class="form-control-wrap">
@@ -105,6 +123,7 @@
                                   placeholder="Meta title"
                                   required=""
                                 >
+                                <span v-if="containsKey(from_errors, 'meta_title')" class="invalid">{{ from_errors.meta_title[0] }}</span>
                               </div>
                             </div>
                           </div>
@@ -120,6 +139,7 @@
                                   placeholder="Write your meta description"
                                   required=""
                                 />
+                                <span v-if="containsKey(from_errors, 'meta_description')" class="invalid">{{ from_errors.meta_description[0] }}</span>
                               </div>
                             </div>
                           </div>
@@ -156,15 +176,18 @@ export default {
   components: { Treeselect },
   data () {
     return {
+      category: {
+        name: '',
+        description: '',
+        meta_title: '',
+        meta_description: '',
+        status: '',
+        parent_id: null
+      },
       tabPath: this.$route.fullPath,
       activeTab: 1,
-      name: '',
-      description: '',
-      meta_title: '',
-      meta_description: '',
       from_errors: [],
       categories: [],
-      parent_id: null,
       normalizer (node) {
         return {
           id: node.id,
@@ -175,12 +198,13 @@ export default {
     }
   },
   computed: {
-    category () {
+    editCatrgory () {
       return this.$store.state.category.edit_category
     }
   },
   mounted () {
     this.fetchCategories()
+    this.category = { ...this.editCatrgory }
   },
 
   created () {
@@ -213,13 +237,7 @@ export default {
     },
     editCategory () {
       const self = this
-      this.$axios.post(`category/update/${this.category.id}`, {
-        parent_id: this.parent_id,
-        name: this.category.name,
-        description: this.category.description,
-        meta_title: this.category.meta_title,
-        meta_description: this.category.meta_description
-      }).then(function (response) {
+      this.$axios.post(`category/update/${this.category.id}`, this.category).then(function (response) {
         self.$router.push('/category')
       }).catch(function (error) {
         self.from_errors = error.response.data.data

@@ -15,7 +15,7 @@
                   <a href="#" class="btn btn-icon btn-trigger toggle-expand mr-n1" data-target="more-options"><em class="icon ni ni-more-v" /></a>
                   <div class="toggle-expand-content" data-content="more-options">
                     <ul class="nk-block-tools g-3">
-                      <li>
+                      <!-- <li>
                         <div class="form-control-wrap">
                           <div class="form-icon form-icon-right">
                             <em class="icon ni ni-search" />
@@ -34,7 +34,7 @@
                             </ul>
                           </div>
                         </div>
-                      </li>
+                      </li> -->
                       <li class="nk-block-tools-opt">
                         <a href="#" class="btn btn-icon btn-primary d-md-none"><em class="icon ni ni-plus" /></a>
                         <NuxtLink to="/suppliers/add" class="btn btn-primary d-none d-md-inline-flex">
@@ -50,12 +50,6 @@
           <div class="nk-block">
             <div class="nk-tb-list is-separate mb-3">
               <div class="nk-tb-item nk-tb-head">
-                <div class="nk-tb-col nk-tb-col-check">
-                  <div class="custom-control custom-control-sm custom-checkbox notext">
-                    <input id="uid" type="checkbox" class="custom-control-input">
-                    <label class="custom-control-label" for="uid" />
-                  </div>
-                </div>
                 <div class="nk-tb-col">
                   <span class="sub-text">Customer</span>
                 </div>
@@ -97,17 +91,11 @@
               </div><!-- .nk-tb-item -->
 
               <div v-for="(supplier, index) in suppliers" :key="supplier.id" class="nk-tb-item">
-                <div class="nk-tb-col nk-tb-col-check">
-                  <div class="custom-control custom-control-sm custom-checkbox notext">
-                    <input id="uid1" type="checkbox" class="custom-control-input">
-                    <label class="custom-control-label" for="uid1" />
-                  </div>
-                </div>
                 <div class="nk-tb-col">
-                  <a href="/suppliers">
+                  <a href="#">
                     <div class="user-card">
                       <div class="user-info">
-                        <span class="tb-lead"> {{ supplier.company_name }} <span class="dot dot-success d-md-none ml-1" /></span>
+                        <span class="tb-lead"> {{ (supplier.customer)?supplier.customer.customer_name:'n/a' }} <span class="dot dot-success d-md-none ml-1" /></span>
                       </div>
                     </div>
                   </a>
@@ -116,16 +104,27 @@
                   <span class="tb-amount">{{ supplier.company_name }}</span>
                 </div>
                 <div class="nk-tb-col tb-col-md">
-                  <span>{{ supplier.street_1 }}</span>
-                </div>
-                <div class="nk-tb-col tb-col-lg">
-                  <span>{{ supplier.street_1 }}</span>
-                </div>
-                <div class="nk-tb-col tb-col-lg">
-                  <span>{{ supplier.street_2 }}</span>
+                  <span class="badge badge-sm badge-dot has-bg d-none d-mb-inline-flex badge-success">
+                    {{ supplier.contact_fname+' '+supplier.contact_lname }}
+                  </span>
                 </div>
                 <div class="nk-tb-col tb-col-md">
-                  <span class="tb-status text-success">Active</span>
+                  <span class="badge badge-sm badge-dot has-bg d-none d-mb-inline-flex badge-primary">
+                    {{ supplier.email }}
+                  </span>
+                </div>
+                <div class="nk-tb-col tb-col-lg">
+                  <span class="badge badge-sm badge-dot has-bg d-none d-mb-inline-flex badge-warning">
+                    {{ (supplier.city)?supplier.city:'n/a' }}
+                  </span>
+                </div>
+                <div class="nk-tb-col tb-col-lg">
+                  <span class="badge badge-sm badge-dot has-bg d-none d-mb-inline-flex badge-warning">
+                    {{ (supplier.country)?supplier.country:'n/a' }}
+                  </span>
+                </div>
+                <div class="nk-tb-col tb-col-md">
+                  <span class="tb-status" :class="(supplier.status)?'text-success':'text-danger'">{{ (supplier.status)?'Active':'Inactive' }}</span>
                 </div>
                 <div class="nk-tb-col nk-tb-col-tools">
                   <ul class="nk-tb-actions gx-1">

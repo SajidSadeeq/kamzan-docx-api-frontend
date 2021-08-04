@@ -114,10 +114,10 @@
                   </span>
                 </div>
                 <div class="nk-tb-col tb-col-lg">
-                  <span class="badge badge-dim badge-success"><em class="icon ni ni-clock" /><span>{{ pallet.in_date }}</span></span>
+                  <span class="badge badge-dim badge-success"><em class="icon ni ni-clock" /><span>{{ pallet.in_date | formateDate }}</span></span>
                 </div>
                 <div class="nk-tb-col tb-col-lg">
-                  <span class="badge badge-dim badge-warning"><em class="icon ni ni-clock" /><span>{{ pallet.in_time }}</span></span>
+                  <span class="badge badge-dim badge-warning"><em class="icon ni ni-clock" /><span>{{ pallet.in_time | formateTime }}</span></span>
                 </div>
                 <div class="nk-tb-col tb-col-lg">
                   <span class="badge badge-sm badge-dot has-bg d-none d-mb-inline-flex" :class="(pallet.pallet_out_user)?'badge-success':'badge-danger'">
@@ -125,10 +125,10 @@
                   </span>
                 </div>
                 <div class="nk-tb-col tb-col-lg">
-                  <span class="badge badge-dim badge-success"><em class="icon ni ni-clock" /><span>{{ (pallet.out_date)?pallet.out_date:'n/a' }}</span></span>
+                  <span class="badge badge-dim badge-success"><em class="icon ni ni-clock" /><span>{{ pallet.out_date | formateDate }}</span></span>
                 </div>
                 <div class="nk-tb-col tb-col-lg">
-                  <span class="badge badge-dim badge-warning"><em class="icon ni ni-clock" /><span>{{ (pallet.out_time)?pallet.out_time:'n/a' }}</span></span>
+                  <span class="badge badge-dim badge-warning"><em class="icon ni ni-clock" /><span>{{ pallet.out_time | formateTime }}</span></span>
                 </div>
                 <div class="nk-tb-col nk-tb-col-tools">
                   <ul class="nk-tb-actions gx-1">
@@ -195,10 +195,15 @@
 </template>
 
 <script>
+import moment from 'moment'
 import DatePicker from 'vue2-datepicker'
 export default {
   components: {
     'date-picker': DatePicker
+  },
+  filters: {
+    formateDate: date => date ? moment(date).format('DD-MM-YYYY') : 'n/a',
+    formateTime: date => date ? moment(date, 'h:mm a').format('hh:mm a') : 'n/a'
   },
   data () {
     return {

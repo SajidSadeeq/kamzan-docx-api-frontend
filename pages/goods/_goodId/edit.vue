@@ -3,72 +3,71 @@
     <div class="container-fluid">
       <div class="nk-content-inner">
         <div class="nk-content-body">
-          <div class="components-preview wide-md mx-auto">
-            <div class="nk-block-head nk-block-head-sm">
-              <div class="nk-block-between">
-                <div class="nk-block-head-content">
-                  <h3 class="nk-block-title page-title">
-                    Edit Good
-                  </h3>
-                </div><!-- .nk-block-head-content -->
-                <div class="nk-block-head-content">
-                  <div class="toggle-wrap nk-block-tools-toggle">
-                    <a href="#" class="btn btn-icon btn-trigger toggle-expand mr-n1" data-target="more-options"><em
-                      class="icon ni ni-more-v"
-                    /></a>
-                    <div class="toggle-expand-content" data-content="more-options">
-                      <ul class="nk-block-tools g-3">
-                        <li class="nk-block-tools-opt">
-                          <a href="#" class="btn btn-icon btn-primary d-md-none">
-                            <em class="icon ni ni-plus" />
-                          </a>
-                          <NuxtLink to="/goods" class="btn btn-danger d-none d-md-inline-flex">
-                            <em class="icon ni ni-back-ios" /><span>Back</span>
-                          </NuxtLink>
-                        </li>
-                      </ul>
-                    </div>
+          <div class="nk-block-head nk-block-head-sm">
+            <div class="nk-block-between">
+              <div class="nk-block-head-content">
+                <h3 class="nk-block-title page-title">
+                  Edit Good
+                </h3>
+              </div><!-- .nk-block-head-content -->
+              <div class="nk-block-head-content">
+                <div class="toggle-wrap nk-block-tools-toggle">
+                  <a href="#" class="btn btn-icon btn-trigger toggle-expand mr-n1" data-target="more-options"><em
+                    class="icon ni ni-more-v"
+                  /></a>
+                  <div class="toggle-expand-content" data-content="more-options">
+                    <ul class="nk-block-tools g-3">
+                      <li class="nk-block-tools-opt">
+                        <a href="javascript:;" class="btn btn-primary d-none d-md-inline-flex mr-2" @click="addProductArray">
+                          <em class="icon ni ni-plus" /> Add Product
+                        </a>
+                        <NuxtLink to="/goods" class="btn btn-danger d-none d-md-inline-flex">
+                          <em class="icon ni ni-back-ios" /><span>Back</span>
+                        </NuxtLink>
+                      </li>
+                    </ul>
                   </div>
-                </div><!-- .nk-block-head-content -->
-              </div>
-            </div><!-- nk-block-head -->
+                </div>
+              </div><!-- .nk-block-head-content -->
+            </div>
+          </div><!-- nk-block-head -->
 
-            <div class="nk-block nk-block-lg">
-              <div class="card card-preview">
-                <div class="card-inner">
-                  <ul class="nav nav-tabs mt-n3">
-                    <li class="nav-item" @click="activeTab = 1">
-                      <a class="nav-link" :class="{ active: activeTab === 1 }" data-toggle="tab" href="#basic"><em
-                        class="icon ni ni-setting"
-                      /><span>Baisc Info</span></a>
-                    </li>
-                    <!-- <li class="nav-item" @click="activeTab = 2">
+          <div class="nk-block nk-block-lg">
+            <div class="card card-preview">
+              <div class="card-inner">
+                <ul class="nav nav-tabs mt-n3">
+                  <li class="nav-item" @click="activeTab = 1">
+                    <a class="nav-link" :class="{ active: activeTab === 1 }" data-toggle="tab" href="#basic"><em
+                      class="icon ni ni-setting"
+                    /><span>Baisc Info</span></a>
+                  </li>
+                  <!-- <li class="nav-item" @click="activeTab = 2">
                         <a class="nav-link" :class="{ active: activeTab === 2 }" data-toggle="tab" href="#meta"><em class="icon ni ni-link" /><span>Meta</span></a>
                       </li> -->
-                  </ul>
-                  <div class="tab-content">
-                    <div id="tabItem5" class="tab-pane " :class="{ active: activeTab === 1 }">
-                      <form action="#" class="form-validate" novalidate="novalidate" @submit.prevent="editGood">
-                        <div class="row g-gs">
-                          <div class="col-md-4 border-right">
-                            <div class="col-md-10">
-                              <div class="form-group">
-                                <label class="form-label" for="name">Name</label>
-                                <div class="form-control-wrap">
-                                  <input
-                                    id="name"
-                                    v-model="good.name"
-                                    type="text"
-                                    class="form-control"
-                                    name="name"
-                                    placeholder="Name"
-                                    required=""
-                                  >
-                                </div>
-                                <span v-if="containsKey(from_errors, 'name')" class="text-danger">{{ from_errors.name[0] }}</span>
+                </ul>
+                <div class="tab-content">
+                  <div id="tabItem5" class="tab-pane " :class="{ active: activeTab === 1 }">
+                    <form action="#" class="form-validate" novalidate="novalidate" @submit.prevent="editGood">
+                      <div class="row g-gs">
+                        <div class="col-md-4 border-right">
+                          <div class="col-md-10">
+                            <div class="form-group">
+                              <label class="form-label" for="name">Name</label>
+                              <div class="form-control-wrap">
+                                <input
+                                  id="name"
+                                  v-model="good.name"
+                                  type="text"
+                                  class="form-control"
+                                  name="name"
+                                  placeholder="Name"
+                                  required=""
+                                >
                               </div>
+                              <span v-if="containsKey(from_errors, 'name')" class="text-danger">{{ from_errors.name[0] }}</span>
                             </div>
-                            <!-- <div class="col-md-10">
+                          </div>
+                          <!-- <div class="col-md-10">
                               <div class="form-group">
                                 <label class="form-label" for="name">Products</label>
                                 <v-select
@@ -83,85 +82,93 @@
                                 <span v-if="containsKey(from_errors, 'good_id')" class="text-danger">{{ from_errors.good_id[0] }}</span>
                               </div>
                             </div> -->
-                          </div>
-                          <div class="col-md-8">
-                            <div class="col-md-12">
-                              <div class="form-group">
-                                <div class="form-control-wrap">
-                                  <ul>
-                                    <li v-for="(product, index) in goodProducts" :key="product.id">
-                                      <!-- <li> -->
-                                      <div class="row gy-4">
-                                        <div class="col-sm-6">
-                                          <div class="form-group">
-                                            <label class="form-label" for="default-01">Search Product</label>
-                                            <div class="form-control-wrap">
-                                              <!-- <input id="default-01" type="number" class="form-control" placeholder="1"> -->
-                                              <vue-search
-                                                :img-photo="'path-img'"
-                                                :source-field="'name'"
-                                                :search-by-field="true"
-                                                :show-new-botton="false"
-                                                :enable-class-base="true"
-                                                :api-source="apiSearchProductsUrl"
-                                                @newitem="newitem()"
-                                                @itemselected="productselected($event, index)"
-                                              />
-                                              <input v-model="product.product_id" type="hidden">
-                                              <small class="text-primary">{ ID: {{ product.products.id }}, Name : {{ product.products.name }} }</small>
-                                            </div>
-                                          </div>
-                                        </div>
-                                        <input v-model="product.id" type="hidden">
-                                        <div class="col-sm-2">
-                                          <div class="form-group">
-                                            <label class="form-label" for="number">Quantity</label>
-                                            <div class="form-control-wrap">
-                                              <input v-model="product.quantity" type="number" class="form-control" placeholder="1">
-                                            </div>
-                                          </div>
-                                        </div>
-                                        <div class="col-sm-2">
-                                          <div class="form-group">
-                                            <label class="form-label" for="vol">Volumn</label>
-                                            <div class="form-control-wrap">
-                                              <input v-model="product.volumn" type="number" class="form-control" placeholder="1">
-                                            </div>
-                                          </div>
-                                        </div>
-                                        <div class="col-sm-2">
-                                          <div class="form-group">
-                                            <label class="form-label" for="weight">weight(kg)</label>
-                                            <div class="form-control-wrap">
-                                              <input v-model="product.weight" type="number" class="form-control" placeholder="1">
-                                            </div>
+                        </div>
+                        <div class="col-md-8">
+                          <div class="col-md-12">
+                            <div class="form-group">
+                              <div class="form-control-wrap">
+                                <ul>
+                                  <li v-for="(product, index) in goodProducts" :key="product.id">
+                                    <!-- <li> -->
+                                    <div class="row gy-4">
+                                      <div class="col-sm-5">
+                                        <div class="form-group">
+                                          <label class="form-label" for="default-01">Search Product</label>
+                                          <div class="form-control-wrap">
+                                            <!-- <input id="default-01" type="number" class="form-control" placeholder="1"> -->
+                                            <vue-search
+                                              :img-photo="'path-img'"
+                                              :source-field="'name'"
+                                              :search-by-field="true"
+                                              :show-new-botton="false"
+                                              :enable-class-base="true"
+                                              :api-source="apiSearchProductsUrl"
+                                              @newitem="newitem()"
+                                              @itemselected="productselected($event, index)"
+                                            />
+                                            <input v-model="product.product_id" type="hidden">
+                                            <small class="text-primary">{ ID: {{ product.products.id }}, Name : {{ product.products.name }} }</small>
                                           </div>
                                         </div>
                                       </div>
-                                    </li>
-                                  </ul>
-                                </div>
+                                      <input v-model="product.id" type="hidden">
+                                      <div class="col-sm-2">
+                                        <div class="form-group">
+                                          <label class="form-label" for="number">Quantity</label>
+                                          <div class="form-control-wrap">
+                                            <input v-model="product.quantity" type="number" class="form-control" placeholder="1">
+                                          </div>
+                                        </div>
+                                      </div>
+                                      <div class="col-sm-2">
+                                        <div class="form-group">
+                                          <label class="form-label" for="vol">Volumn</label>
+                                          <div class="form-control-wrap">
+                                            <input v-model="product.volumn" type="number" class="form-control" placeholder="1">
+                                          </div>
+                                        </div>
+                                      </div>
+                                      <div class="col-sm-2">
+                                        <div class="form-group">
+                                          <label class="form-label" for="weight">weight(kg)</label>
+                                          <div class="form-control-wrap">
+                                            <input v-model="product.weight" type="number" class="form-control" placeholder="1">
+                                          </div>
+                                        </div>
+                                      </div>
+                                      <div class="col-sm-1">
+                                        <div class="form-group">
+                                          <div class="form-control-wrap gp_remove">
+                                            <button type="button" class="btn btn-danger" @click="removeProduct(product, index)">
+                                              <em class="icon ni ni-cross-circle-fill" />
+                                            </button>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </li>
+                                </ul>
                               </div>
                             </div>
                           </div>
-                          <div class="col-md-12 text-right">
-                            <div class="form-group">
-                              <button type="submit" class="btn btn-lg btn-primary" @submit.prevent="editGood">
-                                Save
-                              </button>
-                            </div>
+                        </div>
+                        <div class="col-md-12 text-right">
+                          <div class="form-group">
+                            <button type="submit" class="btn btn-lg btn-primary" @submit.prevent="editGood">
+                              Save
+                            </button>
                           </div>
                         </div>
-                      </form>
-                    </div>
-                    <!-- <div id="tabItem6" class="tab-pane" :class="{ active: activeTab === 2 }">
+                      </div>
+                    </form>
+                  </div>
+                  <!-- <div id="tabItem6" class="tab-pane" :class="{ active: activeTab === 2 }">
                         <p>Culpa dolor voluptate do laboris laboris irure reprehenderit id incididunt duis pariatur mollit aute magna pariatur consectetur. Eu veniam duis non ut dolor deserunt commodo et minim in quis laboris ipsum velit id veniam. Quis ut consectetur adipisicing officia excepteur non sit. Ut et elit aliquip labore Lorem enim eu. Ullamco mollit occaecat dolore ipsum id officia mollit qui esse anim eiusmod do sint minim consectetur qui.</p>
                       </div> -->
-                  </div>
                 </div>
-              </div><!-- .card-preview -->
-            </div>
-          </div><!-- .components-preview -->
+              </div>
+            </div><!-- .card-preview -->
+          </div>
         </div>
       </div>
     </div>
@@ -203,7 +210,19 @@ export default {
     this.fetchProducts()
     this.fetchGoodProducts()
   },
+  mounted () {
+    this.$nextTick(() => {
+      this.$nuxt.$loading.start()
+      // setTimeout(() => this.$nuxt.$loading.finish(), 1000)
+    })
+  },
   methods: {
+    start () {
+      this.loading = true
+    },
+    finish () {
+      this.loading = false
+    },
     containsKey (obj, key) {
       return Object.keys(obj).includes(key)
     },
@@ -271,6 +290,39 @@ export default {
       const self = this
       self.goodProducts[index].product_id = event.id
       self.goodProducts[index].name = event.name
+    },
+    addProductArray () {
+      this.goodProducts.push({
+        product_id: '',
+        quantity: '',
+        volumn: '',
+        weight: '',
+        products: {
+          id: ''
+        }
+      })
+    },
+    removeProduct (product, index) {
+      const self = this
+      if (product.id !== 'undefined') {
+        self.$delete(self.goodProducts, index)
+        return true
+      }
+      this.start()
+      this.$axios.get('good/remove-good-product', {
+        params: {
+          id: product.id
+        }
+      })
+        .then(function (response) {
+          if (response.data.status) {
+            self.$toast.success(response.data.message).goAway(2000)
+            self.$delete(self.goodProducts, index)
+          } else {
+            self.$toast.error(response.data.payload.error).goAway(2000)
+          }
+          self.$nuxt.$loading.finish()
+        })
     }
 
   }

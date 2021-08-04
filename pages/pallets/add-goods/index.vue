@@ -143,7 +143,7 @@
                                     required=""
                                   >
                                 </div>
-                                <span v-if="containsKey(form_errors, 'name')" class="invalid">{{ form_errors.name[0] }}</span>
+                                <span v-if="containsKey(form_errors, 'name')" class="error">{{ form_errors.name[0] }}</span>
                               </div>
                             </div>
                           </div>

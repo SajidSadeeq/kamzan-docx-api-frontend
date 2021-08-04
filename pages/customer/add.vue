@@ -152,7 +152,7 @@
                             </div>
                           </div>
                         </div>
-                        <div class="col-md-6 border-right">
+                        <div class="col-md-6">
                           <div class="col-md-10">
                             <div class="form-group">
                               <label class="form-label telinput">Telephone Number</label>
@@ -219,12 +219,12 @@
                               </div>
                             </div> -->
                         </div>
-                        <div class="col-md-12 text-right">
-                          <div class="form-group">
-                            <button type="submit" class="btn btn-lg btn-primary">
-                              Save
-                            </button>
-                          </div>
+                      </div>
+                      <div class="col-md-12 text-right">
+                        <div class="form-group">
+                          <button type="submit" class="btn btn-lg btn-primary">
+                            Save
+                          </button>
                         </div>
                       </div>
                     </form>

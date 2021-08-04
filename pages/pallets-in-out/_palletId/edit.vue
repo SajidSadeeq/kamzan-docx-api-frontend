@@ -47,7 +47,7 @@
                 </ul>
                 <div class="tab-content">
                   <div id="tabItem5" class="tab-pane " :class="{ active: activeTab === 1 }">
-                    <!-- {{ pallet }} -->
+                    {{ pallet }}
                     <form action="#" class="form-validate" novalidate="novalidate" @submit.prevent="addRack">
                       <div class="row g-gs">
                         <div class="col-md-6">
@@ -87,7 +87,7 @@
                               <div class="form-control-wrap">
                                 <input
                                   id="in_time"
-                                  v-model="pallet.in_time"
+                                  :value="pallet.in_time"
                                   type="time"
                                   class="form-control"
                                   name="in_time"
@@ -104,7 +104,7 @@
                               <div class="form-control-wrap">
                                 <input
                                   id="in_date"
-                                  v-model="pallet.in_date"
+                                  value="2021-08-02"
                                   type="date"
                                   class="form-control"
                                   name="in_date"
@@ -137,6 +137,7 @@ import vSelect from 'vue-select'
 import 'vue-select/dist/vue-select.css'
 import 'vue-input-search/dist/vue-search.css'
 import VueSearch from 'vue-input-search/dist/vue-search.common'
+
 Vue.component('VSelect', vSelect)
 
 export default {
@@ -191,6 +192,7 @@ export default {
         .then(function (response) {
           self.pallet = response.data.payload
           self.in_time = response.data.payload.in_time
+          self.in_date = response.data.payload.in_date
           self.customer_id = response.data.payload.customer_id
           self.pallet_id = response.data.payload.pallet_id
           // self.$nuxt.$loading.finish()

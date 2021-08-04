@@ -90,7 +90,7 @@
                                 <li v-for="(product, index) in selectedProducts" :key="product.id">
                                   <!-- <li> -->
                                   <div class="row gy-4">
-                                    <div class="col-sm-6">
+                                    <div class="col-sm-5">
                                       <div class="form-group">
                                         <label class="form-label" for="default-01">Search Product</label>
                                         <div class="form-control-wrap">
@@ -129,6 +129,15 @@
                                         <label class="form-label" for="weight">weight(kg)</label>
                                         <div class="form-control-wrap">
                                           <input id="weight" v-model="product.weight" type="number" class="form-control" placeholder="1">
+                                        </div>
+                                      </div>
+                                    </div>
+                                    <div class="col-sm-1">
+                                      <div class="form-group">
+                                        <div class="form-control-wrap gp_remove">
+                                          <button type="button" class="btn btn-danger" @click="removeProduct(index)">
+                                            <em class="icon ni ni-cross-circle-fill" />
+                                          </button>
                                         </div>
                                       </div>
                                     </div>
@@ -261,8 +270,10 @@ export default {
       const self = this
       self.selectedProducts[index].id = event.id
       self.selectedProducts[index].name = event.name
+    },
+    removeProduct (index) {
+      this.$delete(this.selectedProducts, index)
     }
-
   }
 }
 </script>
