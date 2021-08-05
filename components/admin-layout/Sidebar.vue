@@ -1,6 +1,6 @@
 <template>
   <!-- sidebar @s -->
-  <div class="nk-sidebar nk-sidebar-fixed is-dark" :class="{'is-compact': toggleSideBar}" data-content="sidebarMenu">
+  <div class="nk-sidebar nk-sidebar-fixedX is-dark" :class="{'is-compact': toggleSideBar}" data-content="sidebarMenu">
     <div class="nk-sidebar-element nk-sidebar-head">
       <div class="nk-sidebar-brand">
         <a href="html/index.html" class="logo-link nk-sidebar-logo">
@@ -15,88 +15,88 @@
         <a href="#" class="nk-nav-compact nk-quick-nav-icon d-none d-xl-inline-flex" data-target="sidebarMenu"><em class="icon ni ni-menu" /></a>
       </div>
     </div><!-- .nk-sidebar-element -->
-    <!-- <vue-custom-scrollbar class="scroll-area" :settings="settings" @ps-scroll-y="scrollHanle"> -->
-    <div class="nk-sidebar-element child-wrap">
-      <div class="nk-sidebar-content">
-        <div class="nk-sidebar-menu" data-simplebar>
-          <ul class="nk-menu">
-            <li class="nk-menu-heading">
-              <h6 class="overline-title text-primary-alt">
-                Dashboard
-              </h6>
-            </li><!-- .nk-menu-item -->
-            <li class="nk-menu-item">
-              <NuxtLink to="/" class="nk-menu-link">
-                <span class="nk-menu-icon"><em class="icon ni ni-bag" /></span>
-                <span class="nk-menu-text">Dashboard</span><span class="nk-menu-badge badge-danger">HOT</span>
-              </NuxtLink>
-            </li><!-- .nk-menu-item -->
-            <li class="nk-menu-heading">
-              <h6 class="overline-title text-primary-alt">
-                Modules
-              </h6>
-            </li><!-- .nk-menu-heading -->
-            <li class="nk-menu-item" @click="activeSubMenue('')">
-              <NuxtLink to="/category" class="nk-menu-link">
-                <span class="nk-menu-icon"><em class="icon ni ni-menu-squared" /></span>
-                <span class="nk-menu-text">Category</span>
-              </NuxtLink>
-            </li><!-- .nk-menu-item -->
-            <li class="nk-menu-item" @click="activeSubMenue('')">
-              <NuxtLink to="/customer" class="nk-menu-link">
-                <span class="nk-menu-icon"><em class="icon ni ni-users" /></span>
-                <span class="nk-menu-text">Customers</span>
-              </NuxtLink>
-            </li><!-- .nk-menu-item -->
-            <li class="nk-menu-item" @click="activeSubMenue('')">
-              <NuxtLink to="/product" class="nk-menu-link">
-                <span class="nk-menu-icon"><em class="icon ni ni-bag" /></span>
-                <span class="nk-menu-text">Products</span>
-              </NuxtLink>
-            </li>
-            <li class="nk-menu-item" @click="activeSubMenue('')">
-              <NuxtLink to="/pallets-in-out" class="nk-menu-link">
-                <span class="nk-menu-icon"><em class="icon ni ni-bag" /></span>
-                <span class="nk-menu-text">Pallets In Out</span>
-              </NuxtLink>
-            </li>
-            <li class="nk-menu-item" @click="activeSubMenue('')">
-              <NuxtLink to="/pallets" class="nk-menu-link">
-                <span class="nk-menu-icon"><em class="icon ni ni-bag" /></span>
-                <span class="nk-menu-text">Pallets</span>
-              </NuxtLink>
-            </li>
-            <li class="nk-menu-item" @click="activeSubMenue('')">
-              <NuxtLink to="/brand" class="nk-menu-link">
-                <span class="nk-menu-icon"><em class="icon ni ni-sign-sgd" /></span>
-                <span class="nk-menu-text">Brands</span>
-              </NuxtLink>
-            </li>
-            <li class="nk-menu-item" @click="activeSubMenue('')">
-              <NuxtLink to="/suppliers" class="nk-menu-link">
-                <span class="nk-menu-icon"><em class="icon ni ni-sign-sgd" /></span>
-                <span class="nk-menu-text">Suppliers</span>
-              </NuxtLink>
-            </li>
+    <vue-custom-scrollbar class="scroll-area" :settings="settings" @ps-scroll-y="scrollHanle">
+      <div class="nk-sidebar-elementX child-wrap">
+        <div class="nk-sidebar-content">
+          <div class="nk-sidebar-menu" data-simplebar>
+            <ul class="nk-menu">
+              <li class="nk-menu-heading">
+                <h6 class="overline-title text-primary-alt">
+                  Dashboard
+                </h6>
+              </li><!-- .nk-menu-item -->
+              <li class="nk-menu-item">
+                <NuxtLink to="/" class="nk-menu-link">
+                  <span class="nk-menu-icon"><em class="icon ni ni-bag" /></span>
+                  <span class="nk-menu-text">Dashboard</span><span class="nk-menu-badge badge-danger">HOT</span>
+                </NuxtLink>
+              </li><!-- .nk-menu-item -->
+              <li class="nk-menu-heading">
+                <h6 class="overline-title text-primary-alt">
+                  Modules
+                </h6>
+              </li><!-- .nk-menu-heading -->
+              <li class="nk-menu-item" @click="activeSubMenue('')">
+                <NuxtLink to="/category" class="nk-menu-link">
+                  <span class="nk-menu-icon"><em class="icon ni ni-menu-squared" /></span>
+                  <span class="nk-menu-text">Category</span>
+                </NuxtLink>
+              </li><!-- .nk-menu-item -->
+              <li class="nk-menu-item" @click="activeSubMenue('')">
+                <NuxtLink to="/customer" class="nk-menu-link">
+                  <span class="nk-menu-icon"><em class="icon ni ni-users" /></span>
+                  <span class="nk-menu-text">Customers</span>
+                </NuxtLink>
+              </li><!-- .nk-menu-item -->
+              <li class="nk-menu-item" @click="activeSubMenue('')">
+                <NuxtLink to="/product" class="nk-menu-link">
+                  <span class="nk-menu-icon"><em class="icon ni ni-bag" /></span>
+                  <span class="nk-menu-text">Products</span>
+                </NuxtLink>
+              </li>
+              <li class="nk-menu-item" @click="activeSubMenue('')">
+                <NuxtLink to="/pallets-in-out" class="nk-menu-link">
+                  <span class="nk-menu-icon"><em class="icon ni ni-bag" /></span>
+                  <span class="nk-menu-text">Pallets In Out</span>
+                </NuxtLink>
+              </li>
+              <li class="nk-menu-item" @click="activeSubMenue('')">
+                <NuxtLink to="/pallets" class="nk-menu-link">
+                  <span class="nk-menu-icon"><em class="icon ni ni-bag" /></span>
+                  <span class="nk-menu-text">Pallets</span>
+                </NuxtLink>
+              </li>
+              <li class="nk-menu-item" @click="activeSubMenue('')">
+                <NuxtLink to="/brand" class="nk-menu-link">
+                  <span class="nk-menu-icon"><em class="icon ni ni-sign-sgd" /></span>
+                  <span class="nk-menu-text">Brands</span>
+                </NuxtLink>
+              </li>
+              <li class="nk-menu-item" @click="activeSubMenue('')">
+                <NuxtLink to="/suppliers" class="nk-menu-link">
+                  <span class="nk-menu-icon"><em class="icon ni ni-sign-sgd" /></span>
+                  <span class="nk-menu-text">Suppliers</span>
+                </NuxtLink>
+              </li>
 
-            <li class="nk-menu-item" @click="activeSubMenue('')">
-              <NuxtLink to="/rack" class="nk-menu-link">
-                <span class="nk-menu-icon"><em class="icon ni ni-bag" /></span>
-                <span class="nk-menu-text">Racks</span>
-              </NuxtLink>
-            </li>
-            <li class="nk-menu-item" @click="activeSubMenue('')">
-              <NuxtLink to="/aisle" class="nk-menu-link">
-                <span class="nk-menu-icon"><em class="icon ni ni-bag" /></span>
-                <span class="nk-menu-text">Aisles</span>
-              </NuxtLink>
-            </li>
-            <li class="nk-menu-item" @click="activeSubMenue('')">
-              <NuxtLink to="/goods" class="nk-menu-link">
-                <span class="nk-menu-icon"><em class="icon ni ni-bag" /></span>
-                <span class="nk-menu-text">Goods</span>
-              </NuxtLink>
-            </li>
+              <li class="nk-menu-item" @click="activeSubMenue('')">
+                <NuxtLink to="/rack" class="nk-menu-link">
+                  <span class="nk-menu-icon"><em class="icon ni ni-bag" /></span>
+                  <span class="nk-menu-text">Racks</span>
+                </NuxtLink>
+              </li>
+              <li class="nk-menu-item" @click="activeSubMenue('')">
+                <NuxtLink to="/aisle" class="nk-menu-link">
+                  <span class="nk-menu-icon"><em class="icon ni ni-bag" /></span>
+                  <span class="nk-menu-text">Aisles</span>
+                </NuxtLink>
+              </li>
+              <li class="nk-menu-item" @click="activeSubMenue('')">
+                <NuxtLink to="/goods" class="nk-menu-link">
+                  <span class="nk-menu-icon"><em class="icon ni ni-bag" /></span>
+                  <span class="nk-menu-text">Goods</span>
+                </NuxtLink>
+              </li>
             <!-- <li class="nk-menu-item has-sub" :class="(link == '/reports' || link == '/reports') ? 'active':''" @click="activeSubMenue('/reports')">
               <NuxtLink to="#" class="nk-menu-link nk-menu-toggle" data-original-title="" title="">
                 <span class="nk-menu-icon"><em class="icon ni ni-bag" /></span>
@@ -117,22 +117,22 @@
                 </li>
               </ul> /* .nk-menu-sub */
             </li> -->
-          </ul><!-- .nk-menu -->
-        </div><!-- .nk-sidebar-menu -->
-      </div><!-- .nk-sidebar-content -->
-    </div><!-- .nk-sidebar-element -->
-    <!-- </vue-custom-scrollbar> -->
+            </ul><!-- .nk-menu -->
+          </div><!-- .nk-sidebar-menu -->
+        </div><!-- .nk-sidebar-content -->
+      </div><!-- .nk-sidebar-element -->
+    </vue-custom-scrollbar>
   </div>
   <!-- sidebar @e -->
 </template>
 
 <script>
-// import vueCustomScrollbar from 'vue-custom-scrollbar'
-// import 'vue-custom-scrollbar/dist/vueScrollbar.css'
+import vueCustomScrollbar from 'vue-custom-scrollbar'
+import 'vue-custom-scrollbar/dist/vueScrollbar.css'
 export default {
-  // components: {
-  //   'vue-custom-scrollbar': vueCustomScrollbar
-  // },
+  components: {
+    'vue-custom-scrollbar': vueCustomScrollbar
+  },
   data () {
     return {
       settings: {
@@ -206,7 +206,7 @@ export default {
 </script>
 
 <style scoped>
-/* .nk-sidebar.is-dark{
+.nk-sidebar.is-dark{
       background: #132238;
 }
 .nk-sidebar.is-dark .nk-menu-link, .nk-sidebar.is-dark .nk-menu-icon{
@@ -222,24 +222,24 @@ export default {
 
 a.nuxt-link-active {
   font-weight: bold;
-} */
+}
 /* exact link will show the primary color for only the exact matching link */
 a.nuxt-link-exact-active {
   color: #9769ff;
   background: #ebeef2;
 }
-.nk-sidebar-content{
+/* .nk-sidebar-content{
     max-height: 100%;
     overflow-y: auto;
     overflow-x: hidden;
     scroll-behavior: smooth;
     z-index: 1;
-}
+} */
 
-/* .scroll-area {
+.scroll-area {
   position: relative;
   margin: auto;
   width: 90%;
-  height: 400px;
-} */
+  height: 100%;
+}
 </style>

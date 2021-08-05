@@ -174,7 +174,7 @@ input[type=submit] {
 
 .autocomplete-items {
   position: absolute;
-  border: 1px solid #d4d4d4;
+  border: 1px solid #b0b0b0;
   border-bottom: none;
   border-top: none;
   z-index: 99;
@@ -182,14 +182,19 @@ input[type=submit] {
   top: 100%;
   left: 0;
   right: 0;
-  box-shadow: 0px 1px 3px 0px rgba(54, 74, 99, 0.05);
+  width: calc(100% - 1px);
+  border-radius: 0 0 3px 3px;
+  padding: 0 8px;
+  background: #fff;
+  /* box-shadow: 0px 1px 3px 0px rgba(54, 74, 99, 0.05); */
 }
 
 .autocomplete-items div {
   padding: 10px;
   cursor: pointer;
   background-color: #fff;
-  border-bottom: 1px solid #d4d4d4;
+  border-radius: 5px;
+  margin: 2px 0;
 }
 
 /*when hovering an item:*/
