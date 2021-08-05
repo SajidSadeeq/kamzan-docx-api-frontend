@@ -209,19 +209,4 @@ a.nuxt-link-exact-active {
     scroll-behavior: smooth;
     z-index: 1;
 }
-.nk-sidebar-content::-webkit-scrollbar-track {
-  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.6);
-  border-radius: 10px;
-  background-color: #ffffff;
-}
-.nk-sidebar-content.::-webkit-scrollbar {
-  width: 6px;
-  background-color: #ffffff;
-}
-.nk-sidebar-content::-webkit-scrollbar-thumb {
-  border-radius: 10px;
-  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, .6);
-  background-color: #3399ff9e;
-  opacity: 1;
-}
 </style>
