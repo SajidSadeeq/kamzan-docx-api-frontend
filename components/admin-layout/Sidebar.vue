@@ -1,6 +1,6 @@
 <template>
   <!-- sidebar @s -->
-  <div class="nk-sidebar nk-sidebar-fixedX is-dark" :class="{'is-compact': toggleSideBar}" data-content="sidebarMenu">
+  <div class="nk-sidebar nk-sidebar-fixed is-dark" :class="{'is-compact': toggleSideBar}" data-content="sidebarMenu">
     <div class="nk-sidebar-element nk-sidebar-head">
       <div class="nk-sidebar-brand">
         <a href="html/index.html" class="logo-link nk-sidebar-logo">
@@ -16,7 +16,7 @@
       </div>
     </div><!-- .nk-sidebar-element -->
     <vue-custom-scrollbar class="scroll-area" :settings="settings" @ps-scroll-y="scrollHanle">
-      <div class="nk-sidebar-elementX child-wrap">
+      <div class="nk-sidebar-element child-wrap">
         <div class="nk-sidebar-content">
           <div class="nk-sidebar-menu" data-simplebar>
             <ul class="nk-menu">
@@ -236,10 +236,16 @@ a.nuxt-link-exact-active {
     z-index: 1;
 } */
 
+.nk-sidebar-content{
+    scroll-behavior: smooth;
+    z-index: 1;
+}
+
 .scroll-area {
   position: relative;
   margin: auto;
   width: 100%;
-  height: 100%;
+  max-height: 100%;
 }
+
 </style>
