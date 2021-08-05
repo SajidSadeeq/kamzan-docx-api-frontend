@@ -257,4 +257,10 @@ a.nuxt-link-exact-active {
 .ps .ps__rail-y:hover {
   background: transparent;
 }
+ .is-dark .logo-dark {opacity: 1;}
+ .is-dark .logo-small { opacity: 0;}
+
+ .is-dark.is-compact .logo-dark {opacity: 0;}
+ .is-dark.is-compact .logo-small { opacity: 1;}
+
 </style>
