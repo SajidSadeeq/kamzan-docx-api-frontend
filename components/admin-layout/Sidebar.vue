@@ -239,7 +239,7 @@ a.nuxt-link-exact-active {
 .scroll-area {
   position: relative;
   margin: auto;
-  width: 90%;
+  width: 100%;
   height: 100%;
 }
 </style>
