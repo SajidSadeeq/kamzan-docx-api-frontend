@@ -77,7 +77,7 @@
           </ul>
         </div>
       </div><!-- .nk-tb-item -->
-      <div v-for="(pallet) in pallets" :key="pallet.id" class="nk-tb-item">
+      <div v-for="(pallet, index) in pallets" :key="index" class="nk-tb-item">
         <div v-if="pallet.customer !== null && pallet.pallet !== null" class="nk-tb-col tb-col-mb">
           <span class="tb-amount">{{ pallet.customer.customer_name }}</span>
         </div>
@@ -90,10 +90,10 @@
           </span>
         </div>
         <div v-if="pallet.customer !== null && pallet.pallet !== null" class="nk-tb-col tb-col-lg">
-          <span class="badge badge-dim badge-success"><em class="icon ni ni-clock" /><span>{{ pallet.in_date }}</span></span>
+          <span class="badge badge-dim badge-success"><em class="icon ni ni-clock" /><span>{{ pallet.in_date | formateDate }}</span></span>
         </div>
         <div v-if="pallet.customer !== null && pallet.pallet !== null" class="nk-tb-col tb-col-lg">
-          <span class="badge badge-dim badge-warning"><em class="icon ni ni-clock" /><span>{{ pallet.in_time }}</span></span>
+          <span class="badge badge-dim badge-warning"><em class="icon ni ni-clock" /><span>{{ pallet.in_time | formateTime }}</span></span>
         </div>
         <div v-if="pallet.customer !== null && pallet.pallet !== null" class="nk-tb-col tb-col-lg">
           <span class="badge badge-sm badge-dot has-bg d-none d-mb-inline-flex" :class="(pallet.pallet_out_customer)?'badge-success':'badge-danger'">
@@ -101,10 +101,10 @@
           </span>
         </div>
         <div v-if="pallet.customer !== null && pallet.pallet !== null" class="nk-tb-col tb-col-lg">
-          <span class="badge badge-dim badge-success"><em class="icon ni ni-clock" /><span>{{ (pallet.out_date)?pallet.out_date:'n/a' }}</span></span>
+          <span class="badge badge-dim badge-success"><em class="icon ni ni-clock" /><span>{{ pallet.out_date | formateDate }}</span></span>
         </div>
         <div v-if="pallet.customer !== null && pallet.pallet !== null" class="nk-tb-col tb-col-lg">
-          <span class="badge badge-dim badge-warning"><em class="icon ni ni-clock" /><span>{{ (pallet.out_time)?pallet.out_time:'n/a' }}</span></span>
+          <span class="badge badge-dim badge-warning"><em class="icon ni ni-clock" /><span>{{ pallet.out_time | formateTime }}</span></span>
         </div>
         <div v-if="pallet.customer !== null && pallet.pallet !== null" class="nk-tb-col nk-tb-col-tools">
           <ul class="nk-tb-actions gx-1">
@@ -129,8 +129,12 @@
 </template>
 
 <script>
+import moment from 'moment'
 export default {
-
+  filters: {
+    formateDate: date => date ? moment(date).format('DD-MM-YYYY') : 'n/a',
+    formateTime: date => date ? moment(date, 'h:mm a').format('hh:mm a') : 'n/a'
+  },
   data () {
     return {
       total: 0,

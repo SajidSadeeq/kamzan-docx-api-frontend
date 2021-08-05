@@ -47,10 +47,20 @@
                 </ul>
                 <div class="tab-content">
                   <div id="tabItem5" class="tab-pane " :class="{ active: activeTab === 1 }">
-                    {{ pallet }}
                     <form action="#" class="form-validate" novalidate="novalidate" @submit.prevent="addRack">
                       <div class="row g-gs">
                         <div class="col-md-6">
+                          <div class="col-md-10">
+                            <auto-complete
+                              id="customer"
+                              label="name"
+                              value="id"
+                              :data-list="countries"
+                              name="customer"
+                              placeholder="Search Customer"
+                              @selected="getSelectedData"
+                            />
+                          </div>
                           <div class="col-md-10">
                             <div class="form-group">
                               <label class="form-label" for="customer_id">Select Customer</label>
@@ -137,15 +147,23 @@ import vSelect from 'vue-select'
 import 'vue-select/dist/vue-select.css'
 import 'vue-input-search/dist/vue-search.css'
 import VueSearch from 'vue-input-search/dist/vue-search.common'
+import Autocomplete from '@/components/common/Autocomplete.vue'
 
 Vue.component('VSelect', vSelect)
 
 export default {
   components: {
-    'vue-search': VueSearch
+    'vue-search': VueSearch,
+    'auto-complete': Autocomplete
   },
   data () {
     return {
+      countries: [
+        { name: 'Pakistan', id: '1' },
+        { name: 'Palau', id: '4' },
+        { name: 'Palestine', id: '2' },
+        { name: 'India', id: '3' }
+      ],
       tabPath: this.$route.fullPath,
       activeTab: 1,
       customer_id: '',
@@ -164,6 +182,9 @@ export default {
     this.fetchPalletDetails()
   },
   methods: {
+    getSelectedData (childData) {
+      console.log('Our Data: ' + childData) // "Hello World"
+    },
     start () {
       this.loading = true
     },

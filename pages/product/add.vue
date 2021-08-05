@@ -261,6 +261,8 @@
 
                   <div id="images" class="tab-pane" :class="{ active: activeTab === 3 }">
                     <vue-upload-multiple-image
+                      :drag-text="dragText"
+                      :browse-text="browsText"
                       :data-images="images"
                       @upload-success="uploadImageSuccess"
                       @before-remove="beforeRemove"
@@ -292,6 +294,8 @@ export default {
       activeTab: 1,
       category_id: null,
       supplier_id: '',
+      dragText: 'Drag Images here',
+      browsText: 'Brows image',
       name: '',
       sku: '',
       qty: '',

@@ -72,19 +72,19 @@
             <span class="tb-sub">{{ (pallet.pallet)?pallet.pallet.name:'n/a' }}</span>
           </div>
           <div v-if="pallet.customer !== null && pallet.pallet !== null" class="nk-tb-col tb-col-lg">
-            <span class="badge badge-dim badge-success"><em class="icon ni ni-clock" /><span>{{ pallet.in_date }}</span></span>
+            <span class="badge badge-dim badge-success"><em class="icon ni ni-clock" /><span>{{ pallet.in_date | formateDate }}</span></span>
           </div>
           <div v-if="pallet.customer !== null && pallet.pallet !== null" class="nk-tb-col tb-col-lg">
-            <span class="badge badge-dim badge-warning"><em class="icon ni ni-clock" /><span>{{ pallet.in_time }}</span></span>
+            <span class="badge badge-dim badge-warning"><em class="icon ni ni-clock" /><span>{{ pallet.in_time | formateTime }}</span></span>
           </div>
           <div class="nk-tb-col">
             <span class="badge badge-success">{{ (pallet.pallet_in_user)?pallet.pallet_in_user.name:'' }}</span>
           </div>
           <div v-if="pallet.customer !== null && pallet.pallet !== null" class="nk-tb-col tb-col-lg">
-            <span class="badge badge-dim badge-success"><em class="icon ni ni-clock" /><span>{{ pallet.out_date }}</span></span>
+            <span class="badge badge-dim badge-success"><em class="icon ni ni-clock" /><span>{{ pallet.out_date | formateDate }}</span></span>
           </div>
           <div v-if="pallet.customer !== null && pallet.pallet !== null" class="nk-tb-col tb-col-lg">
-            <span class="badge badge-dim badge-warning"><em class="icon ni ni-clock" /><span>{{ pallet.out_time }}</span></span>
+            <span class="badge badge-dim badge-warning"><em class="icon ni ni-clock" /><span>{{ pallet.out_time | formateTime }}</span></span>
           </div>
           <div class="nk-tb-col">
             <span class="badge badge-success">{{ (pallet.pallet_out_user)?pallet.pallet_out_user.name:'' }}</span>
@@ -96,8 +96,12 @@
 </template>
 
 <script>
+import moment from 'moment'
 export default {
-
+  filters: {
+    formateDate: date => date ? moment(date).format('DD-MM-YYYY') : 'n/a',
+    formateTime: date => date ? moment(date, 'h:mm a').format('hh:mm a') : 'n/a'
+  },
   data () {
     return {
       total: 0,

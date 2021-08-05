@@ -106,7 +106,7 @@
                   <span class="tb-amount">{{ pallet.customer.customer_name }}</span>
                 </div>
                 <div class="nk-tb-col tb-col-md">
-                  <span>{{ pallet.pallet.name }}</span>
+                  <span>{{ (pallet.pallet)?pallet.pallet.name:'n/a' }}</span>
                 </div>
                 <div class="nk-tb-col tb-col-lg">
                   <span class="badge badge-sm badge-dot has-bg d-none d-mb-inline-flex" :class="(pallet.pallet_in_user)?'badge-success':'badge-danger'">
