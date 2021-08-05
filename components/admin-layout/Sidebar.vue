@@ -220,6 +220,8 @@ export default {
   color:#fff; background: #182536;
 }
 
+.nk-sidebar.is-dark .nk-sidebar-element { overflow: unset;}
+
 a.nuxt-link-active {
   font-weight: bold;
 }
@@ -238,7 +240,7 @@ a.nuxt-link-exact-active {
 
 .nk-sidebar-content{
     scroll-behavior: smooth;
-    z-index: 1;
+    /* z-index: 1; */
 }
 
 .scroll-area {
