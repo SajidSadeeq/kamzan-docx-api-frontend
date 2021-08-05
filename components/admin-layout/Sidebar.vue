@@ -1,6 +1,6 @@
 <template>
   <!-- sidebar @s -->
-  <div class="nk-sidebar nk-sidebar-fixed is-light" :class="{'is-compact': toggleSideBar}" data-content="sidebarMenu">
+  <div class="nk-sidebar nk-sidebar-fixed is-dark" :class="{'is-compact': toggleSideBar}" data-content="sidebarMenu">
     <div class="nk-sidebar-element nk-sidebar-head">
       <div class="nk-sidebar-brand">
         <a href="html/index.html" class="logo-link nk-sidebar-logo">
@@ -194,6 +194,20 @@ export default {
 </script>
 
 <style scoped>
+.nk-sidebar.is-dark{
+      background: #132238;
+}
+.nk-sidebar.is-dark .nk-menu-link, .nk-sidebar.is-dark .nk-menu-icon{
+  color:#9ca3af;
+}
+
+.nk-sidebar.is-dark .nk-menu-link:hover, .nk-sidebar.is-dark .nk-menu-link:hover .nk-menu-icon{
+  color:#fff;
+}
+.nk-sidebar.is-dark a.nuxt-link-exact-active, .nk-sidebar.is-dark a.nuxt-link-exact-active .nk-menu-icon {
+  color:#fff; background: #182536;
+}
+
 a.nuxt-link-active {
   font-weight: bold;
 }

@@ -1,10 +1,11 @@
 <template>
-  <div class="autocomplete" style="width:300px;">
+  <div class="autocomplete" style="width:100%">
     <input
       :id="id"
       v-model="input"
       type="text"
       :name="name"
+      class="input-auto"
       :placeholder="placeholder"
       autocomplete="off"
     >
@@ -160,10 +161,10 @@ input {
   font-size: 16px;
 }
 
-input[type=text] {
+/* input[type=text] {
   background-color: #f1f1f1;
   width: 100%;
-}
+} */
 
 input[type=submit] {
   background-color: DodgerBlue;
@@ -181,6 +182,7 @@ input[type=submit] {
   top: 100%;
   left: 0;
   right: 0;
+  box-shadow: 0px 1px 3px 0px rgba(54, 74, 99, 0.05);
 }
 
 .autocomplete-items div {
@@ -200,4 +202,27 @@ input[type=submit] {
   background-color: DodgerBlue !important;
   color: #ffffff;
 }
+
+.input-auto {
+    width: 100%;
+    height: 33px;
+    padding-top: .5em;
+    padding-bottom: .5em;
+    border-color: #dfe5f0;
+    line-height: normal;
+    position: relative;
+    margin: 0;
+    padding: 8px;
+    width: 99.8%;
+    vertical-align: middle;
+    font: inherit;
+    font-size: 100%;
+    border: 1px solid #b0b0b0;
+    box-shadow: inset 0 1px 2px #ebebeb;
+    -webkit-box-shadow: inset 0 1px 2px #ebebeb;
+    background: #fff;
+    border-right-width: 2px;
+}
+
+.input-auto:focus-visible { outline: none;}
 </style>
