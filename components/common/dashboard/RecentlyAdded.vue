@@ -34,109 +34,121 @@
         </div><!-- .nk-block-head-content -->
       </div><!-- .nk-block-between -->
     </div><!-- .nk-block-head -->
-    <div class="nk-tb-list is-separate mb-3">
-      <div class="nk-tb-item nk-tb-head">
-        <div class="nk-tb-col">
-          <span class="sub-text">Customer</span>
-        </div>
-        <div class="nk-tb-col">
-          <span class="sub-text">Pallet</span>
-        </div>
-        <div class="nk-tb-col tb-col-mb">
-          <span class="sub-text">In By</span>
-        </div>
-        <div class="nk-tb-col tb-col-mb">
-          <span class="sub-text">In Date</span>
-        </div>
-        <div class="nk-tb-col tb-col-mb">
-          <span class="sub-text">In Time</span>
-        </div>
-        <div class="nk-tb-col tb-col-md">
-          <span class="sub-text">Out By</span>
-        </div>
-        <div class="nk-tb-col tb-col-md">
-          <span class="sub-text">Out Date</span>
-        </div>
-        <div class="nk-tb-col tb-col-md">
-          <span class="sub-text">Out Time</span>
-        </div>
-        <div class="nk-tb-col nk-tb-col-tools">
-          <ul class="nk-tb-actions gx-1 my-n1">
-            <li>
-              <div class="drodown">
-                <a href="#" class="dropdown-toggle btn btn-icon btn-trigger mr-n1" data-toggle="dropdown"><em class="icon ni ni-more-h" /></a>
-                <div class="dropdown-menu dropdown-menu-right">
-                  <ul class="link-list-opt no-bdr">
-                    <li><a href="#"><em class="icon ni ni-mail" /><span>Send Email to All</span></a></li>
-                    <li><a href="#"><em class="icon ni ni-na" /><span>Suspend Selected</span></a></li>
-                    <li><a href="#"><em class="icon ni ni-trash" /><span>Remove Seleted</span></a></li>
-                  </ul>
+    <vue-custom-scrollbar class="scroll-area" :settings="settings" @ps-scroll-y="scrollHanle">
+      <div class="nk-tb-list is-separate mb-3">
+        <div class="nk-tb-item nk-tb-head">
+          <div class="nk-tb-col">
+            <span class="sub-text">Customer</span>
+          </div>
+          <div class="nk-tb-col">
+            <span class="sub-text">Pallet</span>
+          </div>
+          <div class="nk-tb-col tb-col-mb">
+            <span class="sub-text">In By</span>
+          </div>
+          <div class="nk-tb-col tb-col-mb">
+            <span class="sub-text">In Date</span>
+          </div>
+          <div class="nk-tb-col tb-col-mb">
+            <span class="sub-text">In Time</span>
+          </div>
+          <div class="nk-tb-col tb-col-md">
+            <span class="sub-text">Out By</span>
+          </div>
+          <div class="nk-tb-col tb-col-md">
+            <span class="sub-text">Out Date</span>
+          </div>
+          <div class="nk-tb-col tb-col-md">
+            <span class="sub-text">Out Time</span>
+          </div>
+          <div class="nk-tb-col nk-tb-col-tools">
+            <ul class="nk-tb-actions gx-1 my-n1">
+              <li>
+                <div class="drodown">
+                  <a href="#" class="dropdown-toggle btn btn-icon btn-trigger mr-n1" data-toggle="dropdown"><em class="icon ni ni-more-h" /></a>
+                  <div class="dropdown-menu dropdown-menu-right">
+                    <ul class="link-list-opt no-bdr">
+                      <li><a href="#"><em class="icon ni ni-mail" /><span>Send Email to All</span></a></li>
+                      <li><a href="#"><em class="icon ni ni-na" /><span>Suspend Selected</span></a></li>
+                      <li><a href="#"><em class="icon ni ni-trash" /><span>Remove Seleted</span></a></li>
+                    </ul>
+                  </div>
                 </div>
-              </div>
-            </li>
-          </ul>
+              </li>
+            </ul>
+          </div>
+        </div><!-- .nk-tb-item -->
+        <div v-for="(pallet, index) in pallets" :key="index" class="nk-tb-item">
+          <div v-if="pallet.customer !== null && pallet.pallet !== null" class="nk-tb-col tb-col-mb">
+            <span class="tb-amount">{{ pallet.customer.customer_name }}</span>
+          </div>
+          <div v-if="pallet.customer !== null && pallet.pallet !== null" class="nk-tb-col tb-col-md">
+            <span>{{ pallet.pallet.name }}</span>
+          </div>
+          <div v-if="pallet.customer !== null && pallet.pallet !== null" class="nk-tb-col tb-col-lg">
+            <span class="badge badge-sm badge-dot has-bg d-none d-mb-inline-flex" :class="(pallet.pallet_in_user)?'badge-success':'badge-danger'">
+              {{ (pallet.pallet_in_user)?pallet.pallet_in_user.name:'n/a' }}
+            </span>
+          </div>
+          <div v-if="pallet.customer !== null && pallet.pallet !== null" class="nk-tb-col tb-col-lg">
+            <span class="badge badge-dim badge-success"><em class="icon ni ni-clock" /><span>{{ pallet.in_date | formateDate }}</span></span>
+          </div>
+          <div v-if="pallet.customer !== null && pallet.pallet !== null" class="nk-tb-col tb-col-lg">
+            <span class="badge badge-dim badge-warning"><em class="icon ni ni-clock" /><span>{{ pallet.in_time | formateTime }}</span></span>
+          </div>
+          <div v-if="pallet.customer !== null && pallet.pallet !== null" class="nk-tb-col tb-col-lg">
+            <span class="badge badge-sm badge-dot has-bg d-none d-mb-inline-flex" :class="(pallet.pallet_out_customer)?'badge-success':'badge-danger'">
+              {{ (pallet.pallet_out_user)?pallet.pallet_out_user.name:'n/a' }}
+            </span>
+          </div>
+          <div v-if="pallet.customer !== null && pallet.pallet !== null" class="nk-tb-col tb-col-lg">
+            <span class="badge badge-dim badge-success"><em class="icon ni ni-clock" /><span>{{ pallet.out_date | formateDate }}</span></span>
+          </div>
+          <div v-if="pallet.customer !== null && pallet.pallet !== null" class="nk-tb-col tb-col-lg">
+            <span class="badge badge-dim badge-warning"><em class="icon ni ni-clock" /><span>{{ pallet.out_time | formateTime }}</span></span>
+          </div>
+          <div v-if="pallet.customer !== null && pallet.pallet !== null" class="nk-tb-col nk-tb-col-tools">
+            <ul class="nk-tb-actions gx-1">
+              <li class="nk-tb-action-hidden">
+                <a
+                  href="javascript:;"
+                  class="btn btn-trigger btn-icon"
+                  data-toggle="tooltip"
+                  data-placement="top"
+                  title="Pallet Move"
+                  data-original-title="Send Email"
+                  @click="movePallet(pallet)"
+                >
+                  <em class="icon ni ni-move" />
+                </a>
+              </li>
+            </ul>
+          </div>
         </div>
       </div><!-- .nk-tb-item -->
-      <div v-for="(pallet, index) in pallets" :key="index" class="nk-tb-item">
-        <div v-if="pallet.customer !== null && pallet.pallet !== null" class="nk-tb-col tb-col-mb">
-          <span class="tb-amount">{{ pallet.customer.customer_name }}</span>
-        </div>
-        <div v-if="pallet.customer !== null && pallet.pallet !== null" class="nk-tb-col tb-col-md">
-          <span>{{ pallet.pallet.name }}</span>
-        </div>
-        <div v-if="pallet.customer !== null && pallet.pallet !== null" class="nk-tb-col tb-col-lg">
-          <span class="badge badge-sm badge-dot has-bg d-none d-mb-inline-flex" :class="(pallet.pallet_in_user)?'badge-success':'badge-danger'">
-            {{ (pallet.pallet_in_user)?pallet.pallet_in_user.name:'n/a' }}
-          </span>
-        </div>
-        <div v-if="pallet.customer !== null && pallet.pallet !== null" class="nk-tb-col tb-col-lg">
-          <span class="badge badge-dim badge-success"><em class="icon ni ni-clock" /><span>{{ pallet.in_date | formateDate }}</span></span>
-        </div>
-        <div v-if="pallet.customer !== null && pallet.pallet !== null" class="nk-tb-col tb-col-lg">
-          <span class="badge badge-dim badge-warning"><em class="icon ni ni-clock" /><span>{{ pallet.in_time | formateTime }}</span></span>
-        </div>
-        <div v-if="pallet.customer !== null && pallet.pallet !== null" class="nk-tb-col tb-col-lg">
-          <span class="badge badge-sm badge-dot has-bg d-none d-mb-inline-flex" :class="(pallet.pallet_out_customer)?'badge-success':'badge-danger'">
-            {{ (pallet.pallet_out_user)?pallet.pallet_out_user.name:'n/a' }}
-          </span>
-        </div>
-        <div v-if="pallet.customer !== null && pallet.pallet !== null" class="nk-tb-col tb-col-lg">
-          <span class="badge badge-dim badge-success"><em class="icon ni ni-clock" /><span>{{ pallet.out_date | formateDate }}</span></span>
-        </div>
-        <div v-if="pallet.customer !== null && pallet.pallet !== null" class="nk-tb-col tb-col-lg">
-          <span class="badge badge-dim badge-warning"><em class="icon ni ni-clock" /><span>{{ pallet.out_time | formateTime }}</span></span>
-        </div>
-        <div v-if="pallet.customer !== null && pallet.pallet !== null" class="nk-tb-col nk-tb-col-tools">
-          <ul class="nk-tb-actions gx-1">
-            <li class="nk-tb-action-hidden">
-              <a
-                href="javascript:;"
-                class="btn btn-trigger btn-icon"
-                data-toggle="tooltip"
-                data-placement="top"
-                title="Pallet Move"
-                data-original-title="Send Email"
-                @click="movePallet(pallet)"
-              >
-                <em class="icon ni ni-move" />
-              </a>
-            </li>
-          </ul>
-        </div>
-      </div><!-- .nk-tb-item -->
-    </div><!-- .nk-tb-list -->
-  </div>
+    </vue-custom-scrollbar>
+  </div><!-- .nk-tb-list -->
 </template>
 
 <script>
 import moment from 'moment'
+import vueCustomScrollbar from 'vue-custom-scrollbar'
+import 'vue-custom-scrollbar/dist/vueScrollbar.css'
 export default {
+  components: {
+    'vue-custom-scrollbar': vueCustomScrollbar
+  },
   filters: {
     formateDate: date => date ? moment(date).format('DD-MM-YYYY') : 'n/a',
     formateTime: date => date ? moment(date, 'h:mm a').format('hh:mm a') : 'n/a'
   },
   data () {
     return {
+      settings: {
+        suppressScrollY: false,
+        suppressScrollX: false,
+        wheelPropagation: false
+      },
       total: 0,
       perPage: 10,
       currentPage: 1,
@@ -152,6 +164,9 @@ export default {
     this.fetchPallets()
   },
   methods: {
+    scrollHanle (evt) {
+      console.log(evt)
+    },
     start () {
       this.loading = true
     },
@@ -198,6 +213,13 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
+.scroll-area {
+  position: relative;
+  margin: auto;
+  width: 100%;
+  height: 400px;
+}
+</style>>
 
 </style>

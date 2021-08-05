@@ -97,6 +97,7 @@
 
 <script>
 import moment from 'moment'
+
 export default {
   filters: {
     formateDate: date => date ? moment(date).format('DD-MM-YYYY') : 'n/a',
@@ -104,6 +105,11 @@ export default {
   },
   data () {
     return {
+      settings: {
+        suppressScrollY: false,
+        suppressScrollX: false,
+        wheelPropagation: false
+      },
       total: 0,
       perPage: 10,
       currentPage: 1,
@@ -119,6 +125,9 @@ export default {
     this.fetchPallets()
   },
   methods: {
+    scrollHanle (evt) {
+      console.log(evt)
+    },
     start () {
       this.loading = true
     },
@@ -157,6 +166,11 @@ export default {
 }
 </script>
 
-<style>
-
+<style scoped>
+.scroll-area {
+  position: relative;
+  margin: auto;
+  width: 100%;
+  height: 400px;
+}
 </style>
