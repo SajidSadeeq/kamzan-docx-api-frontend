@@ -18,7 +18,9 @@ const actions = {
     await this.$axios.get('/supplier', {
       params: {
         page: payload.page,
-        limit: payload.limit
+        limit: payload.limit,
+        search: payload.search,
+        status: payload.status
       }
     }
     )

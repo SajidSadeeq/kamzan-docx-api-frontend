@@ -58,7 +58,7 @@
                               </div>
                             </div>
                           </div>
-                          <div class="col-md-10">
+                          <div class="col-md-10 mt-2">
                             <div class="form-group">
                               <label class="form-label" for="name">Category Name</label>
                               <div class="form-control-wrap">
@@ -87,6 +87,7 @@
                                   placeholder="Write your description"
                                   required=""
                                 />
+                                <span v-if="containsKey(from_errors, 'description')" class="invalid">{{ from_errors.description[0] }}</span>
                               </div>
                             </div>
                           </div>
@@ -105,6 +106,7 @@
                                   placeholder="Meta title"
                                   required=""
                                 >
+                                <span v-if="containsKey(from_errors, 'meta_title')" class="invalid">{{ from_errors.meta_title[0] }}</span>
                               </div>
                             </div>
                           </div>
@@ -120,6 +122,7 @@
                                   placeholder="Write your meta description"
                                   required=""
                                 />
+                                <span v-if="containsKey(from_errors, 'meta_description')" class="invalid">{{ from_errors.meta_description[0] }}</span>
                               </div>
                             </div>
                           </div>

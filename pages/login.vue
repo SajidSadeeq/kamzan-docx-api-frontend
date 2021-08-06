@@ -1,12 +1,12 @@
 <template>
   <div class="nk-app-root">
     <!-- main @s  -->
-    <div class="nk-main ">
+    <div class="nk-main">
       <!-- wrap @s  -->
       <div class="nk-wrap nk-wrap-nosidebar">
         <!-- content @s  -->
-        <div class="nk-content ">
-          <div class="nk-block nk-block-middle nk-auth-body  wide-xs">
+        <div class="nk-content">
+          <div class="nk-block nk-block-middle nk-auth-body wide-xs">
             <div class="card login_register_border">
               <div class="card-inner card-inner-lg">
                 <div class="nk-block-head">
@@ -29,7 +29,10 @@
                 <form action="#" method="post" @submit.prevent="login">
                   <div class="form-group">
                     <div class="form-label-group">
-                      <label class="form-label" for="default-01">Email or Username</label>
+                      <label
+                        class="form-label"
+                        for="default-01"
+                      >Email or Username</label>
                     </div>
                     <input
                       id="default-01"
@@ -42,32 +45,46 @@
                   <div class="form-group">
                     <div class="form-label-group">
                       <label class="form-label" for="password">Password</label>
-                      <a class="link link-primary link-sm" href="html/pages/auths/auth-reset-v2.html">Forgot Code?</a>
+                      <a
+                        class="link link-primary link-sm"
+                        href="html/pages/auths/auth-reset-v2.html"
+                      >Forgot Code?</a>
                     </div>
                     <div class="form-control-wrap">
-                      <a href="javascript:;" class="form-icon form-icon-right passcode-switch" data-target="password" @click="switchVisibility">
+                      <a
+                        href="javascript:;"
+                        class="form-icon form-icon-right passcode-switch"
+                        data-target="password"
+                        @click="switchVisibility"
+                      >
                         <em class="passcode-icon icon-show icon ni ni-eye" />
-                        <em class="passcode-icon icon-hide icon ni ni-eye-off" />
+                        <em
+                          class="passcode-icon icon-hide icon ni ni-eye-off"
+                        />
                       </a>
                       <input
                         id="password"
                         v-model="password"
                         :type="passwordType"
                         name="password"
-                        class="form-control form-control-lg "
+                        class="form-control form-control-lg"
                       >
                     </div>
+                    <span v-if="error_message" class="error">{{ error_message }}</span>
                   </div>
                   <div class="form-group">
-                    <button type="sumit" class="btn btn-lg btn-primary btn-block">
+                    <button
+                      type="sumit"
+                      class="btn btn-lg btn-primary btn-block"
+                    >
                       Sign in
                     </button>
                   </div>
                 </form>
-                <div class="form-note-s2 text-center pt-4">
+                <!-- <div class="form-note-s2 text-center pt-4">
                   New on our platform?
                   <a href="http://localhost:8000/register">Create an account</a>
-                </div>
+                </div> -->
               </div>
             </div>
           </div>
@@ -75,7 +92,12 @@
             <div class="container wide-lg">
               <div class="row g-3">
                 <div class="col-lg-6 order-lg-last">
-                  <ul class="nav nav-sm justify-content-center justify-content-lg-end">
+                  <ul
+                    class="
+                      nav nav-sm
+                      justify-content-center justify-content-lg-end
+                    "
+                  >
                     <li class="nav-item">
                       <a class="nav-link" href="#">Terms & Condition</a>
                     </li>
@@ -113,7 +135,8 @@ export default {
     return {
       email: '',
       password: '',
-      passwordType: 'password'
+      passwordType: 'password',
+      error_message: ''
     }
   },
   methods: {
@@ -121,12 +144,17 @@ export default {
       this.passwordType = this.passwordType === 'password' ? 'text' : 'password'
     },
     async login () {
+      const self = this
       await this.$auth.loginWith('laravelJWT', {
         data: {
           email: this.email,
           password: this.password
         }
-      }).catch(error => error)
+      }).catch(function (error) {
+        if (error.response.data.code === 401) {
+          self.error_message = error.response.data.message
+        }
+      })
       this.$router.push('/')
     }
   }
@@ -134,5 +162,4 @@ export default {
 </script>
 
 <style scoped>
-
 </style>

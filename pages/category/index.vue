@@ -22,28 +22,25 @@
                           <div class="form-icon form-icon-right">
                             <em class="icon ni ni-search" />
                           </div>
-                          <input id="default-04" type="text" class="form-control" placeholder="Search by name">
+                          <input id="search" v-model="search" type="text" class="form-control" placeholder="Search by name">
                         </div>
                       </li>
                       <li>
-                        <div class="drodown">
-                          <a
-                            href="#"
-                            class="dropdown-toggle dropdown-indicator btn btn-outline-light btn-white"
-                            data-toggle="dropdown"
-                          >Status</a>
-                          <div class="dropdown-menu dropdown-menu-right">
-                            <ul class="link-list-opt no-bdr">
-                              <li><a href="#"><span>Actived</span></a></li>
-                              <li><a href="#"><span>Inactived</span></a></li>
-                              <li><a href="#"><span>Blocked</span></a></li>
-                            </ul>
-                          </div>
-                        </div>
+                        <select id="select-status" v-model="status" class="form-control">
+                          <option value="">
+                            --Status--
+                          </option>
+                          <option value="2">
+                            Inactive
+                          </option>
+                          <option value="1">
+                            Active
+                          </option>
+                        </select>
                       </li>
                       <li class="nk-block-tools-opt">
-                        <a href="#" class="btn btn-icon btn-primary d-md-none">
-                          <em class="icon ni ni-plus" />
+                        <a href="javascript:;" class="btn btn-success d-md-inline-flex mr-2" @click="pageChangeHandler(1)">
+                          <em class="icon ni ni-plus" /> <span>Search</span>
                         </a>
                         <NuxtLink to="/category/add" class="btn btn-primary d-none d-md-inline-flex">
                           <em class="icon ni ni-plus" /><span>Add</span>
@@ -120,9 +117,8 @@
                           style="position: absolute; transform: translate3d(-100px, -94px, 0px); top: 0px; left: 0px; will-change: transform;"
                         >
                           <ul class="link-list-plain">
-                            <li><a href="#">View</a></li>
-                            <li><a href="#" @click.prevent="editCategory(category)">Edit</a></li>
-                            <li><a href="#" @click.prevent="removeCategory(category.id)">Remove</a></li>
+                            <li><a href="javascript:;" @click.prevent="editCategory(category)">Edit</a></li>
+                            <li><a href="javascript:;" @click.prevent="removeCategory(category.id)">Remove</a></li>
                           </ul>
                         </div>
                       </div>
@@ -136,12 +132,12 @@
                 </tbody>
               </table>
             </div><!-- .card -->
-            <div v-if="total > 0" class="card">
+            <div v-if="Math.ceil(total / limit) > 1" class="card">
               <div class="card-inner">
                 <div class="pages float-right">
                   <vue-pagination
                     :current="currentPage"
-                    :total="Math.ceil(total / 10)"
+                    :total="Math.ceil(total / limit)"
                     @page-change="pageChangeHandler"
                   />
                 </div>
@@ -165,7 +161,10 @@ export default {
       activeIndex: null,
       loading: true,
       total: 0,
-      currentPage: 1
+      limit: 10,
+      currentPage: 1,
+      search: '',
+      status: ''
     }
   },
   computed: {
@@ -200,11 +199,15 @@ export default {
       })
     },
     async pageChangeHandler (page) {
+      this.start()
       this.currentPage = page
       // const offset = ((this.currentPage - 1) * this.limit)
       await this.$store.dispatch('category/fetchCategories', {
-        page: this.currentPage
+        page: this.currentPage,
+        status: this.status,
+        search: this.search
       })
+      this.finish()
       this.scrollToTop()
     },
     async fetchCategories () {

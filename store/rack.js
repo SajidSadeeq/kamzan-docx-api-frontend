@@ -18,7 +18,10 @@ const actions = {
     await this.$axios.get('/rack', {
       params: {
         page: payload.page,
-        limit: payload.limit
+        limit: payload.limit,
+        search: payload.search,
+        status: payload.status,
+        side: payload.side
       }
     })
       .then(function (response) {

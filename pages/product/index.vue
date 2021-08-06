@@ -22,27 +22,26 @@
                           <div class="form-icon form-icon-right">
                             <em class="icon ni ni-search" />
                           </div>
-                          <input id="default-04" type="text" class="form-control" placeholder="Search by name">
+                          <input id="search" v-model="search" type="text" class="form-control" placeholder="Search by title">
                         </div>
                       </li>
                       <li>
-                        <div class="drodown">
-                          <a
-                            href="#"
-                            class="dropdown-toggle dropdown-indicator btn btn-outline-light btn-white"
-                            data-toggle="dropdown"
-                          >Status</a>
-                          <div class="dropdown-menu dropdown-menu-right">
-                            <ul class="link-list-opt no-bdr">
-                              <li><a href="#"><span>Actived</span></a></li>
-                              <li><a href="#"><span>Inactived</span></a></li>
-                              <li><a href="#"><span>Blocked</span></a></li>
-                            </ul>
-                          </div>
-                        </div>
+                        <select id="select-status" v-model="status" class="form-control">
+                          <option value="">
+                            --Status--
+                          </option>
+                          <option value="2">
+                            Inactive
+                          </option>
+                          <option value="1">
+                            Active
+                          </option>
+                        </select>
                       </li>
                       <li class="nk-block-tools-opt">
-                        <a href="#" class="btn btn-icon btn-primary d-md-none"><em class="icon ni ni-plus" /></a>
+                        <a href="javascript:;" class="btn btn-success d-md-inline-flex mr-2" @click="pageChangeHandler(1)">
+                          <em class="icon ni ni-plus" /> <span>Search</span>
+                        </a>
                         <NuxtLink to="/product/add" class="btn btn-primary d-none d-md-inline-flex">
                           <em class="icon ni ni-plus" /><span>Add</span>
                         </NuxtLink>
@@ -145,7 +144,6 @@
                   <span>{{ product.color }}</span>
                 </div>
                 <div class="nk-tb-col tb-col-md">
-                  <span class="tb-status text-success">Active</span>
                   <span class="tb-status" :class="[ product.status ? 'text-success':'text-danger' ]">{{ (product.status == true) ? 'Active':'Inactive' }}</span>
                 </div>
                 <div class="nk-tb-col nk-tb-col-tools">
@@ -192,10 +190,10 @@
                           style="position: absolute; transform: translate3d(-100px, -94px, 0px); top: 0px; left: 0px; will-change: transform;"
                         >
                           <ul class="link-list-opt no-bdr">
-                            <li>
+                            <!-- <li>
                               <a href="javascript:;"><em class="icon ni ni-eye" />
                                 <span>View Details</span></a>
-                            </li>
+                            </li> -->
                             <li>
                               <a href="#" @click.prevent="editProduct(product)">
                                 <em class="icon ni ni-repeat" /><span>Edit</span>
@@ -244,7 +242,9 @@ export default {
       total: 0,
       products: [],
       activeIndex: null,
-      loading: true
+      loading: true,
+      search: '',
+      status: ''
     }
   },
   created () {
@@ -255,7 +255,9 @@ export default {
       this.currentPage = page
       // const offset = ((this.currentPage - 1) * this.limit)
       await this.$store.dispatch('product/fetchProducts', {
-        page: this.currentPage
+        page: this.currentPage,
+        status: this.status,
+        search: this.search
       })
       this.products = this.$store.state.product.products
       this.scrollToTop()

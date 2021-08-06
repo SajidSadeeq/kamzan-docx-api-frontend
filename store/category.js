@@ -15,7 +15,13 @@ const actions = {
       })
   },
   async fetchCategories ({ commit }, payload) {
-    await this.$axios.get(`/category?page=${payload.page}`)
+    await this.$axios.get('/category', {
+      params: {
+        page: payload.page,
+        search: payload.search,
+        status: payload.status
+      }
+    })
       .then(function (response) {
         commit('category/SET_CATEGORIES', response.data.payload.data, { root: true })
       })

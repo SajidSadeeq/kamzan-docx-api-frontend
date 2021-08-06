@@ -20,23 +20,26 @@
                           <div class="form-icon form-icon-right">
                             <em class="icon ni ni-search" />
                           </div>
-                          <input id="default-04" type="text" class="form-control" placeholder="Search by name">
+                          <input id="search" v-model="search" type="text" class="form-control" placeholder="Search by title">
                         </div>
                       </li>
                       <li>
-                        <div class="drodown">
-                          <a href="#" class="dropdown-toggle dropdown-indicator btn btn-outline-light btn-white" data-toggle="dropdown">Status</a>
-                          <div class="dropdown-menu dropdown-menu-right">
-                            <ul class="link-list-opt no-bdr">
-                              <li><a href="#"><span>Actived</span></a></li>
-                              <li><a href="#"><span>Inactived</span></a></li>
-                              <li><a href="#"><span>Blocked</span></a></li>
-                            </ul>
-                          </div>
-                        </div>
+                        <select id="select-status" v-model="status" class="form-control">
+                          <option value="">
+                            --Status--
+                          </option>
+                          <option value="2">
+                            Inactive
+                          </option>
+                          <option value="1">
+                            Active
+                          </option>
+                        </select>
                       </li>
                       <li class="nk-block-tools-opt">
-                        <a href="#" class="btn btn-icon btn-primary d-md-none"><em class="icon ni ni-plus" /></a>
+                        <a href="javascript:;" class="btn btn-success d-md-inline-flex mr-2" @click="pageChangeHandler(1)">
+                          <em class="icon ni ni-search" /> <span>Search</span>
+                        </a>
                         <NuxtLink to="/brand/add" class="btn btn-primary d-none d-md-inline-flex">
                           <em class="icon ni ni-plus" /><span>Add</span>
                         </NuxtLink>
@@ -157,7 +160,7 @@
                 </div>
               </div><!-- .nk-tb-item -->
             </div><!-- .nk-tb-list -->
-            <div class="card">
+            <div v-if="Math.ceil(total / perPage) > 1" class="card">
               <div class="card-inner">
                 <div class="pages float-right">
                   <vue-pagination
@@ -180,12 +183,13 @@ export default {
   data () {
     return {
       toggleModal: false,
-      // brands: [],
       activeIndex: null,
       loading: true,
       total: 0,
       perPage: 10,
-      currentPage: 1
+      currentPage: 1,
+      search: '',
+      status: ''
     }
   },
   computed: {
@@ -222,7 +226,9 @@ export default {
       // const offset = ((this.currentPage - 1) * this.limit)
       await this.$store.dispatch('brand/fetchBrands', {
         page: this.currentPage,
-        limit: this.perPage
+        limit: this.perPage,
+        status: this.status,
+        search: this.search
       })
       this.finish()
       this.scrollToTop()

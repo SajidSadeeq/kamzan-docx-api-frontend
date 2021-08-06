@@ -20,23 +20,13 @@
                           <div class="form-icon form-icon-right">
                             <em class="icon ni ni-search" />
                           </div>
-                          <input id="default-04" type="text" class="form-control" placeholder="Search by name">
-                        </div>
-                      </li>
-                      <li>
-                        <div class="drodown">
-                          <a href="#" class="dropdown-toggle dropdown-indicator btn btn-outline-light btn-white" data-toggle="dropdown">Status</a>
-                          <div class="dropdown-menu dropdown-menu-right">
-                            <ul class="link-list-opt no-bdr">
-                              <li><a href="#"><span>Actived</span></a></li>
-                              <li><a href="#"><span>Inactived</span></a></li>
-                              <li><a href="#"><span>Blocked</span></a></li>
-                            </ul>
-                          </div>
+                          <input id="search" v-model="search" type="text" class="form-control" placeholder="Search by name">
                         </div>
                       </li>
                       <li class="nk-block-tools-opt">
-                        <a href="#" class="btn btn-icon btn-primary d-md-none"><em class="icon ni ni-plus" /></a>
+                        <a href="javascript:;" class="btn btn-success d-md-inline-flex mr-2" @click="pageChangeHandler(1)">
+                          <em class="icon ni ni-plus" /> <span>Search</span>
+                        </a>
                         <NuxtLink to="/customer/add" class="btn btn-primary d-none d-md-inline-flex">
                           <em class="icon ni ni-plus" /><span>Add</span>
                         </NuxtLink>
@@ -208,7 +198,9 @@ export default {
       activeIndex: null,
       loading: true,
       total: 0,
-      currentPage: 1
+      currentPage: 1,
+      search: '',
+      status: ''
     }
   },
   computed: {
@@ -243,11 +235,15 @@ export default {
       })
     },
     async pageChangeHandler (page) {
+      this.start()
       this.currentPage = page
       // const offset = ((this.currentPage - 1) * this.limit)
       await this.$store.dispatch('customer/fetchCustomers', {
-        page: this.currentPage
+        page: this.currentPage,
+        search: this.search
+        // status: this.status
       })
+      this.finish()
       this.scrollToTop()
     },
     async fetchCustomers () {

@@ -16,9 +16,10 @@ const actions = {
   },
   async fetchAisles ({ commit }, payload) {
     await this.$axios.get('/aisle', {
-      parasm: {
+      params: {
         page: payload.page,
-        limit: payload.limit
+        limit: payload.limit,
+        search: payload.search
       }
     })
       .then(function (response) {

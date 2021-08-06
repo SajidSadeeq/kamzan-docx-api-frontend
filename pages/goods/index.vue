@@ -22,28 +22,25 @@
                           <div class="form-icon form-icon-right">
                             <em class="icon ni ni-search" />
                           </div>
-                          <input id="default-04" type="text" class="form-control" placeholder="Search by name">
+                          <input id="search" v-model="search" type="text" class="form-control" placeholder="Search by name">
                         </div>
                       </li>
                       <li>
-                        <div class="drodown">
-                          <a
-                            href="#"
-                            class="dropdown-toggle dropdown-indicator btn btn-outline-light btn-white"
-                            data-toggle="dropdown"
-                          >Status</a>
-                          <div class="dropdown-menu dropdown-menu-right">
-                            <ul class="link-list-opt no-bdr">
-                              <li><a href="#"><span>Actived</span></a></li>
-                              <li><a href="#"><span>Inactived</span></a></li>
-                              <li><a href="#"><span>Blocked</span></a></li>
-                            </ul>
-                          </div>
-                        </div>
+                        <select id="select-status" v-model="status" class="form-control">
+                          <option value="">
+                            --Status--
+                          </option>
+                          <option value="2">
+                            Filled
+                          </option>
+                          <option value="1">
+                            Empty
+                          </option>
+                        </select>
                       </li>
                       <li class="nk-block-tools-opt">
-                        <a href="#" class="btn btn-icon btn-primary d-md-none">
-                          <em class="icon ni ni-plus" />
+                        <a href="javascript:;" class="btn btn-success d-md-inline-flex mr-2" @click="pageChangeHandler(1)">
+                          <em class="icon ni ni-plus" /> <span>Search</span>
                         </a>
                         <NuxtLink to="/goods/add" class="btn btn-primary d-none d-md-inline-flex">
                           <em class="icon ni ni-plus" /><span>Add</span>
@@ -74,6 +71,11 @@
                         <span>Unique ID</span>
                       </span>
                     </th>
+                    <th class="tb-tnx-info">
+                      <span class="tb-tnx-desc d-none d-sm-inline-block">
+                        <span>Status</span>
+                      </span>
+                    </th>
 
                     <th class="tb-tnx-action">
                       <span>Actions</span>
@@ -93,6 +95,11 @@
                     <td class="tb-tnx-info">
                       <div class="tb-tnx-desc">
                         <span class="title">{{ good.unique_id }}</span>
+                      </div>
+                    </td>
+                    <td class="tb-tnx-info">
+                      <div class="tb-tnx-desc">
+                        <span class="title">{{ (good.status == 2)?'Filled':'Empty' }}</span>
                       </div>
                     </td>
 
@@ -124,7 +131,7 @@
                 </tbody>
               </table>
             </div><!-- .card -->
-            <div class="card">
+            <div v-if="Math.ceil(total / perPage) > 1" class="card">
               <div class="card-inner">
                 <div class="pages float-right">
                   <vue-pagination
@@ -152,7 +159,9 @@ export default {
       // goods: [],
       total: 0,
       perPage: 10,
-      currentPage: 1
+      currentPage: 1,
+      status: '',
+      search: ''
     }
   },
   computed: {
@@ -188,7 +197,9 @@ export default {
       this.currentPage = page
       await this.$store.dispatch('good/fetchGoods', {
         page: this.currentPage,
-        limit: this.perPage
+        limit: this.perPage,
+        status: this.status,
+        search: this.search
       })
       this.finish()
       this.scrollToTop()

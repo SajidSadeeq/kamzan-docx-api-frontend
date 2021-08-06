@@ -125,7 +125,7 @@
                               </div>
                             </div>
                           </div>
-                          <div class="col-md-10 mt-2">
+                          <!-- <div class="col-md-10 mt-2">
                             <div class="form-group">
                               <label class="form-label" for="qty">Qty</label>
                               <div class="form-control-wrap">
@@ -141,7 +141,7 @@
                                 <span v-if="containsKey(from_errors, 'qty')" class="text-danger">{{ from_errors.qty[0] }}</span>
                               </div>
                             </div>
-                          </div>
+                          </div> -->
                         </div>
                         <div class="col-md-6 border-right">
                           <div class="col-md-10">
@@ -163,7 +163,7 @@
                           </div>
                           <div class="col-md-10 mt-2">
                             <div class="form-group">
-                              <label class="form-label" for="size">size</label>
+                              <label class="form-label" for="size">Volumn</label>
                               <div class="form-control-wrap">
                                 <input
                                   id="size"
@@ -198,7 +198,7 @@
                           </div>
                           <div class="col-md-10 mt-2">
                             <div class="form-group">
-                              <label class="form-label" for="color">Color</label>
+                              <label class="form-label" for="color">Colour</label>
                               <div class="form-control-wrap">
                                 <input
                                   id="color"
@@ -298,7 +298,7 @@ export default {
       browsText: 'Brows image',
       name: '',
       sku: '',
-      qty: '',
+      // qty: '',
       price: '',
       size: '',
       weight: '',
@@ -340,7 +340,7 @@ export default {
         supplier_id: this.supplier_id,
         name: this.name,
         sku: this.sku,
-        qty: this.qty,
+        // qty: this.qty,
         price: this.price,
         size: this.size,
         weight: this.weight,

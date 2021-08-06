@@ -50,7 +50,7 @@
                     <form action="#" class="form-validate" novalidate="novalidate" @submit.prevent="addRack">
                       <div class="row g-gs">
                         <div class="col-md-6">
-                          <div class="col-md-10">
+                          <!-- <div class="col-md-10">
                             <auto-complete
                               id="customer"
                               label="name"
@@ -60,7 +60,7 @@
                               placeholder="Search Customer"
                               @selected="getSelectedData"
                             />
-                          </div>
+                          </div> -->
                           <div class="col-md-10">
                             <div class="form-group">
                               <label class="form-label" for="customer_id">Select Customer</label>
@@ -147,14 +147,14 @@ import vSelect from 'vue-select'
 import 'vue-select/dist/vue-select.css'
 import 'vue-input-search/dist/vue-search.css'
 import VueSearch from 'vue-input-search/dist/vue-search.common'
-import Autocomplete from '@/components/common/Autocomplete.vue'
+// import Autocomplete from '@/components/common/Autocomplete.vue'
 
 Vue.component('VSelect', vSelect)
 
 export default {
   components: {
-    'vue-search': VueSearch,
-    'auto-complete': Autocomplete
+    'vue-search': VueSearch
+    // 'auto-complete': Autocomplete
   },
   data () {
     return {
