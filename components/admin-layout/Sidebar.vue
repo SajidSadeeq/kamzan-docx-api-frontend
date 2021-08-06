@@ -262,5 +262,5 @@ a.nuxt-link-exact-active {
 
  .is-dark.is-compact .logo-dark {opacity: 0;}
  .is-dark.is-compact .logo-small { opacity: 1;}
-
+ .is-dark.is-compact .nk-sidebar-head { padding: 14px; }
 </style>

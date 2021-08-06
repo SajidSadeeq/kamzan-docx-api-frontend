@@ -21309,7 +21309,22 @@ ol.linenums li {
     transition: all 0.3s;
 }
 
-.simplebar-mask { direction: inherit; position: absolute; overflow: hidden; padding: 0; margin: 0; left: 0; top: 0; bottom: 0; right: 0; width: auto !important; height: auto !important; z-index: 0; border-left: 1px solid #dbdfea; }
+.simplebar-mask {
+    direction: inherit;
+    position: absolute;
+    overflow: hidden;
+    padding: 0;
+    margin: 0;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    width: auto !important;
+    height: auto !important;
+    z-index: 0;
+    border-left: 1px solid #dbdfea;
+}
+
 .select2-sm .select2-container--default .select2-selection--single {
     font-size: 12px;
 }
@@ -29708,7 +29723,7 @@ body.nav-shown {
     }
     .nk-sidebar.is-compact:not(:hover) .logo-img-small {
         opacity: 1;
-        left: -3px;
+        /* left: -3px; */
     }
     .nk-sidebar.is-compact:not(:hover) .user-card {
         position: relative;
@@ -42928,6 +42943,6 @@ body.dark-mode.bg-light {
     padding: 0.75rem 1.5rem;
 }
 
-.gp_remove{
+.gp_remove {
     margin: 30px 0px 0px -16px;
 }
