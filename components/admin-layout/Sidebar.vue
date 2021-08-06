@@ -249,14 +249,7 @@ a.nuxt-link-exact-active {
   width: 100%;
   max-height: 100%;
 }
-.ps .ps__rail-x.ps--clicking,
-.ps .ps__rail-x:focus,
-.ps .ps__rail-x:hover,
-.ps .ps__rail-y.ps--clicking,
-.ps .ps__rail-y:focus,
-.ps .ps__rail-y:hover {
-  background: transparent;
-}
+
  .is-dark .logo-dark {opacity: 1;}
  .is-dark .logo-small { opacity: 0;}
 
