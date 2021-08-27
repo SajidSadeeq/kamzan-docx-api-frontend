@@ -36501,7 +36501,7 @@ p>span>.icon.ni {
 .nk-add-product {
     top: 62px;
     background-color: #fff;
-    width: 400px;
+    width: 500px;
     height: calc(100vh - 65px);
     padding: 1.5rem;
 }
@@ -36509,7 +36509,7 @@ p>span>.icon.ni {
 .nk-add-product+.toggle-overlay {
     z-index: 700;
 }
-
+.content-input .ui-autocomplete .ui-menu-item .ui-item-result .avatar { display: none!important;}
 .asterisk a {
     position: relative;
     color: #8094ae;

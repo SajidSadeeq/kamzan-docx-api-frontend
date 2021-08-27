@@ -39,7 +39,7 @@
                   <li class="nav-item" @click="activeTab = 1">
                     <a class="nav-link" :class="{ active: activeTab === 1 }" data-toggle="tab" href="#basic"><em
                       class="icon ni ni-setting"
-                    /><span>Baisc Info</span></a>
+                    /><span>Basic Info</span></a>
                   </li>
                   <!-- <li class="nav-item" @click="activeTab = 2">
                         <a class="nav-link" :class="{ active: activeTab === 2 }" data-toggle="tab" href="#meta"><em class="icon ni ni-link" /><span>Meta</span></a>
@@ -64,20 +64,7 @@
                                   required=""
                                 >
                               </div>
-                              <span v-if="errors" class="text-danger">{{ errors[0] }}</span>
-                            </div>
-                          </div>
-                          <div class="col-md-10 mt-2">
-                            <div class="form-group">
-                              <label class="form-label" for="name">Racks</label>
-                              <v-select
-                                :options="racks"
-                                label="name"
-                                placeholder="Select Side"
-                                name="rack_id"
-                                @input="rack_id=$event !==[]?$event.id:''"
-                              />
-                              <span v-if="containsKey(errors, 'good_id')" class="text-danger">{{ errors.good_id[0] }}</span>
+                              <span v-if="containsKey(form_errors, 'name')" class="error">{{ form_errors.name[0] }}</span>
                             </div>
                           </div>
                         </div>
@@ -115,66 +102,23 @@ export default {
       tabPath: this.$route.fullPath,
       activeTab: 1,
       name: '',
-      errors: [],
-      racks: [],
-      rack_id: ''
-
+      form_errors: []
     }
   },
   created () {
-    // this.fetchCustomers()
-    this.fetchRacks()
-    // this.fetchGoods()
   },
   methods: {
     containsKey (obj, key) {
       return Object.keys(obj).includes(key)
     },
-    // async fetchCustomers () {
-    //   const self = this
-    //   await this.$axios.get('customer')
-    //     .then(function (response) {
-    //       self.customers = response.data.payload.data
-    //       console.log(self.response.data.payload.data)
-    //       // self.$store.commit('pallet/SET_PALLET', self.pallets)
-    //       self.$nuxt.$loading.finish()
-    //     })
-    // },
-    async fetchRacks () {
-      const self = this
-      await this.$axios.get('racks/available-racks')
-        .then(function (response) {
-          if (response.data.payload.error === undefined) {
-            // console.log(response)
-            self.racks = response.data.payload
-          }
-          // self.$store.commit('pallet/SET_PALLET', self.pallets)
-          self.$nuxt.$loading.finish()
-        })
-    },
-    // async fetchGoods () {
-    //   const self = this
-    //   await this.$axios.get('pallet-good')
-    //     .then(function (response) {
-    //       self.goods = response.data.payload
-    //       console.log(self.goods)
-    //       // self.$store.commit('pallet/SET_PALLET', self.pallets)
-    //       self.$nuxt.$loading.finish()
-    //     })
-    // },
     addPallet () {
       const self = this
       this.$axios.post('pallet', {
-        name: self.name,
-        rack_id: self.rack_id
+        name: self.name
       }).then(function (response) {
-        if (response.data.status !== false) {
-          self.$router.push('/pallets')
-        } else {
-          self.errors = response.data.payload.error
-        }
+        self.$router.push('/pallets')
       }).catch(function (error) {
-        self.errors = error.data.payload.error
+        self.form_errors = error.response.data.data
       })
     }
 

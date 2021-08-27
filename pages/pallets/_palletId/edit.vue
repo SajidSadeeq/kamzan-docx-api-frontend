@@ -39,7 +39,7 @@
                   <li class="nav-item" @click="activeTab = 1">
                     <a class="nav-link" :class="{ active: activeTab === 1 }" data-toggle="tab" href="#basic"><em
                       class="icon ni ni-setting"
-                    /><span>Baisc Info</span></a>
+                    /><span>Basic Info</span></a>
                   </li>
                   <!-- <li class="nav-item" @click="activeTab = 2">
                         <a class="nav-link" :class="{ active: activeTab === 2 }" data-toggle="tab" href="#meta"><em class="icon ni ni-link" /><span>Meta</span></a>
@@ -64,37 +64,7 @@
                                   required=""
                                 >
                               </div>
-                              <span v-if="errors" class="text-danger">{{ errors[0] }}</span>
-                            </div>
-                          </div>
-                          <div class="col-md-10 mt-2">
-                            <div class="form-group">
-                              <label class="form-label" for="name">Racks</label>
-                              <v-select
-                                :options="racks"
-                                label="name"
-                                placeholder="Select Side"
-                                name="rack_id"
-                                :value="selectedRack"
-                                @input="selectedRack=$event !== undefined?$event:''"
-                              />
-                              <span v-if="containsKey(errors, 'good_id')" class="text-danger">{{ errors.good_id[0] }}</span>
-                            </div>
-                          </div>
-
-                          <div class="col-md-10 mt-2">
-                            <div class="form-group">
-                              <label class="form-label" for="name">Goods</label>
-                              <v-select
-                                :options="goods"
-                                label="name"
-                                placeholder="Select Side"
-                                name="goods[]"
-                                multiple
-                                :value="palletGoods"
-                                @input="palletGoods=$event"
-                              />
-                              <span v-if="containsKey(errors, 'good_id')" class="text-danger">{{ errors.good_id[0] }}</span>
+                              <span v-if="containsKey(form_errors, 'name')" class="error">{{ form_errors.name[0] }}</span>
                             </div>
                           </div>
                         </div>
@@ -132,13 +102,13 @@ export default {
       tabPath: this.$route.fullPath,
       activeTab: 1,
       name: '',
-      errors: [],
-      goods: [],
-      racks: [],
-      rack_id: '',
-      selectedRack: [],
-      selectedGoods: [],
-      palletGoods: []
+      form_errors: []
+      // goods: [],
+      // racks: [],
+      // rack_id: ''
+      // selectedRack: [],
+      // selectedGoods: [],
+      // palletGoods: []
     }
   },
   computed: {
@@ -150,74 +120,24 @@ export default {
     if (Object.keys(this.pallet).length === 0) {
       this.$store.dispatch('pallet/fetchSpecificPallet', this.$route.params.palletId)
     }
-    this.fetchRacks()
-    this.fetchGoods()
-    this.fetchPalletGoods()
+    // this.fetchRacks()
+    // this.fetchGoods()
+    // this.fetchPalletGoods()
   },
   methods: {
     containsKey (obj, key) {
       return Object.keys(obj).includes(key)
     },
-    async fetchRacks () {
-      const self = this
-      await this.$axios.get('racks/available-racks')
-        .then(function (response) {
-          if (response.data.payload.error === undefined) {
-            self.racks = response.data.payload
-            self.selectedRack = self.racks.find(elem => elem.id === self.pallet.rack_id)
-            // console.log(self.pallet.rack_id)
-            // console.log(self.racks)
-            // console.log(self.selectedRack)
-          }
-          // self.$store.commit('pallet/SET_PALLET', self.pallets)
-          self.$nuxt.$loading.finish()
-        })
-    },
-    async fetchGoods () {
-      const self = this
-      await this.$axios.get('good/list')
-        .then(function (response) {
-          if (response.data.status !== false) {
-            self.goods = response.data.payload
-          } else {
-            // self.errors = response.data.payload.error
-          }
-          self.$nuxt.$loading.finish()
-        })
-    },
-    async fetchPalletGoods () {
-      const self = this
-      await this.$axios.get(`pallet/pallet-goods/${self.$route.params.palletId}`)
-        .then(function (response) {
-          if (response.data.status !== false) {
-            response.data.payload.pallet_goods.forEach((data) => {
-              if (data.goods !== null) {
-                self.palletGoods.push(data.goods)
-              }
-            })
-          } else {
-            // self.errors = response.data.payload.error
-          }
-          self.$nuxt.$loading.finish()
-        })
-    },
     editPallet () {
       const self = this
       this.$axios.put(`pallet/${this.pallet.id}`, {
-        name: self.pallet.name,
-        palletGoods: self.palletGoods,
-        rack_id: self.selectedRack ? self.selectedRack.id : ''
+        name: self.pallet.name
       }).then(function (response) {
-        if (response.data.status !== false) {
-          self.$router.push('/pallets')
-        } else {
-          self.errors = response.data.payload.error
-        }
-      }).catch(function (ext) {
-        self.errors = ext.data.payload.error
+        self.$router.push('/pallets')
+      }).catch(function (error) {
+        self.form_errors = error.response.data.data
       })
     }
-
   }
 }
 </script>

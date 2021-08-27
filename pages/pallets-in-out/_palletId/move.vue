@@ -7,7 +7,7 @@
             <div class="nk-block-between">
               <div class="nk-block-head-content">
                 <h3 class="nk-block-title page-title">
-                  Move Pallet
+                  Move Due
                 </h3>
               </div><!-- .nk-block-head-content -->
               <div class="nk-block-head-content">
@@ -39,7 +39,7 @@
                   <li class="nav-item" @click="activeTab = 1">
                     <a class="nav-link" :class="{ active: activeTab === 1 }" data-toggle="tab" href="#basic">
                       <em class="icon ni ni-setting" />
-                      <span>Baisc Info</span>
+                      <span>Basic Info</span>
                     </a>
                   </li>
                   <!-- <li class="nav-item" @click="activeTab = 2">
@@ -51,34 +51,12 @@
                     <form action="#" class="form-validate" novalidate="novalidate" @submit.prevent="movePallet">
                       <div class="row g-gs">
                         <div class="col-md-6">
-                          <input id="pallet_id" v-model="pallet.id" type="hidden" name="pallet_id">
-                          <div class="col-md-10">
-                            <div class="form-group">
-                              <label class="form-label" for="name">Pallets ID </label>
-                              <div class="form-control-wrap">
-                                <input
-                                  id="name"
-                                  v-model="pallet.name"
-                                  type="text"
-                                  class="form-control"
-                                  name="name"
-                                  placeholder="Pallet ID"
-                                  required=""
-                                  disabled
-                                >
-                              </div>
-                              <span v-if="containsKey(from_errors, 'name')" class="invalid">{{ from_errors.name[0] }}</span>
-                            </div>
-                          </div>
                           <div class="col-md-10 mt-2">
                             <div class="form-group">
                               <label class="form-label" for="name">Select Rack</label>
                               <v-select
                                 :options="racks"
-                                label="name"
-                                placeholder="Select Side"
-                                name="rack_id"
-                                :value="selectedRack"
+                                placeholder="Select New Rack"
                                 @input="selectedRack=$event !== undefined?$event:''"
                               />
                               <span v-if="containsKey(from_errors, 'new_rack_id')" class="error">{{ from_errors.new_rack_id[0] }}</span>
@@ -129,14 +107,11 @@ export default {
     }
   },
   computed: {
-    pallet () {
-      return this.$store.state.pallet.edit_pallet
-    }
+    // pallet () {
+    //   return this.$store.state.pallet.edit_pallet
+    // }
   },
   created () {
-    if (Object.keys(this.pallet).length === 0) {
-      this.$store.dispatch('pallet/fetchSpecificPallet', this.$route.params.palletId)
-    }
     this.fetchRacks()
   },
   methods: {
@@ -145,11 +120,11 @@ export default {
     },
     async fetchRacks () {
       const self = this
-      await this.$axios.get('racks/available-racks')
+      await this.$axios.get('rack/fetch-available-racks')
         .then(function (response) {
           if (response.data.payload.error === undefined) {
             self.racks = response.data.payload
-            self.selectedRack = self.racks.find(elem => elem.id === self.pallet.rack_id)
+            // self.selectedRack = self.racks.find(elem => elem.id === self.pallet.rack_id)
           }
           self.$nuxt.$loading.finish()
         })
@@ -158,10 +133,9 @@ export default {
       const self = this
       this.$axios.post('pallet/move-pallet', {
         new_rack_id: self.selectedRack ? self.selectedRack.id : '',
-        customer_order_id: self.customer_order_id,
-        pallet_id: this.pallet.id
+        customer_order_id: this.$route.params.palletId
       }).then(function (response) {
-        self.$router.push('/')
+        self.$router.push('/pallets-in-out')
       }).catch(function (error) {
         self.from_errors = error.response.data.data
       })

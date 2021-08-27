@@ -39,7 +39,7 @@
                   <li class="nav-item" @click="activeTab = 1">
                     <a class="nav-link" :class="{ active: activeTab === 1 }" data-toggle="tab" href="#basic"><em
                       class="icon ni ni-setting"
-                    /><span>Baisc Info</span></a>
+                    /><span>Basic Info</span></a>
                   </li>
                   <!-- <li class="nav-item" @click="activeTab = 2">
                         <a class="nav-link" :class="{ active: activeTab === 2 }" data-toggle="tab" href="#meta"><em class="icon ni ni-link" /><span>Meta</span></a>
@@ -83,6 +83,7 @@
                               </div>
                             </div> -->
                         </div>
+                        <!-- {{ selectedProducts }} -->
                         <div class="col-md-8">
                           <div class="form-group">
                             <div class="form-control-wrap">
@@ -105,6 +106,7 @@
                                             @newitem="newitem()"
                                             @itemselected="productselected($event, index)"
                                           />
+                                          <small class="text-primary">{ ID: {{ product.id }}, Name : {{ product.name }} }</small>
                                         </div>
                                       </div>
                                     </div>
@@ -112,13 +114,20 @@
                                       <div class="form-group">
                                         <label class="form-label" for="number">Quantity</label>
                                         <div class="form-control-wrap">
-                                          <input id="number" v-model="product.qty" type="number" class="form-control" placeholder="1">
+                                          <input
+                                            id="number"
+                                            v-model="product.qty"
+                                            type="number"
+                                            class="form-control"
+                                            placeholder="1"
+                                            @change="event => updateVolumeWeight(event, index)"
+                                          >
                                         </div>
                                       </div>
                                     </div>
                                     <div class="col-sm-2">
                                       <div class="form-group">
-                                        <label class="form-label" for="vol">Volumn</label>
+                                        <label class="form-label" for="vol">Volume</label>
                                         <div class="form-control-wrap">
                                           <input id="vol" v-model="product.vol" type="number" class="form-control" placeholder="1">
                                         </div>
@@ -126,7 +135,7 @@
                                     </div>
                                     <div class="col-sm-2">
                                       <div class="form-group">
-                                        <label class="form-label" for="weight">weight(kg)</label>
+                                        <label class="form-label" for="weight">Weight(kg)</label>
                                         <div class="form-control-wrap">
                                           <input id="weight" v-model="product.weight" type="number" class="form-control" placeholder="1">
                                         </div>
@@ -194,7 +203,8 @@ export default {
           name: '',
           qty: '',
           vol: '',
-          weight: ''
+          weight: '',
+          product: {}
         }
       ],
       apiSearchProductsUrl: process.env.APP_URL + 'common/search-products'
@@ -263,13 +273,23 @@ export default {
         name: '',
         qty: '',
         vol: '',
-        weight: ''
+        weight: '',
+        product: {}
       })
+    },
+    updateVolumeWeight (event, index) {
+      const self = this
+      self.selectedProducts[index].vol = event.target.value * self.selectedProducts[index].vol
+      self.selectedProducts[index].weight = event.target.value * self.selectedProducts[index].weight
     },
     productselected (event, index) {
       const self = this
       self.selectedProducts[index].id = event.id
       self.selectedProducts[index].name = event.name
+      self.selectedProducts[index].qty = 1
+      self.selectedProducts[index].vol = 1 * event.volume
+      self.selectedProducts[index].weight = 1 * event.weight
+      self.selectedProducts[index].product = event
     },
     removeProduct (index) {
       this.$delete(this.selectedProducts, index)

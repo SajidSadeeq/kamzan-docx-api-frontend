@@ -39,7 +39,7 @@
                   <li class="nav-item" @click="activeTab = 1">
                     <a class="nav-link" :class="{ active: activeTab === 1 }" data-toggle="tab" href="#basic"><em
                       class="icon ni ni-setting"
-                    /><span>Baisc Info</span></a>
+                    /><span>Basic Info</span></a>
                   </li>
                   <!-- <li class="nav-item" @click="activeTab = 2">
                       <a class="nav-link" :class="{ active: activeTab === 2 }" data-toggle="tab" href="#meta"><em class="icon ni ni-link" /><span>Meta</span></a>

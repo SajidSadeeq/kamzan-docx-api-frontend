@@ -1,5 +1,5 @@
 <template>
-  <div class="nk-content ">
+  <div class="nk-content">
     <div class="container-fluid">
       <div class="nk-content-inner">
         <div class="nk-content-body">
@@ -25,7 +25,7 @@
                       </li>
                       <li class="nk-block-tools-opt">
                         <a href="javascript:;" class="btn btn-success d-md-inline-flex mr-2" @click="pageChangeHandler(1)">
-                          <em class="icon ni ni-plus" /> <span>Search</span>
+                          <em class="icon ni ni-search" /> <span>Search</span>
                         </a>
                         <NuxtLink to="/customer/add" class="btn btn-primary d-none d-md-inline-flex">
                           <em class="icon ni ni-plus" /><span>Add</span>
@@ -149,15 +149,21 @@
                         <em class="icon ni ni-user-cross-fill" />
                       </a>
                     </li>
-                    <li>
+                    <li class="parent-li">
                       <div class="drodown" :class="{'show': index === activeIndex }">
+                        <p v-if="activeIndex === index" v-click-outside="onClickOutside" />
                         <a href="javascript:;" class="dropdown-toggle btn btn-icon btn-trigger" data-toggle="dropdown" @click="activeIndex = activeIndex === index ? null : index">
                           <em class="icon ni ni-more-h" />
                         </a>
                         <div class="dropdown-menu dropdown-menu-right" :class="{'show': index === activeIndex }">
                           <ul class="link-list-opt no-bdr">
-                            <li><a href="html/ecommerce/customer-details.html"><em class="icon ni ni-eye" /><span>View Details</span></a></li>
-                            <li><a href="javascript:;" @click="editCustomer(customer)"><em class="icon ni ni-edit" /><span>Edit Details</span></a></li>
+                            <!-- <li><a href="html/ecommerce/customer-details.html"><em class="icon ni ni-eye" /><span>View Details</span></a></li> -->
+                            <li>
+                              <a
+                                href="javascript:;"
+                                @click="editCustomer(customer)"
+                              ><em class="icon ni ni-edit" /><span>Edit Details</span></a>
+                            </li>
                             <li><a href="javascript:;" @click="removeCustomer(customer)"><em class="icon ni ni-trash" /><span>Delete</span></a></li>
                             <!-- <li><a href="#"><em class="icon ni ni-repeat" /><span>Orders</span></a></li>
                             <li class="divider" />
@@ -171,12 +177,12 @@
                 </div>
               </div><!-- .nk-tb-item -->
             </div><!-- .nk-tb-list -->
-            <div class="card">
+            <div v-if="Math.ceil(total / perPage) > 1" class="card">
               <div class="card-inner">
                 <div class="pages float-right">
                   <vue-pagination
                     :current="currentPage"
-                    :total="Math.ceil(total / 10)"
+                    :total="Math.ceil(total / perPage)"
                     @page-change="pageChangeHandler"
                   />
                 </div>
@@ -190,7 +196,11 @@
 </template>
 
 <script>
+import Vue2ClickOutside from 'vue2-click-outside'
 export default {
+  directives: {
+    clickOutside: Vue2ClickOutside.directive
+  },
   data () {
     return {
       toggleModal: false,
@@ -200,7 +210,8 @@ export default {
       total: 0,
       currentPage: 1,
       search: '',
-      status: ''
+      status: '',
+      perPage: 10
     }
   },
   computed: {
@@ -209,6 +220,13 @@ export default {
     }
   },
   mounted () {
+    // const self = this
+    // self.$root.$on('closePopup', () => {
+    //   console.log('active : ' + self.activeIndex)
+    //   // if (self.activeIndex !== null) {
+    //   //   self.activeIndex = null
+    //   // }
+    // })
     this.$nextTick(() => {
       this.$nuxt.$loading.start()
       // setTimeout(() => this.$nuxt.$loading.finish(), 1000)
@@ -224,6 +242,21 @@ export default {
     finish () {
       this.loading = false
     },
+    onClickOutside (event) {
+      if (this.hasParentClass(event.target, 'parent-li') === false) {
+        this.activeIndex = null
+      }
+    },
+    hasParentClass (child, classname) {
+      if (child.className.split(' ').includes(classname)) { return true }
+      try {
+        // Throws TypeError if child doesn't have parent any more
+        return child.parentNode && this.hasParentClass(child.parentNode, classname)
+      } catch (TypeError) {
+        return false
+      }
+    },
+
     toggleActive (index) {
       this.activeIndex = index
     },

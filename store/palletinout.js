@@ -16,11 +16,7 @@ const actions = {
   },
   async fetchPalletInOut ({ commit }, payload) {
     await this.$axios.get('/pallets-in-out', {
-      params: {
-        page: payload.page,
-        daterange: payload.daterange,
-        type: payload.type
-      }
+      params: payload
     })
       .then(function (response) {
         commit('SET_PALLETS', response.data.payload.data)

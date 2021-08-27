@@ -73,7 +73,7 @@
                                 <v-select
                                   :options="goods"
                                   label="name"
-                                  placeholder="Select Side"
+                                  placeholder="Select Good"
                                   name="goods[]"
                                   multiple
                                   :value="palletGoods"

@@ -40,7 +40,7 @@
                       </li>
                       <li class="nk-block-tools-opt">
                         <a href="javascript:;" class="btn btn-success d-md-inline-flex mr-2" @click="pageChangeHandler(1)">
-                          <em class="icon ni ni-plus" /> <span>Search</span>
+                          <em class="icon ni ni-search" /> <span>Search</span>
                         </a>
                         <NuxtLink to="/category/add" class="btn btn-primary d-none d-md-inline-flex">
                           <em class="icon ni ni-plus" /><span>Add</span>
@@ -117,7 +117,7 @@
                           style="position: absolute; transform: translate3d(-100px, -94px, 0px); top: 0px; left: 0px; will-change: transform;"
                         >
                           <ul class="link-list-plain">
-                            <li><a href="javascript:;" @click.prevent="editCategory(category)">Edit</a></li>
+                            <li><a href="javascript:;" tabindex="0" @click.prevent="editCategory(category)" @focus="handleFocus">Edit</a></li>
                             <li><a href="javascript:;" @click.prevent="removeCategory(category.id)">Remove</a></li>
                           </ul>
                         </div>
@@ -235,6 +235,9 @@ export default {
     async editCategory (category) {
       await this.$store.commit('category/SET_EDIT_CATEGORY', category)
       this.$router.push(`category/${category.id}/edit`)
+    },
+    handleFocus () {
+      console.log('handleFocus')
     }
   }
 }

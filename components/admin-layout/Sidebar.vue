@@ -30,18 +30,20 @@
                   <span class="nk-menu-icon"><em class="icon ni ni-bag" /></span>
                   <span class="nk-menu-text">Dashboard</span><span class="nk-menu-badge badge-danger">HOT</span>
                 </NuxtLink>
-              </li><!-- .nk-menu-item -->
+              </li>
+              <!-- .nk-menu-item -->
               <li class="nk-menu-heading">
                 <h6 class="overline-title text-primary-alt">
                   Modules
                 </h6>
               </li><!-- .nk-menu-heading -->
-              <li class="nk-menu-item" @click="activeSubMenue('')">
+              <!-- <li class="nk-menu-item" @click="activeSubMenue('')">
                 <NuxtLink to="/category" class="nk-menu-link">
                   <span class="nk-menu-icon"><em class="icon ni ni-menu-squared" /></span>
                   <span class="nk-menu-text">Category</span>
                 </NuxtLink>
-              </li><!-- .nk-menu-item -->
+              </li> -->
+              <!-- .nk-menu-item -->
               <li class="nk-menu-item" @click="activeSubMenue('')">
                 <NuxtLink to="/customer" class="nk-menu-link">
                   <span class="nk-menu-icon"><em class="icon ni ni-users" /></span>
@@ -57,7 +59,7 @@
               <li class="nk-menu-item" @click="activeSubMenue('')">
                 <NuxtLink to="/pallets-in-out" class="nk-menu-link">
                   <span class="nk-menu-icon"><em class="icon ni ni-bag" /></span>
-                  <span class="nk-menu-text">Pallets In Out</span>
+                  <span class="nk-menu-text">Due In/Out</span>
                 </NuxtLink>
               </li>
               <li class="nk-menu-item" @click="activeSubMenue('')">
@@ -66,30 +68,54 @@
                   <span class="nk-menu-text">Pallets</span>
                 </NuxtLink>
               </li>
-              <li class="nk-menu-item" @click="activeSubMenue('')">
+              <!-- <li class="nk-menu-item" @click="activeSubMenue('')">
                 <NuxtLink to="/brand" class="nk-menu-link">
                   <span class="nk-menu-icon"><em class="icon ni ni-sign-sgd" /></span>
                   <span class="nk-menu-text">Brands</span>
                 </NuxtLink>
-              </li>
-              <li class="nk-menu-item" @click="activeSubMenue('')">
+              </li> -->
+              <!-- <li class="nk-menu-item" @click="activeSubMenue('')">
                 <NuxtLink to="/suppliers" class="nk-menu-link">
                   <span class="nk-menu-icon"><em class="icon ni ni-sign-sgd" /></span>
                   <span class="nk-menu-text">Suppliers</span>
                 </NuxtLink>
-              </li>
-
-              <li class="nk-menu-item" @click="activeSubMenue('')">
-                <NuxtLink to="/rack" class="nk-menu-link">
-                  <span class="nk-menu-icon"><em class="icon ni ni-bag" /></span>
-                  <span class="nk-menu-text">Racks</span>
-                </NuxtLink>
-              </li>
-              <li class="nk-menu-item" @click="activeSubMenue('')">
-                <NuxtLink to="/aisle" class="nk-menu-link">
-                  <span class="nk-menu-icon"><em class="icon ni ni-bag" /></span>
-                  <span class="nk-menu-text">Aisles</span>
-                </NuxtLink>
+              </li> -->
+              <li class="nk-menu-item has-sub" :class="{active: (link == '/aisle' || link == '/rack' || link == '/level' || toggleSubMenue)}" @click="toggleSubMenue = !toggleSubMenue">
+                <a
+                  href="javascript:;"
+                  class="nk-menu-link nk-menu-toggle"
+                  data-original-title=""
+                  title=""
+                >
+                  <span class="nk-menu-icon"><em class="icon ni ni-tile-thumb-fill" /></span>
+                  <span class="nk-menu-text">Locations</span>
+                </a>
+                <ul v-show="(link == '/aisle' || link == '/rack' || link == '/level' || link == '/rack-location' || toggleSubMenue)" class="nk-menu-sub">
+                  <li class="nk-menu-item" @click="activeSubMenue('')">
+                    <NuxtLink to="/aisle" class="nk-menu-link">
+                      <!-- <span class="nk-menu-icon"><em class="icon ni ni-bag" /></span> -->
+                      <span class="nk-menu-text">Aisles</span>
+                    </NuxtLink>
+                  </li>
+                  <li class="nk-menu-item" @click="activeSubMenue('')">
+                    <NuxtLink to="/level" class="nk-menu-link">
+                      <!-- <span class="nk-menu-icon"><em class="icon ni ni-bag" /></span> -->
+                      <span class="nk-menu-text">Levels</span>
+                    </NuxtLink>
+                  </li>
+                  <li class="nk-menu-item" @click="activeSubMenue('')">
+                    <NuxtLink to="/rack" class="nk-menu-link">
+                      <!-- <span class="nk-menu-icon"><em class="icon ni ni-bag" /></span> -->
+                      <span class="nk-menu-text">Racks</span>
+                    </NuxtLink>
+                  </li>
+                  <li class="nk-menu-item" @click="activeSubMenue('')">
+                    <NuxtLink to="/rack-location" class="nk-menu-link">
+                      <!-- <span class="nk-menu-icon"><em class="icon ni ni-bag" /></span> -->
+                      <span class="nk-menu-text">Rack Locations</span>
+                    </NuxtLink>
+                  </li>
+                </ul><!-- .nk-menu-sub -->
               </li>
               <li class="nk-menu-item" @click="activeSubMenue('')">
                 <NuxtLink to="/goods" class="nk-menu-link">
@@ -141,6 +167,7 @@ export default {
         wheelPropagation: false
       },
       toggleSideBar: false,
+      toggleSubMenue: false,
       link: this.$router.currentRoute.path,
       bar: {
         showDelay: 500,
@@ -194,12 +221,21 @@ export default {
       }
     }
   },
+  watch: {
+    '$route' (to, from) {
+      // react to route changes...
+      if (to.path !== '/aisle' || to.path !== '/rack' || to.path !== '/level') {
+        this.toggleSubMenue = false
+      }
+    }
+  },
   methods: {
     scrollHanle (evt) {
-      console.log(evt)
+      // console.log(evt)
     },
     activeSubMenue (currentLink) {
-      this.link = currentLink
+      // this.link = currentLink
+      this.link = this.$route.path
     }
   }
 }
@@ -249,10 +285,8 @@ a.nuxt-link-exact-active {
   width: 100%;
   max-height: 100%;
 }
-
  .is-dark .logo-dark {opacity: 1;}
  .is-dark .logo-small { opacity: 0;}
-
  .is-dark.is-compact .logo-dark {opacity: 0;}
  .is-dark.is-compact .logo-small { opacity: 1;}
  .is-dark.is-compact .nk-sidebar-head { padding: 14px; }

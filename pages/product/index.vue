@@ -40,7 +40,7 @@
                       </li>
                       <li class="nk-block-tools-opt">
                         <a href="javascript:;" class="btn btn-success d-md-inline-flex mr-2" @click="pageChangeHandler(1)">
-                          <em class="icon ni ni-plus" /> <span>Search</span>
+                          <em class="icon ni ni-search" /> <span>Search</span>
                         </a>
                         <NuxtLink to="/product/add" class="btn btn-primary d-none d-md-inline-flex">
                           <em class="icon ni ni-plus" /><span>Add</span>
@@ -72,9 +72,6 @@
                 </div>
                 <div class="nk-tb-col tb-col-lg">
                   <span class="sub-text">Price</span>
-                </div>
-                <div class="nk-tb-col tb-col-lg">
-                  <span class="sub-text">Size</span>
                 </div>
                 <div class="nk-tb-col tb-col-lg">
                   <span class="sub-text">Weight</span>
@@ -114,7 +111,7 @@
                   </div>
                 </div>
                 <div class="nk-tb-col">
-                  <a href="html/ecommerce/customer-details.html">
+                  <a href="javascript:;">
                     <div class="user-card">
                       <div class="user-avatar bg-primary">
                         <span>AB</span>
@@ -133,9 +130,6 @@
                 </div>
                 <div class="nk-tb-col tb-col-lg">
                   <span>{{ product.price }}  </span>
-                </div>
-                <div class="nk-tb-col tb-col-lg">
-                  <span>{{ product.size }}</span>
                 </div>
                 <div class="nk-tb-col tb-col-lg">
                   <span>{{ product.weight }}</span>
@@ -172,8 +166,9 @@
                         <em class="icon ni ni-user-cross-fill" />
                       </a>
                     </li>
-                    <li>
+                    <li class="parent-li">
                       <div class="dropdown" :class="{'show': index === activeIndex }">
+                        <p v-if="activeIndex === index" v-click-outside="onClickOutside" />
                         <a
                           href="#"
                           class="dropdown-toggle btn btn-icon btn-trigger"
@@ -195,12 +190,12 @@
                                 <span>View Details</span></a>
                             </li> -->
                             <li>
-                              <a href="#" @click.prevent="editProduct(product)">
+                              <a href="javascript:;" @click.prevent="editProduct(product)">
                                 <em class="icon ni ni-repeat" /><span>Edit</span>
                               </a>
                             </li>
                             <li>
-                              <a href="#" @click.prevent="removeProduct(product.id)">
+                              <a href="javascript:;" @click.prevent="removeProduct(product.id)">
                                 <em class="icon ni ni-activity-round" /><span>Remove</span>
                               </a>
                             </li>
@@ -212,12 +207,12 @@
                 </div>
               </div><!-- .nk-tb-item -->
             </div><!-- .nk-tb-list -->
-            <div class="card">
+            <div v-if="Math.ceil(total / perPage) > 1" class="card">
               <div class="card-inner">
                 <div class="pages float-right">
                   <vue-pagination
                     :current="currentPage"
-                    :total="Math.ceil(total / 10)"
+                    :total="Math.ceil(total / perPage)"
                     @page-change="pageChangeHandler"
                   />
                 </div>
@@ -231,7 +226,11 @@
 </template>
 
 <script>
+import Vue2ClickOutside from 'vue2-click-outside'
 export default {
+  directives: {
+    clickOutside: Vue2ClickOutside.directive
+  },
   data () {
     return {
       toggleModal: false,
@@ -244,13 +243,28 @@ export default {
       activeIndex: null,
       loading: true,
       search: '',
-      status: ''
+      status: '',
+      perPage: 10
     }
   },
   created () {
     this.fetchProducts()
   },
   methods: {
+    onClickOutside (event) {
+      if (this.hasParentClass(event.target, 'parent-li') === false) {
+        this.activeIndex = null
+      }
+    },
+    hasParentClass (child, classname) {
+      if (child.className.split(' ').includes(classname)) { return true }
+      try {
+        // Throws TypeError if child doesn't have parent any more
+        return child.parentNode && this.hasParentClass(child.parentNode, classname)
+      } catch (TypeError) {
+        return false
+      }
+    },
     async pageChangeHandler (page) {
       this.currentPage = page
       // const offset = ((this.currentPage - 1) * this.limit)

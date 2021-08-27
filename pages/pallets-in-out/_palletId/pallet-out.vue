@@ -7,7 +7,7 @@
             <div class="nk-block-between">
               <div class="nk-block-head-content">
                 <h3 class="nk-block-title page-title">
-                  Pallet Out
+                  Due Out
                 </h3>
               </div><!-- .nk-block-head-content -->
               <div class="nk-block-head-content">
@@ -82,6 +82,30 @@
                               </div>
                             </div>
                           </div>
+                          <div class="col-md-10 mt-2">
+                            <div class="form-group">
+                              <div class="custom-control custom-checkbox">
+                                <input id="is_full_out" v-model="is_full_out" type="checkbox" class="custom-control-input">
+                                <label class="custom-control-label" for="is_full_out">Is Full Out</label>
+                              </div>
+                            </div>
+                          </div>
+                          <div v-if="is_full_out == false" class="col-md-10 mt-2">
+                            <div class="form-group">
+                              <label class="form-label" for="in_date">Out Goods Quantity</label>
+                              <div class="form-control-wrap">
+                                <input
+                                  id="out_quantity"
+                                  v-model="out_quantity"
+                                  type="number"
+                                  class="form-control"
+                                  name="out_quantity"
+                                  required=""
+                                >
+                                <span v-if="containsKey(from_errors, 'out_quantity')" class="invalid">{{ from_errors.out_quantity[0] }}</span>
+                              </div>
+                            </div>
+                          </div>
                         </div>
                       </div>
                     </form>
@@ -109,6 +133,8 @@ export default {
       customer_id: '',
       out_date: '',
       out_time: '',
+      is_full_out: false,
+      out_quantity: '',
       from_errors: [],
       apiSearchCustomerUrl: process.env.APP_URL + 'common/search-customers',
       apiSearchPalletsUrl: process.env.APP_URL + 'common/search-pallets',
@@ -132,7 +158,9 @@ export default {
       this.$axios.post('pallets-in-out/pallet-out', {
         out_date: self.out_date,
         out_time: self.out_time,
-        customer_order_id: self.customer_order_id
+        customer_order_id: self.customer_order_id,
+        is_full_out: (self.is_full_out) ? 1 : 2,
+        out_quantity: self.out_quantity
       }).then(function (response) {
         self.$router.push('/pallets-in-out')
       }).catch(function (error) {

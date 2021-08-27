@@ -5,7 +5,7 @@
         <div class="card-title-group">
           <div class="card-title">
             <h6 class="title">
-              Missed Deadline Pallets
+              Missed Deadline Dues
             </h6>
           </div>
           <div class="nk-block-head-content">
@@ -69,21 +69,21 @@
             </div>
           </div>
           <div class="nk-tb-col tb-col-md">
-            <span class="tb-sub">{{ (pallet.pallet)?pallet.pallet.name:'n/a' }}</span>
+            <span class="tb-sub">{{ pallet.pallet_id }}</span>
           </div>
-          <div v-if="pallet.customer !== null && pallet.pallet !== null" class="nk-tb-col tb-col-lg">
+          <div v-if="pallet.customer !== null" class="nk-tb-col tb-col-lg">
             <span class="badge badge-dim badge-success"><em class="icon ni ni-clock" /><span>{{ pallet.in_date | formateDate }}</span></span>
           </div>
-          <div v-if="pallet.customer !== null && pallet.pallet !== null" class="nk-tb-col tb-col-lg">
+          <div v-if="pallet.customer !== null" class="nk-tb-col tb-col-lg">
             <span class="badge badge-dim badge-warning"><em class="icon ni ni-clock" /><span>{{ pallet.in_time | formateTime }}</span></span>
           </div>
           <div class="nk-tb-col">
             <span class="badge badge-success">{{ (pallet.pallet_in_user)?pallet.pallet_in_user.name:'' }}</span>
           </div>
-          <div v-if="pallet.customer !== null && pallet.pallet !== null" class="nk-tb-col tb-col-lg">
+          <div v-if="pallet.customer !== null" class="nk-tb-col tb-col-lg">
             <span class="badge badge-dim badge-success"><em class="icon ni ni-clock" /><span>{{ pallet.out_date | formateDate }}</span></span>
           </div>
-          <div v-if="pallet.customer !== null && pallet.pallet !== null" class="nk-tb-col tb-col-lg">
+          <div v-if="pallet.customer !== null" class="nk-tb-col tb-col-lg">
             <span class="badge badge-dim badge-warning"><em class="icon ni ni-clock" /><span>{{ pallet.out_time | formateTime }}</span></span>
           </div>
           <div class="nk-tb-col">
@@ -126,7 +126,7 @@ export default {
   },
   methods: {
     scrollHanle (evt) {
-      console.log(evt)
+      // console.log(evt)
     },
     start () {
       this.loading = true

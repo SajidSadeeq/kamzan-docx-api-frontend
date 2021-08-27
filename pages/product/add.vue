@@ -39,7 +39,7 @@
                   <li class="nav-item" @click="activeTab = 1">
                     <a class="nav-link" :class="{ active: activeTab === 1 }" data-toggle="tab" href="#basic"><em
                       class="icon ni ni-setting"
-                    /><span>Baisc Info</span></a>
+                    /><span>Basic Info</span></a>
                   </li>
                   <li class="nav-item" @click="activeTab = 2">
                     <a class="nav-link" :class="{ active: activeTab === 2 }" data-toggle="tab" href="#details"><em class="icon ni ni-setting" /><span>Details</span></a>
@@ -57,6 +57,23 @@
                       <div class="row g-gs">
                         <div class="col-md-6 border-right">
                           <div class="col-md-10">
+                            <div class="form-group">
+                              <label class="form-label" for="name">Name</label>
+                              <div class="form-control-wrap">
+                                <input
+                                  id="name"
+                                  v-model="name"
+                                  type="text"
+                                  class="form-control"
+                                  name="name"
+                                  placeholder="Product Name"
+                                  required=""
+                                >
+                                <span v-if="containsKey(from_errors, 'name')" class="text-danger">{{ from_errors.name[0] }}</span>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="col-md-10 mt-2">
                             <div class="form-group">
                               <label class="form-label" for="category_id">Select Category</label>
                               <div class="form-control-wrap">
@@ -76,7 +93,7 @@
                           </div>
                           <div class="col-md-10 mt-2">
                             <div class="form-group">
-                              <label class="form-label" for="supplier_id">Select Supplier</label>
+                              <label class="form-label" for="supplier_id">Supplier Id</label>
                               <div class="form-control-wrap">
                                 <input
                                   id="supplier_id"
@@ -84,27 +101,10 @@
                                   type="number"
                                   class="form-control"
                                   name="supplier_id"
-                                  placeholder="Select Supplier"
+                                  placeholder="Supplier"
                                   required=""
                                 >
                                 <span v-if="containsKey(from_errors, 'supplier_id')" class="text-danger">{{ from_errors.supplier_id[0] }}</span>
-                              </div>
-                            </div>
-                          </div>
-                          <div class="col-md-10 mt-2">
-                            <div class="form-group">
-                              <label class="form-label" for="name">Name</label>
-                              <div class="form-control-wrap">
-                                <input
-                                  id="name"
-                                  v-model="name"
-                                  type="text"
-                                  class="form-control"
-                                  name="name"
-                                  placeholder="Product Name"
-                                  required=""
-                                >
-                                <span v-if="containsKey(from_errors, 'name')" class="text-danger">{{ from_errors.name[0] }}</span>
                               </div>
                             </div>
                           </div>
@@ -162,37 +162,77 @@
                             </div>
                           </div>
                           <div class="col-md-10 mt-2">
-                            <div class="form-group">
-                              <label class="form-label" for="size">Volumn</label>
-                              <div class="form-control-wrap">
-                                <input
-                                  id="size"
-                                  v-model="size"
-                                  type="number"
-                                  class="form-control"
-                                  name="size"
-                                  placeholder="Size"
-                                  required=""
-                                >
-                                <span v-if="containsKey(from_errors, 'size')" class="text-danger">{{ from_errors.size[0] }}</span>
+                            <div class="row">
+                              <div class="col-sm-8 col-md-8">
+                                <div class="form-group">
+                                  <label class="form-label" for="volume">Volume</label>
+                                  <div class="form-control-wrap">
+                                    <input
+                                      id="volume"
+                                      v-model="volume"
+                                      type="number"
+                                      class="form-control"
+                                      name="volume"
+                                      placeholder="Product volumne"
+                                      required=""
+                                    >
+                                    <span v-if="containsKey(from_errors, 'volume')" class="text-danger">{{ from_errors.volume[0] }}</span>
+                                  </div>
+                                </div>
+                              </div>
+                              <div class="col-sm-4 col-md-4">
+                                <div class="form-group">
+                                  <label class="form-label" for="volume">Volume Unit</label>
+                                  <div class="form-control-wrap">
+                                    <select id="volume-unit" v-model="volume_unit" class="form-control">
+                                      <option value="">
+                                        Select
+                                      </option>
+                                      <option v-for="unit in volUnits" :key="unit.id" :value="unit.type">
+                                        {{ unit.type }}
+                                      </option>
+                                    </select>
+                                    <span v-if="containsKey(from_errors, 'volume_unit')" class="text-danger">{{ from_errors.volume_unit[0] }}</span>
+                                  </div>
+                                </div>
                               </div>
                             </div>
                           </div>
 
                           <div class="col-md-10 mt-2">
-                            <div class="form-group">
-                              <label class="form-label" for="weight">Weight</label>
-                              <div class="form-control-wrap">
-                                <input
-                                  id="weight"
-                                  v-model="weight"
-                                  type="number"
-                                  class="form-control"
-                                  name="weight"
-                                  placeholder="Weight"
-                                  required=""
-                                >
-                                <span v-if="containsKey(from_errors, 'weight')" class="text-danger">{{ from_errors.weight[0] }}</span>
+                            <div class="row">
+                              <div class="col-sm-8 col-md-8">
+                                <div class="form-group">
+                                  <label class="form-label" for="weight">Weight</label>
+                                  <div class="form-control-wrap">
+                                    <input
+                                      id="weight"
+                                      v-model="weight"
+                                      type="number"
+                                      class="form-control"
+                                      name="weight"
+                                      placeholder="Weight"
+                                      required=""
+                                    >
+                                    <span v-if="containsKey(from_errors, 'weight')" class="text-danger">{{ from_errors.weight[0] }}</span>
+                                  </div>
+                                </div>
+                              </div>
+                              <div class="col-sm-4 col-md-4">
+                                <div class="form-group">
+                                  <label class="form-label" for="weight">Weight Unit</label>
+                                  <div class="form-control-wrap">
+                                    <select id="weight-unit" v-model="weight_unit" class="form-control">
+                                      <option value="">
+                                        Select
+                                      </option>
+                                      <option v-for="unit in weightUnits" :key="unit.id" :value="unit.type">
+                                        {{ unit.type }}
+                                      </option>
+                                    </select>
+                                    <span v-if="containsKey(from_errors, 'weight_unit')" class="text-danger">{{ from_errors.weight_unit[0] }}</span>
+                                  </div>
+                                </div>
                               </div>
                             </div>
                           </div>
@@ -206,7 +246,7 @@
                                   type="text"
                                   class="form-control"
                                   name="color"
-                                  placeholder="color"
+                                  placeholder="Colour"
                                   required=""
                                 >
                                 <span v-if="containsKey(from_errors, 'color')" class="text-danger">{{ from_errors.color[0] }}</span>
@@ -300,12 +340,15 @@ export default {
       sku: '',
       // qty: '',
       price: '',
-      size: '',
+      volume: '',
+      volume_unit: '',
       weight: '',
+      weight_unit: '',
       color: '',
       description: '',
       note: '',
       images: [],
+      units: [],
       from_errors: [],
       categories: [],
       normalizer (node) {
@@ -317,8 +360,17 @@ export default {
       }
     }
   },
+  computed: {
+    volUnits () {
+      return this.units.filter(unit => unit.name === 'volumn')
+    },
+    weightUnits () {
+      return this.units.filter(unit => unit.name === 'weight')
+    }
+  },
   created () {
     this.fetchTree()
+    this.fetchUnits()
   },
   methods: {
     containsKey (obj, key) {
@@ -333,6 +385,15 @@ export default {
         _self.from_errors = error.response.data.data
       })
     },
+    fetchUnits () {
+      const _self = this
+      this.$axios.get('/common/units').then(function (response) {
+        _self.units = response.data
+        // self.$router.push('/product')
+      }).catch(function (error) {
+        _self.from_errors = error.response.data.data
+      })
+    },
     addProduct () {
       const self = this
       this.$axios.post('product/create', {
@@ -342,8 +403,10 @@ export default {
         sku: this.sku,
         // qty: this.qty,
         price: this.price,
-        size: this.size,
+        volume: this.volume,
+        volume_unit: this.volume_unit,
         weight: this.weight,
+        weight_unit: this.weight_unit,
         color: this.color,
         description: this.description,
         note: this.note,

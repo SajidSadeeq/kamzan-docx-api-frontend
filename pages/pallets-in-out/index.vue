@@ -7,7 +7,7 @@
             <div class="nk-block-between">
               <div class="nk-block-head-content">
                 <h3 class="nk-block-title page-title">
-                  Pallets <small>In/Out</small> List
+                  Due <small>In/Out</small> List
                 </h3>
               </div><!-- .nk-block-head-content -->
               <div class="nk-block-head-content">
@@ -21,12 +21,25 @@
                       <li>
                         <select v-model="type" class="form-control">
                           <option value="pallet-in">
-                            Pallet In
+                            Due In
                           </option>
                           <option value="pallet-out">
-                            Pallet Out
+                            Due Out
                           </option>
                         </select>
+                      </li>
+                      <li>
+                        <vue-search
+                          :img-photo="'path-img'"
+                          :source-field="'name'"
+                          :placeholder="customerSearchPlaceholder"
+                          :search-by-field="true"
+                          :show-new-botton="false"
+                          :enable-class-base="true"
+                          :api-source="apiSearchCustomerUrl"
+                          @newitem="newitem()"
+                          @itemselected="customerselected($event)"
+                        />
                       </li>
                       <li>
                         <button class="btn btn-success" @click="pageChangeHandler(1)">
@@ -36,7 +49,7 @@
                       <li class="nk-block-tools-opt">
                         <a href="#" class="btn btn-icon btn-primary d-md-none"><em class="icon ni ni-plus" /></a>
                         <NuxtLink to="/pallets-in-out/pallet-in" class="btn btn-primary d-none d-md-inline-flex">
-                          <em class="icon ni ni-plus" /><span>Pallet In</span>
+                          <em class="icon ni ni-plus" /><span>Due In</span>
                         </NuxtLink>
                       </li>
                     </ul>
@@ -58,7 +71,10 @@
                   <span class="sub-text">Customer</span>
                 </div>
                 <div class="nk-tb-col">
-                  <span class="sub-text">Pallet</span>
+                  <span class="sub-text">Pallet Id</span>
+                </div>
+                <div class="nk-tb-col">
+                  <span class="sub-text">Goods Qty</span>
                 </div>
                 <div class="nk-tb-col tb-col-mb">
                   <span class="sub-text">In By</span>
@@ -106,7 +122,10 @@
                   <span class="tb-amount">{{ pallet.customer.customer_name }}</span>
                 </div>
                 <div class="nk-tb-col tb-col-md">
-                  <span>{{ (pallet.pallet)?pallet.pallet.name:'n/a' }}</span>
+                  <span>{{ pallet.pallet_id }}</span>
+                </div>
+                <div class="nk-tb-col tb-col-md">
+                  <span>{{ pallet.good_quantity }}</span>
                 </div>
                 <div class="nk-tb-col tb-col-lg">
                   <span class="badge badge-sm badge-dot has-bg d-none d-mb-inline-flex" :class="(pallet.pallet_in_user)?'badge-success':'badge-danger'">
@@ -132,7 +151,7 @@
                 </div>
                 <div class="nk-tb-col nk-tb-col-tools">
                   <ul class="nk-tb-actions gx-1">
-                    <li class="nk-tb-action-hidden">
+                    <li v-if="pallet.status != 2" class="nk-tb-action-hidden">
                       <a
                         href="javascript:;"
                         class="btn btn-trigger btn-icon"
@@ -145,7 +164,7 @@
                         <em class="icon ni ni-forward-arrow-fill" />
                       </a>
                     </li>
-                    <li class="nk-tb-action-hidden">
+                    <li v-if="pallet.status != 2" class="nk-tb-action-hidden">
                       <a
                         href="javascript:;"
                         class="btn btn-trigger btn-icon"
@@ -158,15 +177,16 @@
                         <em class="icon ni ni-move" />
                       </a>
                     </li>
-                    <li>
+                    <li class="parent-li">
                       <div class="drodown" :class="{'show': index === activeIndex }">
-                        <a href="#" class="dropdown-toggle btn btn-icon btn-trigger" data-toggle="dropdown" @click="activeIndex = activeIndex === index ? null : index">
+                        <p v-if="activeIndex === index" v-click-outside="onClickOutside" />
+                        <a href="javascript:;" class="dropdown-toggle btn btn-icon btn-trigger" data-toggle="dropdown" @click="activeIndex = activeIndex === index ? null : index">
                           <em class="icon ni ni-more-h" />
                         </a>
                         <div class="dropdown-menu dropdown-menu-right" :class="{'show': index === activeIndex }">
                           <ul class="link-list-opt no-bdr">
                             <!-- <li><a href="html/ecommerce/customer-details.html"><em class="icon ni ni-eye" /><span>View Details</span></a></li> -->
-                            <li><a href="javascript:;" @click="editPallet(pallet)"><em class="icon ni ni-edit" /><span>Edit Details</span></a></li>
+                            <!-- <li><a href="javascript:;" @click="editPallet(pallet)"><em class="icon ni ni-edit" /><span>Edit Details</span></a></li> -->
                             <li><a href="javascript:;" @click="removePallet(pallet)"><em class="icon ni ni-trash" /><span>Delete</span></a></li>
                           </ul>
                         </div>
@@ -176,7 +196,7 @@
                 </div>
               </div><!-- .nk-tb-item -->
             </div><!-- .nk-tb-list -->
-            <div class="card">
+            <div v-if="Math.ceil(total / perPage) > 1" class="card">
               <div class="card-inner">
                 <div class="pages float-right">
                   <vue-pagination
@@ -197,9 +217,16 @@
 <script>
 import moment from 'moment'
 import DatePicker from 'vue2-datepicker'
+import Vue2ClickOutside from 'vue2-click-outside'
+import 'vue-input-search/dist/vue-search.css'
+import VueSearch from 'vue-input-search/dist/vue-search.common'
 export default {
+  directives: {
+    clickOutside: Vue2ClickOutside.directive
+  },
   components: {
-    'date-picker': DatePicker
+    'date-picker': DatePicker,
+    'vue-search': VueSearch
   },
   filters: {
     formateDate: date => date ? moment(date).format('DD-MM-YYYY') : 'n/a',
@@ -216,7 +243,10 @@ export default {
       perPage: 10,
       currentPage: 1,
       daterange: '',
-      type: 'pallet-in'
+      customerSearchPlaceholder: '',
+      type: 'pallet-in',
+      apiSearchCustomerUrl: process.env.APP_URL + 'common/search-customers',
+      customer_id: ''
     }
   },
   computed: {
@@ -233,6 +263,20 @@ export default {
     this.fetchPallets()
   },
   methods: {
+    onClickOutside (event) {
+      if (this.hasParentClass(event.target, 'parent-li') === false) {
+        this.activeIndex = null
+      }
+    },
+    hasParentClass (child, classname) {
+      if (child.className.split(' ').includes(classname)) { return true }
+      try {
+        // Throws TypeError if child doesn't have parent any more
+        return child.parentNode && this.hasParentClass(child.parentNode, classname)
+      } catch (TypeError) {
+        return false
+      }
+    },
     start () {
       this.loading = true
     },
@@ -258,6 +302,9 @@ export default {
         behavior: 'smooth'
       })
     },
+    customerselected (customer) {
+      this.customer_id = customer.id
+    },
     async pageChangeHandler (page) {
       this.start()
       this.currentPage = page
@@ -265,7 +312,8 @@ export default {
       await this.$store.dispatch('palletinout/fetchPalletInOut', {
         page: this.currentPage,
         daterange: this.daterange,
-        type: this.type
+        type: this.type,
+        customer_id: this.customer_id
       })
       this.finish()
       this.scrollToTop()
@@ -295,6 +343,8 @@ export default {
 }
 </script>
 
-<style>
-
+<style scoped>
+.mx-datepicker-range {
+  width: 200px;
+}
 </style>

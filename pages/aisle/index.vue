@@ -27,7 +27,7 @@
                       </li>
                       <li class="nk-block-tools-opt">
                         <a href="javascript:;" class="btn btn-success d-md-inline-flex mr-2" @click="pageChangeHandler(1)">
-                          <em class="icon ni ni-plus" /> <span>Search</span>
+                          <em class="icon ni ni-search" /> <span>Search</span>
                         </a>
                         <NuxtLink to="/aisle/add" class="btn btn-primary d-none d-md-inline-flex">
                           <em class="icon ni ni-plus" /><span>Add</span>
@@ -70,8 +70,9 @@
                       </div>
                     </td>
 
-                    <td class="tb-tnx-action">
+                    <td class="tb-tnx-action parent-li">
                       <div class="dropdown" :class="{'show': index === activeIndex }">
+                        <p v-if="activeIndex === index" v-click-outside="onClickOutside" />
                         <a
                           class="text-soft dropdown-toggle btn btn-icon btn-trigger"
                           data-toggle="dropdown"
@@ -117,7 +118,11 @@
 </template>
 
 <script>
+import Vue2ClickOutside from 'vue2-click-outside'
 export default {
+  directives: {
+    clickOutside: Vue2ClickOutside.directive
+  },
   data () {
     return {
       toggleModal: false,
@@ -145,6 +150,20 @@ export default {
     })
   },
   methods: {
+    onClickOutside (event) {
+      if (this.hasParentClass(event.target, 'parent-li') === false) {
+        this.activeIndex = null
+      }
+    },
+    hasParentClass (child, classname) {
+      if (child.className.split(' ').includes(classname)) { return true }
+      try {
+        // Throws TypeError if child doesn't have parent any more
+        return child.parentNode && this.hasParentClass(child.parentNode, classname)
+      } catch (TypeError) {
+        return false
+      }
+    },
     start () {
       this.loading = true
     },

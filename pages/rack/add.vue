@@ -39,7 +39,7 @@
                   <li class="nav-item" @click="activeTab = 1">
                     <a class="nav-link" :class="{ active: activeTab === 1 }" data-toggle="tab" href="#basic"><em
                       class="icon ni ni-setting"
-                    /><span>Baisc Info</span></a>
+                    /><span>Basic Info</span></a>
                   </li>
                   <!-- <li class="nav-item" @click="activeTab = 2">
                         <a class="nav-link" :class="{ active: activeTab === 2 }" data-toggle="tab" href="#meta"><em class="icon ni ni-link" /><span>Meta</span></a>
@@ -65,30 +65,6 @@
                                 >
                               </div>
                               <span v-if="containsKey(from_errors, 'name')" class="text-danger">{{ from_errors.name[0] }}</span>
-                            </div>
-                          </div>
-                          <div class="col-md-10 mt-2">
-                            <div class="form-group">
-                              <label class="form-label" for="name">Aisle</label>
-                              <div class="form-control-wrap">
-                                <v-select v-model="aisle" :options="aisles" label="name" placeholder="Select Aisle" name="aisle_id" />
-                              </div>
-                              <span v-if="containsKey(from_errors, 'aisle_id')" class="text-danger">{{ from_errors.aisle_id[0] }}</span>
-                            </div>
-                          </div>
-                          <br>
-                          <div class="col-md-10">
-                            <div class="form-group">
-                              <label class="form-label" for="name">Side</label>
-                              <v-select
-                                v-model="side"
-                                :options=" [{name: 'Right', value: 1},{name: 'Left', value: 2}]"
-                                label="name"
-                                placeholder="Select Side"
-                                name="side"
-                                required
-                              />
-                              <span v-if="containsKey(from_errors, 'side')" class="text-danger">{{ from_errors.side[0] }}</span>
                             </div>
                           </div>
                         </div>
@@ -127,38 +103,17 @@ export default {
       tabPath: this.$route.fullPath,
       activeTab: 1,
       name: '',
-      aisles: [],
-      aisle: '',
-      side: '',
       from_errors: []
     }
-  },
-  created () {
-    this.fetchAisles()
   },
   methods: {
     containsKey (obj, key) {
       return Object.keys(obj).includes(key)
     },
-    async fetchAisles () {
-      const self = this
-      await this.$axios.get('aisle/list')
-        .then(function (response) {
-          if (response.data.status !== false) {
-            self.aisles = response.data.payload
-          } else {
-            // self.from_errors = response.data.payload.error
-          }
-
-          self.$nuxt.$loading.finish()
-        })
-    },
     addRack () {
       const self = this
       this.$axios.post('rack', {
-        name: self.name,
-        aisle_id: this.aisle.id,
-        side: this.side.value
+        name: self.name
       }).then(function (response) {
         if (response.data.status !== false) {
           self.$router.push('/rack')

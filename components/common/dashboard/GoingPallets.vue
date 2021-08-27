@@ -4,7 +4,7 @@
       <div class="card-title-group">
         <div class="card-title">
           <h6 class="title">
-            Going Pallets
+            Due Out
           </h6>
         </div>
         <div class="nk-block-head-content">
@@ -59,7 +59,7 @@
           </div>
         </div>
         <div class="nk-tb-col tb-col-md">
-          <span class="tb-sub">{{ (pallet.pallet)?pallet.pallet.name:'n/a' }}</span>
+          <span class="tb-sub">{{ pallet.pallet_id }}</span>
         </div>
         <div class="nk-tb-col tb-col-md">
           <span class="tb-sub">{{ pallet.out_date | formateDate }}</span>

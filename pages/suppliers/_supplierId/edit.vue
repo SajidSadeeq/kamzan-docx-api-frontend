@@ -48,7 +48,7 @@
                 <ul class="nav nav-tabs mt-n3">
                   <li class="nav-item" @click="activeTab = 1">
                     <a class="nav-link" :class="{ active: activeTab === 1 }" data-toggle="tab" href="#basic">
-                      <em class="icon ni ni-setting" /><span>Baisc Info</span>
+                      <em class="icon ni ni-setting" /><span>Basic Info</span>
                     </a>
                   </li>
                   <li class="nav-item" @click="activeTab = 2">

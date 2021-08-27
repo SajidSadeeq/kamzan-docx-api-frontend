@@ -7,7 +7,7 @@
             <div class="nk-block-between">
               <div class="nk-block-head-content">
                 <h3 class="nk-block-title page-title">
-                  Pallet In
+                  Edit Due In
                 </h3>
               </div><!-- .nk-block-head-content -->
               <div class="nk-block-head-content">
@@ -37,16 +37,16 @@
               <div class="card-inner">
                 <ul class="nav nav-tabs mt-n3">
                   <li class="nav-item" @click="activeTab = 1">
-                    <a class="nav-link" :class="{ active: activeTab === 1 }" data-toggle="tab" href="#basic"><em
+                    <a class="nav-link" :class="{ active: activeTab === 1 }" data-toggle="tab" href="#edit"><em
                       class="icon ni ni-setting"
-                    /><span>Add</span></a>
+                    /><span>Edit</span></a>
                   </li>
                   <!-- <li class="nav-item" @click="activeTab = 2">
                         <a class="nav-link" :class="{ active: activeTab === 2 }" data-toggle="tab" href="#meta"><em class="icon ni ni-link" /><span>Meta</span></a>
                       </li> -->
                 </ul>
                 <div class="tab-content">
-                  <div id="tabItem5" class="tab-pane " :class="{ active: activeTab === 1 }">
+                  <div id="edit" class="tab-pane " :class="{ active: activeTab === 1 }">
                     <form action="#" class="form-validate" novalidate="novalidate" @submit.prevent="addRack">
                       <div class="row g-gs">
                         <div class="col-md-6">
@@ -63,7 +63,7 @@
                           </div> -->
                           <div class="col-md-10">
                             <div class="form-group">
-                              <label class="form-label" for="customer_id">Select Customer</label>
+                              <label class="form-label" for="customer_id">Change Customer</label>
                               <vue-search
                                 :img-photo="'path-img'"
                                 :source-field="'name'"
@@ -75,11 +75,14 @@
                                 @itemselected="customerselected($event)"
                               />
                               <span v-if="containsKey(from_errors, 'customer_id')" class="error">{{ from_errors.customer_id[0] }}</span>
+                              <span v-if="pallet.customer" class="badge badge-sm badge-warning has-bg d-none d-mb-inline-flex mt-1">
+                                ID # {{ pallet.customer.id }}, Name : {{ pallet.customer.customer_name }}
+                              </span>
                             </div>
                           </div>
                           <div class="col-md-10 mt-2">
                             <div class="form-group">
-                              <label class="form-label" for="pallet_id">Select Pallet</label>
+                              <label class="form-label" for="pallet_id">Change Pallet</label>
                               <vue-search
                                 :source-field="'name'"
                                 :search-by-field="true"
@@ -89,6 +92,9 @@
                                 @itemselected="palletselected($event)"
                               />
                               <span v-if="containsKey(from_errors, 'pallet_id')" class="error">{{ from_errors.pallet_id[0] }}</span>
+                              <span v-if="pallet.pallet" class="badge badge-sm badge-warning has-bg d-none d-mb-inline-flex mt-1">
+                                ID # {{ pallet.pallet.id }}, Name : {{ pallet.pallet.name }}
+                              </span>
                             </div>
                           </div>
                           <div class="col-md-10 mt-2">
@@ -183,7 +189,7 @@ export default {
   },
   methods: {
     getSelectedData (childData) {
-      console.log('Our Data: ' + childData) // "Hello World"
+      // console.log('Our Data: ' + childData) // "Hello World"
     },
     start () {
       this.loading = true

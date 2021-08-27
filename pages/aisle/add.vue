@@ -39,7 +39,7 @@
                   <li class="nav-item" @click="activeTab = 1">
                     <a class="nav-link" :class="{ active: activeTab === 1 }" data-toggle="tab" href="#basic"><em
                       class="icon ni ni-setting"
-                    /><span>Baisc Info</span></a>
+                    /><span>Basic Info</span></a>
                   </li>
                   <!-- <li class="nav-item" @click="activeTab = 2">
                         <a class="nav-link" :class="{ active: activeTab === 2 }" data-toggle="tab" href="#meta"><em class="icon ni ni-link" /><span>Meta</span></a>
@@ -64,7 +64,7 @@
                                   required=""
                                 >
                               </div>
-                              <span v-if="containsKey(from_errors, 'name')" class="error">{{ from_errors.name[0] }}</span>
+                              <span v-if="containsKey(form_errors, 'name')" class="error">{{ form_errors.name[0] }}</span>
                             </div>
                           </div>
                         </div>
@@ -99,7 +99,7 @@ export default {
       tabPath: this.$route.fullPath,
       activeTab: 1,
       name: '',
-      from_errors: []
+      form_errors: []
     }
   },
   methods: {
@@ -113,7 +113,7 @@ export default {
       }).then(function (response) {
         self.$router.push('/aisle')
       }).catch(function (error) {
-        self.from_errors = error.response.data.data
+        self.form_errors = error.response.data.data
       })
     }
 

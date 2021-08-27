@@ -43,7 +43,7 @@
                   <li class="nav-item" @click="activeTab = 1">
                     <a class="nav-link" :class="{ active: activeTab === 1 }" data-toggle="tab" href="#basic"><em
                       class="icon ni ni-setting"
-                    /><span>Baisc Info</span></a>
+                    /><span>Basic Info</span></a>
                   </li>
                   <!-- <li class="nav-item" @click="activeTab = 2">
                         <a class="nav-link" :class="{ active: activeTab === 2 }" data-toggle="tab" href="#meta"><em class="icon ni ni-link" /><span>Meta</span></a>
@@ -76,7 +76,7 @@
                               <v-select
                                 :options="goods"
                                 label="name"
-                                placeholder="Select Side"
+                                placeholder="Select Good"
                                 name="goods[]"
                                 multiple
                                 :value="palletGoods"
@@ -148,6 +148,79 @@
                             </div>
                           </div>
                           <div class="col-12">
+                            <div class="form-group">
+                              <div class="form-control-wrap">
+                                <ul>
+                                  <li v-for="(product, index) in selectedProducts" :key="product.id">
+                                    <hr>
+                                    <!-- <li> -->
+                                    <div class="row gy-4">
+                                      <div class="col-sm-4">
+                                        <div class="form-group">
+                                          <label class="form-label" for="default-01">Product</label>
+                                          <div class="form-control-wrap">
+                                            <!-- <input id="default-01" type="number" class="form-control" placeholder="1"> -->
+                                            <vue-search
+                                              :img-photo="'path-img'"
+                                              :source-field="'name'"
+                                              :search-by-field="true"
+                                              :show-new-botton="false"
+                                              :enable-class-base="true"
+                                              :api-source="apiSearchProductsUrl"
+                                              @newitem="newitem()"
+                                              @itemselected="productselected($event, index)"
+                                            />
+                                            <small class="text-primary">{ ID: {{ product.id }}, Name : {{ product.name }} }</small>
+                                          </div>
+                                        </div>
+                                      </div>
+                                      <div class="col-sm-2">
+                                        <div class="form-group">
+                                          <label class="form-label" for="number">Qty</label>
+                                          <div class="form-control-wrap">
+                                            <input
+                                              id="number"
+                                              v-model="product.qty"
+                                              type="number"
+                                              class="form-control"
+                                              placeholder="1"
+                                              @change="event => updateVolumeWeight(event, index)"
+                                            >
+                                          </div>
+                                        </div>
+                                      </div>
+                                      <div class="col-sm-2">
+                                        <div class="form-group">
+                                          <label class="form-label" for="vol">Vol</label>
+                                          <div class="form-control-wrap">
+                                            <input id="vol" v-model="product.vol" type="number" class="form-control" placeholder="1">
+                                          </div>
+                                        </div>
+                                      </div>
+                                      <div class="col-sm-2">
+                                        <div class="form-group">
+                                          <label class="form-label" for="weight">Wgt</label>
+                                          <div class="form-control-wrap">
+                                            <input id="weight" v-model="product.weight" type="number" class="form-control" placeholder="1">
+                                          </div>
+                                        </div>
+                                      </div>
+                                      <div class="col-sm-2">
+                                        <div class="form-group">
+                                          <div class="form-control-wrap gp_remove">
+                                            <button type="button" class="btn btn-danger" @click="removeProduct(index)">
+                                              <em class="icon ni ni-cross-circle-fill" />
+                                            </button>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </li>
+                                </ul>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="col-12">
                             <button class="btn btn-primary pull-right" @click="addGood">
                               <em class="icon ni ni-plus" /><span>Add</span>
                             </button>
@@ -177,9 +250,14 @@
 import Vue from 'vue'
 import vSelect from 'vue-select'
 import 'vue-select/dist/vue-select.css'
+import 'vue-input-search/dist/vue-search.css'
+import VueSearch from 'vue-input-search/dist/vue-search.common'
 Vue.component('VSelect', vSelect)
 
 export default {
+  components: {
+    'vue-search': VueSearch
+  },
   data () {
     return {
       tabPath: this.$route.fullPath,
@@ -191,7 +269,18 @@ export default {
       pallet_id: null,
       selectedGoods: [],
       palletGoods: [],
-      form_errors: []
+      form_errors: [],
+      selectedProducts: [
+        {
+          id: '',
+          name: '',
+          qty: '',
+          vol: '',
+          weight: '',
+          product: {}
+        }
+      ],
+      apiSearchProductsUrl: process.env.APP_URL + 'common/search-products'
     }
   },
   created () {
@@ -306,6 +395,23 @@ export default {
     closeToggleAddGood () {
       const self = this
       self.toggleAddGood = false
+    },
+    updateVolumeWeight (event, index) {
+      const self = this
+      self.selectedProducts[index].vol = event.target.value * self.selectedProducts[index].vol
+      self.selectedProducts[index].weight = event.target.value * self.selectedProducts[index].weight
+    },
+    productselected (event, index) {
+      const self = this
+      self.selectedProducts[index].id = event.id
+      self.selectedProducts[index].name = event.name
+      self.selectedProducts[index].qty = 1
+      self.selectedProducts[index].vol = 1 * event.volume
+      self.selectedProducts[index].weight = 1 * event.weight
+      self.selectedProducts[index].product = event
+    },
+    removeProduct (index) {
+      this.$delete(this.selectedProducts, index)
     }
   }
 }

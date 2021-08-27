@@ -39,7 +39,7 @@
                   <li class="nav-item" @click="activeTab = 1">
                     <a class="nav-link" :class="{ active: activeTab === 1 }" data-toggle="tab" href="#basic"><em
                       class="icon ni ni-setting"
-                    /><span>Baisc Info </span></a>
+                    /><span>Basic Info </span></a>
                   </li>
                   <!-- <li class="nav-item" @click="activeTab = 2">
                         <a class="nav-link" :class="{ active: activeTab === 2 }" data-toggle="tab" href="#meta"><em class="icon ni ni-link" /><span>Meta</span></a>
@@ -64,45 +64,14 @@
                                   required=""
                                 >
                               </div>
-                              <span v-if="containsKey(errors, 'name')" class="text-danger">{{ errors.name[0] }}</span>
+                              <span v-if="containsKey(form_errors, 'name')" class="text-danger">{{ form_errors.name[0] }}</span>
                             </div>
                           </div>
-                          <div class="col-md-10 mt-2">
-                            <div class="form-group">
-                              <label class="form-label" for="name">Aisle</label>
-                              <div class="form-control-wrap">
-                                <v-select
-                                  :options="aisles"
-                                  label="name"
-                                  placeholder="Aisle"
-                                  name="aisle_id"
-                                  :value="aisle"
-                                  @input="aisle=$event?$event:{}"
-                                />
-                                <span v-if="containsKey(errors, 'aisle_id')" class="text-danger">{{ errors.aisle_id[0] }}</span>
-                              </div>
-                            </div>
-                          </div>
-                          <br>
-                          <div class="col-md-10">
-                            <div class="form-group">
-                              <label class="form-label" for="name">Side</label>
-                              <v-select
-                                :options=" [{name: 'Right', value: 1},{name: 'Left', value: 2}]"
-                                label="name"
-                                placeholder="Side"
-                                name="side"
-                                :value="side"
-                                @input="side=$event?$event:{}"
-                              />
-                            </div>
-                          </div>
-                          <span v-if="containsKey(errors, 'side')" class="text-danger">{{ errors.side[0] }}</span>
                         </div>
                         <div class="col-md-12 text-right">
                           <div class="form-group">
                             <button type="submit" class="btn btn-lg btn-primary" @submit.prevent="editAisle">
-                              Save
+                              Update
                             </button>
                           </div>
                         </div>
@@ -133,11 +102,7 @@ export default {
       tabPath: this.$route.fullPath,
       activeTab: 1,
       name: '',
-      sides: [{ name: 'Right', value: 1 }, { name: 'Left', value: 2 }],
-      aisles: [],
-      aisle: {},
-      side: {},
-      errors: []
+      form_errors: []
     }
   },
   computed: {
@@ -149,34 +114,21 @@ export default {
     if (Object.keys(this.rack).length === 0) {
       this.$store.dispatch('rack/fetchSpecificRack', this.$route.params.rackId)
     }
-    this.fetchAisles()
   },
   methods: {
     containsKey (obj, key) {
       return Object.keys(obj).includes(key)
     },
-    async fetchAisles () {
-      const self = this
-      await this.$axios.get('aisle/list')
-        .then(function (response) {
-          self.aisles = response.data.payload
-          self.aisle = self.aisles.find(elem => elem.id === self.rack.aisle_id)
-          self.side = self.sides.find(el => el.value === parseInt(self.rack.side))
-          self.$nuxt.$loading.finish()
-        })
-    },
     editRack () {
       const self = this
       this.$axios.put(`rack/${this.rack.id}`, {
-        name: self.rack.name,
-        aisle_id: self.aisle.id,
-        side: self.side.value
+        name: self.rack.name
       }).then(function (response) {
         if (response.data.status !== false) {
           self.$router.push('/rack')
         }
       }).catch(function (error) {
-        self.errors = error.response.data.data
+        self.form_errors = error.response.data.data
       })
     }
 

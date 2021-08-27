@@ -4,7 +4,7 @@
       <div class="card-title-group">
         <div class="card-title">
           <h6 class="title">
-            Coming Pallets
+            Due In
           </h6>
         </div>
         <div class="nk-block-head-content">
@@ -50,6 +50,7 @@
           <span class="d-none d-sm-inline">In By</span>
         </div>
       </div>
+      <!-- <vue-custom-scrollbar class="scroll-area" :settings="settings" @ps-scroll-y="scrollHanle"> -->
       <div v-for="(pallet) in comingPallets" :key="pallet.id" class="nk-tb-item">
         <div class="nk-tb-col tb-col-sm">
           <div class="user-card">
@@ -59,7 +60,7 @@
           </div>
         </div>
         <div class="nk-tb-col tb-col-md">
-          <span class="tb-sub">{{ (pallet.pallet)?pallet.pallet.name:'n/a' }}</span>
+          <span class="tb-sub">{{ pallet.pallet_id }}</span>
         </div>
         <div class="nk-tb-col tb-col-md">
           <span class="tb-sub">{{ pallet.in_date | formateDate }}</span>
@@ -71,19 +72,30 @@
           <span class="badge badge-success">{{ pallet.pallet_in_user.name }}</span>
         </div>
       </div>
+      <!-- </vue-custom-scrollbar> -->
     </div>
   </div><!-- .card -->
 </template>
 
 <script>
 import moment from 'moment'
+// import vueCustomScrollbar from 'vue-custom-scrollbar'
+// import 'vue-custom-scrollbar/dist/vueScrollbar.css'
 export default {
+  // components: {
+  //   'vue-custom-scrollbar': vueCustomScrollbar
+  // },
   filters: {
     formateDate: date => date ? moment(date).format('DD-MM-YYYY') : 'n/a',
     formateTime: date => date ? moment(date, 'h:mm a').format('hh:mm a') : 'n/a'
   },
   data () {
     return {
+      settings: {
+        suppressScrollY: false,
+        suppressScrollX: false,
+        wheelPropagation: false
+      },
       total: 0,
       perPage: 10,
       currentPage: 1,
@@ -132,6 +144,11 @@ export default {
 }
 </script>
 
-<style>
-
+<style scoped>
+.scroll-area {
+  position: relative;
+  margin: auto;
+  width: 100%;
+  height: 300px;
+}
 </style>

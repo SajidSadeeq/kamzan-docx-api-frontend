@@ -38,19 +38,6 @@
                           </option>
                         </select>
                       </li>
-                      <li>
-                        <select id="select-status" v-model="side" class="form-control">
-                          <option value="">
-                            --Side--
-                          </option>
-                          <option value="1">
-                            Right
-                          </option>
-                          <option value="2">
-                            Left
-                          </option>
-                        </select>
-                      </li>
                       <li class="nk-block-tools-opt">
                         <a href="javascript:;" class="btn btn-success d-md-inline-flex mr-2" @click="pageChangeHandler(1)">
                           <em class="icon ni ni-plus" /> <span>Search</span>
@@ -81,11 +68,6 @@
                     </th>
                     <th class="tb-tnx-info">
                       <span class="tb-tnx-desc d-none d-sm-inline-block">
-                        <span>Side</span>
-                      </span>
-                    </th>
-                    <th class="tb-tnx-info">
-                      <span class="tb-tnx-desc d-none d-sm-inline-block">
                         <span>Status</span>
                       </span>
                     </th>
@@ -107,17 +89,13 @@
                     </td>
                     <td class="tb-tnx-info">
                       <div class="tb-tnx-desc">
-                        <span class="title">{{ rack.side=='1'?'Right':'Left' }}</span>
-                      </div>
-                    </td>
-                    <td class="tb-tnx-info">
-                      <div class="tb-tnx-desc">
                         <span class="title">{{ rack.status=='2'?'Empty':'Filled' }}</span>
                       </div>
                     </td>
 
-                    <td class="tb-tnx-action">
+                    <td class="tb-tnx-action parent-li">
                       <div class="dropdown" :class="{'show': index === activeIndex }">
+                        <p v-if="activeIndex === index" v-click-outside="onClickOutside" />
                         <a
                           class="text-soft dropdown-toggle btn btn-icon btn-trigger"
                           data-toggle="dropdown"
@@ -163,7 +141,11 @@
 </template>
 
 <script>
+import Vue2ClickOutside from 'vue2-click-outside'
 export default {
+  directives: {
+    clickOutside: Vue2ClickOutside.directive
+  },
   data () {
     return {
       toggleModal: false,
@@ -175,8 +157,7 @@ export default {
       perPage: 10,
       currentPage: 1,
       status: '',
-      search: '',
-      side: ''
+      search: ''
     }
   },
   computed: {
@@ -203,6 +184,20 @@ export default {
     finish () {
       this.loading = false
     },
+    onClickOutside (event) {
+      if (this.hasParentClass(event.target, 'parent-li') === false) {
+        this.activeIndex = null
+      }
+    },
+    hasParentClass (child, classname) {
+      if (child.className.split(' ').includes(classname)) { return true }
+      try {
+        // Throws TypeError if child doesn't have parent any more
+        return child.parentNode && this.hasParentClass(child.parentNode, classname)
+      } catch (TypeError) {
+        return false
+      }
+    },
     scrollToTop () {
       const element = document.querySelector('html')
       element.scroll({
@@ -218,8 +213,7 @@ export default {
         page: this.currentPage,
         limit: this.perPage,
         status: this.status,
-        search: this.search,
-        side: this.side
+        search: this.search
       })
       this.finish()
       this.scrollToTop()

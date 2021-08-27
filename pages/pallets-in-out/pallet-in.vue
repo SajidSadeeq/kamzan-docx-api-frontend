@@ -8,7 +8,7 @@
               <div class="nk-block-between">
                 <div class="nk-block-head-content">
                   <h3 class="nk-block-title page-title">
-                    Pallet In
+                    Due In
                   </h3>
                 </div><!-- .nk-block-head-content -->
                 <div class="nk-block-head-content">
@@ -21,6 +21,13 @@
                         <li class="nk-block-tools-opt">
                           <a href="javascript:;" class="btn btn-primary d-none d-md-inline-flex mr-2" @click="addPalletOrder()">
                             <em class="icon ni ni-plus" /> <span>Save</span>
+                          </a>
+                          <a
+                            href="#"
+                            class="btn btn-primary mr-2"
+                            @click="toggleAddGood = !toggleAddGood"
+                          >
+                            <em class="icon ni ni-plus" /> Add New Good
                           </a>
                           <NuxtLink to="/pallets-in-out" class="btn btn-danger d-none d-md-inline-flex">
                             <em class="icon ni ni-back-ios" /><span>Back</span>
@@ -48,83 +55,111 @@
                   </ul>
                   <div class="tab-content">
                     <div id="tabItem5" class="tab-pane " :class="{ active: activeTab === 1 }">
-                      <form action="#" class="form-validate" novalidate="novalidate" @submit.prevent="addRack">
+                      <form action="#" class="form-validate" novalidate="novalidate">
                         <div class="row g-gs">
-                          <div class="col-md-6">
-                            <!-- <div class="col-md-10">
-                              <auto-complete
-                                id="customer"
-                                label="name"
-                                value="id"
-                                :data-list="countries"
-                                name="customer"
-                                placeholder="Search Customer"
-                                @selected="getSelectedData"
+                          <div class="col-md-4">
+                            <div class="form-group">
+                              <label class="form-label" for="customer_id">Select Customer</label>
+                              <vue-search
+                                :img-photo="'path-img'"
+                                :source-field="'name'"
+                                :search-by-field="true"
+                                :show-new-botton="false"
+                                :enable-class-base="true"
+                                :api-source="apiSearchCustomerUrl"
+                                @newitem="newitem()"
+                                @itemselected="customerselected($event)"
                               />
-                            </div> -->
-                            <div class="col-md-10">
-                              <div class="form-group">
-                                <label class="form-label" for="customer_id">Select Customer</label>
-                                <vue-search
-                                  :img-photo="'path-img'"
-                                  :source-field="'name'"
-                                  :search-by-field="true"
-                                  :show-new-botton="false"
-                                  :enable-class-base="true"
-                                  :api-source="apiSearchCustomerUrl"
-                                  @newitem="newitem()"
-                                  @itemselected="customerselected($event)"
-                                />
-                                <span v-if="containsKey(from_errors, 'customer_id')" class="error">{{ from_errors.customer_id[0] }}</span>
-                              </div>
-                            </div>
-                            <div class="col-md-10 mt-2">
-                              <div class="form-group">
-                                <label class="form-label" for="pallet_id">Select Pallet</label>
-                                <vue-search
-                                  :source-field="'name'"
-                                  :search-by-field="true"
-                                  :show-new-botton="false"
-                                  :api-source="apiSearchPalletsUrl"
-                                  @newitem="newitem()"
-                                  @itemselected="palletselected($event)"
-                                />
-                                <span v-if="containsKey(from_errors, 'pallet_id')" class="error">{{ from_errors.pallet_id[0] }}</span>
-                              </div>
-                            </div>
-                            <div class="col-md-10 mt-2">
-                              <div class="form-group">
-                                <label class="form-label" for="in_date">Pallet In Time</label>
-                                <div class="form-control-wrap">
-                                  <input
-                                    id="in_time"
-                                    v-model="in_time"
-                                    type="time"
-                                    class="form-control"
-                                    name="in_time"
-                                    required=""
-                                  >
-                                  <span v-if="containsKey(from_errors, 'in_time')" class="invalid">{{ from_errors.in_time[0] }}</span>
-                                </div>
-                              </div>
-                            </div>
-                            <div class="col-md-10 mt-2">
-                              <div class="form-group">
-                                <label class="form-label" for="in_date">Pallet In Date</label>
-                                <div class="form-control-wrap">
-                                  <input
-                                    id="in_date"
-                                    v-model="in_date"
-                                    type="date"
-                                    class="form-control"
-                                    name="in_date"
-                                    required=""
-                                  >
-                                  <span v-if="containsKey(from_errors, 'in_date')" class="invalid">{{ from_errors.in_date[0] }}</span>
-                                </div>
-                              </div>
+                              <span v-if="containsKey(form_errors, 'customer_id')" class="error">{{ form_errors.customer_id[0] }}</span>
                             </div>
                           </div>
+                          <div class="col-md-4">
+                            <div class="form-group">
+                              <label class="form-label" for="name">Batch Number <small>(Optional)</small></label>
+                              <div class="form-control-wrap">
+                                <input
+                                  id="name"
+                                  v-model="batch_number"
+                                  type="number"
+                                  class="form-control"
+                                  name="name"
+                                  placeholder="Pallet Qty"
+                                  required=""
+                                >
+                              </div>
+                              <span v-if="containsKey(form_errors, 'name')" class="error">{{ form_errors.name[0] }}</span>
+                            </div>
+                          </div>
+                          <div class="col-md-4">
+                            <div class="form-group">
+                              <label class="form-label" for="name">Pallets Quantity</label>
+                              <div class="form-control-wrap">
+                                <input
+                                  id="name"
+                                  v-model="quantity"
+                                  type="number"
+                                  class="form-control"
+                                  name="name"
+                                  placeholder="Pallet Qty"
+                                  required=""
+                                >
+                              </div>
+                              <span v-if="containsKey(form_errors, 'name')" class="error">{{ form_errors.name[0] }}</span>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="row g-gs text-right">
+                          <div class="col-md-12">
+                            <button type="button" class="btn btn-primary" @click="proceed()">
+                              Proceed
+                            </button>
+                          </div>
+                        </div>
+                        <hr>
+                        <div v-if="preparePallets.length > 0" class="row g-gs">
+                          <table class="table table-striped">
+                            <thead>
+                              <tr>
+                                <th scope="col">
+                                  Pallet Id #
+                                </th>
+                                <th scope="col">
+                                  Select Rack
+                                </th>
+                                <th scope="col">
+                                  Select Good
+                                </th>
+                                <th scope="col">
+                                  Good Quantity
+                                </th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              <tr v-for="(pallet, index) in preparePallets" :key="index">
+                                <td>
+                                  {{ pallet.pallet_id }}
+                                </td>
+                                <td>
+                                  <v-select :options="avaiableRacks" class="v-select" @input="setPalletRack($event, index)" />
+                                </td>
+                                <td>
+                                  <v-select :options="avaiableGoods" class="v-select" @input="setPalletGood($event, index)" />
+                                </td>
+                                <td>
+                                  <input
+                                    id="name"
+                                    v-model="pallet.quantity"
+                                    type="number"
+                                    class="form-control"
+                                    name="name"
+                                    placeholder="Qty"
+                                    required=""
+                                    @keyup="setGoodQty($event, index)"
+                                  >
+                                </td>
+                              </tr>
+                            </tbody>
+                          </table>
                         </div>
                       </form>
                     </div>
@@ -135,6 +170,148 @@
                 </div>
               </div><!-- .card-preview -->
             </div>
+            <div
+              class="nk-add-product toggle-slide toggle-slide-right toggle-screen-any"
+              :class="(toggleAddGood)?'content-active':''"
+              data-content="addProduct"
+              data-toggle-screen="any"
+              data-toggle-overlay="true"
+              data-toggle-body="true"
+              data-simplebar="init"
+            >
+              <div class="simplebar-wrapper" style="margin: -24px;">
+                <div class="simplebar-height-auto-observer-wrapper">
+                  <div class="simplebar-height-auto-observer" />
+                </div><div class="simplebar-mask">
+                  <div class="simplebar-offset" style="right: 0px; bottom: 0px;">
+                    <div class="simplebar-content-wrapper" style="height: 100%; overflow: hidden scroll;">
+                      <div class="simplebar-content" style="padding: 24px;">
+                        <div class="nk-block-head">
+                          <div class="nk-block-head-content">
+                            <h5 class="nk-block-title">
+                              Add Good
+                            </h5>
+                          </div>
+                          <div class="text-right add-more-product-btn">
+                            <button class="btn btn-success" @click="addMoreProduct">
+                              Add Product
+                            </button>
+                          </div>
+                        </div><!-- .nk-block-head -->
+                        <div class="nk-block">
+                          <div class="row g-3">
+                            <div class="col-12">
+                              <div class="form-group">
+                                <div class="form-group">
+                                  <label class="form-label" for="name">Good Id</label>
+                                  <div class="form-control-wrap">
+                                    <input
+                                      id="name"
+                                      v-model="good_name"
+                                      type="text"
+                                      class="form-control"
+                                      name="name"
+                                      placeholder="Name"
+                                      required=""
+                                    >
+                                  </div>
+                                  <span v-if="containsKey(form_errors, 'name')" class="error">{{ form_errors.name[0] }}</span>
+                                </div>
+                              </div>
+                            </div>
+                            <div class="col-12">
+                              <div class="form-group">
+                                <div class="form-control-wrap">
+                                  <ul>
+                                    <li v-for="(product, index) in selectedProducts" :key="product.id">
+                                      <hr>
+                                      <!-- <li> -->
+                                      <div class="row gy-4">
+                                        <div class="col-sm-4">
+                                          <div class="form-group">
+                                            <label class="form-label" for="default-01">Product</label>
+                                            <div class="form-control-wrap">
+                                              <!-- <input id="default-01" type="number" class="form-control" placeholder="1"> -->
+                                              <vue-search
+                                                :img-photo="'path-img'"
+                                                :source-field="'name'"
+                                                :search-by-field="true"
+                                                :show-new-botton="false"
+                                                :enable-class-base="true"
+                                                :api-source="apiSearchProductsUrl"
+                                                @newitem="newitem()"
+                                                @itemselected="productselected($event, index)"
+                                              />
+                                              <small class="text-primary">{ ID: {{ product.id }}, Name : {{ product.name }} }</small>
+                                            </div>
+                                          </div>
+                                        </div>
+                                        <div class="col-sm-2">
+                                          <div class="form-group">
+                                            <label class="form-label" for="number">Qty</label>
+                                            <div class="form-control-wrap">
+                                              <input
+                                                id="number"
+                                                v-model="product.qty"
+                                                type="number"
+                                                class="form-control"
+                                                placeholder="1"
+                                                @change="event => updateVolumeWeight(event, index)"
+                                              >
+                                            </div>
+                                          </div>
+                                        </div>
+                                        <div class="col-sm-2">
+                                          <div class="form-group">
+                                            <label class="form-label" for="vol">Vol</label>
+                                            <div class="form-control-wrap">
+                                              <input id="vol" v-model="product.vol" type="number" class="form-control" placeholder="1">
+                                            </div>
+                                          </div>
+                                        </div>
+                                        <div class="col-sm-2">
+                                          <div class="form-group">
+                                            <label class="form-label" for="weight">Wgt</label>
+                                            <div class="form-control-wrap">
+                                              <input id="weight" v-model="product.weight" type="number" class="form-control" placeholder="1">
+                                            </div>
+                                          </div>
+                                        </div>
+                                        <div class="col-sm-2">
+                                          <div class="form-group">
+                                            <div class="form-control-wrap gp_remove">
+                                              <button type="button" class="btn btn-danger" @click="removeProduct(index)">
+                                                <em class="icon ni ni-cross-circle-fill" />
+                                              </button>
+                                            </div>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </li>
+                                  </ul>
+                                </div>
+                              </div>
+                            </div>
+                            <div class="col-12">
+                              <button class="btn btn-primary pull-right" @click="addGood">
+                                <em class="icon ni ni-plus" /><span>Add</span>
+                              </button>
+                              <button class="btn btn-danger pull-right" @click="closeToggleAddGood">
+                                <em class="icon ni ni-plus" /><span>Close</span>
+                              </button>
+                            </div>
+                          </div>
+                        </div><!-- .nk-block -->
+                      </div>
+                    </div>
+                  </div>
+                </div><div class="simplebar-placeholder" style="width: auto; height: 699px;" />
+              </div><div class="simplebar-track simplebar-horizontal" style="visibility: hidden;">
+                <div class="simplebar-scrollbar" style="width: 0px; display: none;" />
+              </div><div class="simplebar-track simplebar-vertical" style="visibility: visible;">
+                <div class="simplebar-scrollbar" style="height: 139px; transform: translate3d(0px, 0px, 0px); display: block;" />
+              </div>
+            </div>
           </div><!-- .components-preview -->
         </div>
       </div>
@@ -143,56 +320,112 @@
 </template>
 
 <script>
-import Vue from 'vue'
+// import Vue from 'vue'
 import vSelect from 'vue-select'
 import 'vue-select/dist/vue-select.css'
 import 'vue-input-search/dist/vue-search.css'
 import VueSearch from 'vue-input-search/dist/vue-search.common'
+
 // import Autocomplete from '@/components/common/Autocomplete.vue'
-Vue.component('VSelect', vSelect)
+// Vue.component('VSelect', vSelect)
 
 export default {
   components: {
-    'vue-search': VueSearch
+    'vue-search': VueSearch,
+    'v-select': vSelect
     // 'auto-complete': Autocomplete
   },
   data () {
     return {
+      toggleAddGood: false,
       countries: [
-        { name: 'Pakistan', id: '1' },
-        { name: 'Palau', id: '4' },
-        { name: 'Palestine', id: '2' },
-        { name: 'India', id: '3' }
+        { label: 'Pakistan', id: '1' },
+        { label: 'Palau', id: '4' },
+        { label: 'Palestine', id: '2' },
+        { label: 'India', id: '3' }
       ],
       tabPath: this.$route.fullPath,
       activeTab: 1,
       customer_id: '',
       pallet_id: '',
-      in_date: '',
-      in_time: '',
-      from_errors: [],
+      currentDateTime: '',
+      quantity: '',
+      batch_number: '',
+      preparePallets: [],
+      form_errors: [],
+      avaiableRacks: [],
+      avaiableGoods: [],
       apiSearchCustomerUrl: process.env.APP_URL + 'common/search-customers',
-      apiSearchPalletsUrl: process.env.APP_URL + 'common/search-pallets'
+      apiSearchProductsUrl: process.env.APP_URL + 'common/search-products',
+      apiSearchRacks: process.env.APP_URL + 'common/search-products',
+      apiSearchGoods: process.env.APP_URL + 'common/search-products',
+      good_name: '',
+      selectedProducts: [
+        {
+          id: '',
+          name: '',
+          qty: '',
+          vol: '',
+          weight: '',
+          product: {}
+        }
+      ]
+
     }
   },
   created () {
-    this.fetchAisles()
+    this.fetchRacks()
+    this.fetchGoods()
+    this.currentDate()
   },
   methods: {
     getSelectedData (childData) {
-      console.log('Our Data: ' + childData) // "Hello World"
+      // console.log('Our Data: ' + childData) // "Hello World"
     },
     containsKey (obj, key) {
       return Object.keys(obj).includes(key)
     },
-    async fetchAisles () {
+    currentDate () {
       const self = this
-      await this.$axios.get('aisle')
+      const current = new Date()
+      const todayDate = `${current.getDate()}` + '0' + `${current.getMonth() + 1}${current.getFullYear().toString().substr(-2)}`
+      const currentTime = `${current.getHours()}${(current.getMinutes() < 10) ? '0' + current.getMinutes() : current.getMinutes()}`
+      self.currentDateTime = todayDate + currentTime
+    },
+    proceed () {
+      const self = this
+      self.preparePallets = []
+      for (let i = 0; i < self.quantity; i++) {
+        const ob = {
+          pallet_id: `${self.currentDateTime}/${i < 9 ? '0' : ''}${i + 1}`,
+          rack_id: '',
+          good_id: '',
+          quantity: ''
+        }
+        self.preparePallets.push(ob)
+      }
+    },
+    async fetchRacks () {
+      const self = this
+      await this.$axios.get('rack/fetch-available-racks')
         .then(function (response) {
           if (response.data.status !== false) {
-            self.aisles = response.data.payload
+            self.avaiableRacks = response.data.payload
           } else {
-            // self.from_errors = response.data.payload.error
+            // self.form_errors = response.data.payload.error
+          }
+
+        //   self.$nuxt.$loading.finish()
+        })
+    },
+    async fetchGoods () {
+      const self = this
+      await this.$axios.get('good/fetch-available-goods')
+        .then(function (response) {
+          if (response.data.status !== false) {
+            self.avaiableGoods = response.data.payload
+          } else {
+            // self.form_errors = response.data.payload.error
           }
 
         //   self.$nuxt.$loading.finish()
@@ -201,27 +434,88 @@ export default {
     customerselected (customer) {
       this.customer_id = customer.id
     },
-    palletselected (pallet) {
-      this.pallet_id = pallet.id
-    },
     addPalletOrder () {
       const self = this
       this.$axios.post('pallets-in-out/create', {
-        customer_id: this.customer_id,
-        pallet_id: this.pallet_id,
-        in_date: this.in_date,
-        in_time: this.in_time
+        customer_id: self.customer_id,
+        quantity: self.quantity,
+        batch_number: self.batch_number,
+        preparePallets: self.preparePallets
       }).then(function (response) {
         if (response.data.status !== false) {
           self.$router.push('/pallets-in-out')
         }
       }).catch(function (error) {
-        self.from_errors = error.response.data.data
+        self.form_errors = error.response.data.data
       })
+    },
+    addGood () {
+      const self = this
+      this.$axios.post('good', {
+        name: self.good_name,
+        products: self.selectedProducts
+      }).then(function (response) {
+        self.$toast.success('Good is created successfully')
+        self.toggleAddGood = false
+        self.good_name = ''
+        self.selectedProducts = []
+        setTimeout(function () {
+          self.$toast.clear()
+        }, 3000)
+      }).catch(function (error) {
+        self.form_errors = error.response.data.data
+      })
+    },
+    closeToggleAddGood () {
+      const self = this
+      self.toggleAddGood = false
+    },
+    updateVolumeWeight (event, index) {
+      const self = this
+      self.selectedProducts[index].vol = event.target.value * self.selectedProducts[index].vol
+      self.selectedProducts[index].weight = event.target.value * self.selectedProducts[index].weight
+    },
+    addMoreProduct () {
+      const obj = {
+        id: '',
+        name: '',
+        qty: '',
+        vol: '',
+        weight: '',
+        product: {}
+      }
+      this.selectedProducts.push(obj)
+    },
+    productselected (event, index) {
+      const self = this
+      self.selectedProducts[index].id = event.id
+      self.selectedProducts[index].name = event.name
+      self.selectedProducts[index].qty = 1
+      self.selectedProducts[index].vol = 1 * event.volume
+      self.selectedProducts[index].weight = 1 * event.weight
+      self.selectedProducts[index].product = event
+    },
+    removeProduct (index) {
+      this.$delete(this.selectedProducts, index)
+    },
+    setPalletRack (event, index) {
+      const self = this
+      self.preparePallets[index].rack_id = event.id
+    },
+    setPalletGood (event, index) {
+      const self = this
+      self.preparePallets[index].good_id = event.id
+    },
+    setGoodQty (event, index) {
+      const self = this
+      self.preparePallets[index].quantity = event.target.value
     }
 
   }
 }
 </script>
 <style scoped>
+.add-more-product-btn {
+  margin-top: -25px;
+}
 </style>

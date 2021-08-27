@@ -162,7 +162,7 @@
                         </a>
                         <div class="dropdown-menu dropdown-menu-right" :class="{'show': index === activeIndex }">
                           <ul class="link-list-opt no-bdr">
-                            <li><a href="javascript:;"><em class="icon ni ni-eye" /><span>View Details</span></a></li>
+                            <!-- <li><a href="javascript:;"><em class="icon ni ni-eye" /><span>View Details</span></a></li> -->
                             <li><a href="javascript:;" @click="editSupplier(supplier)"><em class="icon ni ni-edit" /><span>Edit Details</span></a></li>
                             <li><a href="javascript:;" @click="removeSupplier(supplier)"><em class="icon ni ni-trash" /><span>Delete</span></a></li>
                             <!-- <li><a href="#"><em class="icon ni ni-repeat" /><span>Orders</span></a></li>
