@@ -1,6 +1,6 @@
 <template>
   <!-- sidebar @s -->
-  <div class="nk-sidebar nk-sidebar-fixed is-dark" :class="{'is-compact': toggleSideBar}" data-content="sidebarMenu">
+  <div class="nk-sidebar nk-sidebar-fixed is-dark" :class="{'is-compact nk-sidebar-active': toggleSideBar}" data-content="sidebarMenu">
     <div class="nk-sidebar-element nk-sidebar-head">
       <div class="nk-sidebar-brand">
         <a href="html/index.html" class="logo-link nk-sidebar-logo">
@@ -166,7 +166,6 @@ export default {
         suppressScrollX: false,
         wheelPropagation: false
       },
-      toggleSideBar: false,
       toggleSubMenue: false,
       link: this.$router.currentRoute.path,
       bar: {
@@ -218,6 +217,16 @@ export default {
           locking: true,
           checkShifKey: true
         }
+      }
+    }
+  },
+  computed: {
+    toggleSideBar: {
+      get () {
+        return this.$store.state.toggleSideBar
+      },
+      set (val) {
+        this.$store.commit('TOGGLE_SIDE_BAR', val)
       }
     }
   },

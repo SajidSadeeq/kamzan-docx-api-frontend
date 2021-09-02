@@ -151,7 +151,7 @@ export default {
   },
   methods: {
     onClickOutside (event) {
-      if (this.hasParentClass(event.target, 'parent-li') === false) {
+      if (this.hasParentClass(event.target, 'dropdown-menu') === false) {
         this.activeIndex = null
       }
     },

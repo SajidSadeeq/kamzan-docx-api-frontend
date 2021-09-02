@@ -119,7 +119,7 @@
                   </div>
                 </div>
                 <div class="nk-tb-col tb-col-mb">
-                  <span class="tb-amount">{{ pallet.customer.customer_name }}</span>
+                  <span v-if="pallet.customer" class="tb-amount">{{ pallet.customer.customer_name }}</span>
                 </div>
                 <div class="nk-tb-col tb-col-md">
                   <span>{{ pallet.pallet_id }}</span>

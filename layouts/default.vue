@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="">
     <div class="nk-app-root">
       <!-- main @s -->
       <div class="nk-main ">
