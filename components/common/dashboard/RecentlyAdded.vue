@@ -40,25 +40,25 @@
           <div class="nk-tb-col">
             <span class="sub-text">Customer</span>
           </div>
-          <div class="nk-tb-col">
+          <div class="nk-tb-col tb-col-md">
             <span class="sub-text">Pallet</span>
           </div>
-          <div class="nk-tb-col tb-col-mb">
+          <div class="nk-tb-col tb-col-lg">
             <span class="sub-text">In By</span>
           </div>
-          <div class="nk-tb-col tb-col-mb">
+          <div class="nk-tb-col tb-col-lg">
             <span class="sub-text">In Date</span>
           </div>
-          <div class="nk-tb-col tb-col-mb">
+          <div class="nk-tb-col tb-col-lg">
             <span class="sub-text">In Time</span>
           </div>
-          <div class="nk-tb-col tb-col-md">
+          <div class="nk-tb-col tb-col-lg">
             <span class="sub-text">Out By</span>
           </div>
-          <div class="nk-tb-col tb-col-md">
+          <div class="nk-tb-col tb-col-lg">
             <span class="sub-text">Out Date</span>
           </div>
-          <div class="nk-tb-col tb-col-md">
+          <div class="nk-tb-col tb-col-lg">
             <span class="sub-text">Out Time</span>
           </div>
           <div class="nk-tb-col nk-tb-col-tools">
@@ -79,7 +79,7 @@
           </div>
         </div><!-- .nk-tb-item -->
         <div v-for="(pallet, index) in pallets" :key="index" class="nk-tb-item">
-          <div v-if="pallet.customer !== null" class="nk-tb-col tb-col-mb">
+          <div v-if="pallet.customer !== null" class="nk-tb-col">
             <span class="tb-amount">{{ pallet.customer.customer_name }}</span>
           </div>
           <div v-if="pallet.customer !== null" class="nk-tb-col tb-col-md">
