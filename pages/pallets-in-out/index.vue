@@ -66,7 +66,7 @@
                     <label class="custom-control-label" for="uid" />
                   </div>
                 </div>
-                <div class="nk-tb-col ">
+                <div class="nk-tb-col">
                   <span class="sub-text">Customer</span>
                 </div>
                 <div class="nk-tb-col tb-col-md">
@@ -117,7 +117,7 @@
                     <label class="custom-control-label" for="uid1" />
                   </div>
                 </div>
-                <div class="nk-tb-col ">
+                <div class="nk-tb-col">
                   <span v-if="pallet.customer" class="tb-amount">{{ pallet.customer.customer_name }}</span>
                 </div>
                 <div class="nk-tb-col tb-col-md">

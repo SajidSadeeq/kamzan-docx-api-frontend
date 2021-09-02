@@ -1,6 +1,6 @@
 <template>
   <div>
-    <apexchart v-if="options.chart" width="500" type="bar" :options="options" :series="series" />
+    <apexchart v-if="options.chart" width="100%" type="bar" :options="options" :series="series" />
   </div>
 </template>
 

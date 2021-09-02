@@ -4,7 +4,8 @@
       <div class="text-center">
         <h6>{{ (new Date()).toLocaleString('default', { month: 'long' }) }} - 2021</h6>
       </div>
-      <apexchart type="donut" height="250" :options="chartOptions" :series="series" />
+
+      <apexchart type="donut" width="100%" height="250" :options="chartOptions" :series="series" />
     </div>
   </div>
 </template>
@@ -39,5 +40,5 @@ export default {
 </script>
 
 <style>
-
+.apexcharts-canvas { width: 100%!important; text-align: center;}
 </style>

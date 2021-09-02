@@ -7,29 +7,6 @@
             Due Out
           </h6>
         </div>
-        <div class="nk-block-head-content">
-          <div class="toggle-wrap nk-block-tools-toggle">
-            <a href="#" class="btn btn-icon btn-trigger toggle-expand mr-n1" data-target="pageMenu"><em class="icon ni ni-more-v" /></a>
-            <div class="toggle-expand-content" data-content="pageMenu">
-              <ul class="nk-block-tools g-3">
-                <!-- <li class="nk-block-tools-opt">
-                    <div class="form-group">
-                      <div class="form-icon form-icon-right">
-                        <em class="icon ni ni-search" />
-                      </div><input id="going-pallet" type="text" class="form-control form-control-sm coming_going_search" name="going_pallet">
-                    </div>
-                  </li>
-                  <li class="nk-block-tools-opt">
-                    <div class="form-group">
-                      <button type="button" class="btn btn-sm btn-success">
-                        Search
-                      </button>
-                    </div>
-                  </li> -->
-              </ul>
-            </div>
-          </div>
-        </div>
       </div>
     </div>
     <div class="nk-tb-list mt-n2">
