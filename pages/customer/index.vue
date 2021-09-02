@@ -10,7 +10,7 @@
                   Customers
                 </h3>
               </div><!-- .nk-block-head-content -->
-              <div class="nk-block-head-content">
+              <div class="nk-block-head-content filters">
                 <div class="toggle-wrap nk-block-tools-toggle">
                   <a href="#" class="btn btn-icon btn-trigger toggle-expand mr-n1" data-target="more-options"><em class="icon ni ni-more-v" /></a>
                   <div class="toggle-expand-content" data-content="more-options">
@@ -27,7 +27,7 @@
                         <a href="javascript:;" class="btn btn-success d-md-inline-flex mr-2" @click="pageChangeHandler(1)">
                           <em class="icon ni ni-search" /> <span>Search</span>
                         </a>
-                        <NuxtLink to="/customer/add" class="btn btn-primary d-none d-md-inline-flex">
+                        <NuxtLink to="/customer/add" class="btn btn-primary d-md-inline-flex">
                           <em class="icon ni ni-plus" /><span>Add</span>
                         </NuxtLink>
                       </li>

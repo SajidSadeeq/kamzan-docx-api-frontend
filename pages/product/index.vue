@@ -10,7 +10,7 @@
                   Products
                 </h3>
               </div><!-- .nk-block-head-content -->
-              <div class="nk-block-head-content">
+              <div class="nk-block-head-content filters">
                 <div class="toggle-wrap nk-block-tools-toggle">
                   <a href="#" class="btn btn-icon btn-trigger toggle-expand mr-n1" data-target="more-options"><em
                     class="icon ni ni-more-v"
@@ -42,7 +42,7 @@
                         <a href="javascript:;" class="btn btn-success d-md-inline-flex mr-2" @click="pageChangeHandler(1)">
                           <em class="icon ni ni-search" /> <span>Search</span>
                         </a>
-                        <NuxtLink to="/product/add" class="btn btn-primary d-none d-md-inline-flex">
+                        <NuxtLink to="/product/add" class="btn btn-primary d-md-inline-flex">
                           <em class="icon ni ni-plus" /><span>Add</span>
                         </NuxtLink>
                       </li>
@@ -62,11 +62,11 @@
                   </div>
                 </div>
                 <div class="nk-tb-col">
-                  <span class="sub-text">Image</span>
-                </div>
-                <div class="nk-tb-col tb-col-mb">
                   <span class="sub-text">Title</span>
                 </div>
+                <!-- <div class="nk-tb-col tb-col-mb">
+                  <span class="sub-text">Title</span>
+                </div> -->
                 <div class="nk-tb-col tb-col-md">
                   <span class="sub-text">Sku</span>
                 </div>
@@ -117,14 +117,14 @@
                         <span>AB</span>
                       </div>
                       <div class="user-info">
-                        <!-- <span class="tb-lead"> {{ product.name }} <span class="dot dot-success d-md-none ml-1" /></span> -->
+                        <span class="tb-lead"> {{ product.name }} <span class="dot dot-success d-md-none ml-1" /></span>
                       </div>
                     </div>
                   </a>
                 </div>
-                <div class="nk-tb-col tb-col-mb">
+                <!-- <div class="nk-tb-col tb-col-mb">
                   <span class="tb-amount">{{ product.name }}</span>
-                </div>
+                </div> -->
                 <div class="nk-tb-col tb-col-md">
                   <span>{{ product.sku }}</span>
                 </div>

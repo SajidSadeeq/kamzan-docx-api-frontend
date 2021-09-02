@@ -30103,7 +30103,7 @@ body.nav-shown {
 .is-compact:not(:hover) .nk-menu-heading:not(:first-child):before {
     position: absolute;
     content: '';
-    height: 1px;
+    height: 0;
     width: 100%;
     left: 0;
     top: 50%;
@@ -33348,16 +33348,24 @@ body.toggle-shown {
     overflow: hidden;
 }
 
-@media (min-width: 576px) {
-    .nk-block-tools-toggle .toggle-expand {
-        display: none;
-    }
-    .nk-block-tools-toggle .toggle-expand-content {
-        display: block !important;
-    }
+
+/* @media (min-width: 576px) { */
+
+.nk-block-tools-toggle .toggle-expand {
+    display: none;
 }
 
+.nk-block-tools-toggle .toggle-expand-content {
+    display: block !important;
+}
+
+
+/* } */
+
 @media (max-width: 575.98px) {
+    /* .pullinout .nk-block-tools {
+        display: inline;
+    } */
     .nk-block-tools-toggle .toggle-expand-content {
         position: absolute;
         left: 0;
@@ -36509,7 +36517,11 @@ p>span>.icon.ni {
 .nk-add-product+.toggle-overlay {
     z-index: 700;
 }
-.content-input .ui-autocomplete .ui-menu-item .ui-item-result .avatar { display: none!important;}
+
+.content-input .ui-autocomplete .ui-menu-item .ui-item-result .avatar {
+    display: none!important;
+}
+
 .asterisk a {
     position: relative;
     color: #8094ae;
@@ -42954,4 +42966,52 @@ body.dark-mode.bg-light {
 .ps .ps__rail-y:focus,
 .ps .ps__rail-y:hover {
     background-color: transparent!important;
+}
+
+.content-input {
+    background: transparent;
+}
+
+.input-txt {
+    display: block!important;
+    width: 100%!important;
+    height: calc(2.125rem + 2px)!important;
+    padding: 0.4375rem 1rem!important;
+    font-size: 0.8125rem!important;
+    font-weight: 400!important;
+    line-height: 1.25rem!important;
+    color: #3c4d62!important;
+    background-color: #fff!important;
+    background-clip: padding-box!important;
+    border: 1px solid #dbdfea!important;
+    border-radius: 4px!important;
+    transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out !important;
+}
+
+@media (max-width: 1199px) {
+    .is-compact:not(:hover) .nk-menu-badge,
+    .is-compact:not(:hover) .nk-menu-toggle:after,
+    .is-compact:not(:hover) .nk-menu-heading .overline-title,
+    .is-compact:not(:hover) .nk-menu-text {
+        opacity: 1;
+    }
+    .card .table tr:first-child th:last-child {
+        padding: 0.95rem 0;
+    }
+}
+
+@media (max-width: 575.98px) {
+    /* [data-content="more-options"] */
+    .nk-block-tools-toggle .toggle-expand-content {
+        position: relative;
+    }
+    .nk-block-tools-toggle .nk-block-tools {
+        display: inline;
+    }
+    .nk-block-head.nk-block-head-sm .nk-block-between {
+        display: inline-block;
+    }
+    .nk-block-head.nk-block-head-sm .nk-block-between .nk-block-head-content:first-child {
+        margin-bottom: 16px;
+    }
 }

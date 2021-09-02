@@ -10,7 +10,7 @@
                   Due <small>In/Out</small> List
                 </h3>
               </div><!-- .nk-block-head-content -->
-              <div class="nk-block-head-content">
+              <div class="nk-block-head-content filters">
                 <div class="toggle-wrap nk-block-tools-toggle">
                   <a href="#" class="btn btn-icon btn-trigger toggle-expand mr-n1" data-target="more-options"><em class="icon ni ni-more-v" /></a>
                   <div class="toggle-expand-content" data-content="more-options">
@@ -67,31 +67,31 @@
                     <label class="custom-control-label" for="uid" />
                   </div>
                 </div>
-                <div class="nk-tb-col">
+                <div class="nk-tb-col ">
                   <span class="sub-text">Customer</span>
                 </div>
-                <div class="nk-tb-col">
+                <div class="nk-tb-col tb-col-md">
                   <span class="sub-text">Pallet Id</span>
                 </div>
-                <div class="nk-tb-col">
+                <div class="nk-tb-col tb-col-md">
                   <span class="sub-text">Goods Qty</span>
                 </div>
-                <div class="nk-tb-col tb-col-mb">
+                <div class="nk-tb-col tb-col-lg">
                   <span class="sub-text">In By</span>
                 </div>
-                <div class="nk-tb-col tb-col-mb">
+                <div class="nk-tb-col tb-col-lg">
                   <span class="sub-text">In Date</span>
                 </div>
-                <div class="nk-tb-col tb-col-mb">
+                <div class="nk-tb-col tb-col-lg">
                   <span class="sub-text">In Time</span>
                 </div>
-                <div class="nk-tb-col tb-col-md">
+                <div class="nk-tb-col tb-col-lg">
                   <span class="sub-text">Out By</span>
                 </div>
-                <div class="nk-tb-col tb-col-md">
+                <div class="nk-tb-col tb-col-lg">
                   <span class="sub-text">Out Date</span>
                 </div>
-                <div class="nk-tb-col tb-col-md">
+                <div class="nk-tb-col tb-col-lg">
                   <span class="sub-text">Out Time</span>
                 </div>
                 <div class="nk-tb-col nk-tb-col-tools">
@@ -118,7 +118,7 @@
                     <label class="custom-control-label" for="uid1" />
                   </div>
                 </div>
-                <div class="nk-tb-col tb-col-mb">
+                <div class="nk-tb-col ">
                   <span v-if="pallet.customer" class="tb-amount">{{ pallet.customer.customer_name }}</span>
                 </div>
                 <div class="nk-tb-col tb-col-md">

@@ -1,5 +1,5 @@
 <template>
-  <div class="nk-content ">
+  <div class="nk-content">
     <div class="container-fluid">
       <div class="nk-content-inner">
         <div class="nk-content-body">
@@ -518,4 +518,5 @@ export default {
 .add-more-product-btn {
   margin-top: -25px;
 }
+
 </style>
