@@ -42969,7 +42969,7 @@ body.dark-mode.bg-light {
 }
 
 .content-input {
-    background: transparent;
+    background: transparent!important;
 }
 
 .input-txt {
@@ -43006,12 +43006,31 @@ body.dark-mode.bg-light {
         position: relative;
     }
     .nk-block-tools-toggle .nk-block-tools {
-        display: inline;
+        display: inline-block;
+        width: 100%;
+    }
+    .nk-block-tools-toggle .nk-block-tools .mx-datepicker-range {
+        width: 100%;
+    }
+    .nk-block-tools-toggle .nk-block-tools li,
+    .nk-block-tools-toggle .nk-block-tools .form-control-wrap {
+        width: 100%;
     }
     .nk-block-head.nk-block-head-sm .nk-block-between {
         display: inline-block;
     }
     .nk-block-head.nk-block-head-sm .nk-block-between .nk-block-head-content:first-child {
         margin-bottom: 16px;
+    }
+    .nk-block-tools-opt {
+        width: 100%;
+        display: flex;
+        justify-content: space-around;
+    }
+    .nk-block-tools-opt button,
+    .nk-block-tools-opt a {
+        width: 100%;
+        text-align: center;
+        margin: 0!important;
     }
 }

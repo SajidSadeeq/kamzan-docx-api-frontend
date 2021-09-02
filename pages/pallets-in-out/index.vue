@@ -41,12 +41,12 @@
                           @itemselected="customerselected($event)"
                         />
                       </li>
-                      <li>
-                        <button class="btn btn-success" @click="pageChangeHandler(1)">
+
+                      <li class="nk-block-tools-opt">
+                        <button class="btn btn-success mr-2" @click="pageChangeHandler(1)">
                           <em class="icon ni ni-search" /><span>Search</span>
                         </button>
-                      </li>
-                      <li class="nk-block-tools-opt">
+
                         <a href="#" class="btn btn-icon btn-primary d-md-none"><em class="icon ni ni-plus" /></a>
                         <NuxtLink to="/pallets-in-out/pallet-in" class="btn btn-primary d-none d-md-inline-flex">
                           <em class="icon ni ni-plus" /><span>Due In</span>
