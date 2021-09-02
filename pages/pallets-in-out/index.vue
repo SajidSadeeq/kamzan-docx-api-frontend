@@ -47,8 +47,7 @@
                           <em class="icon ni ni-search" /><span>Search</span>
                         </button>
 
-                        <a href="#" class="btn btn-icon btn-primary d-md-none"><em class="icon ni ni-plus" /></a>
-                        <NuxtLink to="/pallets-in-out/pallet-in" class="btn btn-primary d-none d-md-inline-flex">
+                        <NuxtLink to="/pallets-in-out/pallet-in" class="btn btn-primary d-md-inline-flex">
                           <em class="icon ni ni-plus" /><span>Due In</span>
                         </NuxtLink>
                       </li>

@@ -29,7 +29,7 @@
                         <a href="javascript:;" class="btn btn-success d-md-inline-flex mr-2" @click="pageChangeHandler(1)">
                           <em class="icon ni ni-plus" /> <span>Search</span>
                         </a>
-                        <NuxtLink to="/level/add" class="btn btn-primary d-none d-md-inline-flex">
+                        <NuxtLink to="/level/add" class="btn btn-primary d-md-inline-flex">
                           <em class="icon ni ni-plus" /><span>Add</span>
                         </NuxtLink>
                       </li>
