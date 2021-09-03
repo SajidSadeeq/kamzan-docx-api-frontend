@@ -17,43 +17,35 @@
                   /></a>
                   <div class="toggle-expand-content" data-content="more-options">
                     <ul class="nk-block-tools g-3">
-                      <li class="nk-block-tools-opt">
-                        <a href="javascript:;" class="btn btn-primary d-none d-md-inline-flex mr-2" @click="updateProduct">
-                          <em class="icon ni ni-file" /><span>Update</span>
-                        </a>
-                        <NuxtLink to="/product" class="btn btn-danger d-none d-md-inline-flex">
-                          <em class="icon ni ni-back-ios" /><span>Back</span>
-                        </NuxtLink>
-                      </li>
+                      <li class="nk-block-tools-opt" />
                     </ul>
                   </div>
                 </div>
               </div><!-- .nk-block-head-content -->
             </div>
           </div><!-- nk-block-head -->
-
-          <div class="nk-block nk-block-lg">
-            <div class="card card-preview">
-              <div class="card-inner">
-                <ul class="nav nav-tabs mt-n3">
-                  <li class="nav-item" @click="activeTab = 1">
-                    <a class="nav-link" :class="{ active: activeTab === 1 }" data-toggle="tab" href="#basic"><em
-                      class="icon ni ni-setting"
-                    /><span>Basic Info</span></a>
-                  </li>
-                  <li class="nav-item" @click="activeTab = 2">
-                    <a class="nav-link" :class="{ active: activeTab === 2 }" data-toggle="tab" href="#details"><em class="icon ni ni-setting" /><span>Details</span></a>
-                  </li>
-                  <li class="nav-item" @click="activeTab = 3">
-                    <a class="nav-link" :class="{ active: activeTab === 3 }" data-toggle="tab" href="#images"><em class="icon ni ni-setting" /><span>Images</span></a>
-                  </li>
+          <form action="#" class="form-validate" novalidate="novalidate" @submit.prevent="addProduct">
+            <div class="nk-block nk-block-lg">
+              <div class="card card-preview">
+                <div class="card-inner">
+                  <ul class="nav nav-tabs mt-n3">
+                    <li class="nav-item" @click="activeTab = 1">
+                      <a class="nav-link" :class="{ active: activeTab === 1 }" data-toggle="tab" href="#basic"><em
+                        class="icon ni ni-setting"
+                      /><span>Basic Info</span></a>
+                    </li>
+                    <li class="nav-item" @click="activeTab = 2">
+                      <a class="nav-link" :class="{ active: activeTab === 2 }" data-toggle="tab" href="#details"><em class="icon ni ni-setting" /><span>Details</span></a>
+                    </li>
+                    <li class="nav-item" @click="activeTab = 3">
+                      <a class="nav-link" :class="{ active: activeTab === 3 }" data-toggle="tab" href="#images"><em class="icon ni ni-setting" /><span>Images</span></a>
+                    </li>
                   <!-- <li class="nav-item" @click="activeTab = 4">
                       <a class="nav-link" :class="{ active: activeTab === 4 }" data-toggle="tab" href="#meta"><em class="icon ni ni-link" /><span>Meta</span></a>
                     </li> -->
-                </ul>
-                <div class="tab-content">
-                  <div id="basic" class="tab-pane " :class="{ active: activeTab === 1 }">
-                    <form action="#" class="form-validate" novalidate="novalidate" @submit.prevent="addProduct">
+                  </ul>
+                  <div class="tab-content">
+                    <div id="basic" class="tab-pane " :class="{ active: activeTab === 1 }">
                       <div class="row g-gs">
                         <div class="col-md-6 border-right">
                           <div class="col-md-10">
@@ -276,64 +268,73 @@
                           </div>
                         </div>
                       </div>
-                    </form>
-                  </div><!-- .card-preview -->
-                  <div id="details" class="tab-pane" :class="{ active: activeTab === 2 }">
-                    <div class="row g-gs">
-                      <div class="col-md-6 border-right">
-                        <div class="col-md-10 mt-2">
-                          <div class="form-group">
-                            <label class="form-label" for="description">Description</label>
-                            <div class="form-control-wrap">
-                              <textarea
-                                id="description"
-                                v-model="product.description"
-                                class="form-control form-control-sm"
-                                name="description"
-                                placeholder="Write your description"
-                                required=""
-                              />
-                              <span v-if="containsKey(errors, 'description')" class="text-danger">{{ errors.description[0] }}</span>
+                    </div><!-- .card-preview -->
+                    <div id="details" class="tab-pane" :class="{ active: activeTab === 2 }">
+                      <div class="row g-gs">
+                        <div class="col-md-6 border-right">
+                          <div class="col-md-10 mt-2">
+                            <div class="form-group">
+                              <label class="form-label" for="description">Description</label>
+                              <div class="form-control-wrap">
+                                <textarea
+                                  id="description"
+                                  v-model="product.description"
+                                  class="form-control form-control-sm"
+                                  name="description"
+                                  placeholder="Write your description"
+                                  required=""
+                                />
+                                <span v-if="containsKey(errors, 'description')" class="text-danger">{{ errors.description[0] }}</span>
+                              </div>
                             </div>
                           </div>
                         </div>
-                      </div>
-                      <div class="col-md-6">
-                        <div class="col-md-10 mt-2">
-                          <div class="form-group">
-                            <label class="form-label" for="note">Note</label>
-                            <div class="form-control-wrap">
-                              <textarea
-                                id="note"
-                                v-model="product.note"
-                                class="form-control form-control-sm"
-                                name="note"
-                                placeholder="Product note"
-                                required=""
-                              />
-                              <span v-if="containsKey(errors, 'note')" class="text-danger">{{ errors.note[0] }}</span>
+                        <div class="col-md-6">
+                          <div class="col-md-10 mt-2">
+                            <div class="form-group">
+                              <label class="form-label" for="note">Note</label>
+                              <div class="form-control-wrap">
+                                <textarea
+                                  id="note"
+                                  v-model="product.note"
+                                  class="form-control form-control-sm"
+                                  name="note"
+                                  placeholder="Product note"
+                                  required=""
+                                />
+                                <span v-if="containsKey(errors, 'note')" class="text-danger">{{ errors.note[0] }}</span>
+                              </div>
                             </div>
                           </div>
                         </div>
                       </div>
                     </div>
-                  </div>
 
-                  <div id="images" class="tab-pane" :class="{ active: activeTab === 3 }">
-                    <vue-upload-multiple-image
-                      :drag-text="dragText"
-                      :browse-text="browsText"
-                      :mark-is-primary-text="markIsPrimaryText"
-                      :data-images="images"
-                      @upload-success="uploadImageSuccess"
-                      @before-remove="beforeRemove"
-                      @edit-image="editImage"
-                    />
+                    <div id="images" class="tab-pane" :class="{ active: activeTab === 3 }">
+                      <vue-upload-multiple-image
+                        :drag-text="dragText"
+                        :browse-text="browsText"
+                        :mark-is-primary-text="markIsPrimaryText"
+                        :data-images="images"
+                        @upload-success="uploadImageSuccess"
+                        @before-remove="beforeRemove"
+                        @edit-image="editImage"
+                      />
+                    </div>
                   </div>
                 </div>
               </div>
+
+              <div class="mt-2 text-right">
+                <a href="javascript:;" class="btn btn-primary d-md-inline-flex mr-2" @click="updateProduct">
+                  <em class="icon ni ni-file" /><span>Update</span>
+                </a>
+                <NuxtLink to="/product" class="btn btn-danger d-md-inline-flex">
+                  <em class="icon ni ni-back-ios" /><span>Back</span>
+                </NuxtLink>
+              </div>
             </div>
-          </div>
+          </form>
         </div>
       </div>
     </div>
