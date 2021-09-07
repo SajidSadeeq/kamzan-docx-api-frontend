@@ -43000,6 +43000,17 @@ body.dark-mode.bg-light {
     height: 10px;
 }
 
+.customer .sub-text {
+    float: left;
+    width: auto;
+}
+
+.customer .status,
+.customer .nk-tb-col-tools {
+    max-width: 68px;
+    width: 68px;
+}
+
 @media (max-width: 1199px) {
     .is-compact:not(:hover) .nk-menu-badge,
     .is-compact:not(:hover) .nk-menu-toggle:after,

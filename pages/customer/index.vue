@@ -1,5 +1,5 @@
 <template>
-  <div class="nk-content">
+  <div class="nk-content customer">
     <div class="container-fluid">
       <div class="nk-content-inner">
         <div class="nk-content-body">
@@ -61,7 +61,7 @@
                 <div class="nk-tb-col tb-col-lg">
                   <span class="sub-text">Last Order</span>
                 </div>
-                <div class="nk-tb-col tb-col-md">
+                <div class="nk-tb-col tb-col-md status">
                   <span class="sub-text">Status</span>
                 </div>
                 <div class="nk-tb-col nk-tb-col-tools">
