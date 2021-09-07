@@ -206,25 +206,17 @@ export default {
           self.$nuxt.$loading.finish()
         })
     },
-    // async removeBrand (brand) {
-    //   const self = this
-    //   await this.$axios.delete(`/brand/delete/${brand.id}`)
-    //     .then(function (response) {
-    //       self.fetchBrands()
-    //     }).catch(function (ex) {
-    //       self.fetchBrands()
-    //     })
-    // },
     async removeAisle (aisle) {
       const self = this
+      self.$nuxt.$loading.start()
       await this.$axios.delete(`/aisle/${aisle.id}`)
         .then(function (response) {
-          self.aisles = []
+          self.activeIndex = null
           self.fetchAisles()
-          // self.categories = response.data.data.data
-          // self.$store.commit('SET_CATEGORIES', self.categories)
+          self.$nuxt.$loading.finish()
         }).catch(function (ex) {
           self.fetchAisles()
+          self.$nuxt.$loading.finish()
         })
     },
     async editAisle (aisle) {

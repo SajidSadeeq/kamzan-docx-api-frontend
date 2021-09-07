@@ -55,11 +55,8 @@
           <div class="nk-block">
             <div class="nk-tb-list is-separate mb-3">
               <div class="nk-tb-item nk-tb-head">
-                <div class="nk-tb-col nk-tb-col-check">
-                  <div class="custom-control custom-control-sm custom-checkbox notext">
-                    <input id="uid" type="checkbox" class="custom-control-input">
-                    <label class="custom-control-label" for="uid" />
-                  </div>
+                <div class="nk-tb-col">
+                  <span class="sub-text">#</span>
                 </div>
                 <div class="nk-tb-col">
                   <span class="sub-text">Title</span>
@@ -104,11 +101,8 @@
               </div><!-- .nk-tb-item -->
 
               <div v-for="(product, index) in products" :key="product.id" class="nk-tb-item">
-                <div class="nk-tb-col nk-tb-col-check">
-                  <div class="custom-control custom-control-sm custom-checkbox notext">
-                    <input id="uid1" type="checkbox" class="custom-control-input">
-                    <label class="custom-control-label" for="uid1" />
-                  </div>
+                <div class="nk-tb-col tb-col-md">
+                  <span>{{ product.id }}</span>
                 </div>
                 <div class="nk-tb-col">
                   <a href="javascript:;">
@@ -170,7 +164,7 @@
                       <div class="dropdown" :class="{'show': index === activeIndex }">
                         <p v-if="activeIndex === index" v-click-outside="onClickOutside" />
                         <a
-                          href="#"
+                          href="javascript:;"
                           class="dropdown-toggle btn btn-icon btn-trigger"
                           data-toggle="dropdown"
                           aria-expanded="true"
@@ -247,10 +241,22 @@ export default {
       perPage: 10
     }
   },
+  mounted () {
+    this.$nextTick(() => {
+      this.$nuxt.$loading.start()
+      // setTimeout(() => this.$nuxt.$loading.finish(), 1000)
+    })
+  },
   created () {
     this.fetchProducts()
   },
   methods: {
+    start () {
+      this.loading = true
+    },
+    finish () {
+      this.loading = false
+    },
     onClickOutside (event) {
       if (this.hasParentClass(event.target, 'parent-li') === false) {
         this.activeIndex = null
@@ -290,15 +296,20 @@ export default {
           self.products = response.data.payload.data
           self.total = response.data.payload.total
           self.$store.commit('product/SET_PRODUCTS', self.products)
+          self.$nuxt.$loading.finish()
         })
     },
     async removeProduct (productId) {
       const self = this
+      self.$nuxt.$loading.start()
       await this.$axios.delete(`/product/delete/${productId}`)
         .then(function (response) {
+          self.activeIndex = null
           self.fetchProducts()
+          self.$nuxt.$loading.finish()
         }).catch(function (ex) {
           self.fetchProducts()
+          self.$nuxt.$loading.finish()
         })
     },
     async editProduct (product) {

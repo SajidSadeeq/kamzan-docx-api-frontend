@@ -91,7 +91,7 @@
                         ><em
                           class="icon ni ni-more-h"
                         /></a>
-                        <div
+                        <!-- <div
                           class="dropdown-menu dropdown-menu-right dropdown-menu-xs"
                           :class="{'show': index === activeIndex }"
                           x-placement="top-end"
@@ -100,9 +100,8 @@
                           <ul class="link-list-plain">
                             <li><a href="#" @click.prevent="editLocation(location)">Edit</a></li>
                             <li><a href="#" @click.prevent="removeLocation(location)">Remove</a></li>
-                            <!--                              <li><a href="#" @click.prevent="removeAisle(aisle.id)">Remove</a></li>-->
                           </ul>
-                        </div>
+                        </div> -->
                       </div>
                     </td>
                   </tr>

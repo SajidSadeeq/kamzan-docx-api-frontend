@@ -211,11 +211,15 @@ export default {
 
     async removeLevel (level) {
       const self = this
+      self.$nuxt.$loading.start()
       await this.$axios.delete(`/level/${level.id}`)
         .then(function (response) {
+          self.activeIndex = null
           self.fetchLevels()
+          self.$nuxt.$loading.finish()
         }).catch(function (ex) {
           self.fetchLevels()
+          self.$nuxt.$loading.finish()
         })
     },
     async editLevel (level) {

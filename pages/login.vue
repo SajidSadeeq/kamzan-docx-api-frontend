@@ -45,10 +45,10 @@
                   <div class="form-group">
                     <div class="form-label-group">
                       <label class="form-label" for="password">Password</label>
-                      <a
+                      <!-- <a
                         class="link link-primary link-sm"
                         href="html/pages/auths/auth-reset-v2.html"
-                      >Forgot Code?</a>
+                      >Forgot Code?</a> -->
                     </div>
                     <div class="form-control-wrap">
                       <a

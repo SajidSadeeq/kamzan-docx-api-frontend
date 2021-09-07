@@ -60,11 +60,8 @@
           <div class="nk-block">
             <div class="nk-tb-list is-separate mb-3">
               <div class="nk-tb-item nk-tb-head">
-                <div class="nk-tb-col nk-tb-col-check">
-                  <div class="custom-control custom-control-sm custom-checkbox notext">
-                    <input id="uid" type="checkbox" class="custom-control-input">
-                    <label class="custom-control-label" for="uid" />
-                  </div>
+                <div class="nk-tb-col">
+                  <span class="sub-text">#</span>
                 </div>
                 <div class="nk-tb-col">
                   <span class="sub-text">Customer</span>
@@ -111,11 +108,8 @@
                 </div>
               </div><!-- .nk-tb-item -->
               <div v-for="(pallet, index) in pallets" :key="pallet.id" class="nk-tb-item">
-                <div class="nk-tb-col nk-tb-col-check">
-                  <div class="custom-control custom-control-sm custom-checkbox notext">
-                    <input id="uid1" type="checkbox" class="custom-control-input">
-                    <label class="custom-control-label" for="uid1" />
-                  </div>
+                <div class="nk-tb-col">
+                  <span class="tb-amount">{{ pallet.id }}</span>
                 </div>
                 <div class="nk-tb-col">
                   <span v-if="pallet.customer" class="tb-amount">{{ pallet.customer.customer_name }}</span>
@@ -321,11 +315,15 @@ export default {
     },
     async removePallet (pallet) {
       const self = this
+      self.$nuxt.$loading.start()
       await this.$axios.delete(`/pallets-in-out/delete/${pallet.id}`)
         .then(function (response) {
+          self.activeIndex = null
           self.fetchPallets()
+          self.$nuxt.$loading.finish()
         }).catch(function (ex) {
           self.fetchPallets()
+          self.$nuxt.$loading.finish()
         })
     },
     async editPallet (pallet) {

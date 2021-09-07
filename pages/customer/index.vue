@@ -41,10 +41,7 @@
             <div class="nk-tb-list is-separate mb-3">
               <div class="nk-tb-item nk-tb-head">
                 <div class="nk-tb-col nk-tb-col-check">
-                  <div class="custom-control custom-control-sm custom-checkbox notext">
-                    <input id="uid" type="checkbox" class="custom-control-input">
-                    <label class="custom-control-label" for="uid" />
-                  </div>
+                  <span class="sub-text">#</span>
                 </div>
                 <div class="nk-tb-col">
                   <span class="sub-text">Customer Name</span>
@@ -87,11 +84,8 @@
               </div><!-- .nk-tb-item -->
 
               <div v-for="(customer, index) in customers" :key="customer.id" class="nk-tb-item">
-                <div class="nk-tb-col nk-tb-col-check">
-                  <div class="custom-control custom-control-sm custom-checkbox notext">
-                    <input id="uid1" type="checkbox" class="custom-control-input">
-                    <label class="custom-control-label" for="uid1" />
-                  </div>
+                <div class="nk-tb-col tb-col-mb">
+                  <span class="tb-amount">{{ customer.id }}</span>
                 </div>
                 <div class="nk-tb-col">
                   <a href="javascript:;">
@@ -220,16 +214,8 @@ export default {
     }
   },
   mounted () {
-    // const self = this
-    // self.$root.$on('closePopup', () => {
-    //   console.log('active : ' + self.activeIndex)
-    //   // if (self.activeIndex !== null) {
-    //   //   self.activeIndex = null
-    //   // }
-    // })
     this.$nextTick(() => {
       this.$nuxt.$loading.start()
-      // setTimeout(() => this.$nuxt.$loading.finish(), 1000)
     })
   },
   created () {
@@ -250,7 +236,6 @@ export default {
     hasParentClass (child, classname) {
       if (child.className.split(' ').includes(classname)) { return true }
       try {
-        // Throws TypeError if child doesn't have parent any more
         return child.parentNode && this.hasParentClass(child.parentNode, classname)
       } catch (TypeError) {
         return false
@@ -290,11 +275,15 @@ export default {
     },
     async removeCustomer (customer) {
       const self = this
+      self.$nuxt.$loading.start()
       await this.$axios.delete(`/customer/delete/${customer.id}`)
         .then(function (response) {
+          self.activeIndex = null
           self.fetchCustomers()
+          self.$nuxt.$loading.finish()
         }).catch(function (ex) {
           self.fetchCustomers()
+          self.$nuxt.$loading.finish()
         })
     },
     async editCustomer (customer) {
