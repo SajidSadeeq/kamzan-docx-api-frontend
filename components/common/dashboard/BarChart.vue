@@ -11,16 +11,17 @@ export default {
       year: '',
       months: '',
       options: '',
-      series: [
-        {
-          name: 'Pallets Out',
-          data: [30, 40, 45, 50, 49, 60, 70, 91, 21, 22, 45, 76]
-        },
-        {
-          name: 'Pallets In',
-          data: [20, 50, 65, 30, 99, 20, 30, 71, 42, 54, 54, 10]
-        }
-      ]
+      // series: [
+      //   {
+      //     name: 'Pallets Out',
+      //     data: [30, 40, 45, 50, 49, 60, 70, 91, 21, 22, 45, 76]
+      //   },
+      //   {
+      //     name: 'Pallets In',
+      //     data: [20, 50, 65, 30, 99, 20, 30, 71, 42, 54, 54, 10]
+      //   }
+      // ]
+      series: []
     }
   },
   created () {
@@ -33,6 +34,7 @@ export default {
         .then(function (response) {
           _this.year = response.data.payload.year
           _this.options = response.data.payload.options
+          _this.series = response.data.payload.series
           _this.$nuxt.$loading.finish()
         })
     }

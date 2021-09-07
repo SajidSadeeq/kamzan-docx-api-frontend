@@ -1,9 +1,9 @@
 <template>
   <div>
     <div class="mt-4">
-      <div class="text-center">
-        <h6>{{ (new Date()).toLocaleString('default', { month: 'long' }) }} - 2021</h6>
-      </div>
+      <!-- <div class="text-center">
+        <h6>{{ (new Date()).toLocaleString('default', { month: 'long' }) }}</h6>
+      </div> -->
 
       <apexchart type="donut" width="100%" height="250" :options="chartOptions" :series="series" />
     </div>
@@ -15,9 +15,10 @@ export default {
   data () {
     return {
       month: new Date('m'),
-      series: [44, 55],
+      series: [0, 0],
+      date: new Date(),
       chartOptions: {
-        labels: ['Out Pallets', 'In Pallets'],
+        labels: ['Due In', ' Due Out'],
         chart: {
           type: 'donut'
         },
@@ -34,6 +35,20 @@ export default {
           }
         }]
       }
+    }
+  },
+  created () {
+    this.fetchPieData()
+  },
+  methods: {
+    async fetchPieData () {
+      const _this = this
+      await this.$axios.get('dashboard/get-monthly-chart')
+        .then(function (response) {
+          _this.series = response.data.payload.series
+          _this.chartOptions.labels = response.data.payload.labels
+          _this.$nuxt.$loading.finish()
+        })
     }
   }
 }

@@ -50,24 +50,24 @@
                   <span class="nk-menu-text">Customers</span>
                 </NuxtLink>
               </li><!-- .nk-menu-item -->
-              <li class="nk-menu-item" @click="activeSubMenue('')">
+              <!-- <li class="nk-menu-item" @click="activeSubMenue('')">
                 <NuxtLink to="/product" class="nk-menu-link">
                   <span class="nk-menu-icon"><em class="icon ni ni-bag" /></span>
                   <span class="nk-menu-text">Products</span>
                 </NuxtLink>
-              </li>
+              </li> -->
               <li class="nk-menu-item" @click="activeSubMenue('')">
                 <NuxtLink to="/pallets-in-out" class="nk-menu-link">
                   <span class="nk-menu-icon"><em class="icon ni ni-bag" /></span>
-                  <span class="nk-menu-text">Due In/Out</span>
+                  <span class="nk-menu-text">Goods Movement</span>
                 </NuxtLink>
               </li>
-              <li class="nk-menu-item" @click="activeSubMenue('')">
+              <!-- <li class="nk-menu-item" @click="activeSubMenue('')">
                 <NuxtLink to="/pallets" class="nk-menu-link">
                   <span class="nk-menu-icon"><em class="icon ni ni-bag" /></span>
                   <span class="nk-menu-text">Pallets</span>
                 </NuxtLink>
-              </li>
+              </li> -->
               <!-- <li class="nk-menu-item" @click="activeSubMenue('')">
                 <NuxtLink to="/brand" class="nk-menu-link">
                   <span class="nk-menu-icon"><em class="icon ni ni-sign-sgd" /></span>
@@ -80,7 +80,7 @@
                   <span class="nk-menu-text">Suppliers</span>
                 </NuxtLink>
               </li> -->
-              <li class="nk-menu-item has-sub" :class="{active: (link == '/aisle' || link == '/rack' || link == '/level' || toggleSubMenue)}" @click="toggleSubMenue = !toggleSubMenue">
+              <li class="nk-menu-item has-sub" :class="{active: (link == '/aisle' || link == '/rack' || link == '/level' || toggleSubMenueLations)}" @click="toggleSubMenue1()">
                 <a
                   href="javascript:;"
                   class="nk-menu-link nk-menu-toggle"
@@ -90,7 +90,7 @@
                   <span class="nk-menu-icon"><em class="icon ni ni-tile-thumb-fill" /></span>
                   <span class="nk-menu-text">Locations</span>
                 </a>
-                <ul v-show="(link == '/aisle' || link == '/rack' || link == '/level' || link == '/rack-location' || toggleSubMenue)" class="nk-menu-sub">
+                <ul v-show="(link == '/aisle' || link == '/rack' || link == '/level' || link == '/rack-location' || toggleSubMenueLations)" class="nk-menu-sub">
                   <li class="nk-menu-item" @click="activeSubMenue('')">
                     <NuxtLink to="/aisle" class="nk-menu-link">
                       <!-- <span class="nk-menu-icon"><em class="icon ni ni-bag" /></span> -->
@@ -117,12 +117,37 @@
                   </li>
                 </ul><!-- .nk-menu-sub -->
               </li>
-              <li class="nk-menu-item" @click="activeSubMenue('')">
+              <li class="nk-menu-item has-sub" :class="{active: (link == '/goods' || link == '/product' || toggleSubMenueGoods)}" @click="toggleSubMenue2()">
+                <a
+                  href="javascript:;"
+                  class="nk-menu-link nk-menu-toggle"
+                  data-original-title=""
+                  title=""
+                >
+                  <span class="nk-menu-icon"><em class="icon ni ni-tile-thumb-fill" /></span>
+                  <span class="nk-menu-text">Goods</span>
+                </a>
+                <ul v-show="(link == '/goods' || link == '/product' || toggleSubMenueGoods)" class="nk-menu-sub">
+                  <li class="nk-menu-item" @click="activeSubMenue('')">
+                    <NuxtLink to="/product" class="nk-menu-link">
+                      <!-- <span class="nk-menu-icon"><em class="icon ni ni-bag" /></span> -->
+                      <span class="nk-menu-text">Products</span>
+                    </NuxtLink>
+                  </li>
+                  <li class="nk-menu-item" @click="activeSubMenue('')">
+                    <NuxtLink to="/goods" class="nk-menu-link">
+                      <!-- <span class="nk-menu-icon"><em class="icon ni ni-bag" /></span> -->
+                      <span class="nk-menu-text">Goods</span>
+                    </NuxtLink>
+                  </li>
+                </ul><!-- .nk-menu-sub -->
+              </li>
+              <!-- <li class="nk-menu-item" @click="activeSubMenue('')">
                 <NuxtLink to="/goods" class="nk-menu-link">
                   <span class="nk-menu-icon"><em class="icon ni ni-bag" /></span>
                   <span class="nk-menu-text">Goods</span>
                 </NuxtLink>
-              </li>
+              </li> -->
             <!-- <li class="nk-menu-item has-sub" :class="(link == '/reports' || link == '/reports') ? 'active':''" @click="activeSubMenue('/reports')">
               <NuxtLink to="#" class="nk-menu-link nk-menu-toggle" data-original-title="" title="">
                 <span class="nk-menu-icon"><em class="icon ni ni-bag" /></span>
@@ -166,7 +191,8 @@ export default {
         suppressScrollX: false,
         wheelPropagation: false
       },
-      toggleSubMenue: false,
+      toggleSubMenueLations: false,
+      toggleSubMenueGoods: false,
       link: this.$router.currentRoute.path,
       bar: {
         showDelay: 500,
@@ -245,6 +271,22 @@ export default {
     activeSubMenue (currentLink) {
       // this.link = currentLink
       this.link = this.$route.path
+    },
+    toggleSubMenue1 () {
+      if (this.toggleSubMenueLations) {
+        this.toggleSubMenueLations = false
+      } else {
+        this.toggleSubMenueLations = true
+      }
+      this.toggleSubMenueGoods = false
+    },
+    toggleSubMenue2 () {
+      this.toggleSubMenueLations = false
+      if (this.toggleSubMenueGoods) {
+        this.toggleSubMenueGoods = false
+      } else {
+        this.toggleSubMenueGoods = true
+      }
     }
   }
 }

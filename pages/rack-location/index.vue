@@ -76,7 +76,7 @@
                     </td>
                     <td class="tb-tnx-info">
                       <div class="tb-tnx-desc">
-                        <span class="badge badge-dot badge-dot-xs" :class="[ location.status ? 'badge-success':'badge-danger' ]">{{ (location.status == 1) ? 'Filled':'Empty' }}</span>
+                        <span class="badge badge-dot badge-dot-xs" :class="[ (location.status == 2) ? 'badge-success':'badge-danger' ]">{{ (location.status == 1) ? 'Filled':'Empty' }}</span>
                       </div>
                     </td>
 

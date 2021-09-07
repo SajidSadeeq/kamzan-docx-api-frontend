@@ -48,7 +48,7 @@
                         </button>
 
                         <NuxtLink to="/pallets-in-out/pallet-in" class="btn btn-primary d-md-inline-flex">
-                          <em class="icon ni ni-plus" /><span>Due In</span>
+                          <em class="icon ni ni-plus" /><span>Create</span>
                         </NuxtLink>
                       </li>
                     </ul>
@@ -135,18 +135,20 @@
                   <span class="badge badge-dim badge-success"><em class="icon ni ni-clock" /><span>{{ pallet.in_date | formateDate }}</span></span>
                 </div>
                 <div class="nk-tb-col tb-col-lg">
-                  <span class="badge badge-dim badge-warning"><em class="icon ni ni-clock" /><span>{{ pallet.in_time | formateTime }}</span></span>
+                  <span class="badge badge-dim badge-success"><em class="icon ni ni-clock" /><span>{{ pallet.in_time | formateTime }}</span></span>
                 </div>
                 <div class="nk-tb-col tb-col-lg">
-                  <span class="badge badge-sm badge-dot has-bg d-none d-mb-inline-flex" :class="(pallet.pallet_out_user)?'badge-success':'badge-danger'">
+                  <span class="badge badge-sm badge-dot has-bg d-none d-mb-inline-flex" :class="{'badge-success': pallet.status == 2, 'badge-warning': pallet.status == 4, 'badge-danger': pallet.status == 1, 'badge-primary': pallet.status == 3}">
                     {{ (pallet.pallet_out_user)?pallet.pallet_out_user.name:'n/a' }}
                   </span>
                 </div>
                 <div class="nk-tb-col tb-col-lg">
-                  <span class="badge badge-dim badge-success"><em class="icon ni ni-clock" /><span>{{ pallet.out_date | formateDate }}</span></span>
+                  <span class="badge badge-dim" :class="{'badge-success': pallet.status == 2, 'badge-warning': pallet.status == 4, 'badge-danger': pallet.status == 1, 'badge-primary': pallet.status == 3}">
+                    <em class="icon ni ni-clock" /><span>{{ pallet.out_date | formateDate }}</span></span>
                 </div>
                 <div class="nk-tb-col tb-col-lg">
-                  <span class="badge badge-dim badge-warning"><em class="icon ni ni-clock" /><span>{{ pallet.out_time | formateTime }}</span></span>
+                  <span class="badge badge-dim" :class="{'badge-success': pallet.status == 2, 'badge-warning': pallet.status == 4, 'badge-danger': pallet.status == 1, 'badge-primary': pallet.status == 3}">
+                    <em class="icon ni ni-clock" /><span>{{ pallet.out_time | formateTime }}</span></span>
                 </div>
                 <div class="nk-tb-col nk-tb-col-tools">
                   <ul class="nk-tb-actions gx-1">

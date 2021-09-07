@@ -58,7 +58,7 @@
                               <label class="form-label" for="name">Batch Number <small>(Optional)</small></label>
                               <div class="form-control-wrap">
                                 <input
-                                  id="name"
+                                  id="batch_number"
                                   v-model="batch_number"
                                   type="number"
                                   class="form-control"
@@ -75,11 +75,11 @@
                               <label class="form-label" for="name">Pallets Quantity</label>
                               <div class="form-control-wrap">
                                 <input
-                                  id="name"
+                                  id="pallet_qty"
                                   v-model="quantity"
                                   type="number"
                                   class="form-control"
-                                  name="name"
+                                  name="pallet_qty"
                                   placeholder="Pallet Qty"
                                   required=""
                                 >
@@ -104,7 +104,7 @@
                                   Pallet Id #
                                 </th>
                                 <th scope="col">
-                                  Select Rack
+                                  Select Location
                                 </th>
                                 <th scope="col">
                                   Select Good
@@ -120,14 +120,13 @@
                                   {{ pallet.pallet_id }}
                                 </td>
                                 <td>
-                                  <v-select :options="avaiableRacks" class="v-select" @input="setPalletRack($event, index)" />
+                                  <v-select :options="avaiableRacks" class="v-select" :value="pallet.rack_id" @input="(rack_id) => setPalletRack(pallet, rack_id)" />
                                 </td>
                                 <td>
-                                  <v-select :options="avaiableGoods" class="v-select" @input="setPalletGood($event, index)" />
+                                  <v-select :options="avaiableGoods" class="v-select" :value="pallet.good_id" @input=" (good_id) => setPalletGood(pallet, good_id)" />
                                 </td>
                                 <td>
                                   <input
-                                    id="name"
                                     v-model="pallet.quantity"
                                     type="number"
                                     class="form-control"
@@ -201,7 +200,7 @@
                                   <label class="form-label" for="name">Good Id</label>
                                   <div class="form-control-wrap">
                                     <input
-                                      id="name"
+                                      id="good_id"
                                       v-model="good_name"
                                       type="text"
                                       class="form-control"
@@ -406,11 +405,7 @@ export default {
         .then(function (response) {
           if (response.data.status !== false) {
             self.avaiableRacks = response.data.payload
-          } else {
-            // self.form_errors = response.data.payload.error
           }
-
-        //   self.$nuxt.$loading.finish()
         })
     },
     async fetchGoods () {
@@ -419,11 +414,7 @@ export default {
         .then(function (response) {
           if (response.data.status !== false) {
             self.avaiableGoods = response.data.payload
-          } else {
-            // self.form_errors = response.data.payload.error
           }
-
-        //   self.$nuxt.$loading.finish()
         })
     },
     customerselected (customer) {
@@ -493,13 +484,11 @@ export default {
     removeProduct (index) {
       this.$delete(this.selectedProducts, index)
     },
-    setPalletRack (event, index) {
-      const self = this
-      self.preparePallets[index].rack_id = event.id
+    setPalletRack (pallet, rack) {
+      pallet.rack_id = rack
     },
-    setPalletGood (event, index) {
-      const self = this
-      self.preparePallets[index].good_id = event.id
+    setPalletGood (pallet, good) {
+      pallet.good_id = good
     },
     setGoodQty (event, index) {
       const self = this
