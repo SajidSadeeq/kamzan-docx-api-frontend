@@ -42988,6 +42988,18 @@ body.dark-mode.bg-light {
     transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out !important;
 }
 
+.vs__open-indicator {
+    max-width: 14px;
+    width: 16px;
+    height: 10px;
+}
+
+.vs__clear svg {
+    max-width: 10px;
+    width: 10px;
+    height: 10px;
+}
+
 @media (max-width: 1199px) {
     .is-compact:not(:hover) .nk-menu-badge,
     .is-compact:not(:hover) .nk-menu-toggle:after,
