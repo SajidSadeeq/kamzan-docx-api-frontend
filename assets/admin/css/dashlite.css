@@ -43010,7 +43010,13 @@ body.dark-mode.bg-light {
     max-width: 68px;
     width: 68px;
 }
+/* .vs-good{
+    width: 100px;
+}
 
+.mx-datepicker-range {
+    width: 160px !important;
+} */
 @media (max-width: 1199px) {
     .is-compact:not(:hover) .nk-menu-badge,
     .is-compact:not(:hover) .nk-menu-toggle:after,
@@ -43033,7 +43039,7 @@ body.dark-mode.bg-light {
         width: 100%;
     }
     .nk-block-tools-toggle .nk-block-tools .mx-datepicker-range {
-        width: 100%;
+        width: 100% !important;
     }
     .nk-block-tools-toggle .nk-block-tools li,
     .nk-block-tools-toggle .nk-block-tools .form-control-wrap {
@@ -43056,6 +43062,10 @@ body.dark-mode.bg-light {
         text-align: center;
         margin: 0!important;
     }
+    .vs-good{
+        width: 100%;
+    }
+    
     /* .g-gs .nk-block-head-content {
         display: none;
     } */

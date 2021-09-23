@@ -198,7 +198,7 @@ export default {
     async pageChangeHandler (page) {
       this.start()
       this.currentPage = page
-      await this.$store.dispatch('good/fetchGoods', {
+      this.total = await this.$store.dispatch('good/fetchGoods', {
         page: this.currentPage,
         limit: this.perPage,
         status: this.status,

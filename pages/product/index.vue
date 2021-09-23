@@ -274,7 +274,7 @@ export default {
     async pageChangeHandler (page) {
       this.currentPage = page
       // const offset = ((this.currentPage - 1) * this.limit)
-      await this.$store.dispatch('product/fetchProducts', {
+      this.total = await this.$store.dispatch('product/fetchProducts', {
         page: this.currentPage,
         status: this.status,
         search: this.search

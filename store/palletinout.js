@@ -15,12 +15,15 @@ const actions = {
       })
   },
   async fetchPalletInOut ({ commit }, payload) {
+    let total = 0
     await this.$axios.get('/pallets-in-out', {
       params: payload
     })
       .then(function (response) {
         commit('SET_PALLETS', response.data.payload.data)
+        total = response.data.payload.total
       })
+    return total
   },
   async fetchPalletsRecentlyAdded ({ commit }, payload) {
     await this.$axios.get('/pallets-in-out/recently-added', {

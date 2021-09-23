@@ -17,6 +17,9 @@
         <div class="nk-tb-col tb-col-sm">
           <span>Pallet</span>
         </div>
+        <div class="nk-tb-col tb-col-sm">
+          <span>Location</span>
+        </div>
         <div class="nk-tb-col tb-col-md">
           <span>Date In</span>
         </div>
@@ -47,23 +50,28 @@
         <div class="nk-tb-col tb-col-md">
           <span class="tb-sub">{{ pallet.pallet_id }}</span>
         </div>
+        <div class="nk-tb-col tb-col-md">
+          <span class="tb-sub">{{ (pallet.location)?pallet.location.name:'n/a' }}</span>
+        </div>
         <div v-if="pallet.customer !== null" class="nk-tb-col tb-col-lg">
           <span class="badge badge-dim badge-success"><em class="icon ni ni-clock" /><span>{{ pallet.in_date | formateDate }}</span></span>
         </div>
         <div v-if="pallet.customer !== null" class="nk-tb-col tb-col-lg">
-          <span class="badge badge-dim badge-warning"><em class="icon ni ni-clock" /><span>{{ pallet.in_time | formateTime }}</span></span>
+          <span class="badge badge-dim badge-success"><em class="icon ni ni-clock" /><span>{{ pallet.in_time | formateTime }}</span></span>
         </div>
         <div class="nk-tb-col">
           <span class="badge badge-success">{{ (pallet.pallet_in_user)?pallet.pallet_in_user.name:'' }}</span>
         </div>
         <div v-if="pallet.customer !== null" class="nk-tb-col tb-col-lg">
-          <span class="badge badge-dim badge-success"><em class="icon ni ni-clock" /><span>{{ pallet.out_date | formateDate }}</span></span>
+          <span class="badge badge-dim" :class="{'badge-success': pallet.status == 2, 'badge-warning': pallet.status == 4, 'badge-danger': pallet.status == 1, 'badge-primary': pallet.status == 3}">
+            <em class="icon ni ni-clock" /><span>{{ pallet.out_date | formateDate }}</span></span>
         </div>
         <div v-if="pallet.customer !== null" class="nk-tb-col tb-col-lg">
-          <span class="badge badge-dim badge-warning"><em class="icon ni ni-clock" /><span>{{ pallet.out_time | formateTime }}</span></span>
+          <span class="badge badge-dim" :class="{'badge-success': pallet.status == 2, 'badge-warning': pallet.status == 4, 'badge-danger': pallet.status == 1, 'badge-primary': pallet.status == 3}">
+            <em class="icon ni ni-clock" /><span>{{ pallet.out_time | formateTime }}</span></span>
         </div>
         <div class="nk-tb-col">
-          <span class="badge badge-success">{{ (pallet.pallet_out_user)?pallet.pallet_out_user.name:'' }}</span>
+          <span class="badge" :class="{'badge-success': pallet.status == 2, 'badge-warning': pallet.status == 4, 'badge-danger': pallet.status == 1, 'badge-primary': pallet.status == 3}">{{ (pallet.pallet_out_user)?pallet.pallet_out_user.name:'n/a' }}</span>
         </div>
       </div>
     </div>

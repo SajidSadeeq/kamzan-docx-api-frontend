@@ -17,6 +17,9 @@
         <div class="nk-tb-col tb-col-sm">
           <span>Pallet</span>
         </div>
+        <div class="nk-tb-col tb-col-sm">
+          <span>Location</span>
+        </div>
         <div class="nk-tb-col tb-col-md">
           <span>Date Out</span>
         </div>
@@ -37,6 +40,9 @@
         </div>
         <div class="nk-tb-col tb-col-md">
           <span class="tb-sub">{{ pallet.pallet_id }}</span>
+        </div>
+        <div class="nk-tb-col tb-col-md">
+          <span class="tb-sub">{{ (pallet.location)?pallet.location.name:'n/a' }}</span>
         </div>
         <div class="nk-tb-col tb-col-md">
           <span class="tb-sub">{{ pallet.out_date | formateDate }}</span>

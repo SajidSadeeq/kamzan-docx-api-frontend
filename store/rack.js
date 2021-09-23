@@ -15,6 +15,7 @@ const actions = {
       })
   },
   async fetchRacks ({ commit }, payload) {
+    let total = 0
     await this.$axios.get('/rack', {
       params: {
         page: payload.page,
@@ -26,7 +27,9 @@ const actions = {
     })
       .then(function (response) {
         commit('SET_RACK', response.data.payload.data)
+        total = response.data.payload.total
       })
+    return total
   }
 }
 

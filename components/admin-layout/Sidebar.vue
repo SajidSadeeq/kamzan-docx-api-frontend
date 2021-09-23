@@ -142,6 +142,31 @@
                   </li>
                 </ul><!-- .nk-menu-sub -->
               </li>
+              <li class="nk-menu-item has-sub" :class="{active: (link == '/reports/customer-stock' || link == '/reports/stock-history' || toggleSubMenueReports)}" @click="toggleSubMenue3()">
+                <a
+                  href="javascript:;"
+                  class="nk-menu-link nk-menu-toggle"
+                  data-original-title=""
+                  title=""
+                >
+                  <span class="nk-menu-icon"><em class="icon ni ni-tile-thumb-fill" /></span>
+                  <span class="nk-menu-text">Reports</span>
+                </a>
+                <ul v-show="(link == '/reports/customer-stock' || link == '/reports/stock-history' || toggleSubMenueReports)" class="nk-menu-sub">
+                  <li class="nk-menu-item" @click="activeSubMenue('')">
+                    <NuxtLink to="/reports/customer-stock" class="nk-menu-link">
+                      <!-- <span class="nk-menu-icon"><em class="icon ni ni-bag" /></span> -->
+                      <span class="nk-menu-text">Customer Stock Report</span>
+                    </NuxtLink>
+                  </li>
+                  <li class="nk-menu-item" @click="activeSubMenue('')">
+                    <NuxtLink to="/reports/stock-history" class="nk-menu-link">
+                      <!-- <span class="nk-menu-icon"><em class="icon ni ni-bag" /></span> -->
+                      <span class="nk-menu-text">Stock History Report</span>
+                    </NuxtLink>
+                  </li>
+                </ul><!-- .nk-menu-sub -->
+              </li>
               <!-- <li class="nk-menu-item" @click="activeSubMenue('')">
                 <NuxtLink to="/goods" class="nk-menu-link">
                   <span class="nk-menu-icon"><em class="icon ni ni-bag" /></span>
@@ -193,6 +218,7 @@ export default {
       },
       toggleSubMenueLations: false,
       toggleSubMenueGoods: false,
+      toggleSubMenueReports: false,
       link: this.$router.currentRoute.path,
       bar: {
         showDelay: 500,
@@ -286,6 +312,15 @@ export default {
         this.toggleSubMenueGoods = false
       } else {
         this.toggleSubMenueGoods = true
+      }
+    },
+    toggleSubMenue3 () {
+      this.toggleSubMenueLations = false
+      this.toggleSubMenueGoods = false
+      if (this.toggleSubMenueReports) {
+        this.toggleSubMenueReports = false
+      } else {
+        this.toggleSubMenueReports = true
       }
     }
   }

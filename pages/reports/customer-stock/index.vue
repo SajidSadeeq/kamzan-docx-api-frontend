@@ -1,0 +1,470 @@
+<template>
+  <div class="nk-content ">
+    <div class="container-fluid">
+      <div class="nk-content-inner">
+        <div class="nk-content-body">
+          <div class="nk-block-head nk-block-head-sm">
+            <div class="nk-block-between">
+              <div class="nk-block-head-content">
+                <h3 class="nk-block-title page-title">
+                  Customer Stock Reports
+                </h3>
+              </div><!-- .nk-block-head-content -->
+              <div class="nk-block-head-content filters">
+                <div class="toggle-wrap nk-block-tools-toggle">
+                  <a href="#" class="btn btn-icon btn-trigger toggle-expand mr-n1" data-target="more-options"><em class="icon ni ni-more-v" /></a>
+                  <div class="toggle-expand-content" data-content="more-options">
+                    <ul class="nk-block-tools g-3">
+                      <!-- <li>
+                        <v-select :options="avaiableGoods" class="v-select vs-good" multiple @input="(good_id) => setGoodsFilter(good_id)" />
+                      </li>
+                      <li>
+                        <date-picker v-model="daterange" range placeholder="Select Date Range" />
+                      </li>
+                      <li>
+                        <select v-model="type" class="form-control">
+                          <option value="pallet-in">
+                            Due In
+                          </option>
+                          <option value="pallet-out">
+                            Due Out
+                          </option>
+                        </select>
+                      </li>
+                      <li>
+                        <vue-search
+                          :img-photo="'path-img'"
+                          :source-field="'name'"
+                          :placeholder="customerSearchPlaceholder"
+                          :search-by-field="true"
+                          :show-new-botton="false"
+                          :enable-class-base="true"
+                          :api-source="apiSearchCustomerUrl"
+                          @newitem="newitem()"
+                          @itemselected="customerselected($event)"
+                        />
+                      </li> -->
+
+                      <li class="nk-block-tools-opt">
+                        <!-- <button class="btn btn-success mr-2" @click="pageChangeHandler(1)">
+                          <em class="icon ni ni-search" /><span>Search</span>
+                        </button> -->
+
+                        <NuxtLink to="/pallets-in-out/pallet-in" class="btn btn-primary d-md-inline-flex">
+                          <em class="icon ni ni-plus" /><span>Create</span>
+                        </NuxtLink>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </div><!-- .nk-block-head-content -->
+            </div><!-- .nk-block-between -->
+          </div><!-- .nk-block-head -->
+          <div class="nk-block nk-block-lg mb-1">
+            <div class="card card-preview">
+              <div class="card-inner">
+                <div id="accordion-1" class="accordion accordion-s2">
+                  <div class="accordion-item">
+                    <a
+                      href="javascript:;"
+                      class="accordion-head"
+                      :class="(filterCollapse)?'':'collapsed'"
+                      data-toggle="collapse"
+                      data-target="#accordion-item-1-1"
+                      aria-expanded="false"
+                      @click="filterCollapse = !filterCollapse"
+                    >
+                      <h6 class="title"> Filters </h6>
+                      <span class="accordion-icon" />
+                    </a>
+                    <div id="accordion-item-1-1" class="accordion-body collapse" :class="(filterCollapse)?'show':''" data-parent="#accordion-1" style="">
+                      <div class="accordion-inner">
+                        <div class="preview-block">
+                          <div class="row gy-4">
+                            <div class="col-sm-4">
+                              <div class="form-group">
+                                <label class="form-label" for="default-01">Select Date Range</label>
+                                <div class="form-control-wrap">
+                                  <date-picker v-model="daterange" range placeholder="Select Date Range" />
+                                </div>
+                              </div>
+                            </div>
+                            <div class="col-sm-4">
+                              <div class="form-group">
+                                <label class="form-label" for="default-01">Select Status</label>
+                                <div class="form-control-wrap">
+                                  <select v-model="type" class="form-control">
+                                    <option value="pallet-in">
+                                      Due In
+                                    </option>
+                                    <option value="pallet-out">
+                                      Due Out
+                                    </option>
+                                  </select>
+                                </div>
+                              </div>
+                            </div>
+                            <div class="col-sm-4">
+                              <div class="form-group">
+                                <label class="form-label" for="default-01">Search Customer</label>
+                                <div class="form-control-wrap">
+                                  <vue-search
+                                    :img-photo="'path-img'"
+                                    :source-field="'name'"
+                                    :placeholder="customerSearchPlaceholder"
+                                    :search-by-field="true"
+                                    :show-new-botton="false"
+                                    :enable-class-base="true"
+                                    :api-source="apiSearchCustomerUrl"
+                                    @newitem="newitem()"
+                                    @itemselected="customerselected($event)"
+                                  />
+                                </div>
+                              </div>
+                            </div>
+                            <div class="col-sm-8">
+                              <div class="form-group">
+                                <label class="form-label" for="default-05">Select Goods</label>
+                                <div class="form-control-wrap">
+                                  <v-select :options="avaiableGoods" class="v-select vs-good" multiple @input="(good_id) => setGoodsFilter(good_id)" />
+                                </div>
+                              </div>
+                            </div>
+                            <div class="col-sm-4">
+                              <div class="mt-5 text-right">
+                                <button class="btn btn-success mr-2" @click="pageChangeHandler(1)">
+                                  <em class="icon ni ni-search" />
+                                  <span>Search</span>
+                                </button>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div><!-- .card-preview -->
+          </div>
+        </div>
+        <div class="nk-block">
+          <div class="nk-tb-list is-separate mb-3">
+            <div class="nk-tb-item nk-tb-head">
+              <div class="nk-tb-col">
+                <span class="sub-text">#</span>
+              </div>
+              <div class="nk-tb-col">
+                <span class="sub-text">Customer</span>
+              </div>
+              <div class="nk-tb-col tb-col-md">
+                <span class="sub-text">Pallet</span>
+              </div>
+              <div class="nk-tb-col tb-col-md">
+                <span class="sub-text">Location</span>
+              </div>
+              <div class="nk-tb-col tb-col-md">
+                <span class="sub-text">Goods Qty</span>
+              </div>
+              <div class="nk-tb-col tb-col-lg">
+                <span class="sub-text">In By</span>
+              </div>
+              <div class="nk-tb-col tb-col-lg">
+                <span class="sub-text">In Date</span>
+              </div>
+              <div class="nk-tb-col tb-col-lg">
+                <span class="sub-text">In Time</span>
+              </div>
+              <div class="nk-tb-col tb-col-lg">
+                <span class="sub-text">Out By</span>
+              </div>
+              <div class="nk-tb-col tb-col-lg">
+                <span class="sub-text">Out Date</span>
+              </div>
+              <div class="nk-tb-col tb-col-lg">
+                <span class="sub-text">Out Time</span>
+              </div>
+              <div class="nk-tb-col nk-tb-col-tools">
+                <ul class="nk-tb-actions gx-1 my-n1">
+                  <li>
+                    <div class="drodown">
+                      <a href="#" class="dropdown-toggle btn btn-icon btn-trigger mr-n1" data-toggle="dropdown"><em class="icon ni ni-more-h" /></a>
+                      <div class="dropdown-menu dropdown-menu-right">
+                        <ul class="link-list-opt no-bdr">
+                          <li><a href="#"><em class="icon ni ni-mail" /><span>Send Email to All</span></a></li>
+                          <li><a href="#"><em class="icon ni ni-na" /><span>Suspend Selected</span></a></li>
+                          <li><a href="#"><em class="icon ni ni-trash" /><span>Remove Seleted</span></a></li>
+                        </ul>
+                      </div>
+                    </div>
+                  </li>
+                </ul>
+              </div>
+            </div><!-- .nk-tb-item -->
+            <div v-for="(pallet, index) in pallets" :key="pallet.id" class="nk-tb-item">
+              <div class="nk-tb-col">
+                <span class="tb-amount">{{ pallet.id }}</span>
+              </div>
+              <div class="nk-tb-col">
+                <span v-if="pallet.customer" class="tb-amount">{{ pallet.customer.customer_name }}</span>
+              </div>
+              <div class="nk-tb-col tb-col-md">
+                <span>{{ pallet.pallet_id }}</span>
+              </div>
+              <div class="nk-tb-col tb-col-md">
+                <span>{{ (pallet.location)?pallet.location.name:'n/a' }}</span>
+              </div>
+              <div class="nk-tb-col tb-col-md">
+                <span>{{ pallet.good_quantity }}</span>
+              </div>
+              <div class="nk-tb-col tb-col-lg">
+                <span class="badge badge-sm badge-dot has-bg d-none d-mb-inline-flex" :class="(pallet.pallet_in_user)?'badge-success':'badge-danger'">
+                  {{ (pallet.pallet_in_user)?pallet.pallet_in_user.name:'n/a' }}
+                </span>
+              </div>
+              <div class="nk-tb-col tb-col-lg">
+                <span class="badge badge-dim badge-success"><em class="icon ni ni-clock" /><span>{{ pallet.in_date | formateDate }}</span></span>
+              </div>
+              <div class="nk-tb-col tb-col-lg">
+                <span class="badge badge-dim badge-success"><em class="icon ni ni-clock" /><span>{{ pallet.in_time | formateTime }}</span></span>
+              </div>
+              <div class="nk-tb-col tb-col-lg">
+                <span class="badge badge-sm badge-dot has-bg d-none d-mb-inline-flex" :class="{'badge-success': pallet.status == 2, 'badge-warning': pallet.status == 4, 'badge-danger': pallet.status == 1, 'badge-primary': pallet.status == 3}">
+                  {{ (pallet.pallet_out_user)?pallet.pallet_out_user.name:'n/a' }}
+                </span>
+              </div>
+              <div class="nk-tb-col tb-col-lg">
+                <span class="badge badge-dim" :class="{'badge-success': pallet.status == 2, 'badge-warning': pallet.status == 4, 'badge-danger': pallet.status == 1, 'badge-primary': pallet.status == 3}">
+                  <em class="icon ni ni-clock" /><span>{{ pallet.out_date | formateDate }}</span></span>
+              </div>
+              <div class="nk-tb-col tb-col-lg">
+                <span class="badge badge-dim" :class="{'badge-success': pallet.status == 2, 'badge-warning': pallet.status == 4, 'badge-danger': pallet.status == 1, 'badge-primary': pallet.status == 3}">
+                  <em class="icon ni ni-clock" /><span>{{ pallet.out_time | formateTime }}</span></span>
+              </div>
+              <div class="nk-tb-col nk-tb-col-tools">
+                <ul class="nk-tb-actions gx-1">
+                  <li v-if="pallet.status != 2" class="nk-tb-action-hidden">
+                    <a
+                      href="javascript:;"
+                      class="btn btn-trigger btn-icon"
+                      data-toggle="tooltip"
+                      data-placement="top"
+                      title="Pallet Out"
+                      data-original-title="Pallet Out"
+                      @click="outPallet(pallet)"
+                    >
+                      <em class="icon ni ni-forward-arrow-fill" />
+                    </a>
+                  </li>
+                  <li v-if="pallet.status != 2" class="nk-tb-action-hidden">
+                    <a
+                      href="javascript:;"
+                      class="btn btn-trigger btn-icon"
+                      data-toggle="tooltip"
+                      data-placement="top"
+                      title="Pallet Move"
+                      data-original-title="Send Email"
+                      @click="movePallet(pallet)"
+                    >
+                      <em class="icon ni ni-move" />
+                    </a>
+                  </li>
+                  <li class="parent-li">
+                    <div class="drodown" :class="{'show': index === activeIndex }">
+                      <p v-if="activeIndex === index" v-click-outside="onClickOutside" />
+                      <a href="javascript:;" class="dropdown-toggle btn btn-icon btn-trigger" data-toggle="dropdown" @click="activeIndex = activeIndex === index ? null : index">
+                        <em class="icon ni ni-more-h" />
+                      </a>
+                      <div class="dropdown-menu dropdown-menu-right" :class="{'show': index === activeIndex }">
+                        <ul class="link-list-opt no-bdr">
+                          <!-- <li><a href="html/ecommerce/customer-details.html"><em class="icon ni ni-eye" /><span>View Details</span></a></li> -->
+                          <!-- <li><a href="javascript:;" @click="editPallet(pallet)"><em class="icon ni ni-edit" /><span>Edit Details</span></a></li> -->
+                          <li><a href="javascript:;" @click="removePallet(pallet)"><em class="icon ni ni-trash" /><span>Delete</span></a></li>
+                        </ul>
+                      </div>
+                    </div>
+                  </li>
+                </ul>
+              </div>
+            </div><!-- .nk-tb-item -->
+          </div><!-- .nk-tb-list -->
+          <div v-if="Math.ceil(total / perPage) > 1" class="card">
+            <div class="card-inner">
+              <div class="pages float-right">
+                <vue-pagination
+                  :current="currentPage"
+                  :total="Math.ceil(total / perPage)"
+                  @page-change="pageChangeHandler"
+                />
+              </div>
+            </div>
+          </div>
+        </div><!-- .nk-block -->
+      </div>
+    </div>
+  </div>
+  </div>
+</template>
+
+<script>
+import moment from 'moment'
+import vSelect from 'vue-select'
+import 'vue-select/dist/vue-select.css'
+import DatePicker from 'vue2-datepicker'
+import Vue2ClickOutside from 'vue2-click-outside'
+import 'vue-input-search/dist/vue-search.css'
+import VueSearch from 'vue-input-search/dist/vue-search.common'
+export default {
+  directives: {
+    clickOutside: Vue2ClickOutside.directive
+  },
+  components: {
+    'date-picker': DatePicker,
+    'vue-search': VueSearch,
+    'v-select': vSelect
+  },
+  filters: {
+    formateDate: date => date ? moment(date).format('DD-MM-YYYY') : 'n/a',
+    formateTime: date => date ? moment(date, 'h:mm a').format('hh:mm a') : 'n/a'
+  },
+  data () {
+    return {
+      toggleModal: false,
+      filterCollapse: false,
+      // pallets: [],
+      toggleHeader: false,
+      activeIndex: null,
+      loading: true,
+      avaiableGoods: [],
+      total: 0,
+      perPage: 10,
+      currentPage: 1,
+      daterange: '',
+      customerSearchPlaceholder: '',
+      type: 'pallet-in',
+      apiSearchCustomerUrl: process.env.APP_URL + 'common/search-customers',
+      customer_id: '',
+      searchSelectedGood: ''
+    }
+  },
+  computed: {
+    pallets () {
+      return this.$store.state.palletinout.pallets
+    }
+  },
+  mounted () {
+    this.$nextTick(() => {
+      this.$nuxt.$loading.start()
+    })
+  },
+  created () {
+    this.fetchPallets()
+    this.fetchGoods()
+  },
+  methods: {
+    onClickOutside (event) {
+      if (this.hasParentClass(event.target, 'parent-li') === false) {
+        this.activeIndex = null
+      }
+    },
+    hasParentClass (child, classname) {
+      if (child.className.split(' ').includes(classname)) { return true }
+      try {
+        // Throws TypeError if child doesn't have parent any more
+        return child.parentNode && this.hasParentClass(child.parentNode, classname)
+      } catch (TypeError) {
+        return false
+      }
+    },
+    start () {
+      this.loading = true
+    },
+    finish () {
+      this.loading = false
+    },
+    toggleActive (index) {
+      this.activeIndex = index
+    },
+    async fetchPallets () {
+      const _this = this
+      this.total = await this.$axios.get('pallets-in-out')
+        .then(function (response) {
+          _this.total = response.data.payload.total
+          _this.$store.commit('palletinout/SET_PALLETS', response.data.payload.data)
+          _this.$nuxt.$loading.finish()
+        })
+    },
+    async fetchGoods () {
+      const self = this
+      await this.$axios.get('good/fetch-available-goods')
+        .then(function (response) {
+          if (response.data.status !== false) {
+            self.avaiableGoods = response.data.payload
+          }
+        })
+    },
+    scrollToTop () {
+      const element = document.querySelector('html')
+      element.scroll({
+        top: 90,
+        behavior: 'smooth'
+      })
+    },
+    customerselected (customer) {
+      this.customer_id = customer.id
+    },
+    async pageChangeHandler (page) {
+      this.start()
+      this.currentPage = page
+      // const offset = ((this.currentPage - 1) * this.limit)
+      await this.$store.dispatch('palletinout/fetchPalletInOut', {
+        page: this.currentPage,
+        daterange: this.daterange,
+        type: this.type,
+        customer_id: this.customer_id,
+        selected_goods: this.searchSelectedGood
+      })
+      this.finish()
+      this.scrollToTop()
+    },
+    async removePallet (pallet) {
+      const self = this
+      self.$nuxt.$loading.start()
+      await this.$axios.delete(`/pallets-in-out/delete/${pallet.id}`)
+        .then(function (response) {
+          self.activeIndex = null
+          self.fetchPallets()
+          self.$nuxt.$loading.finish()
+        }).catch(function (ex) {
+          self.fetchPallets()
+          self.$nuxt.$loading.finish()
+        })
+    },
+    async editPallet (pallet) {
+      await this.$store.commit('pallets-in-out/SET_EDIT_PALLET', pallet)
+      this.$router.push(`pallets-in-out/${pallet.id}/edit`)
+    },
+    async outPallet (pallet) {
+      await this.$store.commit('pallets-in-out/SET_EDIT_PALLET', pallet)
+      this.$router.push(`pallets-in-out/${pallet.id}/pallet-out`)
+    },
+    async movePallet (pallet) {
+      await this.$store.commit('pallets-in-out/SET_EDIT_PALLET', pallet)
+      this.$router.push(`pallets-in-out/${pallet.id}/move`)
+    },
+    setGoodsFilter (good) {
+      const selectedGoods = []
+      good.forEach((value, key) => {
+        selectedGoods.push(value.value)
+      })
+      this.searchSelectedGood = selectedGoods.join(',')
+    }
+  }
+}
+</script>
+
+<style scoped>
+.mx-datepicker-range {
+    width: 100%;
+}
+</style>

@@ -256,7 +256,7 @@ export default {
       this.start()
       this.currentPage = page
       // const offset = ((this.currentPage - 1) * this.limit)
-      await this.$store.dispatch('customer/fetchCustomers', {
+      this.total = await this.$store.dispatch('customer/fetchCustomers', {
         page: this.currentPage,
         search: this.search
         // status: this.status

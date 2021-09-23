@@ -209,7 +209,7 @@ export default {
       this.start()
       this.currentPage = page
       // const offset = ((this.currentPage - 1) * this.limit)
-      await this.$store.dispatch('rack/fetchRacks', {
+      this.total = await this.$store.dispatch('rack/fetchRacks', {
         page: this.currentPage,
         limit: this.perPage,
         status: this.status,

@@ -15,6 +15,7 @@ const actions = {
       })
   },
   async fetchCustomers ({ commit }, payload) {
+    let total = 0
     await this.$axios.get('/customer', {
       params: {
         page: payload.page,
@@ -24,7 +25,9 @@ const actions = {
     })
       .then(function (response) {
         commit('customer/SET_CUSTOMER', response.data.payload.data, { root: true })
+        total = response.data.payload.total
       })
+    return total
   }
 }
 

@@ -15,6 +15,7 @@ const actions = {
       })
   },
   async fetchLevels ({ commit }, payload) {
+    let total = 0
     await this.$axios.get('/level', {
       params: {
         page: payload.page,
@@ -24,7 +25,9 @@ const actions = {
     })
       .then(function (response) {
         commit('SET_LEVEL', response.data.payload.data)
+        total = response.data.payload.total
       })
+    return total
   }
 }
 

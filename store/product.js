@@ -15,6 +15,7 @@ const actions = {
       })
   },
   async fetchProducts ({ commit }, payload) {
+    let total = 0
     await this.$axios.get('/product', {
       params: {
         page: payload.page,
@@ -24,7 +25,9 @@ const actions = {
     })
       .then(function (response) {
         commit('product/SET_PRODUCTS', response.data.payload.data, { root: true })
+        total = response.data.payload.total
       })
+    return total
   }
 }
 

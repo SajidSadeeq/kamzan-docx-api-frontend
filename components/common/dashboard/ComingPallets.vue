@@ -17,6 +17,9 @@
         <div class="nk-tb-col tb-col-sm">
           <span>Pallet</span>
         </div>
+        <div class="nk-tb-col tb-col-sm">
+          <span>Location</span>
+        </div>
         <div class="nk-tb-col tb-col-md">
           <span>Date In</span>
         </div>
@@ -32,12 +35,15 @@
         <div class="nk-tb-col tb-col-sm">
           <div class="user-card">
             <div class="user-name">
-              <span class="tb-lead">{{ pallet.customer.customer_name }}</span>
+              <span class="tb-lead">{{ (pallet.customer)?pallet.customer.customer_name:'n/a' }}</span>
             </div>
           </div>
         </div>
         <div class="nk-tb-col tb-col-md">
           <span class="tb-sub">{{ pallet.pallet_id }}</span>
+        </div>
+        <div class="nk-tb-col tb-col-md">
+          <span class="tb-sub">{{ (pallet.location)?pallet.location.name:'n/a' }}</span>
         </div>
         <div class="nk-tb-col tb-col-md">
           <span class="tb-sub">{{ pallet.in_date | formateDate }}</span>

@@ -183,7 +183,7 @@ export default {
       this.start()
       this.currentPage = page
       // const offset = ((this.currentPage - 1) * this.limit)
-      await this.$store.dispatch('level/fetchLevels', {
+      this.total = await this.$store.dispatch('level/fetchLevels', {
         page: this.currentPage,
         limit: this.perPage,
         search: this.search

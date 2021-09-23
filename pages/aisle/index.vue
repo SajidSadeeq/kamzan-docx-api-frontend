@@ -181,7 +181,7 @@ export default {
       this.start()
       this.currentPage = page
       // const offset = ((this.currentPage - 1) * this.limit)
-      await this.$store.dispatch('aisle/fetchAisles', {
+      this.total = await this.$store.dispatch('aisle/fetchAisles', {
         page: this.currentPage,
         limit: this.perPage,
         search: this.search
