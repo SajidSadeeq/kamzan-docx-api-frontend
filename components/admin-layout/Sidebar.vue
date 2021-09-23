@@ -142,7 +142,7 @@
                   </li>
                 </ul><!-- .nk-menu-sub -->
               </li>
-              <li class="nk-menu-item has-sub" :class="{active: (link == '/reports/customer-stock' || link == '/reports/stock-history' || toggleSubMenueReports)}" @click="toggleSubMenue3()">
+              <!-- <li class="nk-menu-item has-sub" :class="{active: (link == '/reports/customer-stock' || link == '/reports/stock-history' || toggleSubMenueReports)}" @click="toggleSubMenue3()">
                 <a
                   href="javascript:;"
                   class="nk-menu-link nk-menu-toggle"
@@ -155,18 +155,16 @@
                 <ul v-show="(link == '/reports/customer-stock' || link == '/reports/stock-history' || toggleSubMenueReports)" class="nk-menu-sub">
                   <li class="nk-menu-item" @click="activeSubMenue('')">
                     <NuxtLink to="/reports/customer-stock" class="nk-menu-link">
-                      <!-- <span class="nk-menu-icon"><em class="icon ni ni-bag" /></span> -->
                       <span class="nk-menu-text">Customer Stock Report</span>
                     </NuxtLink>
                   </li>
                   <li class="nk-menu-item" @click="activeSubMenue('')">
                     <NuxtLink to="/reports/stock-history" class="nk-menu-link">
-                      <!-- <span class="nk-menu-icon"><em class="icon ni ni-bag" /></span> -->
                       <span class="nk-menu-text">Stock History Report</span>
                     </NuxtLink>
                   </li>
-                </ul><!-- .nk-menu-sub -->
-              </li>
+                </ul>
+              </li> -->
               <!-- <li class="nk-menu-item" @click="activeSubMenue('')">
                 <NuxtLink to="/goods" class="nk-menu-link">
                   <span class="nk-menu-icon"><em class="icon ni ni-bag" /></span>
