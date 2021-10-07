@@ -4,7 +4,7 @@
       <div class="card-title-group">
         <div class="card-title">
           <h6 class="title">
-            Due In
+            Ins
           </h6>
         </div>
       </div>

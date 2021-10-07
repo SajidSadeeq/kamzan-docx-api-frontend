@@ -164,25 +164,25 @@
                 <span class="sub-text">Location</span>
               </div>
               <div class="nk-tb-col tb-col-md">
-                <span class="sub-text">Goods Qty</span>
+                <span class="sub-text">Good Name/Qty</span>
               </div>
               <div class="nk-tb-col tb-col-lg">
                 <span class="sub-text">In By</span>
               </div>
               <div class="nk-tb-col tb-col-lg">
-                <span class="sub-text">In Date</span>
-              </div>
-              <div class="nk-tb-col tb-col-lg">
-                <span class="sub-text">In Time</span>
+                <span class="sub-text">In Date/Time</span>
               </div>
               <div class="nk-tb-col tb-col-lg">
                 <span class="sub-text">Out By</span>
               </div>
               <div class="nk-tb-col tb-col-lg">
-                <span class="sub-text">Out Date</span>
+                <span class="sub-text">Out Date/Time</span>
               </div>
               <div class="nk-tb-col tb-col-lg">
-                <span class="sub-text">Out Time</span>
+                <span class="sub-text">Use By</span>
+              </div>
+              <div class="nk-tb-col tb-col-lg">
+                <span class="sub-text">Batch Number</span>
               </div>
               <div class="nk-tb-col nk-tb-col-tools">
                 <ul class="nk-tb-actions gx-1 my-n1">
@@ -215,6 +215,7 @@
                 <span>{{ (pallet.location)?pallet.location.name:'n/a' }}</span>
               </div>
               <div class="nk-tb-col tb-col-md">
+                <span>{{ (pallet.good)?pallet.good.name:'n/a' }}</span><br>
                 <span>{{ pallet.good_quantity }}</span>
               </div>
               <div class="nk-tb-col tb-col-lg">
@@ -224,8 +225,6 @@
               </div>
               <div class="nk-tb-col tb-col-lg">
                 <span class="badge badge-dim badge-success"><em class="icon ni ni-clock" /><span>{{ pallet.in_date | formateDate }}</span></span>
-              </div>
-              <div class="nk-tb-col tb-col-lg">
                 <span class="badge badge-dim badge-success"><em class="icon ni ni-clock" /><span>{{ pallet.in_time | formateTime }}</span></span>
               </div>
               <div class="nk-tb-col tb-col-lg">
@@ -236,10 +235,16 @@
               <div class="nk-tb-col tb-col-lg">
                 <span class="badge badge-dim" :class="{'badge-success': pallet.status == 2, 'badge-warning': pallet.status == 4, 'badge-danger': pallet.status == 1, 'badge-primary': pallet.status == 3}">
                   <em class="icon ni ni-clock" /><span>{{ pallet.out_date | formateDate }}</span></span>
-              </div>
-              <div class="nk-tb-col tb-col-lg">
                 <span class="badge badge-dim" :class="{'badge-success': pallet.status == 2, 'badge-warning': pallet.status == 4, 'badge-danger': pallet.status == 1, 'badge-primary': pallet.status == 3}">
                   <em class="icon ni ni-clock" /><span>{{ pallet.out_time | formateTime }}</span></span>
+              </div>
+              <div class="nk-tb-col tb-col-lg">
+                <span class="badge badge-dim badge-success">
+                  <em class="icon ni ni-clock" /><span>{{ pallet.product_expiry_date | formateTime }}</span></span>
+              </div>
+              <div class="nk-tb-col tb-col-lg">
+                <span class="badge badge-dim badge-success">
+                  <em class="icon ni ni-clock" /><span>{{ pallet.batch_number }}</span></span>
               </div>
               <div class="nk-tb-col nk-tb-col-tools">
                 <ul class="nk-tb-actions gx-1">
@@ -278,7 +283,7 @@
                       <div class="dropdown-menu dropdown-menu-right" :class="{'show': index === activeIndex }">
                         <ul class="link-list-opt no-bdr">
                           <!-- <li><a href="html/ecommerce/customer-details.html"><em class="icon ni ni-eye" /><span>View Details</span></a></li> -->
-                          <!-- <li><a href="javascript:;" @click="editPallet(pallet)"><em class="icon ni ni-edit" /><span>Edit Details</span></a></li> -->
+                          <li><a href="javascript:;" @click="editPallet(pallet)"><em class="icon ni ni-edit" /><span>Edit</span></a></li>
                           <li><a href="javascript:;" @click="removePallet(pallet)"><em class="icon ni ni-trash" /><span>Delete</span></a></li>
                         </ul>
                       </div>
@@ -288,9 +293,26 @@
               </div>
             </div><!-- .nk-tb-item -->
           </div><!-- .nk-tb-list -->
-          <div v-if="Math.ceil(total / perPage) > 1" class="card">
+          <!-- <div v-if="Math.ceil(total / perPage) > 1" class="card"> -->
+          <div class="card">
             <div class="card-inner">
-              <div class="pages float-right">
+              <div class="pages float-left">
+                <select class="form-control" @change="changePerPage($event)">
+                  <option value="10">
+                    10
+                  </option>
+                  <option value="20">
+                    20
+                  </option>
+                  <option value="50">
+                    50
+                  </option>
+                  <option value="100">
+                    100
+                  </option>
+                </select>
+              </div>
+              <div v-if="Math.ceil(total / perPage) > 1" class="pages float-right">
                 <vue-pagination
                   :current="currentPage"
                   :total="Math.ceil(total / perPage)"
@@ -302,7 +324,6 @@
         </div><!-- .nk-block -->
       </div>
     </div>
-  </div>
   </div>
 </template>
 
@@ -387,7 +408,11 @@ export default {
     },
     async fetchPallets () {
       const _this = this
-      this.total = await this.$axios.get('pallets-in-out')
+      await this.$axios.get('pallets-in-out', {
+        params: {
+          perpage: this.perPage
+        }
+      })
         .then(function (response) {
           _this.total = response.data.payload.total
           _this.$store.commit('palletinout/SET_PALLETS', response.data.payload.data)
@@ -414,15 +439,17 @@ export default {
       this.customer_id = customer.id
     },
     async pageChangeHandler (page) {
-      this.start()
-      this.currentPage = page
+      const self = this
+      self.start()
+      self.currentPage = page
       // const offset = ((this.currentPage - 1) * this.limit)
-      await this.$store.dispatch('palletinout/fetchPalletInOut', {
-        page: this.currentPage,
-        daterange: this.daterange,
-        type: this.type,
-        customer_id: this.customer_id,
-        selected_goods: this.searchSelectedGood
+      self.total = await this.$store.dispatch('palletinout/fetchPalletInOut', {
+        page: self.currentPage,
+        perpage: self.perPage,
+        daterange: self.daterange,
+        type: self.type,
+        customer_id: self.customer_id,
+        selected_goods: self.searchSelectedGood
       })
       this.finish()
       this.scrollToTop()
@@ -458,6 +485,10 @@ export default {
         selectedGoods.push(value.value)
       })
       this.searchSelectedGood = selectedGoods.join(',')
+    },
+    changePerPage (event) {
+      this.perPage = event.target.value
+      this.pageChangeHandler(1)
     }
   }
 }

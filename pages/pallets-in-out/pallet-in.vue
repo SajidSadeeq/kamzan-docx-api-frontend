@@ -3,7 +3,7 @@
     <div class="container-fluid">
       <div class="nk-content-inner">
         <div class="nk-content-body">
-          <div class="components-preview wide-md mx-auto">
+          <div class="components-preview">
             <div class="nk-block-head nk-block-head-sm">
               <div class="nk-block-between">
                 <div class="nk-block-head-content">
@@ -47,6 +47,7 @@
                                 :show-new-botton="false"
                                 :enable-class-base="true"
                                 :api-source="apiSearchCustomerUrl"
+                                :is-required="true"
                                 @newitem="newitem()"
                                 @itemselected="customerselected($event)"
                               />
@@ -60,7 +61,7 @@
                                 <input
                                   id="batch_number"
                                   v-model="batch_number"
-                                  type="number"
+                                  type="text"
                                   class="form-control"
                                   name="name"
                                   placeholder="Pallet Qty"
@@ -81,6 +82,23 @@
                                   class="form-control"
                                   name="pallet_qty"
                                   placeholder="Pallet Qty"
+                                  required=""
+                                >
+                              </div>
+                              <span v-if="containsKey(form_errors, 'name')" class="error">{{ form_errors.name[0] }}</span>
+                            </div>
+                          </div>
+                          <div class="col-md-4">
+                            <div class="form-group">
+                              <label class="form-label" for="name">Out By Date (Optional)</label>
+                              <div class="form-control-wrap">
+                                <input
+                                  id="out_by_date"
+                                  v-model="out_by_date"
+                                  type="date"
+                                  class="form-control"
+                                  name="out_by_date"
+                                  placeholder="Out By Date"
                                   required=""
                                 >
                               </div>
@@ -345,6 +363,7 @@ export default {
       currentDateTime: '',
       quantity: '',
       batch_number: '',
+      out_by_date: '',
       preparePallets: [],
       form_errors: [],
       avaiableRacks: [],
@@ -425,6 +444,7 @@ export default {
       this.$axios.post('pallets-in-out/create', {
         customer_id: self.customer_id,
         quantity: self.quantity,
+        out_by_date: self.out_by_date,
         batch_number: self.batch_number,
         preparePallets: self.preparePallets
       }).then(function (response) {
