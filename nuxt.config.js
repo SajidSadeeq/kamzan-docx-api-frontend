@@ -86,7 +86,9 @@ export default {
           type: 'error'
         }
       }
-    ]
+    ],
+    duration: 3000,
+    keepOnHover: true
   },
   loading: '~/components/common/ScreenLoader.vue',
   publicRuntimeConfig: {

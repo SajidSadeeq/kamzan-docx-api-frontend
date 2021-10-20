@@ -505,8 +505,18 @@ export default {
       this.$delete(this.selectedProducts, index)
     },
     setPalletRack (pallet, rack) {
-      console.log(pallet)
-      pallet.rack_id = rack
+      let test = true
+      if (rack) {
+        test = this.preparePallets.some(rak => rak.rack_id.value === rack.value)
+      }
+      if (!test) {
+        pallet.rack_id = rack
+      } else {
+        if (rack != null) {
+          this.$toast.error('Rack location is already selected')
+        }
+        pallet.rack_id = ''
+      }
     },
     setPalletGood (pallet, good) {
       pallet.good_id = good

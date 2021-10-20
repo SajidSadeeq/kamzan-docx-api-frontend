@@ -50,116 +50,27 @@
                           <em class="icon ni ni-search" /><span>Search</span>
                         </button> -->
                         <!-- <a v-if="$auth.hasScope('pallet_in_out_col_settings')" href="javascript:;" class="btn btn-dark d-md-inline-flex" data-toggle="dropdown" aria-expanded="false"> -->
-                        <a href="javascript:;" class="btn btn-dark d-md-inline-flex" data-toggle="dropdown" aria-expanded="false">
+                        <a
+                          v-if="$auth.hasScope('pallet_in_out_col_settings')"
+                          href="javascript:;"
+                          class="btn btn-dark d-md-inline-flex"
+                          data-toggle="dropdown"
+                          aria-expanded="false"
+                          @click="columnSettingsDropdown = !columnSettingsDropdown"
+                        >
                           <em class="icon ni ni-setting" />
                         </a>
                         <div class="dropdown">
-                          <div class="dropdown-menu dropdown-menu-right show px-3" style="">
+                          <div class="dropdown-menu dropdown-menu-right px-3" :class="{show:columnSettingsDropdown}" style="">
                             <ul class="link-list-opt no-bdr">
                               <li class="border-bottom mb-1">
                                 <strong>Columns</strong>
                               </li>
-                              <li>
-                                Customer
+                              <li v-for="(column, index) in columnSettings" :key="index" class="text-capitalize">
+                                {{ index | replace("_"," ") }}
                                 <div class="custom-control custom-control-sm custom-checkbox notext float-right">
-                                  <input id="uid1" type="checkbox" class="custom-control-input">
-                                  <label class="custom-control-label" for="uid1" />
-                                </div>
-                              </li>
-
-                              <li>
-                                Palet ID
-                                <div class="custom-control custom-control-sm custom-checkbox notext float-right">
-                                  <input id="uid2" type="checkbox" class="custom-control-input">
-                                  <label class="custom-control-label" for="uid2" />
-                                </div>
-                              </li>
-
-                              <li>
-                                Location
-                                <div class="custom-control custom-control-sm custom-checkbox notext float-right">
-                                  <input id="uid3" type="checkbox" class="custom-control-input">
-                                  <label class="custom-control-label" for="uid3" />
-                                </div>
-                              </li>
-
-                              <li>
-                                Goods Qty
-                                <div class="custom-control custom-control-sm custom-checkbox notext float-right">
-                                  <input id="uid4" type="checkbox" class="custom-control-input">
-                                  <label class="custom-control-label" for="uid4" />
-                                </div>
-                              </li>
-
-                              <li>
-                                In By
-                                <div class="custom-control custom-control-sm custom-checkbox notext float-right">
-                                  <input id="uid5" type="checkbox" class="custom-control-input">
-                                  <label class="custom-control-label" for="uid5" />
-                                </div>
-                              </li>
-
-                              <li>
-                                In Date
-                                <div class="custom-control custom-control-sm custom-checkbox notext float-right">
-                                  <input id="uid6" type="checkbox" class="custom-control-input">
-                                  <label class="custom-control-label" for="uid6" />
-                                </div>
-                              </li>
-
-                              <li>
-                                In Time
-                                <div class="custom-control custom-control-sm custom-checkbox notext float-right">
-                                  <input id="uid7" type="checkbox" class="custom-control-input">
-                                  <label class="custom-control-label" for="uid7" />
-                                </div>
-                              </li>
-
-                              <li>
-                                Out By
-                                <div class="custom-control custom-control-sm custom-checkbox notext float-right">
-                                  <input id="uid8" type="checkbox" class="custom-control-input">
-                                  <label class="custom-control-label" for="uid8" />
-                                </div>
-                              </li>
-
-                              <li>
-                                Out Date
-                                <div class="custom-control custom-control-sm custom-checkbox notext float-right">
-                                  <input id="uid9" type="checkbox" class="custom-control-input">
-                                  <label class="custom-control-label" for="uid9" />
-                                </div>
-                              </li>
-
-                              <li>
-                                Out Time
-                                <div class="custom-control custom-control-sm custom-checkbox notext float-right">
-                                  <input id="uid10" type="checkbox" class="custom-control-input">
-                                  <label class="custom-control-label" for="uid10" />
-                                </div>
-                              </li>
-
-                              <li>
-                                Use By
-                                <div class="custom-control custom-control-sm custom-checkbox notext float-right">
-                                  <input id="uid11" type="checkbox" class="custom-control-input">
-                                  <label class="custom-control-label" for="uid11" />
-                                </div>
-                              </li>
-
-                              <li>
-                                Pallet Goods
-                                <div class="custom-control custom-control-sm custom-checkbox notext float-right">
-                                  <input id="uid12" type="checkbox" class="custom-control-input">
-                                  <label class="custom-control-label" for="uid12" />
-                                </div>
-                              </li>
-
-                              <li>
-                                Batch Number
-                                <div class="custom-control custom-control-sm custom-checkbox notext float-right">
-                                  <input id="uid13" type="checkbox" class="custom-control-input">
-                                  <label class="custom-control-label" for="uid13" />
+                                  <input :id="index" type="checkbox" class="custom-control-input" :checked="index ? 'checked': ''" @click="columnCheckBox(columnSettings,index,$event)">
+                                  <label class="custom-control-label" :for="index" />
                                 </div>
                               </li>
                             </ul>
@@ -242,7 +153,15 @@
                                 </div>
                               </div>
                             </div>
-                            <div class="col-sm-8">
+                            <div class="col-sm-4">
+                              <div class="form-group">
+                                <label class="form-label" for="default-05">Rack Location</label>
+                                <div class="form-control-wrap">
+                                  <v-select :options="avaiableRacks" class="v-select" @input="(rack) => setPalletRack(rack)" />
+                                </div>
+                              </div>
+                            </div>
+                            <div class="col-sm-4">
                               <div class="form-group">
                                 <label class="form-label" for="default-05">Select Goods</label>
                                 <div class="form-control-wrap">
@@ -274,34 +193,34 @@
               <div class="nk-tb-col">
                 <span class="sub-text">#</span>
               </div>
-              <div class="nk-tb-col">
+              <div v-if="columnSettings.customer" class="nk-tb-col">
                 <span class="sub-text">Customer</span>
               </div>
-              <div class="nk-tb-col tb-col-md">
+              <div v-if="columnSettings.pallet" class="nk-tb-col tb-col-md">
                 <span class="sub-text">Pallet</span>
               </div>
-              <div class="nk-tb-col tb-col-md">
+              <div v-if="columnSettings.location" class="nk-tb-col tb-col-md">
                 <span class="sub-text">Location</span>
               </div>
-              <div class="nk-tb-col tb-col-md">
+              <div v-if="columnSettings.good" class="nk-tb-col tb-col-md">
                 <span class="sub-text">Good Name/Qty</span>
               </div>
-              <div class="nk-tb-col tb-col-lg">
+              <div v-if="columnSettings.in_by" class="nk-tb-col tb-col-lg">
                 <span class="sub-text">In By</span>
               </div>
-              <div class="nk-tb-col tb-col-lg">
+              <div v-if="columnSettings.in_date_time" class="nk-tb-col tb-col-lg">
                 <span class="sub-text">In Date/Time</span>
               </div>
-              <div class="nk-tb-col tb-col-lg">
+              <div v-if="columnSettings.out_by" class="nk-tb-col tb-col-lg">
                 <span class="sub-text">Out By</span>
               </div>
-              <div class="nk-tb-col tb-col-lg">
+              <div v-if="columnSettings.out_date_time" class="nk-tb-col tb-col-lg">
                 <span class="sub-text">Out Date/Time</span>
               </div>
-              <div class="nk-tb-col tb-col-lg">
+              <div v-if="columnSettings.use_by" class="nk-tb-col tb-col-lg">
                 <span class="sub-text">Use By</span>
               </div>
-              <div class="nk-tb-col tb-col-lg">
+              <div v-if="columnSettings.batch_number" class="nk-tb-col tb-col-lg">
                 <span class="sub-text">Batch Number</span>
               </div>
               <div class="nk-tb-col nk-tb-col-tools">
@@ -325,44 +244,44 @@
               <div class="nk-tb-col">
                 <span class="tb-amount">{{ pallet.id }}</span>
               </div>
-              <div class="nk-tb-col">
+              <div v-if="columnSettings.customer" class="nk-tb-col">
                 <span v-if="pallet.customer" class="tb-amount">{{ pallet.customer.customer_name }}</span>
               </div>
-              <div class="nk-tb-col tb-col-md">
+              <div v-if="columnSettings.pallet" class="nk-tb-col tb-col-md">
                 <span>{{ pallet.pallet_id }}</span>
               </div>
-              <div class="nk-tb-col tb-col-md">
+              <div v-if="columnSettings.location" class="nk-tb-col tb-col-md">
                 <span>{{ (pallet.location)?pallet.location.name:'n/a' }}</span>
               </div>
-              <div class="nk-tb-col tb-col-md">
+              <div v-if="columnSettings.good" class="nk-tb-col tb-col-md">
                 <span>{{ (pallet.good)?pallet.good.name:'n/a' }}</span><br>
                 <span>{{ pallet.good_quantity }}</span>
               </div>
-              <div class="nk-tb-col tb-col-lg">
+              <div v-if="columnSettings.in_by" class="nk-tb-col tb-col-lg">
                 <span class="badge badge-sm badge-dot has-bg d-none d-mb-inline-flex" :class="(pallet.pallet_in_user)?'badge-success':'badge-danger'">
                   {{ (pallet.pallet_in_user)?pallet.pallet_in_user.name:'n/a' }}
                 </span>
               </div>
-              <div class="nk-tb-col tb-col-lg">
+              <div v-if="columnSettings.in_date_time" class="nk-tb-col tb-col-lg">
                 <span class="badge badge-dim badge-success"><em class="icon ni ni-clock" /><span>{{ pallet.in_date | formateDate }}</span></span>
                 <span class="badge badge-dim badge-success"><em class="icon ni ni-clock" /><span>{{ pallet.in_time | formateTime }}</span></span>
               </div>
-              <div class="nk-tb-col tb-col-lg">
+              <div v-if="columnSettings.out_by" class="nk-tb-col tb-col-lg">
                 <span class="badge badge-sm badge-dot has-bg d-none d-mb-inline-flex" :class="{'badge-success': pallet.status == 2, 'badge-warning': pallet.status == 4, 'badge-danger': pallet.status == 1, 'badge-primary': pallet.status == 3}">
                   {{ (pallet.pallet_out_user)?pallet.pallet_out_user.name:'n/a' }}
                 </span>
               </div>
-              <div class="nk-tb-col tb-col-lg">
+              <div v-if="columnSettings.out_date_time" class="nk-tb-col tb-col-lg">
                 <span class="badge badge-dim" :class="{'badge-success': pallet.status == 2, 'badge-warning': pallet.status == 4, 'badge-danger': pallet.status == 1, 'badge-primary': pallet.status == 3}">
                   <em class="icon ni ni-clock" /><span>{{ pallet.out_date | formateDate }}</span></span>
                 <span class="badge badge-dim" :class="{'badge-success': pallet.status == 2, 'badge-warning': pallet.status == 4, 'badge-danger': pallet.status == 1, 'badge-primary': pallet.status == 3}">
                   <em class="icon ni ni-clock" /><span>{{ pallet.out_time | formateTime }}</span></span>
               </div>
-              <div class="nk-tb-col tb-col-lg">
+              <div v-if="columnSettings.use_by" class="nk-tb-col tb-col-lg">
                 <span class="badge badge-dim badge-success">
                   <em class="icon ni ni-clock" /><span>{{ pallet.product_expiry_date | formateTime }}</span></span>
               </div>
-              <div class="nk-tb-col tb-col-lg">
+              <div v-if="columnSettings.batch_number" class="nk-tb-col tb-col-lg">
                 <span class="badge badge-dim badge-success">
                   <em class="icon ni ni-clock" /><span>{{ pallet.batch_number }}</span></span>
               </div>
@@ -466,7 +385,11 @@ export default {
   },
   filters: {
     formateDate: date => date ? moment(date).format('DD-MM-YYYY') : 'n/a',
-    formateTime: date => date ? moment(date, 'h:mm a').format('hh:mm a') : 'n/a'
+    formateTime: date => date ? moment(date, 'h:mm a').format('hh:mm a') : 'n/a',
+    replace (st, rep, repWith) {
+      const result = st.split(rep).join(repWith)
+      return result
+    }
   },
   data () {
     return {
@@ -475,17 +398,32 @@ export default {
       // pallets: [],
       toggleHeader: false,
       activeIndex: null,
+      columnSettingsDropdown: false,
       loading: true,
+      avaiableRacks: [],
       avaiableGoods: [],
       total: 0,
       perPage: 10,
       currentPage: 1,
       daterange: '',
+      rack_location: '',
       customerSearchPlaceholder: '',
       type: 'pallet-in',
       apiSearchCustomerUrl: process.env.APP_URL + 'common/search-customers',
       customer_id: '',
-      searchSelectedGood: ''
+      searchSelectedGood: '',
+      columnSettings: {
+        customer: true,
+        pallet: true,
+        location: true,
+        good: true,
+        in_by: true,
+        in_date_time: true,
+        out_by: true,
+        out_date_time: true,
+        use_by: true,
+        batch_number: true
+      }
     }
   },
   computed: {
@@ -501,6 +439,7 @@ export default {
   created () {
     this.fetchPallets()
     this.fetchGoods()
+    this.fetchRacks()
   },
   methods: {
     onClickOutside (event) {
@@ -548,6 +487,15 @@ export default {
           }
         })
     },
+    async fetchRacks () {
+      const self = this
+      await this.$axios.get('rack/fetch-all-racks')
+        .then(function (response) {
+          if (response.data.status !== false) {
+            self.avaiableRacks = response.data.payload
+          }
+        })
+    },
     scrollToTop () {
       const element = document.querySelector('html')
       element.scroll({
@@ -569,7 +517,8 @@ export default {
         daterange: self.daterange,
         type: self.type,
         customer_id: self.customer_id,
-        selected_goods: self.searchSelectedGood
+        selected_goods: self.searchSelectedGood,
+        rack_location: self.rack_location
       })
       this.finish()
       this.scrollToTop()
@@ -609,6 +558,15 @@ export default {
     changePerPage (event) {
       this.perPage = event.target.value
       this.pageChangeHandler(1)
+    },
+    setPalletRack (rack) {
+      this.rack_location = ''
+      if (rack) {
+        this.rack_location = rack.value
+      }
+    },
+    columnCheckBox (columnSettings, column, e) {
+      columnSettings[column] = e.target.checked
     }
   }
 }
