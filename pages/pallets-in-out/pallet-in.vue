@@ -505,6 +505,7 @@ export default {
       this.$delete(this.selectedProducts, index)
     },
     setPalletRack (pallet, rack) {
+      console.log(pallet)
       pallet.rack_id = rack
     },
     setPalletGood (pallet, good) {

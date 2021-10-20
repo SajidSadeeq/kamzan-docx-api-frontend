@@ -49,7 +49,23 @@
                         <!-- <button class="btn btn-success mr-2" @click="pageChangeHandler(1)">
                           <em class="icon ni ni-search" /><span>Search</span>
                         </button> -->
-
+                        <a v-if="$auth.hasScope('pallet_in_out_col_settings')" href="javascript:;" class="btn btn-dark d-md-inline-flex" data-toggle="dropdown" aria-expanded="false">
+                          <em class="icon ni ni-setting" />
+                        </a>
+                        <div class="dropdown">
+                          <div class="dropdown-menu dropdown-menu-right" style="">
+                            <ul class="link-list-opt no-bdr">
+                              <li><a href="html/apps-kanban.html"><em class="icon ni ni-eye" /><span>View Project</span></a></li>
+                              <li><a href="#"><em class="icon ni ni-edit" /><span>Edit Project</span></a></li>
+                              <li><a href="#"><em class="icon ni ni-check-round-cut" /><span>Mark As Done</span></a></li>
+                            </ul>
+                          </div>
+                        </div>
+                      </li>
+                      <li class="nk-block-tools-opt">
+                        <!-- <button class="btn btn-success mr-2" @click="pageChangeHandler(1)">
+                          <em class="icon ni ni-search" /><span>Search</span>
+                        </button> -->
                         <NuxtLink to="/pallets-in-out/pallet-in" class="btn btn-primary d-md-inline-flex">
                           <em class="icon ni ni-plus" /><span>Create</span>
                         </NuxtLink>
