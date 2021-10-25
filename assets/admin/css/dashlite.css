@@ -43010,6 +43010,8 @@ body.dark-mode.bg-light {
     max-width: 68px;
     width: 68px;
 }
+
+
 /* .vs-good{
     width: 100px;
 }
@@ -43017,6 +43019,63 @@ body.dark-mode.bg-light {
 .mx-datepicker-range {
     width: 160px !important;
 } */
+
+.table-whm th {
+    padding: 5px 10px;
+    border: solid 1px #d7d7dd;
+    background: #edeef7;
+}
+
+.table-whm td {
+    padding: 5px 10px;
+    width: auto;
+    border: solid 1px #d7d7dd;
+}
+
+.table-whm td.whm-name,
+.table-whm td.whm-sub {
+    background: #edeef7;
+    width: 20px;
+    text-align: center;
+}
+
+.whm-grid {
+    overflow: auto;
+}
+
+.whm-grid .whm-row {
+    border-bottom: solid 1px #000;
+    display: inline-block;
+}
+
+.whm-grid .whm-name {
+    float: left;
+    min-width: 30px;
+    text-align: center;
+}
+
+.whm-grid .whm-racks {
+    float: left;
+    width: calc(100% - 30px);
+}
+
+.whm-grid .whm-racks .rack {
+    float: left;
+    width: 100%;
+    white-space: nowrap;
+    display: flex;
+}
+
+.whm-grid .whm-racks .rack .num {
+    float: left;
+    min-width: 30px;
+}
+
+.whm-grid .whm-racks .rack .name {
+    display: inline-block;
+    min-width: 60px;
+}
+
 @media (max-width: 1199px) {
     .is-compact:not(:hover) .nk-menu-badge,
     .is-compact:not(:hover) .nk-menu-toggle:after,
@@ -43062,10 +43121,9 @@ body.dark-mode.bg-light {
         text-align: center;
         margin: 0!important;
     }
-    .vs-good{
+    .vs-good {
         width: 100%;
     }
-    
     /* .g-gs .nk-block-head-content {
         display: none;
     } */
