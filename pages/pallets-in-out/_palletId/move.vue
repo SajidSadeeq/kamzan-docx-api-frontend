@@ -132,7 +132,7 @@ export default {
     movePallet () {
       const self = this
       this.$axios.post('pallet/move-pallet', {
-        new_rack_id: self.selectedRack ? self.selectedRack.id : '',
+        new_rack_id: self.selectedRack ? self.selectedRack.value : '',
         customer_order_id: this.$route.params.palletId
       }).then(function (response) {
         self.$router.push('/pallets-in-out')
