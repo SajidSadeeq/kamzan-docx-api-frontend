@@ -373,6 +373,8 @@ export default {
       apiSearchRacks: process.env.APP_URL + 'common/search-products',
       apiSearchGoods: process.env.APP_URL + 'common/search-products',
       good_name: '',
+      locationSelectedStatus: true,
+      goodSelectedStatus: true,
       selectedProducts: [
         {
           id: '',
@@ -441,19 +443,39 @@ export default {
     },
     addPalletOrder () {
       const self = this
-      this.$axios.post('pallets-in-out/create', {
-        customer_id: self.customer_id,
-        quantity: self.quantity,
-        out_by_date: self.out_by_date,
-        batch_number: self.batch_number,
-        preparePallets: self.preparePallets
-      }).then(function (response) {
-        if (response.data.status !== false) {
-          self.$router.push('/pallets-in-out')
+      self.goodSelectedStatus = true
+      self.locationSelectedStatus = true
+      self.preparePallets.forEach((element, index) => {
+        if (element.good_id === '') {
+          self.goodSelectedStatus = false
         }
-      }).catch(function (error) {
-        self.form_errors = error.response.data.data
+        if (element.rack_id === '') {
+          self.locationSelectedStatus = false
+        }
       })
+      console.log(self.goodSelectedStatus)
+      console.log(self.locationSelectedStatus)
+      if (!self.goodSelectedStatus) {
+        this.$toast.error('Please select goods for all pallets')
+      }
+      if (!self.locationSelectedStatus) {
+        this.$toast.error('Please select locations for all pallets')
+      }
+      if (self.locationSelectedStatus && self.goodSelectedStatus) {
+        this.$axios.post('pallets-in-out/create', {
+          customer_id: self.customer_id,
+          quantity: self.quantity,
+          out_by_date: self.out_by_date,
+          batch_number: self.batch_number,
+          preparePallets: self.preparePallets
+        }).then(function (response) {
+          if (response.data.status !== false) {
+            self.$router.push('/pallets-in-out')
+          }
+        }).catch(function (error) {
+          self.form_errors = error.response.data.data
+        })
+      }
     },
     addGood () {
       const self = this
