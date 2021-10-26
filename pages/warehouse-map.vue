@@ -10,6 +10,21 @@
                   Warehouse Map
                 </h3>
               </div><!-- .nk-block-head-content -->
+              <div class="nk-block-head-content">
+                <ul class="nk-block-tools g-3">
+                  <li>
+                    <div class="legends">
+                      Fill: <span class="lg_fill" /> Empty: <span class="lg_nfill" />
+                    </div>
+                  </li>
+                  <li>
+                    <a href="javascript:;" class="btn btn-success d-md-inline-flex ml-2">
+                      <em class="icon ni ni-back-arrow-fill" />
+                      <span>Back</span>
+                    </a>
+                  </li>
+                </ul>
+              </div>
             </div>
           </div><!-- nk-block-head -->
 
@@ -55,7 +70,7 @@
                       <td>S</td>
                       <td>S</td>
                       <td>S</td>
-                      <td />
+                      <td class="fill" />
                       <td />
                       <td />
                       <td />
@@ -428,9 +443,198 @@
               </div>
 
               <div class="whm-grid">
+                <div class="whm-row head">
+                  <div class="whm-name">
+                    &nbsp;
+                  </div>
+                  <div class="whm-racks">
+                    <div class="rack">
+                      <div class="num">
+                        &nbsp;
+                      </div>
+                      <div class="name">
+                        001
+                      </div>
+                      <div class="name">
+                        002
+                      </div>
+                      <div class="name">
+                        003
+                      </div>
+                      <div class="name">
+                        004
+                      </div>
+                      <div class="name">
+                        005
+                      </div>
+                      <div class="name">
+                        006
+                      </div>
+                      <div class="name">
+                        001
+                      </div>
+                      <div class="name">
+                        002
+                      </div>
+                      <div class="name">
+                        003
+                      </div>
+                      <div class="name">
+                        004
+                      </div>
+                      <div class="name">
+                        005
+                      </div>
+                      <div class="name">
+                        006
+                      </div>
+                      <div class="name">
+                        001
+                      </div>
+                      <div class="name">
+                        002
+                      </div>
+                      <div class="name">
+                        003
+                      </div>
+                      <div class="name">
+                        004
+                      </div>
+                      <div class="name">
+                        005
+                      </div>
+                      <div class="name">
+                        006
+                      </div>
+                      <div class="name">
+                        001
+                      </div>
+                      <div class="name">
+                        002
+                      </div>
+                      <div class="name">
+                        003
+                      </div>
+                      <div class="name">
+                        004
+                      </div>
+                      <div class="name">
+                        005
+                      </div>
+                      <div class="name">
+                        006
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
                 <div class="whm-row">
                   <div class="whm-name">
                     S1
+                  </div>
+                  <div class="whm-racks">
+                    <div class="rack">
+                      <div class="num">
+                        1
+                      </div>
+                      <div class="name">
+                        A1
+                      </div>
+                      <div class="name">
+                        A2
+                      </div>
+                      <div class="name">
+                        A3
+                      </div>
+                      <div class="name">
+                        A4
+                      </div>
+                      <div class="name">
+                        A5
+                      </div>
+                      <div class="name">
+                        A6
+                      </div>
+                      <div class="name">
+                        A1
+                      </div>
+                      <div class="name">
+                        A2
+                      </div>
+                      <div class="name">
+                        A3
+                      </div>
+                      <div class="name">
+                        A4
+                      </div>
+                      <div class="name">
+                        A5
+                      </div>
+                      <div class="name">
+                        A6
+                      </div>
+                      <div class="name">
+                        A1
+                      </div>
+                      <div class="name">
+                        A2
+                      </div>
+                      <div class="name">
+                        A3
+                      </div>
+                      <div class="name">
+                        A4
+                      </div>
+                      <div class="name">
+                        A5
+                      </div>
+                      <div class="name">
+                        A6
+                      </div>
+                      <div class="name">
+                        A1
+                      </div>
+                      <div class="name fill">
+                        A2
+                      </div>
+                      <div class="name">
+                        A3
+                      </div>
+                      <div class="name">
+                        A4
+                      </div>
+                      <div class="name">
+                        A5
+                      </div>
+                      <div class="name">
+                        A6
+                      </div>
+                    </div>
+                    <div class="rack">
+                      <div class="num">
+                        1
+                      </div>
+                      <div class="name">
+                        A
+                      </div>
+                    </div>
+                    <div class="rack">
+                      <div class="num">
+                        1
+                      </div>
+                      <div class="name">
+                        A
+                      </div>
+                      <div class="name fill">
+                        &nbsp;
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="whm-row">
+                  <div class="whm-name">
+                    S2
                   </div>
                   <div class="whm-racks">
                     <div class="rack">
@@ -524,6 +728,47 @@
                       </div>
                       <div class="name">
                         A
+                      </div>
+                    </div>
+                    <div class="rack">
+                      <div class="num">
+                        1
+                      </div>
+                      <div class="name">
+                        A
+                      </div>
+                      <div class="name">
+&nbsp;
+                      </div>
+                      <div class="name">
+&nbsp;
+                      </div>
+                      <div class="name">
+&nbsp;
+                      </div>
+                      <div class="name">
+&nbsp;
+                      </div>
+                      <div class="name">
+&nbsp;
+                      </div>
+                      <div class="name">
+&nbsp;
+                      </div>
+                      <div class="name">
+&nbsp;
+                      </div>
+                      <div class="name">
+&nbsp;
+                      </div>
+                      <div class="name">
+&nbsp;
+                      </div>
+                      <div class="name">
+&nbsp;
+                      </div>
+                      <div class="name">
+&nbsp;
                       </div>
                     </div>
                   </div>

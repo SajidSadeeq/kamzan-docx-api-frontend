@@ -43020,6 +43020,20 @@ body.dark-mode.bg-light {
     width: 160px !important;
 } */
 
+.legends span {
+    background: #fff;
+    width: 30px;
+    height: 10px;
+    display: inline-block;
+    box-shadow: 0 0 4px 3px #f1f1f1;
+    margin-left: 2px;
+}
+
+.legends span.lg_fill {
+    background: #854fff;
+    margin-right: 10px;
+}
+
 .table-whm th {
     padding: 5px 10px;
     border: solid 1px #d7d7dd;
@@ -43039,23 +43053,47 @@ body.dark-mode.bg-light {
     text-align: center;
 }
 
+.table-whm .fill {
+    background: #854fff;
+    color: #fff;
+}
+
 .whm-grid {
     overflow: auto;
+    border: solid 1px #d7d7dd;
+}
+
+.whm-grid .fill {
+    background: #854fff;
+    color: #fff;
 }
 
 .whm-grid .whm-row {
-    border-bottom: solid 1px #000;
-    display: inline-block;
+    border-bottom: solid 1px #d7d7dd;
+    display: flex;
+    width: 100%;
+    background: #edeef7;
+}
+
+.whm-grid .whm-row.head .whm-racks {
+    background: #edeef7;
+    font-weight: bold;
+}
+
+.whm-grid .whm-row:last-child {
+    border: none;
 }
 
 .whm-grid .whm-name {
-    float: left;
+    flex-basis: 0;
     min-width: 30px;
     text-align: center;
+    align-self: center;
 }
 
 .whm-grid .whm-racks {
     float: left;
+    background: #fff;
     width: calc(100% - 30px);
 }
 
@@ -43064,16 +43102,25 @@ body.dark-mode.bg-light {
     width: 100%;
     white-space: nowrap;
     display: flex;
+    border-left: solid 1px #d7d7dd;
+    border-bottom: solid 1px #d7d7dd;
+}
+
+.whm-grid .whm-racks .rack:last-child {
+    border-bottom: none;
 }
 
 .whm-grid .whm-racks .rack .num {
     float: left;
     min-width: 30px;
+    text-align: center;
 }
 
 .whm-grid .whm-racks .rack .name {
     display: inline-block;
-    min-width: 60px;
+    min-width: 40px;
+    border-left: solid 1px #d7d7dd;
+    text-align: center;
 }
 
 @media (max-width: 1199px) {
