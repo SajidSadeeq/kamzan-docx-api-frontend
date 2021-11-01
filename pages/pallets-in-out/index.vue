@@ -9,6 +9,7 @@
                 <h3 class="nk-block-title page-title">
                   Due <small>In/Out</small> List
                 </h3>
+                {{ selectedCheckBoxes }}
               </div><!-- .nk-block-head-content -->
               <div class="nk-block-head-content filters">
                 <div class="toggle-wrap nk-block-tools-toggle">
@@ -45,13 +46,45 @@
                         />
                       </li> -->
 
-                      <li class="nk-block-tools-opt">
+                      <li class="nk-block-tools-opt pick-sheet">
+                        <!-- <button class="btn btn-success mr-2" @click="pageChangeHandler(1)">
+                          <em class="icon ni ni-search" /><span>Search</span>
+                        </button> -->
+                        <!-- <a v-if="$auth.hasScope('pallet_in_out_col_settings')" href="javascript:;" class="btn btn-dark d-md-inline-flex" data-toggle="dropdown" aria-expanded="false"> -->
+                        <a
+                          v-click-outside="onClickOutside"
+                          href="javascript:;"
+                          class="btn btn-success d-md-inline-flex"
+                          data-toggle="dropdown"
+                          aria-expanded="false"
+                          @click="pickSheetDropdown = !pickSheetDropdown"
+                        >
+                          <em class="icon ni ni-setting" /> <span>Pick Sheet</span>
+                        </a>
+                        <div class="dropdown">
+                          <div class="dropdown-menu dropdown-menu-right px-3" :class="{show:pickSheetDropdown}" style="">
+                            <ul class="link-list-opt no-bdr">
+                              <li class="border-bottom mb-1">
+                                <strong>Pick Sheet ({{ selectedCheckBoxes.length }} Selected)</strong>
+                              </li>
+                              <li class="border-bottom mb-1">
+                                <a href="javascript:;" @click="printPickSheet()">Print Pick Sheet</a>
+                              </li>
+                              <li class="border-bottom mb-1">
+                                <a href="javascript:;" @click="confirmPickSheet()">Confirm Pick Sheet</a>
+                              </li>
+                            </ul>
+                          </div>
+                        </div>
+                      </li>
+                      <li class="nk-block-tools-opt settings">
                         <!-- <button class="btn btn-success mr-2" @click="pageChangeHandler(1)">
                           <em class="icon ni ni-search" /><span>Search</span>
                         </button> -->
                         <!-- <a v-if="$auth.hasScope('pallet_in_out_col_settings')" href="javascript:;" class="btn btn-dark d-md-inline-flex" data-toggle="dropdown" aria-expanded="false"> -->
                         <a
                           v-if="$auth.hasScope('pallet_in_out_col_settings')"
+                          v-click-outside="onClickOutside"
                           href="javascript:;"
                           class="btn btn-dark d-md-inline-flex"
                           data-toggle="dropdown"
@@ -191,6 +224,9 @@
           <div class="nk-tb-list is-separate mb-3">
             <div class="nk-tb-item nk-tb-head">
               <div class="nk-tb-col">
+                <input v-model="selectAll" type="checkbox">
+              </div>
+              <div class="nk-tb-col">
                 <span class="sub-text">#</span>
               </div>
               <div v-if="columnSettings.customer" class="nk-tb-col">
@@ -241,6 +277,9 @@
               </div>
             </div><!-- .nk-tb-item -->
             <div v-for="(pallet, index) in pallets" :key="pallet.id" class="nk-tb-item">
+              <div class="nk-tb-col">
+                <input v-if="pallet.status !== 2" v-model="selectedCheckBoxes" type="checkbox" :value="pallet.id">
+              </div>
               <div class="nk-tb-col">
                 <span class="tb-amount">{{ pallet.id }}</span>
               </div>
@@ -398,6 +437,7 @@ export default {
       // pallets: [],
       toggleHeader: false,
       activeIndex: null,
+      pickSheetDropdown: false,
       columnSettingsDropdown: false,
       loading: true,
       avaiableRacks: [],
@@ -412,6 +452,7 @@ export default {
       apiSearchCustomerUrl: process.env.APP_URL + 'common/search-customers',
       customer_id: '',
       searchSelectedGood: '',
+      selectedCheckBoxes: [],
       columnSettings: {
         customer: true,
         pallet: true,
@@ -429,6 +470,24 @@ export default {
   computed: {
     pallets () {
       return this.$store.state.palletinout.pallets
+    },
+    selectAll: {
+      get () {
+        return this.pallets ? this.selectedCheckBoxes.length === this.pallets.length : false
+      },
+      set (value) {
+        const selected = []
+
+        if (value) {
+          this.pallets.forEach(function (pallet) {
+            if (pallet.status !== 2) {
+              selected.push(pallet.id)
+            }
+          })
+        }
+
+        this.selectedCheckBoxes = selected
+      }
     }
   },
   mounted () {
@@ -445,6 +504,12 @@ export default {
     onClickOutside (event) {
       if (this.hasParentClass(event.target, 'parent-li') === false) {
         this.activeIndex = null
+      }
+      if (this.hasParentClass(event.target, 'pick-sheet') === false) {
+        this.pickSheetDropdown = false
+      }
+      if (this.hasParentClass(event.target, 'settings') === false) {
+        this.columnSettingsDropdown = false
       }
     },
     hasParentClass (child, classname) {
@@ -567,6 +632,79 @@ export default {
     },
     columnCheckBox (columnSettings, column, e) {
       columnSettings[column] = e.target.checked
+    },
+    confirmPickSheet () {
+      const self = this
+      if (self.selectedCheckBoxes.length < 1) {
+        this.$swal.fire({
+          title: 'You didn\'t select pallet!',
+          // text: "You won't be able to revert this!",
+          icon: 'error',
+          confirmButtonColor: '#e85347',
+          confirmButtonText: 'Close'
+        })
+      } else {
+        this.$swal.fire({
+          title: 'Are you sure?' + this.selectedCheckBoxes,
+          text: "You won't be able to revert this!",
+          icon: 'warning',
+          showCancelButton: true,
+          confirmButtonColor: '#1ee0ac',
+          cancelButtonColor: '#e85347',
+          confirmButtonText: 'Yes, delete it!'
+        }).then((result) => {
+          if (result.isConfirmed) {
+            self.$nuxt.$loading.start()
+            this.$axios.post('/pallets-in-out/multiple-pallet-out', {
+              ids: self.selectedCheckBoxes
+            })
+              .then(function (response) {
+                self.fetchPallets()
+                self.$nuxt.$loading.finish()
+              })
+
+            this.$swal.fire(
+              'Deleted!',
+              'Your file has been deleted.',
+              'success'
+            )
+          }
+        })
+      }
+    },
+    printPickSheet () {
+      this.$swal.fire({
+        html: `<table class="table table-striped" id="table" border=1>
+        <thead class="thead-dark">
+            <tr>
+                <th scope="col" style="background:black">Customer</th>
+                <th scope="col">Location</th>
+                <th scope="col">Good/Qty</th>
+                <th scope="col">Use By</th>
+                <th scope="col">Batach Number</th>
+            </tr>
+        </thead>
+        <br>
+        <tbody>
+            <tr>
+                <td>1</td>
+                <td>Dakota Rice</td>
+                <td>$36,738</td>
+                <td>Niger</td>
+                <td>Oud-Turnhout</td>
+            </tr>
+        </tbody>
+        </table>
+        `,
+        showCancelButton: true,
+        confirmButtonColor: '#1ee0ac',
+        cancelButtonColor: '#e85347',
+        confirmButtonText: 'Print'
+      }).then((result) => {
+        if (result.isConfirmed) {
+          this.$htmlToPaper('table')
+        }
+      })
     }
   }
 }
@@ -575,5 +713,10 @@ export default {
 <style scoped>
 .mx-datepicker-range {
     width: 100%;
+}
+@media print {
+  table tbody tr td {
+    background-color: aqua;
+  }
 }
 </style>

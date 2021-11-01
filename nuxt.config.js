@@ -66,8 +66,13 @@ export default {
     '@nuxtjs/dotenv',
     '@nuxtjs/toast',
     'nuxt-validate',
+    'vue-sweetalert2/nuxt',
     'nuxt-vue-multiselect'
   ],
+  sweetalert: {
+    confirmButtonColor: '#41b882',
+    cancelButtonColor: '#ff7674'
+  },
   nuxtValidate: {
     lang: 'es',
     nuxti18n: {

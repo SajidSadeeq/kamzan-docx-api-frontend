@@ -5,6 +5,7 @@ import SlidingPagination from 'vue-sliding-pagination'
 import Multiselect from 'vue-multiselect'
 import VueApexCharts from 'vue-apexcharts'
 import vuescroll from 'vuescroll'
+import VueHtmlToPaper from 'vue-html-to-paper'
 
 Vue.use(VueTelInput, {})
 Vue.component('VueUploadMultipleImage', VueUploadMultipleImage)
@@ -13,3 +14,4 @@ Vue.component('VuePagination', SlidingPagination)
 Vue.component('Multiselect', Multiselect)
 Vue.component('Apexchart', VueApexCharts)
 Vue.component('VueScroll', vuescroll)
+Vue.use(VueHtmlToPaper)

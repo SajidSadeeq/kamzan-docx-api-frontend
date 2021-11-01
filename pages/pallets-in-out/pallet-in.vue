@@ -453,8 +453,6 @@ export default {
           self.locationSelectedStatus = false
         }
       })
-      console.log(self.goodSelectedStatus)
-      console.log(self.locationSelectedStatus)
       if (!self.goodSelectedStatus) {
         this.$toast.error('Please select goods for all pallets')
       }
