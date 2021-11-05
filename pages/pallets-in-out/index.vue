@@ -659,7 +659,7 @@ export default {
           showCancelButton: true,
           confirmButtonColor: '#1ee0ac',
           cancelButtonColor: '#e85347',
-          confirmButtonText: 'Yes, delete it!'
+          confirmButtonText: 'Confirm Pick Sheet'
         }).then((result) => {
           if (result.isConfirmed) {
             self.$nuxt.$loading.start()
@@ -710,7 +710,7 @@ export default {
                 <th scope="col">Location</th>
                 <th scope="col">Good/Qty</th>
                 <th scope="col">Use By</th>
-                <th scope="col">Batach Number</th>
+                <th scope="col">Batch Number</th>
             </tr>
         </thead>
         <br>
