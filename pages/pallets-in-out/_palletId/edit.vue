@@ -192,7 +192,7 @@ export default {
       pallet_id: '',
       currentDateTime: '',
       quantity: '',
-      out_by_date: '',
+      out_by_date: null,
       batch_number: '',
       preparePallets: [],
       form_errors: [],
@@ -263,7 +263,7 @@ export default {
             // console.log('Res : ' + response.data.payload.pallet_id)
             self.slected_customer = response.data.payload.order.customer.customer_name
             self.customer_id = response.data.payload.order.customer_id
-            self.out_by_date = moment(response.data.payload.order.product_expiry_date).format('YYYY-MM-DD')
+            self.out_by_date = (response.data.payload.order.product_expiry_date != null) ? moment(response.data.payload.order.product_expiry_date).format('YYYY-MM-DD') : null
             const ob = {
               pallet_id: response.data.payload.order.pallet_id,
               rack_id: response.data.payload.rack,
