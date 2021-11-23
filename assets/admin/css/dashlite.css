@@ -43066,6 +43066,8 @@ body.dark-mode.bg-light {
 .whm-grid .fill {
     background: #854fff;
     color: #fff;
+    display: block;
+    height: 100%;
 }
 
 .whm-grid .whm-row {

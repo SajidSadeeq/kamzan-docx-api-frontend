@@ -9,7 +9,7 @@
                 <h3 class="nk-block-title page-title">
                   Due <small>In/Out</small> List
                 </h3>
-                {{ selectedCheckBoxes }}
+                <!-- {{ selectedCheckBoxes }} -->
               </div><!-- .nk-block-head-content -->
               <div class="nk-block-head-content filters">
                 <div class="toggle-wrap nk-block-tools-toggle">
@@ -221,7 +221,7 @@
           </div>
         </div>
         <div class="nk-block">
-          <div class="nk-tb-list is-separate mb-3">
+          <div id="pallets-table" class="nk-tb-list is-separate mb-3">
             <div class="nk-tb-item nk-tb-head">
               <div class="nk-tb-col">
                 <input v-model="selectAll" type="checkbox">
@@ -278,7 +278,7 @@
             </div><!-- .nk-tb-item -->
             <div v-for="(pallet, index) in pallets" :key="pallet.id" class="nk-tb-item">
               <div class="nk-tb-col">
-                <input v-if="pallet.status !== 2" v-model="selectedCheckBoxes" type="checkbox" :value="pallet.id">
+                <input v-if="pallet.status !== 2" v-model="selectedCheckBoxes" type="checkbox" :value="pallet">
               </div>
               <div class="nk-tb-col">
                 <span class="tb-amount">{{ pallet.id }}</span>
@@ -481,7 +481,7 @@ export default {
         if (value) {
           this.pallets.forEach(function (pallet) {
             if (pallet.status !== 2) {
-              selected.push(pallet.id)
+              selected.push(pallet)
             }
           })
         }
@@ -635,6 +635,14 @@ export default {
     },
     confirmPickSheet () {
       const self = this
+
+      const selectedIds = []
+      self.selectedCheckBoxes.forEach(function (pallet) {
+        if (pallet.status !== 2) {
+          selectedIds.push(pallet.id)
+        }
+      })
+
       if (self.selectedCheckBoxes.length < 1) {
         this.$swal.fire({
           title: 'You didn\'t select pallet!',
@@ -645,18 +653,18 @@ export default {
         })
       } else {
         this.$swal.fire({
-          title: 'Are you sure?' + this.selectedCheckBoxes,
+          title: 'Are you sure?',
           text: "You won't be able to revert this!",
           icon: 'warning',
           showCancelButton: true,
           confirmButtonColor: '#1ee0ac',
           cancelButtonColor: '#e85347',
-          confirmButtonText: 'Yes, delete it!'
+          confirmButtonText: 'Confirm Pick Sheet'
         }).then((result) => {
           if (result.isConfirmed) {
             self.$nuxt.$loading.start()
             this.$axios.post('/pallets-in-out/multiple-pallet-out', {
-              ids: self.selectedCheckBoxes
+              ids: selectedIds
             })
               .then(function (response) {
                 self.fetchPallets()
@@ -673,38 +681,54 @@ export default {
       }
     },
     printPickSheet () {
-      this.$swal.fire({
-        html: `<table class="table table-striped" id="table" border=1>
+      if (this.selectedCheckBoxes.length < 1) {
+        this.$swal.fire({
+          title: 'You didn\'t select pallet!',
+          // text: "You won't be able to revert this!",
+          icon: 'error',
+          confirmButtonColor: '#e85347',
+          confirmButtonText: 'Close'
+        })
+      } else {
+        const tr = this.selectedCheckBoxes.map(pallet =>
+      `<tr>
+                <td>${pallet.customer.customer_name}</td>
+                <td>${pallet.location.name}</td>
+                <td>${(pallet.good) ? pallet.good.name : 'n/a'}<br>${pallet.good_quantity}</td>
+                <td>${pallet.product_expiry_date ? moment(pallet.product_expiry_date, 'h:mm a').format('hh:mm a') : 'n/a'}</td>
+                <td>${pallet.batch_number}</td>
+            </tr>`
+        )
+          .join('')
+
+        this.$swal.fire({
+          html: `<div id="table-striped">
+          <table class="table table-striped" border=1>
         <thead class="thead-dark">
             <tr>
-                <th scope="col" style="background:black">Customer</th>
+                <th scope="col">Customer</th>
                 <th scope="col">Location</th>
                 <th scope="col">Good/Qty</th>
                 <th scope="col">Use By</th>
-                <th scope="col">Batach Number</th>
+                <th scope="col">Batch Number</th>
             </tr>
         </thead>
         <br>
-        <tbody>
-            <tr>
-                <td>1</td>
-                <td>Dakota Rice</td>
-                <td>$36,738</td>
-                <td>Niger</td>
-                <td>Oud-Turnhout</td>
-            </tr>
-        </tbody>
+        <tbody>` + tr +
+        `</tbody>
         </table>
+        </div>
         `,
-        showCancelButton: true,
-        confirmButtonColor: '#1ee0ac',
-        cancelButtonColor: '#e85347',
-        confirmButtonText: 'Print'
-      }).then((result) => {
-        if (result.isConfirmed) {
-          this.$htmlToPaper('table')
-        }
-      })
+          showCancelButton: true,
+          confirmButtonColor: '#1ee0ac',
+          cancelButtonColor: '#e85347',
+          confirmButtonText: 'Print'
+        }).then((result) => {
+          if (result.isConfirmed) {
+            this.$htmlToPaper('table-striped')
+          }
+        })
+      }
     }
   }
 }

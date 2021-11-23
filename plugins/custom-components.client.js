@@ -6,6 +6,17 @@ import Multiselect from 'vue-multiselect'
 import VueApexCharts from 'vue-apexcharts'
 import vuescroll from 'vuescroll'
 import VueHtmlToPaper from 'vue-html-to-paper'
+const options = {
+  name: '_blank',
+  specs: [
+    'fullscreen=yes',
+    'titlebar=yes',
+    'scrollbars=yes'
+  ],
+  styles: [
+    'http://localhost/wms_frontend/assets/admin/css/dashlite.css'
+  ]
+}
 
 Vue.use(VueTelInput, {})
 Vue.component('VueUploadMultipleImage', VueUploadMultipleImage)
@@ -14,4 +25,4 @@ Vue.component('VuePagination', SlidingPagination)
 Vue.component('Multiselect', Multiselect)
 Vue.component('Apexchart', VueApexCharts)
 Vue.component('VueScroll', vuescroll)
-Vue.use(VueHtmlToPaper)
+Vue.use(VueHtmlToPaper, options)
