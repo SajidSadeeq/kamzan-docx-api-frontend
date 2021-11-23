@@ -43175,3 +43175,16 @@ body.dark-mode.bg-light {
         display: none;
     } */
 }
+
+@media print {
+    .table {
+        width: 100%;
+        margin-bottom: 1 rem;
+        color: #526484;
+    }
+    .table .thead-dark th {
+        color: #fff;
+        background-color: #2b3748;
+        border-color: #3c4d62;
+    }
+}
