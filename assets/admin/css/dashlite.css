@@ -43071,9 +43071,9 @@ body.dark-mode.bg-light {
 }
 
 .whm-grid .whm-row {
-    border-bottom: solid 1px #d7d7dd;
+    /* border-bottom: solid 1px #d7d7dd; */
     display: flex;
-    width: 100%;
+    /* width: 100%; */
     background: #edeef7;
 }
 
@@ -43096,7 +43096,7 @@ body.dark-mode.bg-light {
 .whm-grid .whm-racks {
     float: left;
     background: #fff;
-    width: calc(100% - 30px);
+    /* width: calc(100% - 30px); */
 }
 
 .whm-grid .whm-racks .rack {
@@ -43109,7 +43109,7 @@ body.dark-mode.bg-light {
 }
 
 .whm-grid .whm-racks .rack:last-child {
-    border-bottom: none;
+    /* border-bottom: none; */
 }
 
 .whm-grid .whm-racks .rack .num {
