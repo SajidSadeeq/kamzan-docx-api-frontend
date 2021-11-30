@@ -107,14 +107,105 @@
                           </div>
                           <div class="col-md-12 col-sm-12">
                             <div class="preview-block">
-                              <label class="form-label" for="name">Sundry Charges</label><br>
+                              <label class="form-label" for="name">Sundry Charges </label><br>
                               <div class="custom-control custom-checkbox">
-                                <input id="customCheck1" type="checkbox" class="custom-control-input">
-                                <label class="custom-control-label" for="customCheck1">Option Label</label>
+                                <input id="customCheck1" v-model="is_sundry" type="checkbox" class="custom-control-input">
+                                <label class="custom-control-label" for="customCheck1">Sundry</label>
                               </div>
                             </div>
                           </div>
                         </div>
+                        <div v-if="is_sundry" class="col-md-12 col-sm-12 mt-2 pl-0">
+                          <div class="preview-block row">
+                            <div class="col-md-4">
+                              <div class="row g-gs">
+                                <div class="col-md-8">
+                                  <div class="form-group">
+                                    <label class="form-label" for="cpp">Cost per pallet</label>
+                                    <div class="form-control-wrap">
+                                      <input
+                                        id="batch_number"
+                                        v-model="cpp"
+                                        type="number"
+                                        class="form-control"
+                                        name="cpp"
+                                        placeholder="per pallet"
+                                        required=""
+                                      >
+                                    </div>
+                                    <span v-if="containsKey(form_errors, 'cpp')" class="error">{{ form_errors.cpp[0] }}</span>
+                                  </div>
+                                </div>
+                                <div class="col-md-4" style="padding-left: 0 !important;">
+                                  <div class="form-group">
+                                    <label class="form-label" for="cppd">Billed</label>
+                                    <div class="form-control-wrap">
+                                      <select
+                                        v-model="cppd"
+                                        class="form-control"
+                                        name="cppd"
+                                        required=""
+                                      >
+                                        <option value="null">
+                                          Select
+                                        </option>
+                                        <option value="1">
+                                          Daily
+                                        </option>
+                                        <option value="2">
+                                          Weekly
+                                        </option>
+                                      </select>
+                                    </div>
+
+                                    <span v-if="containsKey(form_errors, 'cppd')" class="error">{{ form_errors.cppd[0] }}</span>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                            <div v-if="cppd == 2" class="col-md-4">
+                              <div class="form-group">
+                                <label class="form-label" for="invoice_day">Day</label>
+                                <div class="form-control-wrap">
+                                  <select
+                                    v-model="invoice_day"
+                                    class="form-control"
+                                    name="invoice_day"
+                                    required=""
+                                  >
+                                    <option value="null">
+                                      Select
+                                    </option>
+                                    <option value="monday">
+                                      Monday
+                                    </option>
+                                    <option value="tuesday">
+                                      Tuesday
+                                    </option>
+                                    <option value="wednesday">
+                                      Wednesday
+                                    </option>
+                                    <option value="thursday">
+                                      Thursday
+                                    </option>
+                                    <option value="friday">
+                                      Friday
+                                    </option>
+                                    <option value="saturday">
+                                      Saturday
+                                    </option>
+                                    <option value="sunday">
+                                      Sunday
+                                    </option>
+                                  </select>
+                                </div>
+
+                                <span v-if="containsKey(form_errors, 'invoice_day')" class="error">{{ form_errors.invoice_day[0] }}</span>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+
                         <div class="row g-gs text-right">
                           <div class="col-md-12">
                             <button type="button" class="btn btn-primary" @click="proceed()">
@@ -358,6 +449,10 @@ export default {
   },
   data () {
     return {
+      is_sundry: false,
+      cpp: null,
+      cppd: null,
+      invoice_day: null,
       toggleAddGood: false,
       countries: [
         { label: 'Pakistan', id: '1' },
@@ -474,7 +569,11 @@ export default {
           quantity: self.quantity,
           out_by_date: self.out_by_date,
           batch_number: self.batch_number,
-          preparePallets: self.preparePallets
+          preparePallets: self.preparePallets,
+          is_sundry: self.is_sundry,
+          cpp: self.cpp,
+          cppd: self.cppd,
+          invoice_day: self.invoice_day
         }).then(function (response) {
           if (response.data.status !== false) {
             self.$router.push('/pallets-in-out')
