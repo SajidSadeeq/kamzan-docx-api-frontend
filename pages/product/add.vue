@@ -60,11 +60,28 @@
                               </div>
                             </div>
                           </div>
-                          <div class="col-md-10 mt-2">
+                          <div class="col-md-10">
+                            <div class="form-group">
+                              <label class="form-label" for="name">Product Code</label>
+                              <div class="form-control-wrap">
+                                <input
+                                  id="name"
+                                  v-model="name"
+                                  type="text"
+                                  class="form-control"
+                                  name="name"
+                                  placeholder="Product Name"
+                                  required=""
+                                >
+                                <span v-if="containsKey(from_errors, 'name')" class="text-danger">{{ from_errors.name[0] }}</span>
+                              </div>
+                            </div>
+                          </div>
+                          <!-- <div class="col-md-10 mt-2">
                             <div class="form-group">
                               <label class="form-label" for="category_id">Select Category</label>
                               <div class="form-control-wrap">
-                                <!-- <input
+                                <input
                                     id="category_id"
                                     v-model="category_id"
                                     type="number"
@@ -72,12 +89,12 @@
                                     name="category_id"
                                     placeholder="Select Category"
                                     required=""
-                                  > -->
+                                  >
                                 <treeselect v-model="category_id" :options="categories" :normalizer="normalizer" />
                                 <span v-if="containsKey(from_errors, 'category_id')" class="text-danger">{{ from_errors.category_id[0] }}</span>
                               </div>
                             </div>
-                          </div>
+                          </div> -->
                           <div class="col-md-10 mt-2">
                             <div class="form-group">
                               <label class="form-label" for="supplier_id">Supplier Id</label>
@@ -318,11 +335,11 @@
 </template>
 
 <script>
-import Treeselect from '@riophae/vue-treeselect'
+// import Treeselect from '@riophae/vue-treeselect'
 // import the styles
 import '@riophae/vue-treeselect/dist/vue-treeselect.css'
 export default {
-  components: { Treeselect },
+  // components: { Treeselect },
   data () {
     return {
       tabPath: this.$route.fullPath,

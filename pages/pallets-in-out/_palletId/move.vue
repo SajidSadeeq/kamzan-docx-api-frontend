@@ -53,6 +53,15 @@
                         <div class="col-md-6">
                           <div class="col-md-10 mt-2">
                             <div class="form-group">
+                              <label class="form-label text-danger">Currtent Location : {{ current_rack }}</label>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="row g-gs">
+                        <div class="col-md-6">
+                          <div class="col-md-10 mt-2">
+                            <div class="form-group">
                               <label class="form-label" for="name">Select Rack</label>
                               <v-select
                                 :options="racks"
@@ -102,6 +111,7 @@ export default {
       racks: [],
       rack_id: '',
       selectedRack: [],
+      current_rack: '',
       customer_order_id: this.$route.params.palletId,
       pallet_id: ''
     }
@@ -113,6 +123,7 @@ export default {
   },
   created () {
     this.fetchRacks()
+    this.editPallet()
   },
   methods: {
     containsKey (obj, key) {
@@ -139,6 +150,17 @@ export default {
       }).catch(function (error) {
         self.from_errors = error.response.data.data
       })
+    },
+    editPallet () {
+      const self = this
+      // console.log('SSS Path : ' + this.$route.params.palletId)
+      this.$axios.get(`pallets-in-out/edit/${this.$route.params.palletId}`)
+        .then(function (response) {
+          if (response.data.status !== false) {
+            // console.log('Res : ' + response.data.payload)
+            self.current_rack = response.data.payload.rack.label
+          }
+        })
     }
 
   }

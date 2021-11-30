@@ -105,6 +105,15 @@
                               <span v-if="containsKey(form_errors, 'name')" class="error">{{ form_errors.name[0] }}</span>
                             </div>
                           </div>
+                          <div class="col-md-12 col-sm-12">
+                            <div class="preview-block">
+                              <label class="form-label" for="name">Sundry Charges</label><br>
+                              <div class="custom-control custom-checkbox">
+                                <input id="customCheck1" type="checkbox" class="custom-control-input">
+                                <label class="custom-control-label" for="customCheck1">Option Label</label>
+                              </div>
+                            </div>
+                          </div>
                         </div>
                         <div class="row g-gs text-right">
                           <div class="col-md-12">

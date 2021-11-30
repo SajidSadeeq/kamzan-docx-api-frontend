@@ -29,9 +29,9 @@
                         class="icon ni ni-setting"
                       /><span>Basic Info</span></a>
                     </li>
-                  <!-- <li class="nav-item" @click="activeTab = 2">
-                      <a class="nav-link" :class="{ active: activeTab === 2 }" data-toggle="tab" href="#meta"><em class="icon ni ni-link" /><span>Meta</span></a>
-                    </li> -->
+                    <li class="nav-item" @click="activeTab = 2">
+                      <a class="nav-link" :class="{ active: activeTab === 2 }" data-toggle="tab" href="#billinginfo"><em class="icon ni ni-link" /><span>Billing Info</span></a>
+                    </li>
                   </ul>
                   <div class="tab-content">
                     <div id="tabItem5" class="tab-pane " :class="{ active: activeTab === 1 }">
@@ -224,9 +224,220 @@
                         </div>
                       </div>
                     </div>
-                  <!-- <div id="tabItem6" class="tab-pane" :class="{ active: activeTab === 2 }">
-                      <p>Culpa dolor voluptate do laboris laboris irure reprehenderit id incididunt duis pariatur mollit aute magna pariatur consectetur. Eu veniam duis non ut dolor deserunt commodo et minim in quis laboris ipsum velit id veniam. Quis ut consectetur adipisicing officia excepteur non sit. Ut et elit aliquip labore Lorem enim eu. Ullamco mollit occaecat dolore ipsum id officia mollit qui esse anim eiusmod do sint minim consectetur qui.</p>
-                    </div> -->
+                    <div id="billinginfo" class="tab-pane" :class="{ active: activeTab === 2 }">
+                      <div class="row g-gs">
+                        <div class="col-md-6 border-right">
+                          <div class="col-md-12">
+                            <div class="row">
+                              <div class="col-md-6">
+                                <div class="form-group">
+                                  <label class="form-label">Cost Per Pallet (£)</label>
+                                  <div class="form-control-wrap">
+                                    <input
+                                      id="cost_per_pallet"
+                                      v-model="customer.cpp"
+                                      type="number"
+                                      class="form-control"
+                                      name="name"
+                                      placeholder="Cost per pallet"
+                                      required=""
+                                    >
+                                    <span v-if="containsKey(from_errors, 'cost_per_pallet')" class="invalid">{{ from_errors.cost_per_pallet[0] }}</span>
+                                  </div>
+                                </div>
+                              </div>
+                              <div class="col-md-6">
+                                <div class="form-group">
+                                  <label class="form-label">Cost Duration</label>
+                                  <div class="form-control-wrap">
+                                    <div class="form-control-select">
+                                      <select id="cost_duration" v-model="customer.cppd" class="form-control" name="cost_duration">
+                                        <option value="day">
+                                          Per Day
+                                        </option>
+                                        <option value="week">
+                                          Per Week
+                                        </option>
+                                        <option value="month">
+                                          Per Month
+                                        </option>
+                                      </select>
+                                    </div>
+                                    <span v-if="containsKey(from_errors, 'cost_duration')" class="invalid">{{ from_errors.cost_duration[0] }}</span>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="col-md-12 mt-2">
+                            <label class="form-label">RH&D Per Pallet (£)</label>
+                            <div class="row">
+                              <div class="col-md-6">
+                                <div class="form-group">
+                                  <label class="form-label">In</label>
+                                  <div class="form-control-wrap">
+                                    <input
+                                      id="in_price"
+                                      v-model="customer.rhdpp_in"
+                                      type="number"
+                                      class="form-control"
+                                      name="name"
+                                      placeholder="In Price"
+                                      required=""
+                                    >
+                                    <span v-if="containsKey(from_errors, 'in_price')" class="invalid">{{ from_errors.in_price[0] }}</span>
+                                  </div>
+                                </div>
+                              </div>
+                              <div class="col-md-6">
+                                <div class="form-group">
+                                  <label class="form-label">Out</label>
+                                  <div class="form-control-wrap">
+                                    <input
+                                      id="out_price"
+                                      v-model="customer.rhdpp_out"
+                                      type="number"
+                                      class="form-control"
+                                      name="name"
+                                      placeholder="Out Price"
+                                      required=""
+                                    >
+                                    <span v-if="containsKey(from_errors, 'out_price')" class="invalid">{{ from_errors.out_price[0] }}</span>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="col-md-12 mt-3">
+                            <div class="row g-3 align-center">
+                              <div class="col-lg-6">
+                                <div class="form-group">
+                                  <label class="form-label">Create Invoice Automatically?</label>
+                                </div>
+                              </div>
+                              <div class="col-lg-5">
+                                <div class="form-group">
+                                  <div class="custom-control custom-switch">
+                                    <input
+                                      id="invoice_automatic"
+                                      v-model="customer.is_automatic_invoice"
+                                      type="checkbox"
+                                      class="custom-control-input ml-5"
+                                      name="reg-public"
+                                      @click="createInvoiceAuto($event)"
+                                    >
+                                    <label class="custom-control-label" for="invoice_automatic" />
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="col-md-12 mt-2">
+                            <label class="form-label">Invoice Frequency</label>
+                            <div class="form-group">
+                              <div class="custom-control custom-radio">
+                                <input
+                                  id="customCheck1"
+                                  v-model="customer.invoice_frequency"
+                                  type="radio"
+                                  value="1week"
+                                  class="custom-control-input"
+                                  name="invoice_frequency"
+                                  @change="invoiceFrequency($event)"
+                                >
+                                <label class="custom-control-label" for="customCheck1">1 Week</label>
+                              </div>
+                              <div class="custom-control custom-radio mt-2">
+                                <input
+                                  id="customCheck2"
+                                  v-model="customer.invoice_frequency"
+                                  type="radio"
+                                  class="custom-control-input"
+                                  value="2week"
+                                  name="invoice_frequency"
+                                  @change="invoiceFrequency($event)"
+                                >
+                                <label class="custom-control-label" for="customCheck2">2 week</label>
+                              </div>
+                              <div class="custom-control custom-radio mt-2">
+                                <input
+                                  id="customCheck3"
+                                  v-model="customer.invoice_frequency"
+                                  type="radio"
+                                  class="custom-control-input"
+                                  value="4week"
+                                  name="invoice_frequency"
+                                  @change="invoiceFrequency($event)"
+                                >
+                                <label class="custom-control-label" for="customCheck3">4 Week</label>
+                              </div>
+                              <div class="custom-control custom-radio mt-2">
+                                <input
+                                  id="customCheck4"
+                                  v-model="customer.invoice_frequency"
+                                  type="radio"
+                                  class="custom-control-input"
+                                  value="month"
+                                  name="invoice_frequency"
+                                  @change="invoiceFrequency($event)"
+                                >
+                                <label class="custom-control-label" for="customCheck4">Monthly</label>
+                              </div>
+                              <span v-if="containsKey(from_errors, 'in_price')" class="invalid">{{ from_errors.in_price[0] }}</span>
+                            </div>
+                          </div>
+
+                          <div v-if="is_monthly === 'no'" class="col-md-12 mt-2">
+                            <div class="form-group">
+                              <label class="form-label" for="every">Week Days</label>
+                              <div class="form-control-wrap">
+                                <select id="every" v-model="customer.invoice_day" class="form-control" name="every">
+                                  <option value="monday">
+                                    Monday
+                                  </option>
+                                  <option value="tuesday">
+                                    Tuesday
+                                  </option>
+                                  <option value="thursday">
+                                    Thursday
+                                  </option>
+                                  <option value="wednesday">
+                                    Wednesday
+                                  </option>
+                                  <option value="firday">
+                                    Friday
+                                  </option>
+                                  <option value="saturday">
+                                    Saturday
+                                  </option>
+                                  <option value="sunday">
+                                    Sunday
+                                  </option>
+                                </select>
+                                <span v-if="containsKey(from_errors, 'invoice_day')" class="invalid">{{ from_errors.invoice_day[0] }}</span>
+                              </div>
+                            </div>
+                          </div>
+                          <div v-if="is_monthly === 'yes'" class="col-md-12 mt-2">
+                            <div class="form-group">
+                              <label class="form-label" for="every">Month Date</label>
+                              <div class="form-control-wrap">
+                                <input
+                                  id="invoice_month_date"
+                                  :value="customer.invoice_month_date | formateDate"
+                                  :v-model="customer.invoice_month_date"
+                                  type="date"
+                                  class="form-control date-picker"
+                                  name="invoice_month_date"
+                                  required=""
+                                >
+                                <span v-if="containsKey(from_errors, 'invoice_month_date')" class="invalid">{{ from_errors.invoice_month_date[0] }}</span>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div><!-- .card-preview -->
@@ -250,9 +461,13 @@
 </template>
 
 <script>
+import moment from 'moment'
 import '@riophae/vue-treeselect/dist/vue-treeselect.css'
 import 'vue-tel-input/dist/vue-tel-input.css'
 export default {
+  filters: {
+    formateDate: date => date ? moment(date).format('YYYY-MM-DD') : 'n/a'
+  },
   data () {
     return {
       tabPath: this.$route.fullPath,
@@ -267,6 +482,15 @@ export default {
       county: '',
       main_contact: '',
       customer_type: '',
+      cost_per_pallet: null,
+      cost_duration: null,
+      in_price: null,
+      out_price: null,
+      invoice_automatic: null,
+      invoice_frequency: null,
+      week_day: null,
+      month_date: null,
+      is_monthly: null,
       // archived: 1
       from_errors: []
     }
@@ -280,6 +504,7 @@ export default {
     if (Object.keys(this.customer).length === 0) {
       this.$store.dispatch('customer/fetchSpecificCategories', this.$route.params.customerId)
     }
+    this.is_monthly = (this.customer.invoice_day) ? 'no' : 'yes'
   },
   methods: {
     containsKey (obj, key) {
@@ -298,13 +523,33 @@ export default {
         telephone_number: this.customer.telephone_number,
         county: this.customer.county,
         main_contact: this.customer.main_contact,
-        customer_type: this.customer.customer_type
+        customer_type: this.customer.customer_type,
+        cpp: this.customer.cpp,
+        cppd: this.customer.cppd,
+        rhdpp_in: this.customer.rhdpp_in,
+        rhdpp_out: this.customer.rhdpp_out,
+        is_automatic_invoice: this.customer.is_automatic_invoice,
+        invoice_frequency: this.customer.invoice_frequency,
+        invoice_day: this.customer.invoice_day,
+        invoice_month_date: this.customer.invoice_month_date
         // archived: 0
       }).then(function (response) {
         self.$router.push('/customer')
       }).catch(function (error) {
         self.from_errors = error.response.data.data
       })
+    },
+    createInvoiceAuto (event) {
+      this.invoice_automatic = event.target.checked
+    },
+    invoiceFrequency (event) {
+      const self = this
+      if (event.target.value === 'month') {
+        self.is_monthly = 'yes'
+      } else {
+        self.is_monthly = 'no'
+      }
+      self.customer.invoice_frequency = event.target.value
     }
   }
 }
