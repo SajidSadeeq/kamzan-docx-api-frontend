@@ -138,7 +138,7 @@
                                 </div>
                                 <div class="col-md-4" style="padding-left: 0 !important;">
                                   <div class="form-group">
-                                    <label class="form-label" for="cppd">Billed</label>
+                                    <label class="form-label" for="cppd">£ Billed</label>
                                     <div class="form-control-wrap">
                                       <select
                                         v-model="cppd"

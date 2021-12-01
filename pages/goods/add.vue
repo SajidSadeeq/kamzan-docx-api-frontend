@@ -54,6 +54,35 @@
                               <span v-if="containsKey(from_errors, 'name')" class="text-danger">{{ from_errors.name[0] }}</span>
                             </div>
                           </div>
+                          <div class="col-md-10 mt-2">
+                            <div class="form-group">
+                              <label class="form-label" for="good_code">Goods Code</label>
+                              <div class="form-control-wrap">
+                                <input
+                                  id="good_code"
+                                  v-model="good_code"
+                                  type="text"
+                                  class="form-control"
+                                  name="good_code"
+                                  placeholder="Goods Code"
+                                  required=""
+                                >
+                              </div>
+                              <span v-if="containsKey(from_errors, 'good_code')" class="text-danger">{{ from_errors.good_code[0] }}</span>
+                            </div>
+                          </div>
+                          <div class="col-md-10 mt-2">
+                            <div class="form-group">
+                              <div class="form-control-wrap">
+                                <label class="form-label" for="is_single" /><br>
+                                <div class="custom-control custom-checkbox">
+                                  <input id="is_single" v-model="is_single" name="is_single" type="checkbox" class="custom-control-input">
+                                  <label class="custom-control-label form-label" for="is_single">Single Good</label>
+                                </div>
+                              </div>
+                              <span v-if="containsKey(from_errors, 'is_single')" class="text-danger">{{ from_errors.is_single[0] }}</span>
+                            </div>
+                          </div>
                           <!-- <div class="col-md-10">
                               <div class="form-group">
                                 <label class="form-label" for="name">Products</label>
@@ -72,7 +101,7 @@
                         </div>
                         <!-- {{ selectedProducts }} -->
                         <div class="col-md-8">
-                          <div class="form-group">
+                          <div v-if="!is_single" class="form-group">
                             <div class="form-control-wrap">
                               <ul>
                                 <li v-for="(product, index) in selectedProducts" :key="product.id">
@@ -185,6 +214,8 @@ export default {
   },
   data () {
     return {
+      good_code: null,
+      is_single: false,
       tabPath: this.$route.fullPath,
       activeTab: 1,
       name: '',
@@ -250,7 +281,9 @@ export default {
       const self = this
       this.$axios.post('good', {
         products: self.selectedProducts,
-        name: self.name
+        name: self.name,
+        good_code: self.good_code,
+        is_single: self.is_single
       }).then(function (response) {
         if (response.data.status !== false) {
           self.$router.push('/goods')

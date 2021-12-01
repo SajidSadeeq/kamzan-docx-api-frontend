@@ -67,6 +67,24 @@
                           </div>
                           <div class="col-md-10 mt-2">
                             <div class="form-group">
+                              <label class="form-label" for="name">Product Code</label>
+                              <div class="form-control-wrap">
+                                <input
+                                  id="product_code"
+                                  v-model="product.product_code"
+                                  type="text"
+                                  class="form-control"
+                                  name="product_code"
+                                  placeholder="Product Code"
+                                  required=""
+                                >
+                                <span v-if="containsKey(errors, 'product_code')" class="text-danger">{{ errors.product_code[0] }}</span>
+                              </div>
+                            </div>
+                          </div>
+
+                          <!-- <div class="col-md-10 mt-2">
+                            <div class="form-group">
                               <label class="form-label" for="category_id">Select Category</label>
                               <div class="form-control-wrap">
                                 <input
@@ -81,7 +99,7 @@
                                 <span v-if="containsKey(errors, 'category_id')" class="text-danger">{{ errors.category_id[0] }}</span>
                               </div>
                             </div>
-                          </div>
+                          </div> -->
                           <div class="col-md-10 mt-2">
                             <div class="form-group">
                               <label class="form-label" for="supplier_id">Supplier Id</label>
@@ -353,6 +371,7 @@ export default {
   // components: { Treeselect },
   data () {
     return {
+      product_code: null,
       tabPath: this.$route.fullPath,
       dragText: 'Drag Images here',
       browsText: 'Brows image',
@@ -463,7 +482,8 @@ export default {
         note: this.product.note,
         status: this.product.status,
         image: this.new_images,
-        delete_images: this.delete_images
+        delete_images: this.delete_images,
+        product_code: this.product.product_code
       }).then(function (response) {
         self.$router.push('/product')
       }).catch(function (error) {

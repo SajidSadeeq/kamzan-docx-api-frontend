@@ -60,20 +60,20 @@
                               </div>
                             </div>
                           </div>
-                          <div class="col-md-10">
+                          <div class="col-md-10 mt-2">
                             <div class="form-group">
                               <label class="form-label" for="name">Product Code</label>
                               <div class="form-control-wrap">
                                 <input
-                                  id="name"
-                                  v-model="name"
+                                  id="product_code"
+                                  v-model="product_code"
                                   type="text"
                                   class="form-control"
-                                  name="name"
-                                  placeholder="Product Name"
+                                  name="product_code"
+                                  placeholder="Product Code"
                                   required=""
                                 >
-                                <span v-if="containsKey(from_errors, 'name')" class="text-danger">{{ from_errors.name[0] }}</span>
+                                <span v-if="containsKey(from_errors, 'product_code')" class="text-danger">{{ from_errors.product_code[0] }}</span>
                               </div>
                             </div>
                           </div>
@@ -342,6 +342,7 @@ export default {
   // components: { Treeselect },
   data () {
     return {
+      product_code: null,
       tabPath: this.$route.fullPath,
       activeTab: 1,
       category_id: null,
@@ -422,7 +423,8 @@ export default {
         color: this.color,
         description: this.description,
         note: this.note,
-        images: this.images
+        images: this.images,
+        product_code: this.product_code
       }).then(function (response) {
         self.$router.push('/product')
       }).catch(function (error) {

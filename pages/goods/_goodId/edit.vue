@@ -54,6 +54,42 @@
                               <span v-if="containsKey(from_errors, 'name')" class="text-danger">{{ from_errors.name[0] }}</span>
                             </div>
                           </div>
+                          <div class="col-md-10 mt-2">
+                            <div class="form-group">
+                              <label class="form-label" for="good_code">Goods Code</label>
+                              <div class="form-control-wrap">
+                                <input
+                                  id="good_code"
+                                  v-model="good.good_code"
+                                  type="text"
+                                  class="form-control"
+                                  name="good_code"
+                                  placeholder="Goods Code"
+                                  required=""
+                                >
+                              </div>
+                              <span v-if="containsKey(from_errors, 'good_code')" class="text-danger">{{ from_errors.good_code[0] }}</span>
+                            </div>
+                          </div>
+                          <div class="col-md-10 mt-2">
+                            <div class="form-group">
+                              <div class="form-control-wrap">
+                                <label class="form-label" for="is_single" /><br>
+                                <div class="custom-control custom-checkbox">
+                                  <input
+                                    id="is_single"
+                                    v-model="good.is_single"
+                                    :checked="good.is_single"
+                                    name="is_single"
+                                    type="checkbox"
+                                    class="custom-control-input"
+                                  >
+                                  <label class="custom-control-label form-label" for="is_single">Single Good </label>
+                                </div>
+                              </div>
+                              <span v-if="containsKey(from_errors, 'is_single')" class="text-danger">{{ from_errors.is_single[0] }}</span>
+                            </div>
+                          </div>
                           <!-- <div class="col-md-10">
                               <div class="form-group">
                                 <label class="form-label" for="name">Products</label>
@@ -71,7 +107,7 @@
                             </div> -->
                         </div>
                         <div class="col-md-8">
-                          <div class="col-md-12">
+                          <div v-if="!good.is_single" class="col-md-12">
                             <div class="form-group">
                               <div class="form-control-wrap">
                                 <ul>
@@ -182,10 +218,43 @@ export default {
       tabPath: this.$route.fullPath,
       activeTab: 1,
       name: '',
-      goodProducts: [],
+      good_code: null,
+      is_single: false,
+      goodProducts: [
+        {
+          id: '',
+          name: '',
+          qty: '',
+          vol: '',
+          weight: '',
+
+          products: {
+            id: '',
+            name: '',
+            qty: '',
+            vol: '',
+            weight: ''
+          }
+        }],
       products: [],
       from_errors: [],
-      selectedProducts: [],
+      // selectedProducts: [],
+      selectedProducts: [
+        {
+          id: '',
+          name: '',
+          qty: '',
+          vol: '',
+          weight: '',
+          products: {
+            id: '',
+            name: '',
+            qty: '',
+            vol: '',
+            weight: ''
+          }
+        }
+      ],
       apiSearchProductsUrl: process.env.APP_URL + 'common/search-products'
     }
   },
@@ -233,7 +302,9 @@ export default {
       const self = this
       await this.$axios.get(`good/good-products/${self.$route.params.goodId}`)
         .then(function (response) {
-          self.goodProducts = response.data.payload.good_products
+          if (response.data.payload.good_products.length) {
+            self.goodProducts = response.data.payload.good_products
+          }
           // if (response.data.payload.good_products !== []) {
           //   response.data.payload.good_products.forEach((data) => {
           //     if (data.products !== null) {
@@ -270,6 +341,8 @@ export default {
       const self = this
       this.$axios.put(`good/${this.good.id}`, {
         name: this.good.name,
+        good_code: this.good.good_code,
+        is_single: this.good.is_single,
         products: self.goodProducts
       }).then(function (response) {
         self.$router.push('/goods')
@@ -279,8 +352,17 @@ export default {
     },
     productselected (event, index) {
       const self = this
+      // if (this.goodProducts.length === 0) {
+      //   self.selectedProducts[index].id = event.id
+      //   self.selectedProducts[index].name = event.name
+      //   self.selectedProducts[index].qty = 1
+      //   self.selectedProducts[index].vol = 1 * event.volume
+      //   self.selectedProducts[index].weight = 1 * event.weight
+      //   self.selectedProducts[index].product = event
+      // } else {
       self.goodProducts[index].product_id = event.id
       self.goodProducts[index].name = event.name
+      // }
     },
     addProductArray () {
       this.goodProducts.push({
@@ -294,6 +376,9 @@ export default {
       })
     },
     removeProduct (product, index) {
+      // if (this.goodProducts.length === 0) {
+      //   this.$delete(this.selectedProducts, index)
+      // } else {
       const self = this
       if (product.id !== 'undefined') {
         self.$delete(self.goodProducts, index)
@@ -314,6 +399,7 @@ export default {
           }
           self.$nuxt.$loading.finish()
         })
+      // }
     }
 
   }
