@@ -50,7 +50,7 @@
                     <form action="#" class="form-validate" novalidate="novalidate" @submit.prevent="addRack">
                       <div class="row g-gs">
                         <div class="col-md-6">
-                          <div class="col-md-10 mt-2">
+                          <div class="col-md-12 mt-2">
                             <div class="form-group">
                               <label class="form-label" for="in_date">Out Time</label>
                               <div class="form-control-wrap">
@@ -66,7 +66,7 @@
                               </div>
                             </div>
                           </div>
-                          <div class="col-md-10 mt-2">
+                          <div class="col-md-12 mt-2">
                             <div class="form-group">
                               <label class="form-label" for="in_date">Out Date</label>
                               <div class="form-control-wrap">
@@ -82,27 +82,58 @@
                               </div>
                             </div>
                           </div>
+                          <div v-if="is_full_out == false" class="col-md-12 mt-2">
+                            <div class="row">
+                              <div class="col-md-6">
+                                <div class="form-group">
+                                  <label class="form-label">Pallet Goods</label>
+                                </div>
+                              </div>
+                              <div class="col-md-6">
+                                <div class="form-group text-right">
+                                  <label class="form-label">Amount Picked</label>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                          {{ outQuantity }}
+                          <div v-for="(good, index) in palletGoods" :key="index" class="col-md-12 mt-2">
+                            <div class="form-group">
+                              <div class="row">
+                                <div class="col-md-6">
+                                  <div class="form-group">
+                                    <label class="form-label">
+                                      <span class="badge badge-dim badge-success"><em class="icon ni ni-check-c" />
+                                        <span>{{ (good.good)?good.good.name:'n/a' }}</span></span>
+                                    </label>
+                                  </div>
+                                </div>
+                                <div class="col-md-6">
+                                  <div class="custom-control custom-checkbox">
+                                    <label class="form-label">
+                                      <span class="badge badge-dim badge-warning"><span>Qty : {{ good.qty }}</span></span>
+                                    </label>
+                                    <div class="form-control-wrap">
+                                      <input
+                                        ref="goodQuantity"
+                                        name="goodQuantity[]"
+                                        type="number"
+                                        class="form-control form-control-sm"
+                                        placeholder="qty"
+                                        value="1"
+                                        @keyup="checkOutQty($event.target.value, good, index)"
+                                      >
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
                           <div class="col-md-10 mt-2">
                             <div class="form-group">
                               <div class="custom-control custom-checkbox">
                                 <input id="is_full_out" v-model="is_full_out" type="checkbox" class="custom-control-input">
-                                <label class="custom-control-label" for="is_full_out">Is Full Out</label>
-                              </div>
-                            </div>
-                          </div>
-                          <div v-if="is_full_out == false" class="col-md-10 mt-2">
-                            <div class="form-group">
-                              <label class="form-label" for="in_date">Out Goods Quantity</label>
-                              <div class="form-control-wrap">
-                                <input
-                                  id="out_quantity"
-                                  v-model="out_quantity"
-                                  type="number"
-                                  class="form-control"
-                                  name="out_quantity"
-                                  required=""
-                                >
-                                <span v-if="containsKey(from_errors, 'out_quantity')" class="invalid">{{ from_errors.out_quantity[0] }}</span>
+                                <label class="custom-control-label" for="is_full_out">Full Pallet Out</label>
                               </div>
                             </div>
                           </div>
@@ -110,16 +141,17 @@
                       </div>
                     </form>
                   </div>
-                  <!-- <div id="tabItem6" class="tab-pane" :class="{ active: activeTab === 2 }">
+                </div>
+              <!-- <div id="tabItem6" class="tab-pane" :class="{ active: activeTab === 2 }">
                         <p>Culpa dolor voluptate do laboris laboris irure reprehenderit id incididunt duis pariatur mollit aute magna pariatur consectetur. Eu veniam duis non ut dolor deserunt commodo et minim in quis laboris ipsum velit id veniam. Quis ut consectetur adipisicing officia excepteur non sit. Ut et elit aliquip labore Lorem enim eu. Ullamco mollit occaecat dolore ipsum id officia mollit qui esse anim eiusmod do sint minim consectetur qui.</p>
                       </div> -->
-                </div>
               </div>
-            </div><!-- .card-preview -->
-          </div>
+            </div>
+          </div><!-- .card-preview -->
         </div>
       </div>
     </div>
+  </div>
   </div>
 </template>
 
@@ -134,17 +166,21 @@ export default {
       out_date: '',
       out_time: '',
       is_full_out: false,
-      out_quantity: '',
+      outQuantity: [],
       from_errors: [],
       apiSearchCustomerUrl: process.env.APP_URL + 'common/search-customers',
       apiSearchPalletsUrl: process.env.APP_URL + 'common/search-pallets',
-      customer_order_id: this.$route.params.palletId
+      customer_order_id: this.$route.params.palletId,
+      palletGoods: {}
     }
   },
   computed: {
     pallet () {
       return this.$store.state.palletinout.edit_pallet
     }
+  },
+  mounted () {
+    this.palletGood()
   },
   methods: {
     containsKey (obj, key) {
@@ -160,12 +196,36 @@ export default {
         out_time: self.out_time,
         customer_order_id: self.customer_order_id,
         is_full_out: (self.is_full_out) ? 1 : 2,
-        out_quantity: self.out_quantity
+        out_qty: self.outQuantity
       }).then(function (response) {
         self.$router.push('/pallets-in-out')
       }).catch(function (error) {
         self.from_errors = error.response.data.data
       })
+    },
+    palletGood () {
+      const self = this
+      this.$axios.get(`pallets-in-out/get-pallet-good/${self.$route.params.palletId}`)
+        .then(function (response) {
+          self.palletGoods = response.data.payload
+          self.palletGoods.forEach(function (value, index) {
+            self.outQuantity.push({
+              qty: value.qty,
+              good_id: value.good_id,
+              out_qty: 1
+            })
+          })
+        })
+    },
+    checkOutQty (input, good, index) {
+      const self = this
+      if (input > good.qty) {
+        this.$toast.error('Quantity should be less than ' + good.qty)
+        this.$refs.goodQuantity[index].value = 1
+        input = 1
+      }
+      self.outQuantity[index].out_qty = input
+      self.outQuantity[index].good_id = good.good_id
     }
 
   }

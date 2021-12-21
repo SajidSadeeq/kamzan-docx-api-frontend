@@ -21,6 +21,7 @@
     "nuxt": "^2.15.3",
     "nuxt-validate": "^1.0.1",
     "nuxt-vue-multiselect": "^1.0.4",
+    "v-tooltip": "^3.0.0-beta.1",
     "vue-apexcharts": "^1.6.1",
     "vue-custom-scrollbar": "^1.4.1",
     "vue-html-to-paper": "^1.4.4",

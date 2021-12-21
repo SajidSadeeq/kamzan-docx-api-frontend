@@ -1,11 +1,13 @@
 const state = () => ({
   pallets: [],
-  edit_pallet: {}
+  edit_pallet: {},
+  last_move_pallet: null
 })
 
 const mutations = {
   SET_PALLETS: (state, payload) => (state.pallets = payload),
-  SET_EDIT_PALLET: (state, payload) => (state.edit_pallet = payload)
+  SET_EDIT_PALLET: (state, payload) => (state.edit_pallet = payload),
+  SET_LAST_MOVE_PALLET: (state, payload) => (state.edit_pallet = payload)
 }
 const actions = {
   async fetchPalletsInOutList ({ commit }, payload) {

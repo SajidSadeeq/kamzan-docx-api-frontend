@@ -464,7 +464,8 @@ export default {
         out_date_time: true,
         use_by: true,
         batch_number: true
-      }
+      },
+      LastMovePallet: null
     }
   },
   computed: {
@@ -729,6 +730,13 @@ export default {
           }
         })
       }
+    },
+    fetchLastMovePallet () {
+      const self = this
+      this.$axios.get('/pallet/fetch-last-move-pallet')
+        .then(function (response) {
+          self.LastMovePallet = response.data.payload
+        })
     }
   }
 }

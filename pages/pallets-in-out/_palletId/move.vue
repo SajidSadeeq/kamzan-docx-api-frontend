@@ -121,6 +121,11 @@ export default {
     //   return this.$store.state.pallet.edit_pallet
     // }
   },
+  mounted () {
+    this.$nextTick(() => {
+      this.$nuxt.$loading.start()
+    })
+  },
   created () {
     this.fetchRacks()
     this.editPallet()
@@ -150,6 +155,12 @@ export default {
       }).catch(function (error) {
         self.from_errors = error.response.data.data
       })
+    },
+    start () {
+      this.loading = true
+    },
+    finish () {
+      this.loading = false
     },
     editPallet () {
       const self = this

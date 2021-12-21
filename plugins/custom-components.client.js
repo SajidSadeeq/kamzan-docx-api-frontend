@@ -6,6 +6,9 @@ import Multiselect from 'vue-multiselect'
 import VueApexCharts from 'vue-apexcharts'
 import vuescroll from 'vuescroll'
 import VueHtmlToPaper from 'vue-html-to-paper'
+import VTooltip from 'v-tooltip'
+import 'v-tooltip/dist/v-tooltip.css'
+
 const options = {
   name: '_blank',
   specs: [
@@ -14,11 +17,12 @@ const options = {
     'scrollbars=yes'
   ],
   styles: [
-    'http://localhost/wms_frontend/assets/admin/css/dashlite.css'
+    '@/assets/admin/css/dashlite.css'
   ]
 }
 
 Vue.use(VueTelInput, {})
+Vue.use(VTooltip)
 Vue.component('VueUploadMultipleImage', VueUploadMultipleImage)
 Vue.component('VueTelInput', VueTelInput)
 Vue.component('VuePagination', SlidingPagination)

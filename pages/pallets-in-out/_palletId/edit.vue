@@ -104,9 +104,9 @@
                                 <th scope="col">
                                   Select Good
                                 </th>
-                                <th scope="col">
+                                <!-- <th scope="col">
                                   Good Quantity
-                                </th>
+                                </th> -->
                               </tr>
                             </thead>
                             <tbody>
@@ -118,9 +118,12 @@
                                   <v-select :options="avaiableRacks" class="v-select" :value="pallet.rack_id" @input="(rack_id) => setPalletRack(pallet, rack_id)" />
                                 </td>
                                 <td>
-                                  <v-select :options="avaiableGoods" class="v-select" :value="pallet.good_id" @input=" (good_id) => setPalletGood(pallet, good_id)" />
+                                  <!-- <v-select :options="avaiableGoods" class="v-select" :value="pallet.good_id" @input=" (good_id) => setPalletGood(pallet, good_id)" /> -->
+                                  <button type="button" class="btn btn-warning" @click="addGoods(pallet)">
+                                    Update Goods
+                                  </button>
                                 </td>
-                                <td>
+                                <!-- <td>
                                   <input
                                     v-model="pallet.quantity"
                                     type="number"
@@ -130,7 +133,7 @@
                                     required
                                     @keyup="setGoodQty($event, index)"
                                   >
-                                </td>
+                                </td> -->
                               </tr>
                             </tbody>
                           </table>
@@ -156,6 +159,7 @@
         </div>
       </div>
     </div>
+    <add-goods v-if="showAddGoodsModal" :pallet="goodPallet" @close="closeModal" @selectedGoods="getSelectedGoods" />
   </div>
 </template>
 
@@ -166,6 +170,7 @@ import vSelect from 'vue-select'
 import 'vue-select/dist/vue-select.css'
 import 'vue-input-search/dist/vue-search.css'
 import VueSearch from 'vue-input-search/dist/vue-search.common'
+import AddGoods from '~/components/common/AddGoodsModal.vue'
 
 // import Autocomplete from '@/components/common/Autocomplete.vue'
 // Vue.component('VSelect', vSelect)
@@ -173,12 +178,15 @@ import VueSearch from 'vue-input-search/dist/vue-search.common'
 export default {
   components: {
     'vue-search': VueSearch,
-    'v-select': vSelect
+    'v-select': vSelect,
+    'add-goods': AddGoods
     // 'auto-complete': Autocomplete
   },
   data () {
     return {
       toggleAddGood: false,
+      showAddGoodsModal: false,
+      goodPallet: '',
       countries: [
         { label: 'Pakistan', id: '1' },
         { label: 'Palau', id: '4' },
@@ -212,9 +220,14 @@ export default {
           weight: '',
           product: {}
         }
-      ]
-
+      ],
+      loading: true
     }
+  },
+  mounted () {
+    this.$nextTick(() => {
+      this.$nuxt.$loading.start()
+    })
   },
   created () {
     this.fetchRacks()
@@ -267,12 +280,19 @@ export default {
             const ob = {
               pallet_id: response.data.payload.order.pallet_id,
               rack_id: response.data.payload.rack,
-              good_id: response.data.payload.good,
+              good: response.data.payload.order.pallet_goods,
               quantity: response.data.payload.order.good_quantity
             }
             self.preparePallets.push(ob)
+            self.$nuxt.$loading.finish()
           }
         })
+    },
+    start () {
+      this.loading = true
+    },
+    finish () {
+      this.loading = false
     },
     customerselected (customer) {
       this.customer_id = customer.id
@@ -350,6 +370,21 @@ export default {
     setGoodQty (event, index) {
       const self = this
       self.preparePallets[index].quantity = event.target.value
+    },
+    addGoods (pallet) {
+      this.goodPallet = pallet
+      this.showAddGoodsModal = true
+    },
+    closeModal () {
+      this.showAddGoodsModal = false
+    },
+    getSelectedGoods (pallet) {
+      const self = this
+      self.preparePallets.forEach((element, index) => {
+        if (element.pallet_id === pallet.pallet_id) {
+          element.good = pallet.good
+        }
+      })
     }
 
   }
