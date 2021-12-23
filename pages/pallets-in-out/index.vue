@@ -123,6 +123,9 @@
                 </div>
               </div><!-- .nk-block-head-content -->
             </div><!-- .nk-block-between -->
+            <div v-if="undo" class="alert alert-warning alert-icon alert-dismissible mt-2">
+              <em class="icon ni ni-alert-circle" /> Are you sure you want to <a v-tooltip="'Click here to undo'" href="javascript:;" class="alert-link text-danger" @click="undoConfirmPickSheet">Undo</a> the pallets out for <strong class="text-capitalize text-dark">{{ undoCustomer }}</strong> <button class="close" data-dismiss="alert" />
+            </div>
           </div><!-- .nk-block-head -->
           <div class="nk-block nk-block-lg mb-1">
             <div class="card card-preview">
@@ -145,15 +148,15 @@
                       <div class="accordion-inner">
                         <div class="preview-block">
                           <div class="row gy-4">
-                            <div class="col-sm-4">
+                            <div class="col-sm-3">
                               <div class="form-group">
                                 <label class="form-label" for="default-01">Select Date Range</label>
                                 <div class="form-control-wrap">
-                                  <date-picker v-model="daterange" range placeholder="Select Date Range" />
+                                  <date-picker v-model="daterange" range placeholder="Select Date Range" @cleared="clearDatePicker" />
                                 </div>
                               </div>
                             </div>
-                            <div class="col-sm-4">
+                            <div class="col-sm-3">
                               <div class="form-group">
                                 <label class="form-label" for="default-01">Select Status</label>
                                 <div class="form-control-wrap">
@@ -168,7 +171,7 @@
                                 </div>
                               </div>
                             </div>
-                            <div class="col-sm-4">
+                            <div class="col-sm-3">
                               <div class="form-group">
                                 <label class="form-label" for="default-01">Search Customer</label>
                                 <div class="form-control-wrap">
@@ -186,7 +189,7 @@
                                 </div>
                               </div>
                             </div>
-                            <div class="col-sm-4">
+                            <div class="col-sm-3">
                               <div class="form-group">
                                 <label class="form-label" for="default-05">Rack Location</label>
                                 <div class="form-control-wrap">
@@ -194,7 +197,7 @@
                                 </div>
                               </div>
                             </div>
-                            <div class="col-sm-4">
+                            <div class="col-sm-3">
                               <div class="form-group">
                                 <label class="form-label" for="default-05">Select Goods</label>
                                 <div class="form-control-wrap">
@@ -202,8 +205,23 @@
                                 </div>
                               </div>
                             </div>
-                            <div class="col-sm-4">
-                              <div class="mt-5 text-right">
+                            <div class="col-sm-3">
+                              <div class="form-group">
+                                <label class="form-label" for="default-05">Pallet Status</label>
+                                <div class="form-control-wrap">
+                                  <select v-model="pallet_status" class="form-control">
+                                    <option value="all">
+                                      All Pallets
+                                    </option>
+                                    <option value="active">
+                                      Active Pallet
+                                    </option>
+                                  </select>
+                                </div>
+                              </div>
+                            </div>
+                            <div class="col-sm-6">
+                              <div class="text-right search_btn">
                                 <button class="btn btn-success mr-2" @click="pageChangeHandler(1)">
                                   <em class="icon ni ni-search" />
                                   <span>Search</span>
@@ -292,9 +310,17 @@
               <div v-if="columnSettings.location" class="nk-tb-col tb-col-md">
                 <span>{{ (pallet.location)?pallet.location.name:'n/a' }}</span>
               </div>
-              <div v-if="columnSettings.good" class="nk-tb-col tb-col-md">
-                <span>{{ (pallet.good)?pallet.good.name:'n/a' }}</span><br>
-                <span>{{ pallet.good_quantity }}</span>
+              <div v-if="columnSettings.good && pallet.pallet_goods.length < 2" class="nk-tb-col tb-col-md">
+                <div v-for=" (pallet_good, index) in pallet.pallet_goods" :key="index">
+                  <button v-tooltip="'Good Quantity : '+pallet_good.qty" class="btn btn-sm btn-dim btn-round btn-outline-success">
+                    {{ (pallet_good.good)?pallet_good.good.name:'n/a' }}
+                  </button>
+                </div>
+              </div>
+              <div v-if="columnSettings.good && pallet.pallet_goods.length > 1" class="nk-tb-col tb-col-md">
+                <button v-tooltip="'Goods : '+pallet.pallet_goods.good_names.join(',')" class="btn btn-sm btn-dim btn-round btn-outline-warning">
+                  Mixed
+                </button>
               </div>
               <div v-if="columnSettings.in_by" class="nk-tb-col tb-col-lg">
                 <span class="badge badge-sm badge-dot has-bg d-none d-mb-inline-flex" :class="(pallet.pallet_in_user)?'badge-success':'badge-danger'">
@@ -375,6 +401,7 @@
           <div class="card">
             <div class="card-inner">
               <div class="pages float-left">
+                <div>Total : {{ total }}</div>
                 <select class="form-control" @change="changePerPage($event)">
                   <option value="10">
                     10
@@ -434,18 +461,21 @@ export default {
     return {
       toggleModal: false,
       filterCollapse: false,
-      // pallets: [],
+      pallets: [],
       toggleHeader: false,
       activeIndex: null,
       pickSheetDropdown: false,
       columnSettingsDropdown: false,
       loading: true,
+      undo: false,
+      undoCustomer: '',
       avaiableRacks: [],
       avaiableGoods: [],
+      pallet_status: 'all',
       total: 0,
       perPage: 10,
       currentPage: 1,
-      daterange: '',
+      daterange: null,
       rack_location: '',
       customerSearchPlaceholder: '',
       type: 'pallet-in',
@@ -453,6 +483,7 @@ export default {
       customer_id: '',
       searchSelectedGood: '',
       selectedCheckBoxes: [],
+      selectedIds: [],
       columnSettings: {
         customer: true,
         pallet: true,
@@ -465,13 +496,15 @@ export default {
         use_by: true,
         batch_number: true
       },
-      LastMovePallet: null
+      LastMovePallet: null,
+      oldPalletData: {},
+      log_ids: null
     }
   },
   computed: {
-    pallets () {
-      return this.$store.state.palletinout.pallets
-    },
+    // pallets () {
+    //   return this.$store.state.palletinout.pallets
+    // },
     selectAll: {
       get () {
         return this.pallets ? this.selectedCheckBoxes.length === this.pallets.length : false
@@ -490,6 +523,9 @@ export default {
         this.selectedCheckBoxes = selected
       }
     }
+  },
+  beforeMount () {
+    this.undo = false
   },
   mounted () {
     this.$nextTick(() => {
@@ -540,7 +576,21 @@ export default {
       })
         .then(function (response) {
           _this.total = response.data.payload.total
-          _this.$store.commit('palletinout/SET_PALLETS', response.data.payload.data)
+          // _this.$store.commit('palletinout/SET_PALLETS', response.data.payload.data)
+          response.data.payload.data.forEach(function (value, index) {
+            const goodNames = []
+            value.pallet_goods.forEach(function (good, gindex) {
+              goodNames.push(good.good.name + '/' + good.qty)
+            })
+            value.pallet_goods.good_names = goodNames
+          })
+          _this.pallets = []
+          response.data.payload.data.forEach(function (value, index) {
+            if (value.pallet_goods.length > 0) {
+              _this.pallets.push(value)
+            }
+          })
+          _this.total = _this.pallets.length
           _this.$nuxt.$loading.finish()
         })
     },
@@ -574,20 +624,45 @@ export default {
     },
     async pageChangeHandler (page) {
       const self = this
-      self.start()
-      self.currentPage = page
-      // const offset = ((this.currentPage - 1) * this.limit)
-      self.total = await this.$store.dispatch('palletinout/fetchPalletInOut', {
-        page: self.currentPage,
-        perpage: self.perPage,
-        daterange: self.daterange,
-        type: self.type,
-        customer_id: self.customer_id,
-        selected_goods: self.searchSelectedGood,
-        rack_location: self.rack_location
+      self.$nuxt.$loading.start()
+      await this.$axios.get('pallets-in-out', {
+        params: {
+          // perpage: this.perPage
+          page: self.currentPage,
+          perpage: self.perPage,
+          daterange: self.daterange,
+          type: self.type,
+          customer_id: self.customer_id,
+          selected_goods: self.searchSelectedGood,
+          rack_location: self.rack_location,
+          pallet_status: self.pallet_status
+        }
       })
+        .then(function (response) {
+          self.total = response.data.payload.total
+          // _this.$store.commit('palletinout/SET_PALLETS', response.data.payload.data)
+          response.data.payload.data.forEach(function (value, index) {
+            const goodNames = []
+            value.pallet_goods.forEach(function (good, gindex) {
+              goodNames.push(good.good.name + '/' + good.qty)
+            })
+            value.pallet_goods.good_names = goodNames
+          })
+          self.pallets = []
+          response.data.payload.data.forEach(function (value, index) {
+            if (value.pallet_goods.length > 0) {
+              self.pallets.push(value)
+            }
+          })
+          self.total = self.pallets.length
+          self.$nuxt.$loading.finish()
+        })
+
       this.finish()
       this.scrollToTop()
+    },
+    clearDatePicker () {
+      this.daterange = null
     },
     async removePallet (pallet) {
       const self = this
@@ -636,11 +711,9 @@ export default {
     },
     confirmPickSheet () {
       const self = this
-
-      const selectedIds = []
       self.selectedCheckBoxes.forEach(function (pallet) {
         if (pallet.status !== 2) {
-          selectedIds.push(pallet.id)
+          self.selectedIds.push(pallet.id)
         }
       })
 
@@ -665,10 +738,15 @@ export default {
           if (result.isConfirmed) {
             self.$nuxt.$loading.start()
             this.$axios.post('/pallets-in-out/multiple-pallet-out', {
-              ids: selectedIds
+              ids: self.selectedIds
             })
               .then(function (response) {
+                self.pickSheetDropdown = false
+                self.oldPalletData = response.data.payload.old
+                self.log_ids = response.data.payload.log_ids
+                self.undoCustomer = response.data.payload.customer_names.join(',')
                 self.fetchPallets()
+                self.undo = true
                 self.$nuxt.$loading.finish()
               })
 
@@ -691,11 +769,12 @@ export default {
           confirmButtonText: 'Close'
         })
       } else {
+        this.pickSheetDropdown = false
         const tr = this.selectedCheckBoxes.map(pallet =>
       `<tr>
                 <td>${pallet.customer.customer_name}</td>
-                <td>${pallet.location.name}</td>
-                <td>${(pallet.good) ? pallet.good.name : 'n/a'}<br>${pallet.good_quantity}</td>
+                <td>${pallet.location.name}</td>` +
+                `<td>${pallet.pallet_goods.good_names.join(',')}</td>
                 <td>${pallet.product_expiry_date ? moment(pallet.product_expiry_date, 'h:mm a').format('hh:mm a') : 'n/a'}</td>
                 <td>${pallet.batch_number}</td>
             </tr>`
@@ -737,12 +816,37 @@ export default {
         .then(function (response) {
           self.LastMovePallet = response.data.payload
         })
+    },
+    undoConfirmPickSheet () {
+      const self = this
+      console.log(this.selectedIds)
+      self.$nuxt.$loading.start()
+      this.$axios.post('/pallets-in-out/undo-multiple-pallet-out', {
+        ids: self.selectedIds,
+        oldPalletData: self.oldPalletData,
+        log_ids: self.log_ids
+      })
+        .then(function (response) {
+          // self.undoOldData = response.data
+          self.fetchPallets()
+          self.undo = false
+          self.undoCustomer = ''
+          self.$nuxt.$loading.finish()
+          self.$swal.fire(
+            'Success',
+            'Pallets retrieved successfully',
+            'success'
+          )
+        })
     }
   }
 }
 </script>
 
 <style scoped>
+.search_btn{
+  padding-top: 30px;
+}
 .mx-datepicker-range {
     width: 100%;
 }

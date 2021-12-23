@@ -82,47 +82,48 @@
                               </div>
                             </div>
                           </div>
-                          <div v-if="is_full_out == false" class="col-md-12 mt-2">
-                            <div class="row">
-                              <div class="col-md-6">
-                                <div class="form-group">
-                                  <label class="form-label">Pallet Goods</label>
-                                </div>
-                              </div>
-                              <div class="col-md-6">
-                                <div class="form-group text-right">
-                                  <label class="form-label">Amount Picked</label>
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                          {{ outQuantity }}
-                          <div v-for="(good, index) in palletGoods" :key="index" class="col-md-12 mt-2">
-                            <div class="form-group">
+                          <div v-if="is_full_out == false">
+                            <div class="col-md-12 mt-2">
                               <div class="row">
                                 <div class="col-md-6">
                                   <div class="form-group">
-                                    <label class="form-label">
-                                      <span class="badge badge-dim badge-success"><em class="icon ni ni-check-c" />
-                                        <span>{{ (good.good)?good.good.name:'n/a' }}</span></span>
-                                    </label>
+                                    <label class="form-label">Pallet Goods</label>
                                   </div>
                                 </div>
                                 <div class="col-md-6">
-                                  <div class="custom-control custom-checkbox">
-                                    <label class="form-label">
-                                      <span class="badge badge-dim badge-warning"><span>Qty : {{ good.qty }}</span></span>
-                                    </label>
-                                    <div class="form-control-wrap">
-                                      <input
-                                        ref="goodQuantity"
-                                        name="goodQuantity[]"
-                                        type="number"
-                                        class="form-control form-control-sm"
-                                        placeholder="qty"
-                                        value="1"
-                                        @keyup="checkOutQty($event.target.value, good, index)"
-                                      >
+                                  <div class="form-group text-right">
+                                    <label class="form-label">Amount Picked</label>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                            <div v-for="(good, index) in palletGoods" :key="index" class="col-md-12 mt-2">
+                              <div class="form-group">
+                                <div class="row">
+                                  <div class="col-md-6">
+                                    <div class="form-group">
+                                      <label class="form-label">
+                                        <span class="badge badge-dim badge-success"><em class="icon ni ni-check-c" />
+                                          <span>{{ (good.good)?good.good.name:'n/a' }}</span></span>
+                                      </label>
+                                    </div>
+                                  </div>
+                                  <div class="col-md-6">
+                                    <div class="custom-control custom-checkbox">
+                                      <label class="form-label">
+                                        <span class="badge badge-dim badge-warning"><span>Qty : {{ good.qty }}</span></span>
+                                      </label>
+                                      <div class="form-control-wrap">
+                                        <input
+                                          ref="goodQuantity"
+                                          name="goodQuantity[]"
+                                          type="number"
+                                          class="form-control form-control-sm"
+                                          placeholder="qty"
+                                          value="1"
+                                          @keyup="checkOutQty($event.target.value, good, index)"
+                                        >
+                                      </div>
                                     </div>
                                   </div>
                                 </div>
@@ -196,7 +197,7 @@ export default {
         out_time: self.out_time,
         customer_order_id: self.customer_order_id,
         is_full_out: (self.is_full_out) ? 1 : 2,
-        out_qty: self.outQuantity
+        out_quantity: self.outQuantity
       }).then(function (response) {
         self.$router.push('/pallets-in-out')
       }).catch(function (error) {
@@ -210,6 +211,7 @@ export default {
           self.palletGoods = response.data.payload
           self.palletGoods.forEach(function (value, index) {
             self.outQuantity.push({
+              id: value.id,
               qty: value.qty,
               good_id: value.good_id,
               out_qty: 1
@@ -227,7 +229,6 @@ export default {
       self.outQuantity[index].out_qty = input
       self.outQuantity[index].good_id = good.good_id
     }
-
   }
 }
 </script>
