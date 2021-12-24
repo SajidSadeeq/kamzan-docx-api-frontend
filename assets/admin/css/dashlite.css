@@ -43150,6 +43150,22 @@ body.dark-mode.bg-light {
     box-shadow: none;
 }
 
+.modal .modal-title {
+    font-size: 20px;
+}
+
+.modal.addGoods .modal-body {
+    padding-top: 10px;
+}
+
+.modal.addGoods .v-select {
+    padding: 0;
+}
+
+.modal.addGoods .table th {
+    border-top: 0;
+}
+
 @media (max-width: 1199px) {
     .is-compact:not(:hover) .nk-menu-badge,
     .is-compact:not(:hover) .nk-menu-toggle:after,

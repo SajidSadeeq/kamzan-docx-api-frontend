@@ -1,16 +1,15 @@
 <template>
   <div class="modal-backdrop">
-    <div class="modal">
+    <div class="modal addGoods">
       <div class="modal-dialog" role="document">
         <div class="modal-content">
           <div class="modal-header">
             <div class="pull-left">
               <h6 class="modal-title">
-                <span class="btn btn-primary">Pallet NO# <u class="text-dark ml-2"><strong>{{ palletInfo.pallet_id }}</strong></u></span>
+                <span class="">Pallet NO# <u class="text-dark ml-2"><strong>{{ palletInfo.pallet_id }}</strong></u></span>
               </h6>
             </div>
             <div class="pull-right">
-              <a v-tooltip="'Add Good'" href="javascript:;" class="btn btn-dim btn-outline-warning" @click="addNewGood"><em class="icon ni ni-plus" /></a>
               <a href="javascript:;" class="close" data-dismiss="modal" aria-label="Close" @click="close">
                 <em class="icon ni ni-cross" />
               </a>
@@ -30,6 +29,9 @@
                     </th>
                     <th scope="col">
                       Remove
+                    </th>
+                    <th scope="col" style="width:30px; padding-right:0;">
+                      <a v-tooltip="'Add Good'" href="javascript:;" class="btn btn-dim btn-sm btn-outline-warning" @click="addNewGood"><em class="icon ni ni-plus" /></a>
                     </th>
                   </tr>
                 </thead>
@@ -59,6 +61,7 @@
                         <em class="icon ni ni-minus" />
                       </button>
                     </td>
+                    <td />
                   </tr>
                 </tbody>
               </table>
