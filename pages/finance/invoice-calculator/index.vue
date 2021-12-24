@@ -172,7 +172,7 @@
                     </td>
                     <td>
                       <span class="badge badge-dim badge-dark">
-                        <em class="icon ni ni-sign-dollar" /><span>{{ pallet.customer.rhdpp_in }}</span>
+                        <em class="icon ni ni-sign-dollar" /><span v-html="calculateDiffOfTwoDates(pallet, '')" />
                       </span>
                     </td>
                   </tr>
@@ -196,17 +196,17 @@
                     </td>
                     <td>
                       <span class="badge badge-sm badge-dot has-bg d-none d-mb-inline-flex badge-danger">
-                        {{ (pallet.customer.invoice_day)?pallet.customer.invoice_day:'n/a' }}
+                        {{ (pallet.invoice_day)?pallet.invoice_day:'n/a' }}
                       </span>
                     </td>
                     <td>
                       <span class="badge badge-dim badge-warning">
-                        <em class="icon ni ni-sign-dollar" /><span class="text-capitalize">{{ pallet.customer.cpp }}</span>
+                        <em class="icon ni ni-sign-dollar" /><span class="text-capitalize">{{ pallet.cpp }}</span>
                       </span>
                     </td>
                     <td>
                       <span class="badge badge-dim badge-warning">
-                        <em class="icon ni ni-sign-dollar" /><span>{{ pallet.customer.cppd }}</span>
+                        <em class="icon ni ni-sign-dollar" /><span>{{ pallet.cppd }}</span>
                       </span>
                     </td>
                     <td>
@@ -221,7 +221,7 @@
                     </td>
                     <td>
                       <span class="badge badge-dim badge-dark">
-                        <em class="icon ni ni-sign-dollar" /><span>{{ pallet.customer.rhdpp_in }}</span>
+                        <em class="icon ni ni-sign-dollar" /><span>{{ calculateDiffOfTwoDates(pallet, 'sundry') }}</span>
                       </span>
                     </td>
                   </tr>
@@ -393,6 +393,42 @@ export default {
     changePerPage (event) {
       this.perPage = event.target.value
       this.pageChangeHandler(1)
+    },
+    calculateDiffOfTwoDates (pallet, check) {
+      const start = moment(new Date(pallet.last_paid_date || pallet.in_date))
+      const end = moment(new Date())
+      const tdays = end.diff(start, 'days') + 1
+      const tweeks = Math.floor(tdays / 7) + ((tdays % 7 >= 1) ? 1 : 0)
+      const tmonths = Math.floor(tdays / 30) + ((tdays % 30 >= 1) ? 1 : 0)
+      let total = pallet.customer.rhdpp_in
+      if (check === '') {
+        if (pallet.customer.cppd === 'day') {
+          total += pallet.customer.cpp * tdays
+        }
+        if (pallet.customer.cppd === 'week') {
+          total += pallet.customer.cpp * tweeks
+        }
+        if (pallet.customer.cppd === 'month') {
+          total += pallet.customer.cpp * tmonths
+        }
+        if (pallet.out_date !== null) {
+          total += pallet.customer.rhdpp_out
+        }
+      }
+
+      if (check === 'sundry') {
+        if (pallet.cppd === 'day') {
+          total += pallet.cpp * tdays
+        }
+        if (pallet.cppd === 'week') {
+          total += pallet.cpp * tweeks
+        }
+        if (pallet.out_date !== null) {
+          total += pallet.rhdpp_out
+        }
+      }
+
+      return total
     }
   }
 }
