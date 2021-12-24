@@ -42955,6 +42955,19 @@ body.dark-mode.bg-light {
     padding: 0.75rem 1.5rem;
 }
 
+.card-inner .pages {
+    width: 100%;
+}
+
+.card-inner .pages div {
+    float: right;
+}
+
+.card-inner .pages select {
+    float: left;
+    width: 100px;
+}
+
 .gp_remove {
     margin: 30px 0px 0px -16px;
 }
@@ -43123,6 +43136,18 @@ body.dark-mode.bg-light {
     min-width: 40px;
     border-left: solid 1px #d7d7dd;
     text-align: center;
+}
+
+.swal2-container .swal2-title {
+    font-size: 1.5em;
+}
+
+.swal2-actions .swal2-styled.swal2-confirm {
+    background-color: #1ee0ac!important;
+}
+
+.swal2-actions .swal2-styled.swal2-default-outline:focus {
+    box-shadow: none;
 }
 
 @media (max-width: 1199px) {
