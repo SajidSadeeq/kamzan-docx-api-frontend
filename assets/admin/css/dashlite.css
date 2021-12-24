@@ -42962,12 +42962,18 @@ body.dark-mode.bg-light {
 }
 
 .card-inner .pages div {
-    margin-left:10px;
+    margin-left: 10px;
+    font-weight: 700;
 }
 
 .card-inner .pages select {
     float: left;
     width: 100px;
+}
+
+.invoice-list .tbl-innr-head {
+    margin-top: 24px;
+    font-size: 1rem;
 }
 
 .gp_remove {
