@@ -590,7 +590,6 @@ export default {
               _this.pallets.push(value)
             }
           })
-          _this.total = _this.pallets.length
           _this.$nuxt.$loading.finish()
         })
     },
@@ -654,7 +653,7 @@ export default {
               self.pallets.push(value)
             }
           })
-          self.total = self.pallets.length
+          // self.total = self.pallets.length
           self.$nuxt.$loading.finish()
         })
 

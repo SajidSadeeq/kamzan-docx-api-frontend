@@ -7,79 +7,9 @@
             <div class="nk-block-between">
               <div class="nk-block-head-content">
                 <h3 class="nk-block-title page-title">
-                  Customer <small>Stock</small> Report
+                  Sales <small>Report</small>
                 </h3>
                 <!-- {{ selectedCheckBoxes }} -->
-              </div><!-- .nk-block-head-content -->
-              <div class="nk-block-head-content filters">
-                <div class="toggle-wrap nk-block-tools-toggle">
-                  <a href="#" class="btn btn-icon btn-trigger toggle-expand mr-n1" data-target="more-options"><em class="icon ni ni-more-v" /></a>
-                  <div class="toggle-expand-content" data-content="more-options">
-                    <ul class="nk-block-tools g-3">
-                      <!-- <li class="nk-block-tools-opt pick-sheet">
-                        <a
-                          v-click-outside="onClickOutside"
-                          href="javascript:;"
-                          class="btn btn-success d-md-inline-flex"
-                          data-toggle="dropdown"
-                          aria-expanded="false"
-                          @click="pickSheetDropdown = !pickSheetDropdown"
-                        >
-                          <em class="icon ni ni-setting" /> <span>Pick Sheet</span>
-                        </a>
-                        <div class="dropdown">
-                          <div class="dropdown-menu dropdown-menu-right px-3" :class="{show:pickSheetDropdown}" style="">
-                            <ul class="link-list-opt no-bdr">
-                              <li class="border-bottom mb-1">
-                                <strong>Pick Sheet ({{ selectedCheckBoxes.length }} Selected)</strong>
-                              </li>
-                              <li class="border-bottom mb-1">
-                                <a href="javascript:;" @click="printPickSheet()">Print Pick Sheet</a>
-                              </li>
-                              <li class="border-bottom mb-1">
-                                <a href="javascript:;" @click="confirmPickSheet()">Confirm Pick Sheet</a>
-                              </li>
-                            </ul>
-                          </div>
-                        </div>
-                      </li>
-                      <li class="nk-block-tools-opt settings">
-                        <a
-                          v-if="$auth.hasScope('pallet_in_out_col_settings')"
-                          v-click-outside="onClickOutside"
-                          href="javascript:;"
-                          class="btn btn-dark d-md-inline-flex"
-                          data-toggle="dropdown"
-                          aria-expanded="false"
-                          @click="columnSettingsDropdown = !columnSettingsDropdown"
-                        >
-                          <em class="icon ni ni-setting" />
-                        </a>
-                        <div class="dropdown">
-                          <div class="dropdown-menu dropdown-menu-right px-3" :class="{show:columnSettingsDropdown}" style="">
-                            <ul class="link-list-opt no-bdr">
-                              <li class="border-bottom mb-1">
-                                <strong>Columns</strong>
-                              </li>
-                              <li v-for="(column, index) in columnSettings" :key="index" class="text-capitalize">
-                                {{ index | replace("_"," ") }}
-                                <div class="custom-control custom-control-sm custom-checkbox notext float-right">
-                                  <input :id="index" type="checkbox" class="custom-control-input" :checked="index ? 'checked': ''" @click="columnCheckBox(columnSettings,index,$event)">
-                                  <label class="custom-control-label" :for="index" />
-                                </div>
-                              </li>
-                            </ul>
-                          </div>
-                        </div>
-                      </li>
-                      <li class="nk-block-tools-opt">
-                        <NuxtLink to="/pallets-in-out/pallet-in" class="btn btn-primary d-md-inline-flex">
-                          <em class="icon ni ni-plus" /><span>Create</span>
-                        </NuxtLink>
-                      </li> -->
-                    </ul>
-                  </div>
-                </div>
               </div><!-- .nk-block-head-content -->
             </div><!-- .nk-block-between -->
           </div><!-- .nk-block-head -->
@@ -242,23 +172,6 @@
                 <span class="badge badge-dim badge-success">
                   <em class="icon ni ni-file" /><span>{{ pallet.batch_number }}</span></span>
               </div>
-              <!-- <div class="nk-tb-col nk-tb-col-tools">
-                <ul class="nk-tb-actions gx-1">
-                  <li class="parent-li">
-                    <div class="drodown" :class="{'show': index === activeIndex }">
-                      <p v-if="activeIndex === index" v-click-outside="onClickOutside" />
-                      <a href="javascript:;" class="dropdown-toggle btn btn-icon btn-trigger" data-toggle="dropdown" @click="activeIndex = activeIndex === index ? null : index">
-                        <em class="icon ni ni-more-h" />
-                      </a>
-                      <div class="dropdown-menu dropdown-menu-right" :class="{'show': index === activeIndex }">
-                        <ul class="link-list-opt no-bdr">
-                          <li><a href="javascript:;" @click="editPallet(pallet)"><em class="icon ni ni-edit" /><span>Edit</span></a></li>
-                        </ul>
-                      </div>
-                    </div>
-                  </li>
-                </ul>
-              </div> -->
             </div><!-- .nk-tb-item -->
           </div><!-- .nk-tb-list -->
           <!-- <div v-if="Math.ceil(total / perPage) > 1" class="card"> -->

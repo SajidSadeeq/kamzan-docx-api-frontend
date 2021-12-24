@@ -155,7 +155,7 @@
                   data-original-title=""
                   title=""
                 >
-                  <span class="nk-menu-icon"><em class="icon ni ni-tile-thumb-fill" /></span>
+                  <span class="nk-menu-icon"><em class="icon ni ni-files" /></span>
                   <span class="nk-menu-text">Reports</span>
                 </a>
                 <ul v-show="(link == '/reports/customer-stock' || link == '/reports/stock-history' || link == '/reports/sales-report' || link == '/reports/sales-forecast' || toggleSubMenueReports)" class="nk-menu-sub">
