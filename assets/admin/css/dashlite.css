@@ -42971,6 +42971,11 @@ body.dark-mode.bg-light {
     width: 100px;
 }
 
+.invoice-list .tbl-innr-head {
+    margin-top: 24px;
+    font-size: 1rem;
+}
+
 .gp_remove {
     margin: 30px 0px 0px -16px;
 }

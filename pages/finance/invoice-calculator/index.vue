@@ -92,7 +92,7 @@
               </div>
             </div>
           </div> -->
-          <div class="card card-preview">
+          <div class="card card-preview invoice-list">
             <div class="card-inner">
               <table class="table table-striped">
                 <thead>
@@ -178,7 +178,9 @@
                   </tr>
                 </tbody>
                 <tbody v-if="sundryPallets.length > 0">
-                  <h6>Sundry Pallets</h6>
+                  <h6 class="tbl-innr-head">
+                    Sundry Pallets
+                  </h6>
                   <tr v-for="(pallet, index) in sundryPallets" :key="pallet.id">
                     <th scope="row">
                       {{ index+1 }}
