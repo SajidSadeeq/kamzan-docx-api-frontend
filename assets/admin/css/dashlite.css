@@ -42956,11 +42956,13 @@ body.dark-mode.bg-light {
 }
 
 .card-inner .pages {
-    width: 100%;
+    display: flex;
+    align-items: center;
+    flex-direction: row-reverse;
 }
 
 .card-inner .pages div {
-    float: right;
+    margin-left:10px;
 }
 
 .card-inner .pages select {
