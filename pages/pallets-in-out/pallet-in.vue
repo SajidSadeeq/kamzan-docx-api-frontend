@@ -149,10 +149,10 @@
                                         <option value="null">
                                           Select
                                         </option>
-                                        <option value="1">
+                                        <option value="day">
                                           Daily
                                         </option>
-                                        <option value="2">
+                                        <option value="week">
                                           Weekly
                                         </option>
                                       </select>

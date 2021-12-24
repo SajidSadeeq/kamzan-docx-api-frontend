@@ -87,7 +87,7 @@
                   data-original-title=""
                   title=""
                 >
-                  <span class="nk-menu-icon"><em class="icon ni ni-tile-thumb-fill" /></span>
+                  <span class="nk-menu-icon"><em class="icon ni ni-view-col-fill" /></span>
                   <span class="nk-menu-text">Locations</span>
                 </a>
                 <ul v-show="(link == '/aisle' || link == '/rack' || link == '/level' || link == '/rack-location' || toggleSubMenueLations)" class="nk-menu-sub">
@@ -142,7 +142,13 @@
                   </li>
                 </ul><!-- .nk-menu-sub -->
               </li>
-              <li class="nk-menu-item has-sub" :class="{active: (link == '/reports/customer-stock' || link == '/reports/stock-history' || toggleSubMenueReports)}" @click="toggleSubMenue3()">
+              <li class="nk-menu-item" @click="activeSubMenue('')">
+                <NuxtLink to="/invoice" class="nk-menu-link">
+                  <span class="nk-menu-icon"><em class="icon ni ni-invest" /></span>
+                  <span class="nk-menu-text">Invocies</span>
+                </NuxtLink>
+              </li>
+              <li class="nk-menu-item has-sub" :class="{active: (link == '/reports/customer-stock' || link == '/reports/stock-history' || link == '/reports/sales-report' || link == '/reports/sales-forecast' || toggleSubMenueReports)}" @click="toggleSubMenue3()">
                 <a
                   href="javascript:;"
                   class="nk-menu-link nk-menu-toggle"
@@ -152,7 +158,7 @@
                   <span class="nk-menu-icon"><em class="icon ni ni-tile-thumb-fill" /></span>
                   <span class="nk-menu-text">Reports</span>
                 </a>
-                <ul v-show="(link == '/reports/customer-stock' || link == '/reports/stock-history' || toggleSubMenueReports)" class="nk-menu-sub">
+                <ul v-show="(link == '/reports/customer-stock' || link == '/reports/stock-history' || link == '/reports/sales-report' || link == '/reports/sales-forecast' || toggleSubMenueReports)" class="nk-menu-sub">
                   <li class="nk-menu-item" @click="activeSubMenue('')">
                     <NuxtLink to="/reports/customer-stock" class="nk-menu-link">
                       <span class="nk-menu-text">Customer Stock Report</span>
@@ -161,6 +167,39 @@
                   <li class="nk-menu-item" @click="activeSubMenue('')">
                     <NuxtLink to="/reports/stock-history" class="nk-menu-link">
                       <span class="nk-menu-text">Stock History Report</span>
+                    </NuxtLink>
+                  </li>
+                  <li class="nk-menu-item" @click="activeSubMenue('')">
+                    <NuxtLink to="/reports/sales-report" class="nk-menu-link">
+                      <span class="nk-menu-text">Sales Reports</span>
+                    </NuxtLink>
+                  </li>
+                  <li class="nk-menu-item" @click="activeSubMenue('')">
+                    <NuxtLink to="/reports/sales-forecast" class="nk-menu-link">
+                      <span class="nk-menu-text">Sales Forecast</span>
+                    </NuxtLink>
+                  </li>
+                </ul>
+              </li>
+              <li class="nk-menu-item has-sub" :class="{active: (link == '/financing/invoice-calculator' || link == '/financing/create-invoice' || toggleSubMenueFinance)}" @click="toggleSubMenue4()">
+                <a
+                  href="javascript:;"
+                  class="nk-menu-link nk-menu-toggle"
+                  data-original-title=""
+                  title=""
+                >
+                  <span class="nk-menu-icon"><em class="icon ni ni-sign-pound" /></span>
+                  <span class="nk-menu-text">Finance</span>
+                </a>
+                <ul v-show="(link == '/finance/invoice-calculator' || link == '/finance/create-invoice' || toggleSubMenueFinance)" class="nk-menu-sub">
+                  <li class="nk-menu-item" @click="activeSubMenue('')">
+                    <NuxtLink to="/finance/invoice-calculator" class="nk-menu-link">
+                      <span class="nk-menu-text">Invoice calculator</span>
+                    </NuxtLink>
+                  </li>
+                  <li class="nk-menu-item" @click="activeSubMenue('')">
+                    <NuxtLink to="/finance/create-invoice" class="nk-menu-link">
+                      <span class="nk-menu-text">Create Invoice</span>
                     </NuxtLink>
                   </li>
                 </ul>
@@ -217,6 +256,7 @@ export default {
       toggleSubMenueLations: false,
       toggleSubMenueGoods: false,
       toggleSubMenueReports: false,
+      toggleSubMenueFinance: false,
       link: this.$router.currentRoute.path,
       bar: {
         showDelay: 500,
@@ -297,15 +337,19 @@ export default {
       this.link = this.$route.path
     },
     toggleSubMenue1 () {
+      this.toggleSubMenueGoods = false
+      this.toggleSubMenueReports = false
+      this.toggleSubMenueFinance = false
       if (this.toggleSubMenueLations) {
         this.toggleSubMenueLations = false
       } else {
         this.toggleSubMenueLations = true
       }
-      this.toggleSubMenueGoods = false
     },
     toggleSubMenue2 () {
       this.toggleSubMenueLations = false
+      this.toggleSubMenueReports = false
+      this.toggleSubMenueFinance = false
       if (this.toggleSubMenueGoods) {
         this.toggleSubMenueGoods = false
       } else {
@@ -315,10 +359,21 @@ export default {
     toggleSubMenue3 () {
       this.toggleSubMenueLations = false
       this.toggleSubMenueGoods = false
+      this.toggleSubMenueFinance = false
       if (this.toggleSubMenueReports) {
         this.toggleSubMenueReports = false
       } else {
         this.toggleSubMenueReports = true
+      }
+    },
+    toggleSubMenue4 () {
+      this.toggleSubMenueLations = false
+      this.toggleSubMenueGoods = false
+      this.toggleSubMenueReports = false
+      if (this.toggleSubMenueFinance) {
+        this.toggleSubMenueFinance = false
+      } else {
+        this.toggleSubMenueFinance = true
       }
     }
   }

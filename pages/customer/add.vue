@@ -173,6 +173,23 @@
                               </div>
                             </div>
                           </div>
+                          <div class="col-md-10 mt-2">
+                            <div class="form-group">
+                              <label class="form-label">Customer Code</label>
+                              <div class="form-control-wrap">
+                                <input
+                                  id="customer_code"
+                                  v-model="customer_code"
+                                  type="text"
+                                  class="form-control"
+                                  name="name"
+                                  placeholder="Customer code"
+                                  required=""
+                                >
+                                <span v-if="containsKey(from_errors, 'customer_code')" class="invalid">{{ from_errors.customer_code[0] }}</span>
+                              </div>
+                            </div>
+                          </div>
                           <!-- <div class="col-md-10">
                               <div class="form-group">
                                 <label class="form-label">Main Contact </label>
@@ -458,6 +475,7 @@ export default {
       city: '',
       postcode: '',
       telephone_number: '',
+      customer_code: '',
       county: '',
       main_contact: '',
       customer_type: '',
@@ -497,7 +515,8 @@ export default {
         is_automatic_invoice: self.invoice_automatic,
         invoice_frequency: self.invoice_frequency,
         invoice_day: self.week_day,
-        invoice_month_date: self.month_date
+        invoice_month_date: self.month_date,
+        customer_code: self.customer_code
       }).then(function (response) {
         self.$router.push('/customer')
       }).catch(function (error) {

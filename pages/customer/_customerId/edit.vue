@@ -173,6 +173,23 @@
                               </div>
                             </div>
                           </div>
+                          <div class="col-md-10 mt-2">
+                            <div class="form-group">
+                              <label class="form-label">Customer Code</label>
+                              <div class="form-control-wrap">
+                                <input
+                                  id="customer_code"
+                                  v-model="customer.customer_code"
+                                  type="text"
+                                  class="form-control"
+                                  name="name"
+                                  placeholder="Customer code"
+                                  required=""
+                                >
+                                <span v-if="containsKey(from_errors, 'customer_code')" class="invalid">{{ from_errors.customer_code[0] }}</span>
+                              </div>
+                            </div>
+                          </div>
                           <!-- <div class="col-md-10">
                               <div class="form-group">
                                 <label class="form-label">Main Contact </label>
@@ -488,6 +505,7 @@ export default {
       out_price: null,
       invoice_automatic: null,
       invoice_frequency: null,
+      customer_code: '',
       week_day: null,
       month_date: null,
       is_monthly: null,
@@ -531,7 +549,8 @@ export default {
         is_automatic_invoice: this.customer.is_automatic_invoice,
         invoice_frequency: this.customer.invoice_frequency,
         invoice_day: this.customer.invoice_day,
-        invoice_month_date: this.customer.invoice_month_date
+        invoice_month_date: this.customer.invoice_month_date,
+        customer_code: this.customer.customer_code
         // archived: 0
       }).then(function (response) {
         self.$router.push('/customer')
