@@ -42962,7 +42962,8 @@ body.dark-mode.bg-light {
 }
 
 .card-inner .pages div {
-    margin-left:10px;
+    margin-left: 10px;
+    font-weight: 700;
 }
 
 .card-inner .pages select {
