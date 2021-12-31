@@ -10,6 +10,24 @@
                   Sales Report
                 </h3>
               </div><!-- .nk-block-head-content -->
+              <div class="nk-block-head-content filters">
+                <div class="toggle-wrap nk-block-tools-toggle">
+                  <a href="#" class="btn btn-icon btn-trigger toggle-expand mr-n1" data-target="more-options"><em class="icon ni ni-more-v" /></a>
+                  <div class="toggle-expand-content" data-content="more-options">
+                    <ul class="nk-block-tools g-3">
+                      <li>
+                        <download-csv
+                          class="btn btn-primary"
+                          :data="json_data"
+                          name="filename.csv"
+                        >
+                          Export Csv
+                        </download-csv>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </div><!-- .nk-block-head-content -->
               <!-- <div class="nk-block-head-content filters">
                 <div class="toggle-wrap nk-block-tools-toggle">
                   <a href="#" class="btn btn-icon btn-trigger toggle-expand mr-n1" data-target="more-options"><em class="icon ni ni-more-v" /></a>
@@ -209,12 +227,25 @@ export default {
       status: '',
       perPage: 10,
       daterange: null,
-      order_by: 'desc'
+      order_by: 'desc',
+      json_csv: []
     }
   },
   computed: {
     invocies () {
       return this.$store.state.reports.sales_report
+    },
+    json_data () {
+      return this.$store.state.reports.sales_report.map(invocie => ({
+        ID: invocie.id,
+        CustomerName: (invocie.customer) ? invocie.customer.customer_name : 'n/a',
+        PalletId: invocie.pallet_id,
+        InvoiceType: (invocie.invoice_type === 1) ? 'Pallet' : (invocie.invoice_type === 2) ? 'RH&D' : 'Sundry',
+        From: moment(invocie.invoice_from).format('DD-MM-YYYY'),
+        TO: moment(invocie.invoice_to).format('DD-MM-YYYY'),
+        Vat: invocie.vat,
+        Total: invocie.sum_total
+      }))
     }
   },
   mounted () {

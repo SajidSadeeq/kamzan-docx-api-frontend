@@ -3,12 +3,10 @@
   <div class="nk-sidebar nk-sidebar-fixed is-dark" :class="{'is-compact nk-sidebar-active': toggleSideBar}" data-content="sidebarMenu">
     <div class="nk-sidebar-element nk-sidebar-head">
       <div class="nk-sidebar-brand">
-        <a href="html/index.html" class="logo-link nk-sidebar-logo">
-          <!-- <img class="logo-light logo-img" src="@/assets/admin/images/logo-old.png" srcset="@/assets/admin/images/logo2x-old.png 2x" alt="logo"> -->
+        <NuxtLink to="/" class="logo-link nk-sidebar-logo">
           <img class="logo-dark logo-img" src="@/assets/admin/images/logo.webp" srcset="@/assets/admin/images/logo2x.png 2x" alt="logo-dark">
-          <!-- <img class="logo-dark logo-img" src="@/assets/admin/images/logo-dark.png" srcset="@/assets/admin/images/logo-dark2x.png 2x" alt="logo-dark"> -->
-          <img class="logo-small logo-img logo-img-small" src="@/assets/admin/images/favicon.png" srcset="@/assets/admin/images/favicon.png 2x" alt="logo-small">
-        </a>
+          <img class="logo-small logo-img logo-img-small" src="@/assets/admin/images/favicon.png" srcset="@/assets/admin/images/favicon.png 2x" alt="logo-small" width="50">
+        </NuxtLink>
       </div>
       <div class="nk-menu-trigger mr-n2" @click="toggleSideBar = !toggleSideBar">
         <a href="#" class="nk-nav-toggle nk-quick-nav-icon d-xl-none" data-target="sidebarMenu"><em class="icon ni ni-arrow-left" /></a>
@@ -37,12 +35,6 @@
                   Modules
                 </h6>
               </li><!-- .nk-menu-heading -->
-              <!-- <li class="nk-menu-item" @click="activeSubMenue('')">
-                <NuxtLink to="/category" class="nk-menu-link">
-                  <span class="nk-menu-icon"><em class="icon ni ni-menu-squared" /></span>
-                  <span class="nk-menu-text">Category</span>
-                </NuxtLink>
-              </li> -->
               <!-- .nk-menu-item -->
               <li class="nk-menu-item" @click="activeSubMenue('')">
                 <NuxtLink to="/customer" class="nk-menu-link">
@@ -145,7 +137,7 @@
               <li class="nk-menu-item" @click="activeSubMenue('')">
                 <NuxtLink to="/invoice" class="nk-menu-link">
                   <span class="nk-menu-icon"><em class="icon ni ni-invest" /></span>
-                  <span class="nk-menu-text">Invocies</span>
+                  <span class="nk-menu-text">Invoices</span>
                 </NuxtLink>
               </li>
               <li class="nk-menu-item has-sub" :class="{active: (link == '/reports/customer-stock' || link == '/reports/stock-history' || link == '/reports/sales-report' || link == '/reports/sales-forecast' || toggleSubMenueReports)}" @click="toggleSubMenue3()">

@@ -98,7 +98,7 @@
                       justify-content-center justify-content-lg-end
                     "
                   >
-                    <li class="nav-item">
+                    <!-- <li class="nav-item">
                       <a class="nav-link" href="#">Terms & Condition</a>
                     </li>
                     <li class="nav-item">
@@ -106,13 +106,13 @@
                     </li>
                     <li class="nav-item">
                       <a class="nav-link" href="#">Help</a>
-                    </li>
+                    </li> -->
                   </ul>
                 </div>
                 <div class="col-lg-6">
                   <div class="nk-block-content text-center text-lg-left">
                     <p class="text-soft">
-                      &copy; 2019 CryptoLite. All Rights Reserved.
+                      &copy; {{ new Date().getFullYear() }} Schuja GmbH
                     </p>
                   </div>
                 </div>
@@ -129,6 +129,7 @@
 </template>
 
 <script>
+
 export default {
   layout: 'login',
   data () {

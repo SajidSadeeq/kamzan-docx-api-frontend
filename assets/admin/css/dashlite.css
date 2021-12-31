@@ -43036,10 +43036,11 @@ body.dark-mode.bg-light {
 /* .vs-good{
     width: 100px;
 }
+ */
 
 .mx-datepicker-range {
-    width: 160px !important;
-} */
+    width: 100% !important;
+}
 
 .legends span {
     background: #fff;

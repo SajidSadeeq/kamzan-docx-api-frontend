@@ -11,6 +11,24 @@
                 </h3>
                 <!-- {{ selectedCheckBoxes }} -->
               </div><!-- .nk-block-head-content -->
+              <div class="nk-block-head-content filters">
+                <div class="toggle-wrap nk-block-tools-toggle">
+                  <a href="#" class="btn btn-icon btn-trigger toggle-expand mr-n1" data-target="more-options"><em class="icon ni ni-more-v" /></a>
+                  <div class="toggle-expand-content" data-content="more-options">
+                    <ul class="nk-block-tools g-3">
+                      <li>
+                        <download-csv
+                          class="btn btn-primary"
+                          :data="json_data"
+                          name="filename.csv"
+                        >
+                          Export Csv
+                        </download-csv>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </div><!-- .nk-block-head-content -->
             </div><!-- .nk-block-between -->
           </div><!-- .nk-block-head -->
           <div class="nk-block nk-block-lg mb-1">
@@ -301,7 +319,8 @@ export default {
       customerSearchPlaceholder: 'Search Customer',
       apiSearchCustomerUrl: process.env.APP_URL + 'common/search-customers',
       customer_id: '',
-      form_errors: ''
+      form_errors: '',
+      json_data: []
     }
   },
   created () {
@@ -337,20 +356,6 @@ export default {
     toggleActive (index) {
       this.activeIndex = index
     },
-    // async fetchPalletCaculations () {
-    //   const self = this
-    //   self.$nuxt.$loading.start()
-    //   await this.$axios.get('finance/invoice-calculator', {
-    //     params: {
-    //       perpage: this.perPage
-    //     }
-    //   })
-    //     .then(function (response) {
-    //       self.total = response.data.payload.total
-    //       self.$store.commit('reports/CUSTOMER_STOCK', response.data.payload.data)
-    //       self.$nuxt.$loading.finish()
-    //     })
-    // },
     scrollToTop () {
       const element = document.querySelector('html')
       element.scroll({
@@ -365,7 +370,6 @@ export default {
       const self = this
       self.$nuxt.$loading.start()
       self.currentPage = page
-      // const offset = ((this.currentPage - 1) * this.limit)
       await this.$axios.get('finance/invoice-calculator', {
         params: {
           page: self.currentPage,
@@ -383,6 +387,25 @@ export default {
             } else {
               self.pallets.push(value)
             }
+          })
+          // prepare data for csv
+          response.data.payload.data.forEach(function (value, index) {
+            self.json_data.push({
+              Type: 'Invoice',
+              CustomerReference: value.customer.customer_code,
+              Date: value.created_at,
+              CustomerName: value.customer.customer_name,
+              Reference: value.id,
+              LedgerAccount: '',
+              Details: '',
+              Net: self.calculateDiffOfTwoDates(value),
+              VATRate: (self.calculateDiffOfTwoDates(value) * 20) / 100,
+              VAT: 20,
+              Total: self.calculateDiffOfTwoDates(value) + (self.calculateDiffOfTwoDates(value) * 20) / 100,
+              AnalysisType1: '',
+              AnalysisType2: '',
+              AnalysisType3: ''
+            })
           })
           self.total = response.data.payload.total
           self.$nuxt.$loading.finish()
@@ -403,7 +426,7 @@ export default {
       const tweeks = Math.floor(tdays / 7) + ((tdays % 7 >= 1) ? 1 : 0)
       const tmonths = Math.floor(tdays / 30) + ((tdays % 30 >= 1) ? 1 : 0)
       let total = pallet.customer.rhdpp_in
-      if (check === '') {
+      if (!pallet.is_sundry) {
         if (pallet.customer.cppd === 'day') {
           total += pallet.customer.cpp * tdays
         }
@@ -418,7 +441,7 @@ export default {
         }
       }
 
-      if (check === 'sundry') {
+      if (pallet.is_sundry) {
         if (pallet.cppd === 'day') {
           total += pallet.cpp * tdays
         }
@@ -426,7 +449,7 @@ export default {
           total += pallet.cpp * tweeks
         }
         if (pallet.out_date !== null) {
-          total += pallet.rhdpp_out
+          total += pallet.customer.rhdpp_out
         }
       }
 

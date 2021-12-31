@@ -459,6 +459,7 @@ export default {
       loading: true,
       undo: false,
       undoCustomer: '',
+      undo_invoice_id: '',
       avaiableRacks: [],
       avaiableGoods: [],
       pallet_status: 'all',
@@ -735,6 +736,7 @@ export default {
                 self.pickSheetDropdown = false
                 self.oldPalletData = response.data.payload.old
                 self.log_ids = response.data.payload.log_ids
+                self.undo_invoice_id = response.data.payload.invoice_id
                 self.undoCustomer = response.data.payload.customer_names.join(',')
                 self.fetchPallets()
                 self.undo = true
@@ -815,7 +817,8 @@ export default {
       this.$axios.post('/pallets-in-out/undo-multiple-pallet-out', {
         ids: self.selectedIds,
         oldPalletData: self.oldPalletData,
-        log_ids: self.log_ids
+        log_ids: self.log_ids,
+        undo_invoice_id: self.undo_invoice_id
       })
         .then(function (response) {
           // self.undoOldData = response.data

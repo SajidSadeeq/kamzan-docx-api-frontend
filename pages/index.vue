@@ -54,9 +54,9 @@
               <div class="col-xxl-6 col-md-6">
                 <GoingPallets />
               </div>
-              <div class="col-xxl-12 col-md-12">
+              <!-- <div class="col-xxl-12 col-md-12">
                 <MissedPallets />
-              </div>
+              </div> -->
             </div><!-- .row -->
           </div><!-- .nk-block -->
         </div>
@@ -72,15 +72,15 @@ import PieChart from '~/components/common/dashboard/PieChart.vue'
 import RecentlyAdded from '~/components/common/dashboard/RecentlyAdded.vue'
 import ComingPallets from '~/components/common/dashboard/ComingPallets.vue'
 import GoingPallets from '~/components/common/dashboard/GoingPallets.vue'
-import MissedPallets from '~/components/common/dashboard/MissedDeadlinePallets.vue'
+// import MissedPallets from '~/components/common/dashboard/MissedDeadlinePallets.vue'
 export default {
   components: {
     BarChart,
     PieChart,
     RecentlyAdded,
     ComingPallets,
-    GoingPallets,
-    MissedPallets
+    GoingPallets
+    // MissedPallets
   },
   data () {
     return {
