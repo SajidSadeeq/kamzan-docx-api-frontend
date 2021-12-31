@@ -434,20 +434,10 @@
 
 <script>
 import moment from 'moment'
-import vSelect from 'vue-select'
-import 'vue-select/dist/vue-select.css'
-import DatePicker from 'vue2-datepicker'
 import Vue2ClickOutside from 'vue2-click-outside'
-import 'vue-input-search/dist/vue-search.css'
-import VueSearch from 'vue-input-search/dist/vue-search.common'
 export default {
   directives: {
     clickOutside: Vue2ClickOutside.directive
-  },
-  components: {
-    'date-picker': DatePicker,
-    'vue-search': VueSearch,
-    'v-select': vSelect
   },
   filters: {
     formateDate: date => date ? moment(date).format('DD-MM-YYYY') : 'n/a',
@@ -461,7 +451,7 @@ export default {
     return {
       toggleModal: false,
       filterCollapse: false,
-      pallets: [],
+      pallets_sorting: [],
       toggleHeader: false,
       activeIndex: null,
       pickSheetDropdown: false,
@@ -502,9 +492,9 @@ export default {
     }
   },
   computed: {
-    // pallets () {
-    //   return this.$store.state.palletinout.pallets
-    // },
+    pallets () {
+      return this.$store.state.palletinout.pallets
+    },
     selectAll: {
       get () {
         return this.pallets ? this.selectedCheckBoxes.length === this.pallets.length : false
@@ -568,15 +558,14 @@ export default {
       this.activeIndex = index
     },
     async fetchPallets () {
-      const _this = this
+      const self = this
       await this.$axios.get('pallets-in-out', {
         params: {
           perpage: this.perPage
         }
       })
         .then(function (response) {
-          _this.total = response.data.payload.total
-          // _this.$store.commit('palletinout/SET_PALLETS', response.data.payload.data)
+          self.total = response.data.payload.total
           response.data.payload.data.forEach(function (value, index) {
             const goodNames = []
             value.pallet_goods.forEach(function (good, gindex) {
@@ -584,13 +573,14 @@ export default {
             })
             value.pallet_goods.good_names = goodNames
           })
-          _this.pallets = []
+          self.pallets_sorting = []
           response.data.payload.data.forEach(function (value, index) {
-            if (value.pallet_goods.length > 0) {
-              _this.pallets.push(value)
-            }
+            // if (value.pallet_goods.length > 0) {
+            self.pallets_sorting.push(value)
+            // }
           })
-          _this.$nuxt.$loading.finish()
+          self.$store.commit('palletinout/SET_PALLETS', self.pallets_sorting)
+          self.$nuxt.$loading.finish()
         })
     },
     async fetchGoods () {
@@ -624,6 +614,7 @@ export default {
     async pageChangeHandler (page) {
       const self = this
       self.$nuxt.$loading.start()
+      self.currentPage = page
       await this.$axios.get('pallets-in-out', {
         params: {
           // perpage: this.perPage
@@ -647,13 +638,14 @@ export default {
             })
             value.pallet_goods.good_names = goodNames
           })
-          self.pallets = []
+          self.pallets_sorting = []
           response.data.payload.data.forEach(function (value, index) {
-            if (value.pallet_goods.length > 0) {
-              self.pallets.push(value)
-            }
+            // if (value.pallet_goods.length > 0) {
+            self.pallets_sorting.push(value)
+            // }
           })
           // self.total = self.pallets.length
+          self.$store.commit('palletinout/SET_PALLETS', self.pallets_sorting)
           self.$nuxt.$loading.finish()
         })
 

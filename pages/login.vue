@@ -154,6 +154,7 @@ export default {
         if (error.response.data.code === 401) {
           self.error_message = error.response.data.message
         }
+        self.$nuxt.$loading.finish()
       })
       this.$router.push('/')
     }

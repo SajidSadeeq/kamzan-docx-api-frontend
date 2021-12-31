@@ -10,7 +10,7 @@
                   Sales Report
                 </h3>
               </div><!-- .nk-block-head-content -->
-              <div class="nk-block-head-content filters">
+              <!-- <div class="nk-block-head-content filters">
                 <div class="toggle-wrap nk-block-tools-toggle">
                   <a href="#" class="btn btn-icon btn-trigger toggle-expand mr-n1" data-target="more-options"><em class="icon ni ni-more-v" /></a>
                   <div class="toggle-expand-content" data-content="more-options">
@@ -34,156 +34,153 @@
                     </ul>
                   </div>
                 </div>
-              </div><!-- .nk-block-head-content -->
+              </div>.nk-block-head-content -->
             </div><!-- .nk-block-between -->
           </div><!-- .nk-block-head -->
-          <div class="nk-block">
-            <div class="nk-tb-list is-separate mb-3">
-              <div class="nk-tb-item nk-tb-head">
-                <div class="nk-tb-col nk-tb-col-check">
-                  <span class="sub-text">#</span>
-                </div>
-                <div class="nk-tb-col">
-                  <span class="sub-text">Customer Name</span>
-                </div>
-                <div class="nk-tb-col tb-col-mb">
-                  <span class="sub-text">Email</span>
-                </div>
-                <div class="nk-tb-col tb-col-mb">
-                  <span class="sub-text">Street 1</span>
-                </div>
-                <div class="nk-tb-col tb-col-md">
-                  <span class="sub-text">Street 2</span>
-                </div>
-                <div class="nk-tb-col tb-col-lg">
-                  <span class="sub-text">Country</span>
-                </div>
-                <div class="nk-tb-col tb-col-lg">
-                  <span class="sub-text">Last Order</span>
-                </div>
-                <div class="nk-tb-col tb-col-md status">
-                  <span class="sub-text">Status</span>
-                </div>
-                <div class="nk-tb-col nk-tb-col-tools">
-                  <ul class="nk-tb-actions gx-1 my-n1">
-                    <li>
-                      <div class="drodown">
-                        <a href="#" class="dropdown-toggle btn btn-icon btn-trigger mr-n1" data-toggle="dropdown"><em class="icon ni ni-more-h" /></a>
-                        <div class="dropdown-menu dropdown-menu-right">
-                          <ul class="link-list-opt no-bdr">
-                            <li><a href="#"><em class="icon ni ni-mail" /><span>Send Email to All</span></a></li>
-                            <li><a href="#"><em class="icon ni ni-na" /><span>Suspend Selected</span></a></li>
-                            <li><a href="#"><em class="icon ni ni-trash" /><span>Remove Seleted</span></a></li>
-                            <li><a href="#"><em class="icon ni ni-shield-star" /><span>Reset Password</span></a></li>
-                          </ul>
+          <div class="nk-block nk-block-lg mb-1">
+            <div class="card card-preview">
+              <div class="card-inner">
+                <div id="accordion-1" class="accordion accordion-s2">
+                  <div class="accordion-item">
+                    <a
+                      href="javascript:;"
+                      class="accordion-head"
+                      :class="(filterCollapse)?'':'collapsed'"
+                      data-toggle="collapse"
+                      data-target="#accordion-item-1-1"
+                      aria-expanded="false"
+                      @click="filterCollapse = !filterCollapse"
+                    >
+                      <h6 class="title"> Filters </h6>
+                      <span class="accordion-icon" />
+                    </a>
+                    <div id="accordion-item-1-1" class="accordion-body collapse" :class="(filterCollapse)?'show':''" data-parent="#accordion-1" style="">
+                      <div class="accordion-inner">
+                        <div class="preview-block">
+                          <div class="row gy-4">
+                            <div class="col-sm-4">
+                              <div class="form-group">
+                                <label class="form-label" for="default-01">Select Date Range</label>
+                                <div class="form-control-wrap">
+                                  <date-picker v-model="daterange" range placeholder="Select Date Range" />
+                                </div>
+                              </div>
+                            </div>
+                            <div class="col-sm-4">
+                              <div class="form-group">
+                                <label class="form-label" for="default-01">Order By</label>
+                                <div class="form-control-wrap">
+                                  <select id="order-by" v-model="order_by" class="form-control">
+                                    <option value="">
+                                      All
+                                    </option>
+                                    <option value="desc">
+                                      Desc
+                                    </option>
+                                    <option value="Asc">
+                                      Asc
+                                    </option>
+                                  </select>
+                                </div>
+                              </div>
+                            </div>
+                            <div class="col-sm-4">
+                              <div class="mt-5 text-right">
+                                <button class="btn btn-success mr-2" @click="pageChangeHandler(1)">
+                                  <em class="icon ni ni-search" />
+                                  <span>Search</span>
+                                </button>
+                              </div>
+                            </div>
+                          </div>
                         </div>
-                      </div>
-                    </li>
-                  </ul>
-                </div>
-              </div><!-- .nk-tb-item -->
-
-              <div v-for="(customer, index) in customers" :key="customer.id" class="nk-tb-item">
-                <div class="nk-tb-col tb-col-mb">
-                  <span class="tb-amount">{{ customer.id }}</span>
-                </div>
-                <div class="nk-tb-col">
-                  <a href="javascript:;">
-                    <div class="user-card">
-                      <div class="user-avatar bg-primary">
-                        <span>AB</span>
-                      </div>
-                      <div class="user-info">
-                        <span class="tb-lead"> {{ customer.customer_name }} <span class="dot dot-success d-md-none ml-1" /></span>
                       </div>
                     </div>
-                  </a>
-                </div>
-                <div class="nk-tb-col tb-col-mb">
-                  <span class="tb-amount">{{ customer.email }}</span>
-                </div>
-                <div class="nk-tb-col tb-col-mb">
-                  <span class="tb-amount">{{ customer.street_1 }}</span>
-                </div>
-                <div class="nk-tb-col tb-col-md">
-                  <span>{{ customer.street_2 }}</span>
-                </div>
-                <div class="nk-tb-col tb-col-lg">
-                  <span>{{ customer.county }}</span>
-                </div>
-                <div class="nk-tb-col tb-col-lg">
-                  <span>{{ customer.street_2 }}</span>
-                </div>
-                <div class="nk-tb-col tb-col-md">
-                  <span class="tb-status text-success">Active</span>
-                </div>
-                <div class="nk-tb-col nk-tb-col-tools">
-                  <ul class="nk-tb-actions gx-1">
-                    <li class="nk-tb-action-hidden">
-                      <a
-                        href="#"
-                        class="btn btn-trigger btn-icon"
-                        data-toggle="tooltip"
-                        data-placement="top"
-                        title=""
-                        data-original-title="Send Email"
-                      >
-                        <em class="icon ni ni-mail-fill" />
-                      </a>
-                    </li>
-                    <li class="nk-tb-action-hidden">
-                      <a
-                        href="#"
-                        class="btn btn-trigger btn-icon"
-                        data-toggle="tooltip"
-                        data-placement="top"
-                        title=""
-                        data-original-title="Suspend"
-                      >
-                        <em class="icon ni ni-user-cross-fill" />
-                      </a>
-                    </li>
-                    <li class="parent-li">
-                      <div class="drodown" :class="{'show': index === activeIndex }">
-                        <p v-if="activeIndex === index" v-click-outside="onClickOutside" />
-                        <a href="javascript:;" class="dropdown-toggle btn btn-icon btn-trigger" data-toggle="dropdown" @click="activeIndex = activeIndex === index ? null : index">
-                          <em class="icon ni ni-more-h" />
-                        </a>
-                        <div class="dropdown-menu dropdown-menu-right" :class="{'show': index === activeIndex }">
-                          <ul class="link-list-opt no-bdr">
-                            <!-- <li><a href="html/ecommerce/customer-details.html"><em class="icon ni ni-eye" /><span>View Details</span></a></li> -->
-                            <li>
-                              <a
-                                href="javascript:;"
-                                @click="editCustomer(customer)"
-                              ><em class="icon ni ni-edit" /><span>Edit Details</span></a>
-                            </li>
-                            <li><a href="javascript:;" @click="removeCustomer(customer)"><em class="icon ni ni-trash" /><span>Delete</span></a></li>
-                            <!-- <li><a href="#"><em class="icon ni ni-repeat" /><span>Orders</span></a></li>
-                            <li class="divider" />
-                            <li><a href="#"><em class="icon ni ni-shield-star" /><span>Reset Pass</span></a></li>
-                            <li><a href="#"><em class="icon ni ni-na" /><span>Suspend</span></a></li> -->
-                          </ul>
-                        </div>
-                      </div>
-                    </li>
-                  </ul>
-                </div>
-              </div><!-- .nk-tb-item -->
-            </div><!-- .nk-tb-list -->
-            <div v-if="Math.ceil(total / perPage) > 1" class="card">
-              <div class="card-inner">
-                <div class="pages float-right">
-                  <vue-pagination
-                    :current="currentPage"
-                    :total="Math.ceil(total / perPage)"
-                    @page-change="pageChangeHandler"
-                  />
+                  </div>
                 </div>
               </div>
-            </div>
-          </div><!-- .nk-block -->
+            </div><!-- .card-preview -->
+          </div>
         </div>
+        <div class="nk-block">
+          <div class="nk-tb-list is-separate mb-3">
+            <div class="nk-tb-item nk-tb-head">
+              <div class="nk-tb-col nk-tb-col-check">
+                <span class="sub-text">#</span>
+              </div>
+              <div class="nk-tb-col">
+                <span class="sub-text">Customer Name</span>
+              </div>
+              <div class="nk-tb-col tb-col-mb">
+                <span class="sub-text">Pallet</span>
+              </div>
+              <div class="nk-tb-col tb-col-mb">
+                <span class="sub-text">Type</span>
+              </div>
+              <div class="nk-tb-col tb-col-mb">
+                <span class="sub-text">From</span>
+              </div>
+              <div class="nk-tb-col tb-col-mb">
+                <span class="sub-text">To</span>
+              </div>
+              <div class="nk-tb-col tb-col-md">
+                <span class="sub-text">Vat</span>
+              </div>
+              <div class="nk-tb-col tb-col-md">
+                <span class="sub-text">Total</span>
+              </div>
+              <div class="nk-tb-col tb-col-lg">
+                <span class="sub-text">Status</span>
+              </div>
+            </div><!-- .nk-tb-item -->
+            <div v-for="(invocie, index) in invocies" :key="index" class="nk-tb-item">
+              <div class="nk-tb-col tb-col-mb">
+                <span class="tb-amount">{{ invocie.id }}</span>
+              </div>
+              <div class="nk-tb-col">
+                <a href="javascript:;">
+                  <div class="user-card">
+                    <div class="user-info">
+                      <span class="tb-lead"> {{ (invocie.customer)?invocie.customer.customer_name:'n/a' }} <span class="dot dot-success d-md-none ml-1" /></span>
+                    </div>
+                  </div>
+                </a>
+              </div>
+              <div class="nk-tb-col tb-col-mb">
+                <span class="tb-amount">{{ (invocie.pallet_id)?invocie.pallet_id:'n/a' }}</span>
+              </div>
+              <div class="nk-tb-col tb-col-mb">
+                <span class="tb-amount" :class="(invocie.invoice_type == 1)?'text-success':(invocie.invoice_type == 2)?'text-warning':'text-danger'">{{ (invocie.invoice_type == 1)?'Pallet':(invocie.invoice_type == 2)?'RH&D':'Sundry' }}</span>
+              </div>
+              <div class="nk-tb-col tb-col-md">
+                <span>{{ invocie.invoice_from | formateDate }}</span>
+              </div>
+              <div class="nk-tb-col tb-col-lg">
+                <span>{{ invocie.invoice_to | formateDate }}</span>
+              </div>
+              <div class="nk-tb-col tb-col-lg">
+                <span>{{ invocie.vat }}</span>
+              </div>
+              <div class="nk-tb-col tb-col-lg">
+                <span>{{ invocie.sum_total }}</span>
+              </div>
+              <div class="nk-tb-col tb-col-md">
+                <span class="tb-status text-success">Paid</span>
+              </div>
+            </div><!-- .nk-tb-item -->
+          </div><!-- .nk-tb-list -->
+          <div v-if="Math.ceil(total / perPage) > 1" class="card">
+            <div class="card-inner">
+              <div class="pages float-right">
+                <vue-pagination
+                  :current="currentPage"
+                  :total="Math.ceil(total / perPage)"
+                  @page-change="pageChangeHandler"
+                />
+              </div>
+            </div>
+          </div>
+        </div><!-- .nk-block -->
       </div>
     </div>
   </div>
@@ -191,26 +188,33 @@
 
 <script>
 import Vue2ClickOutside from 'vue2-click-outside'
+import moment from 'moment'
 export default {
   directives: {
     clickOutside: Vue2ClickOutside.directive
+  },
+  filters: {
+    formateDate: date => date ? moment(date).format('DD-MM-YYYY') : 'n/a'
   },
   data () {
     return {
       toggleModal: false,
       toggleHeader: false,
+      filterCollapse: false,
       activeIndex: null,
       loading: true,
       total: 0,
       currentPage: 1,
       search: '',
       status: '',
-      perPage: 10
+      perPage: 10,
+      daterange: null,
+      order_by: 'desc'
     }
   },
   computed: {
-    customers () {
-      return this.$store.state.customer.customers
+    invocies () {
+      return this.$store.state.reports.sales_report
     }
   },
   mounted () {
@@ -219,7 +223,7 @@ export default {
     })
   },
   created () {
-    this.fetchCustomers()
+    this.fetchSalesReport()
   },
   methods: {
     start () {
@@ -255,22 +259,28 @@ export default {
     async pageChangeHandler (page) {
       this.start()
       this.currentPage = page
-      // const offset = ((this.currentPage - 1) * this.limit)
-      this.total = await this.$store.dispatch('customer/fetchCustomers', {
+      this.total = await this.$store.dispatch('reports/fetchSalesReport', {
         page: this.currentPage,
-        search: this.search
-        // status: this.status
+        search: this.search,
+        perpage: this.perPage,
+        daterange: this.daterange,
+        order_by: this.order_by
       })
       this.finish()
       this.scrollToTop()
     },
-    async fetchCustomers () {
-      const _this = this
-      await this.$axios.get('customer')
+    async fetchSalesReport () {
+      const self = this
+      await this.$axios.get('reports/sales-report', {
+        params: {
+          page: self.currentPage,
+          perpage: self.perPage
+        }
+      })
         .then(function (response) {
-          _this.total = response.data.payload.total
-          _this.$store.commit('customer/SET_CUSTOMER', response.data.payload.data)
-          _this.$nuxt.$loading.finish()
+          self.total = response.data.payload.total
+          self.$store.commit('reports/SET_SALES_REPORT', response.data.payload.data)
+          self.$nuxt.$loading.finish()
         })
     },
     async removeCustomer (customer) {

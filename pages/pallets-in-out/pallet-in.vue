@@ -163,7 +163,7 @@
                                 </div>
                               </div>
                             </div>
-                            <div v-if="cppd == 2" class="col-md-4">
+                            <div v-if="cppd == 'week'" class="col-md-4">
                               <div class="form-group">
                                 <label class="form-label" for="invoice_day">Day</label>
                                 <div class="form-control-wrap">
