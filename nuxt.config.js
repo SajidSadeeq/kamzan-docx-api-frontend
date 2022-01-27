@@ -7,7 +7,7 @@ export default {
   // Global page headers: https://go.nuxtjs.dev/config-head
   ssr: true,
   head: {
-    title: 'wms',
+    title: 'Api',
     htmlAttrs: {
       lang: 'en'
     },
@@ -97,10 +97,10 @@ export default {
   },
   loading: '~/components/common/ScreenLoader.vue',
   publicRuntimeConfig: {
-    BASE_URL: process.env.APP_URL,
+    BASE_URL: process.env.API_URL,
     axios: {
-      withCredentials: true,
-      baseURL: process.env.APP_URL,
+      withCredentials: false,
+      baseURL: process.env.API_URL,
       common: {
         Accept: 'application/json'
       }
@@ -108,7 +108,7 @@ export default {
   },
 
   router: {
-    middleware: ['auth']
+    // middleware: ['auth']
   },
 
   auth: {

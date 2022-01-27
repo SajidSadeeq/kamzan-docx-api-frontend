@@ -1,5 +1,5 @@
 {
-  "name": "wms",
+  "name": "Api",
   "version": "1.0.0",
   "private": true,
   "scripts": {
@@ -17,6 +17,7 @@
     "@riophae/vue-treeselect": "^0.4.0",
     "apexcharts": "^3.27.3",
     "core-js": "^3.9.1",
+    "lodash": "^4.17.21",
     "moment": "^2.29.1",
     "nuxt": "^2.15.3",
     "nuxt-validate": "^1.0.1",

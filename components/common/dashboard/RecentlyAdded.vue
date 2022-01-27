@@ -83,7 +83,7 @@
         </div><!-- .nk-tb-item -->
         <div v-for="(pallet, index) in pallets" :key="index" class="nk-tb-item">
           <div v-if="pallet.customer !== null" class="nk-tb-col">
-            <span class="tb-amount">{{ pallet.customer.customer_name }}</span>
+            <span class="tb-amount">{{ (pallet.customer)?pallet.customer.customer_name:'n/a' }}</span>
           </div>
           <div class="nk-tb-col tb-col-md">
             <span>{{ pallet.pallet_id }}</span>
